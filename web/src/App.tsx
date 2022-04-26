@@ -36,11 +36,11 @@ function App() {
   const [item, setItem] = useState<number>(0);
   const [usedItem, setUsedItem] = useState<number>(0);
   const [turn, setTurn] = useState<number>(0);
-  const [currentHp, setCurrentHp] = useState<number>(15);
-  const [maxHp, setMaxHp] = useState<number>(15);
-  const [attack, setAttack] = useState<number>(5);
-  const [defence, setDefence] = useState<number>(3);
-  const [recovery, setRecovery] = useState<number>(5);
+  const [currentHp, setCurrentHp] = useState<number>(25);
+  const [maxHp, setMaxHp] = useState<number>(25);
+  const [attack, setAttack] = useState<number>(8);
+  const [defence, setDefence] = useState<number>(4);
+  const [recovery, setRecovery] = useState<number>(2);
   const [weapon, setWeapon] = useState<ethers.BigNumber>(
     ethers.BigNumber.from(0)
   );
@@ -70,7 +70,7 @@ function App() {
       return;
     }
     const r = rand(seed, _x, _y);
-    const enemyAttack = enemyAttackDmg(r, turn + 1);
+    const enemyAttack = enemyAttackDmg(r, nextTurn());
     if (!canMove(enemyAttack, _x, _y)) {
       return;
     }
@@ -112,7 +112,7 @@ function App() {
     } else if (drop < 14) {
       setDefence(r.mod(2).toNumber() + 1 + defence);
     } else if (drop < 17) {
-      setRecovery(r.mod(3).toNumber() + 1 + recovery);
+      setRecovery(r.mod(2).toNumber() + 1 + recovery);
     } else if (drop < 20) {
       setWeapon(r);
     } else if (drop < 21) {
@@ -137,10 +137,10 @@ function App() {
     setUsedItem(0);
   };
 
-  const enemyAttackDmg = (rand: ethers.BigNumber, turn: number): number => {
-    return rand
+  const enemyAttackDmg = (r: ethers.BigNumber, t: number): number => {
+    return r
       .mod(5)
-      .add(Math.floor(turn / 5))
+      .add(Math.floor(t / 4))
       .toNumber();
   };
 
@@ -163,28 +163,32 @@ function App() {
     return false;
   };
 
+  const isEnd = (_x: number, _y: number): boolean => {
+    if (_x < 0 || _y < 0 || _x > 127 || _y > 127) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   const canMove = (enemyAttack: number, _x: number, _y: number): boolean => {
     const absX = Math.abs(x - _x);
     const absY = Math.abs(y - _y);
-    if (_x < 0 || _y < 0 || _x > 127 || _x > 127) {
-      console.log('cannot move end index');
+    if (isEnd(_x, _y)) {
       return false;
     }
 
     if (!((absX === 1 && absY === 0) || (absX === 0 && absY === 1))) {
-      console.log('cannot move');
       return false;
     }
 
     if (currentAttack() < enemyAttack) {
-      console.log('cannot move');
       return false;
     }
     if (
       currentDefence() < enemyAttack &&
       currentHp <= enemyAttack - currentDefence()
     ) {
-      console.log('cannot move hp under 0');
       return false;
     }
     return true;
@@ -194,7 +198,7 @@ function App() {
     const s = ['container', 'h-full', 'w-full', 'shadow-md'];
 
     const r = rand(seed, _x, _y);
-    const enemyAttack = enemyAttackDmg(r, turn + 1);
+    const enemyAttack = enemyAttackDmg(r, nextTurn());
     if (isMoved(_x, _y)) {
       s.push('bg-gray-500');
     } else if (!canMove(enemyAttack, _x, _y)) {
@@ -226,6 +230,28 @@ function App() {
     return defence + (usedItem === 3 ? 99999 : 0);
   };
 
+  const nextTurn = () => {
+    return turn + 1;
+  };
+
+  const lootColor = (val: ethers.BigNumber): string => {
+    if (val.eq(0)) {
+      return 'text-gray-500';
+    }
+    const greatness = val.mod(21).toNumber();
+    if (greatness > 14 && greatness < 19) {
+      return 'text-blue-500';
+    }
+    if (greatness >= 19) {
+      if (greatness === 19) {
+        return 'text-purple-500';
+      } else {
+        return 'text-orange-500';
+      }
+    }
+    return '';
+  };
+
   const itemName = () => {
     switch (item) {
       case 0:
@@ -244,21 +270,27 @@ function App() {
   return (
     <div className="relative bg-gray-400 w-screen h-screen">
       <div className="w-full h-full">
-        <div className="grid grid-cols-5 gap-2 w-full h-full bg-gray-200">
+        <div className="grid grid-cols-7 gap-2 w-full h-full bg-gray-200">
           {[-2, -1, 0, 1, 2].map((iy) => {
-            return [-2, -1, 0, 1, 2].map((ix) => {
+            return [-3, -2, -1, 0, 1, 2, 3].map((ix) => {
               return (
                 <div
-                  className={panelClassName(x - ix, y + iy)}
-                  onClick={() => adventure(seed, x - ix, y + iy)}
+                  key={'key' + iy + ix}
+                  className={panelClassName(x + ix, y + iy)}
+                  onClick={() => adventure(seed, x + ix, y + iy)}
                 >
                   <Panel
-                    rand={rand(seed, x - ix, y + iy)}
+                    rand={rand(seed, x + ix, y + iy)}
                     enemyAttack={enemyAttackDmg(
-                      rand(seed, x - ix, y + iy),
-                      turn
+                      rand(seed, x + ix, y + iy),
+                      nextTurn()
                     )}
-                    turn={turn}
+                    playerAttack={currentAttack()}
+                    playerDefence={currentDefence()}
+                    turn={nextTurn()}
+                    currentHp={currentHp}
+                    isPlayer={ix === 0 && iy === 0}
+                    isEnd={isEnd(x + ix, y + iy)}
                   />
                 </div>
               );
@@ -268,7 +300,7 @@ function App() {
       </div>
 
       <div
-        className="absolute top-0 right-0 bg-gray-800 m-2 p-2 w-24 h-10 shadow-md z-50 opacity-25 hover:opacity-100 cursor-pointer"
+        className="absolute top-0 right-0 bg-gray-800 m-2 p-2 w-30 h-10 shadow-md z-50 opacity-25 hover:opacity-100 cursor-pointer"
         onClick={() => {
           useItem();
         }}
@@ -290,16 +322,30 @@ function App() {
         </div>
       </div>
 
-      <div className="absolute bottom-0 left-0 bg-gray-800 m-2 p-2 shadow-md z-50 opacity-75 hover:opacity-0">
+      <div className="absolute bottom-0 left-0 bg-gray-800 m-2 p-2 shadow-md z-50 opacity-25 hover:opacity-100">
         <div className="container sm font-sans text-white">
-          <p>Weapon: {pluck(weapon, weaponsArr)}</p>
-          <p>chestArmor: {pluck(chestArmor, chestArmorArr)}</p>
-          <p>headArmor: {pluck(headArmor, headArmorArr)}</p>
-          <p>waistArmor: {pluck(waistArmor, waistArmorArr)}</p>
-          <p>footArmor: {pluck(footArmor, footArmorArr)}</p>
-          <p>handArmor: {pluck(handArmor, handArmorArr)}</p>
-          <p>necklace: {pluck(necklace, necklacesArr)}</p>
-          <p>ring: {pluck(ring, ringsArr)}</p>
+          <p className={lootColor(weapon)}>
+            Weapon: {pluck(weapon, weaponsArr)}
+          </p>
+          <p className={lootColor(chestArmor)}>
+            ChestArmor: {pluck(chestArmor, chestArmorArr)}
+          </p>
+          <p className={lootColor(headArmor)}>
+            HeadArmor: {pluck(headArmor, headArmorArr)}
+          </p>
+          <p className={lootColor(waistArmor)}>
+            WaistArmor: {pluck(waistArmor, waistArmorArr)}
+          </p>
+          <p className={lootColor(footArmor)}>
+            FootArmor: {pluck(footArmor, footArmorArr)}
+          </p>
+          <p className={lootColor(handArmor)}>
+            HandArmor: {pluck(handArmor, handArmorArr)}
+          </p>
+          <p className={lootColor(necklace)}>
+            Necklace: {pluck(necklace, necklacesArr)}
+          </p>
+          <p className={lootColor(ring)}>Ring: {pluck(ring, ringsArr)}</p>
         </div>
       </div>
 

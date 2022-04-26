@@ -250,9 +250,9 @@ const pluck = (rand: ethers.BigNumber, sourceArray: string[]): string => {
     const name0 = namePrefixes[rand.mod(namePrefixes.length).toNumber()];
     const name1 = nameSuffixes[rand.mod(nameSuffixes.length).toNumber()];
     if (greatness === 19) {
-      output = '"' + name0 + ' ' + name1 + '"' + output;
+      output = '"' + name0 + ' ' + name1 + '" ' + output;
     } else {
-      output = '"' + name0 + ' ' + name1 + '"' + output + ' +1';
+      output = '"' + name0 + ' ' + name1 + '" ' + output + ' +1';
     }
   }
   return output;

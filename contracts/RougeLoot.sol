@@ -56,10 +56,10 @@ contract RougeLoot is ERC721, Ownable, Pausable {
         AdventureRecord memory record = AdventureRecord({
             seed: seed,
             turn: 0,
-            hp: 15,
-            attack: 5,
-            defence: 3,
-            recovery: 5,
+            hp: 25,
+            attack: 8,
+            defence: 4,
+            recovery: 2,
             weapon: 0,
             chestArmor: 0,
             headArmor: 0,
@@ -72,7 +72,7 @@ contract RougeLoot is ERC721, Ownable, Pausable {
         bool[128][128] memory moved;
         uint256 x = 64;
         uint256 y = 64;
-        uint256 currentHp = 15;
+        uint256 currentHp = 25;
         uint256 item = 0;
         string memory s = seed.toString();
  
@@ -129,7 +129,7 @@ contract RougeLoot is ERC721, Ownable, Pausable {
             } else if (drop < 14) {
                 record.defence += uint32(rand % 2 + 1);
             } else if (drop < 17) {
-                record.recovery += uint32(rand % 3 + 1);
+                record.recovery += uint32(rand % 2 + 1);
             } else if (drop < 20) {
                 record.weapon = rand;
             } else if (drop < 21) {

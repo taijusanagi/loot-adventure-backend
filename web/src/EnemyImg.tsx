@@ -35,7 +35,7 @@ export function EnemyImg({
   const orc = [orc1, orc2, orc3, orc4];
   const dragon = [dragon1, dragon2, dragon3, dragon4];
   const src = () => {
-    const enemyType = enemyAttack - Math.floor(turn / 5);
+    const enemyType = enemyAttack - Math.floor(turn / 4);
     switch (enemyType) {
       case 0:
         return goblin[getIndex()];
