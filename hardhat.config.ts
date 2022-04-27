@@ -24,7 +24,7 @@ task('accounts', 'Prints the list of accounts', async (taskArgs, hre) => {
 
 const config: HardhatUserConfig = {
   solidity: {
-    version: '0.8.4',
+    version: '0.8.13',
     settings: {
       optimizer: {
         runs: 200,
@@ -33,10 +33,17 @@ const config: HardhatUserConfig = {
     },
   },
   networks: {
-    ropsten: {
-      url: process.env.ROPSTEN_URL || '',
-      accounts:
-        process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
+    local: {
+      url: 'http://127.0.0.1:8545/',
+      gas: 2100000,
+      gasPrice: 8000000000,
+      chainId: 31337,
+    },
+    sandverse: {
+      url: 'https://rpc.sandverse.oasys.games/',
+      accounts: [process.env.PRIVATE_KEY_DEPLOYER || ''],
+      chainId: 20197,
+      gas: 10000000,
     },
   },
   gasReporter: {
