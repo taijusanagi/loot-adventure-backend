@@ -70,15 +70,16 @@ export function Panel({
   const playerMove = () => {
     if (playerElement) {
       if (playerElement.current) {
-        playerElement.current.className = 'h-24 w-24';
+        playerElement.current.className = 'h-13 w-13 md:h-24 md:w-24';
         window.requestAnimationFrame(function (time) {
           window.requestAnimationFrame(function (time) {
-            playerElement.current.className = 'h-24 w-24 animate-move';
+            playerElement.current.className =
+              'h-13 w-13 md:h-24 md:w-24 animate-move';
           });
         });
       }
     }
-    return 'h-24 w-24 animate-move';
+    return 'h-13 w-13 md:h-24 md:w-24 animate-move';
   };
 
   return (
@@ -87,14 +88,14 @@ export function Panel({
         <div>
           <img className={playerMove()} ref={playerElement} src={mummy} />
 
-          <div className="absolute bottom-0 left-0 m-2 p-2 z-10">
-            <p className="text-gray-400 font-sans font-bold text-sl">
+          <div className="absolute bottom-0 left-0 m-2 md:p-2 z-10">
+            <p className="text-gray-400 font-sans font-bold text-sm md:text-base">
               HP {currentHp}
             </p>
           </div>
 
-          <div className="absolute bottom-0 right-0 m-2 p-2 z-10">
-            <p className="text-2xl font-bold text-red-400 font-sans">
+          <div className="absolute bottom-0 right-0 m-2 md:p-2 z-10">
+            <p className="font-bold text-red-400 font-sans  text-lg md:text-2xl">
               {playerAttack}
             </p>
           </div>
@@ -107,16 +108,20 @@ export function Panel({
         <div>
           <EnemyImg rand={rand} enemyAttack={enemyAttack} turn={turn} />
 
-          <div className="absolute top-0 left-0 m-2 p-2 z-10">
-            <p className="text-gray-400 font-sans font-bold">{dropName()}</p>
+          <div className="absolute top-0 left-0 m-2 md:p-2 z-10">
+            <p className="text-gray-400 font-sans font-bold text-xs md:text-base">
+              {dropName()}
+            </p>
           </div>
 
-          <div className="absolute bottom-0 left-0 m-2 p-2 z-10">
-            <p className="text-gray-400 font-sans font-bold text-sl">{dmg()}</p>
+          <div className="absolute bottom-0 left-0 m-2 md:p-2 z-10">
+            <p className="text-gray-400 font-sans font-bold text-sm md:text-base">
+              {dmg()}
+            </p>
           </div>
 
-          <div className="absolute bottom-0 right-0 m-2 p-2 z-10">
-            <p className="text-2xl font-bold text-red-400 font-sans">
+          <div className="absolute bottom-0 right-0 m-2 md:p-2 z-10">
+            <p className="text-lg md:text-2xl font-bold text-red-400 font-sans">
               {enemyAttack}
             </p>
           </div>

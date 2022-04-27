@@ -36,8 +36,8 @@ function App() {
   const [item, setItem] = useState<number>(0);
   const [usedItem, setUsedItem] = useState<number>(0);
   const [turn, setTurn] = useState<number>(0);
-  const [currentHp, setCurrentHp] = useState<number>(25);
-  const [maxHp, setMaxHp] = useState<number>(25);
+  const [currentHp, setCurrentHp] = useState<number>(24);
+  const [maxHp, setMaxHp] = useState<number>(24);
   const [attack, setAttack] = useState<number>(8);
   const [defence, setDefence] = useState<number>(4);
   const [recovery, setRecovery] = useState<number>(2);
@@ -139,7 +139,7 @@ function App() {
 
   const enemyAttackDmg = (r: ethers.BigNumber, t: number): number => {
     return r
-      .mod(5)
+      .mod(6)
       .add(Math.floor(t / 4))
       .toNumber();
   };
@@ -207,6 +207,14 @@ function App() {
       s.push('cursor-pointer');
       s.push('bg-gray-100');
     }
+
+    if (Math.abs(x - _x) === 3) {
+      s.push('hidden md:block');
+    }
+
+    if (Math.abs(x - _x) === 4) {
+      s.push('hidden xl:block');
+    }
     return s.join(' ');
   };
 
@@ -270,9 +278,9 @@ function App() {
   return (
     <div className="relative bg-gray-400 w-screen h-screen">
       <div className="w-full h-full">
-        <div className="grid grid-cols-7 gap-2 w-full h-full bg-gray-200">
+        <div className="grid grid-cols-5 md:grid-cols-7 xl:grid-cols-9 gap-2 w-full h-full bg-gray-200">
           {[-2, -1, 0, 1, 2].map((iy) => {
-            return [-3, -2, -1, 0, 1, 2, 3].map((ix) => {
+            return [-4, -3, -2, -1, 0, 1, 2, 3, 4].map((ix) => {
               return (
                 <div
                   key={'key' + iy + ix}
@@ -300,7 +308,7 @@ function App() {
       </div>
 
       <div
-        className="absolute top-0 right-0 bg-gray-800 m-2 p-2 w-30 h-10 shadow-md z-50 opacity-25 hover:opacity-100 cursor-pointer"
+        className="absolute top-0 right-0 bg-gray-800 m-2 p-2 w-40 md:w-30 h-10 shadow-md z-50 opacity-25 hover:opacity-100 cursor-pointer"
         onClick={() => {
           useItem();
         }}
@@ -310,7 +318,7 @@ function App() {
         </p>
       </div>
 
-      <div className="absolute top-0 left-0 bg-gray-800 m-2 p-2 w-1/6 shadow-md z-50 hover:opacity-0">
+      <div className="absolute top-0 left-0 bg-gray-800 m-2 p-2 w-1/2 md:w-1/6 shadow-md z-50 hover:opacity-0">
         <div className="container sm font-bold font-sans text-white">
           <p>Trun: {turn}</p>
           <p>
@@ -323,7 +331,7 @@ function App() {
       </div>
 
       <div className="absolute bottom-0 left-0 bg-gray-800 m-2 p-2 shadow-md z-50 opacity-25 hover:opacity-100">
-        <div className="container sm font-sans text-white">
+        <div className="container text-sm md:text-base sm font-sans text-white">
           <p className={lootColor(weapon)}>
             Weapon: {pluck(weapon, weaponsArr)}
           </p>
@@ -349,8 +357,8 @@ function App() {
         </div>
       </div>
 
-      <div className="absolute bottom-0 right-0 bg-gray-800 m-2 p-2 w-1/6 shadow-md z-50 opacity-25 hover:opacity-100 cursor-pointer">
-        <div className="container sm text-center align-middle">
+      <div className="absolute bottom-0 right-0 bg-gray-800 m-2 p-2 w-1/2 md:w-1/6 shadow-md z-50 opacity-25 hover:opacity-100 cursor-pointer">
+        <div className="container text-sm md:text-base sm text-center align-middle">
           <Eth seed={seed} move={move} />
         </div>
       </div>
