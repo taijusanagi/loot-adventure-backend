@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.13;
+pragma solidity ^0.8.17;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -8,7 +8,7 @@ import "@openzeppelin/contracts/utils/Base64.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/security/Pausable.sol";
 
-contract SimpleRougeLoot is ERC721, Ownable, Pausable {
+contract RogueLoot is ERC721, Ownable, Pausable {
     using Counters for Counters.Counter;
     using Strings for uint256;
     using Strings for uint128;
@@ -33,7 +33,7 @@ contract SimpleRougeLoot is ERC721, Ownable, Pausable {
     }
     mapping (uint256 => AdventureRecord) public tokens;
 
-    constructor() ERC721("SimpleRougeLoot", "SRLOOT") {}
+    constructor() ERC721("RogueLoot", "RLOOT") {}
 
     function mint(address to, AdventureRecord calldata recode) public onlyOwner {
         _tokenIdCounter.increment();
