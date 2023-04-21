@@ -11,17 +11,19 @@ import "@openzeppelin/contracts/security/Pausable.sol";
 contract RogueLoot is ERC721, Ownable, Pausable {
     using Counters for Counters.Counter;
     using Strings for uint256;
-    using Strings for uint128;
-    using Strings for uint32;
+    using Strings for uint16;
     Counters.Counter private _tokenIdCounter;
 
     struct AdventureRecord {
         uint256 seed;
-        uint128 turn;
-        uint32 hp;
-        uint32 attack;
-        uint32 defence;
-        uint32 recovery;
+        uint16 turn;
+        uint16 maxHp;
+        uint16 currentHp;
+        uint16 attack;
+        uint16 defence;
+        uint16 recovery;
+        uint16[6] stats;
+        bool[4] unique;
         uint256 weapon;
         uint256 chestArmor;
         uint256 headArmor;
@@ -30,6 +32,7 @@ contract RogueLoot is ERC721, Ownable, Pausable {
         uint256 handArmor;
         uint256 necklace;
         uint256 ring;
+        uint256[] relics;
     }
     mapping (uint256 => AdventureRecord) public tokens;
 
@@ -227,8 +230,12 @@ contract RogueLoot is ERC721, Ownable, Pausable {
         return tokens[tokenId].turn.toString();
     }
 
-    function getHp(uint256 tokenId) public view returns (string memory) {
-        return tokens[tokenId].hp.toString();
+    function getMaxHp(uint256 tokenId) public view returns (string memory) {
+        return tokens[tokenId].maxHp.toString();
+    }
+
+    function getCurrentHp(uint256 tokenId) public view returns (string memory) {
+        return tokens[tokenId].currentHp.toString();
     }
 
     function getAttack(uint256 tokenId) public view returns (string memory) {
@@ -275,15 +282,33 @@ contract RogueLoot is ERC721, Ownable, Pausable {
         return pluck(tokens[tokenId].ring, rings);
     }
 
+    function getStats(uint256 tokenId, uint256 index) public view returns (uint16) {
+        return tokens[tokenId].stats[index];
+    }
+
+    function getUnique(uint256 tokenId, uint256 index) public view returns (bool) {
+        return tokens[tokenId].unique[index];
+    }
+
+    function getRelics(uint256 tokenId) public view returns (uint256[] memory) {
+        return tokens[tokenId].relics;
+    }
+
+    function getRelicsLength(uint256 tokenId) public view returns (uint256) {
+        return tokens[tokenId].relics.length;
+    }
+
+    function getRelic(uint256 tokenId, uint256 index) public view returns (uint256) {
+        require(index < tokens[tokenId].relics.length, "len");
+        return tokens[tokenId].relics[index];
+    }
+
     function pluck(uint256 rand, string[] memory sourceArray) public view returns (string memory) {
         if (rand == 0) {
             return "Empty";
         }
         string memory output = sourceArray[rand % sourceArray.length];
         uint256 greatness = rand % 21;
-        if (greatness == 0) {
-            return output;
-        }
         if (greatness > 14) {
             output = string(abi.encodePacked(output, " ", suffixes[rand % suffixes.length]));
         }
@@ -312,7 +337,7 @@ contract RogueLoot is ERC721, Ownable, Pausable {
 
         parts[4] = '</text><text x="10" y="60" class="base">';
 
-        parts[5] = getHp(tokenId);
+        parts[5] = string(abi.encodePacked(getCurrentHp(tokenId), "/", getMaxHp(tokenId)));
 
         parts[6] = '</text><text x="10" y="80" class="base">';
 
@@ -379,11 +404,11 @@ contract RogueLoot is ERC721, Ownable, Pausable {
         _unpause();
     }
 
-    function _beforeTokenTransfer(address from, address to, uint256 tokenId)
+    function _beforeTokenTransfer(address from, address to, uint256 tokenId, uint256 batchSize)
         internal
         whenNotPaused
         override
     {
-        super._beforeTokenTransfer(from, to, tokenId);
+        super._beforeTokenTransfer(from, to, tokenId, batchSize);
     }
 }

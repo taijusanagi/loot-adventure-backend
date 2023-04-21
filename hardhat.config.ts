@@ -26,6 +26,7 @@ const config: HardhatUserConfig = {
   solidity: {
     version: '0.8.17',
     settings: {
+      viaIR: true,
       optimizer: {
         runs: 200,
         enabled: true,
@@ -47,7 +48,7 @@ const config: HardhatUserConfig = {
     },
   },
   gasReporter: {
-    enabled: process.env.REPORT_GAS !== undefined,
+    enabled: true,
     currency: 'USD',
   },
   etherscan: {
