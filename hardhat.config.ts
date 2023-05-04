@@ -40,12 +40,12 @@ const config: HardhatUserConfig = {
       gasPrice: 8000000000,
       chainId: 31337,
     },
-    sandverse: {
-      url: 'https://rpc.sandverse.oasys.games/',
-      // accounts: [process.env.PRIVATE_KEY_DEPLOYER || ''],
-      chainId: 20197,
-      gas: 10000000,
-    },
+    // sandverse: {
+    //   url: 'https://rpc.sandverse.oasys.games/',
+    //   // accounts: [process.env.PRIVATE_KEY_DEPLOYER || ''],
+    //   chainId: 20197,
+    //   gas: 10000000,
+    // },
   },
   gasReporter: {
     enabled: true,

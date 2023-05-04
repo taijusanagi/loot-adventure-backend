@@ -66,8 +66,8 @@ contract Rogue is Pausable, Ownable {
 
     function initTemporary() public pure returns (Temporary memory){
         return Temporary({
-            x: 0,
-            y: 0,
+            x: uint8(SIZE / 2),
+            y: uint8(SIZE / 2),
             rerollCount: 0,
             item1: 0,
             item2: 0,
@@ -78,7 +78,7 @@ contract Rogue is Pausable, Ownable {
     }
 
     function adventure(uint256 seed, uint8[] calldata actions, uint8[] calldata items) public pure returns (RogueLoot.AdventureRecord memory){
-        uint256[MAX_RELIC] memory relic;
+        uint256[MAX_RELIC] memory relics;
         RogueLoot.AdventureRecord memory record = initAdventureRecord(seed);
         Temporary memory t = initTemporary();
         uint64 bosses = createBosses(seed);
@@ -123,51 +123,51 @@ contract Rogue is Pausable, Ownable {
             }
 
             uint256 rand = random(seed, t.rerollCount, t.x, t.y);
-            uint256 events = rand % 193;
-            record.currentHp -= takeDamage(record, t, rand, bosses);
-            if (events < 81) {
+            uint256 events = rand % 197;
+            record.currentHp -= calcTakeDamage(record, t, rand, bosses);
+            if (events < 80) {
                 if (item != 3) {
-                    uint256 drop = randomLoot(events, record.turn);
-                    if (events < 11) {
+                    uint256 drop = randomLoot(rand, record.turn);
+                    if (events < 10) {
                         record.weapon = drop;
-                    } else if (events < 21) {
+                    } else if (events < 20) {
                         record.chestArmor = drop;
-                    } else if (events < 31) {
+                    } else if (events < 30) {
                         record.headArmor = drop;
-                    } else if (events < 41) {
+                    } else if (events < 40) {
                         record.waistArmor = drop;
-                    } else if (events < 51) {
+                    } else if (events < 50) {
                         record.footArmor = drop;
-                    } else if (events < 61) {
+                    } else if (events < 60) {
                         record.handArmor = drop;
-                    } else if (events < 71) {
+                    } else if (events < 70) {
                         record.necklace = drop;
-                    } else if (events < 81) {
+                    } else if (events < 80) {
                         record.ring = drop;
                     }
                 }
-            } else if (events < 101) {
+            } else if (events < 105) {
+                record.currentHp += calcHeal(record, 1);
+            } else if (events < 130) {
+                record.maxHp += uint16(rand % 3 + 1);
+            } else if (events < 142) {
+                record.attack += uint16(rand % 2 + 1);
+            } else if (events < 154) {
+                record.defence += uint16(rand % 2 + 1);
+            } else if (events < 166) {
+                record.recovery += uint16(rand % 2 + 1);
+            } else if (events < 178) {
                 if (t.item1 == 0) {
                     t.item1 = uint8(rand % 4 + 1);
                 } else if (t.item2 == 0) {
                     t.item2 = uint8(rand % 4 + 1);
                 }
-            } else if (events < 126) {
-                record.currentHp += heal(record, 1);
-            } else if (events < 140) {
-                record.maxHp += uint16(rand % 3 + 1);
-            } else if (events < 154) {
-                record.attack += uint16(rand % 2 + 1);
-            } else if (events < 168) {
-                record.defence += uint16(rand % 2 + 1);
             } else if (events < 182) {
-                record.recovery += uint16(rand % 2 + 1);
-            } else if (events < 184) {
-                t.exit = record.turn;
-            } else if (events < 188) {
                 tributeGeyser(record);
-            } else if (events < 189 && t.relicCount < MAX_RELIC) {
-                relic[t.relicCount] = rand;
+            } else if (events < 185) {
+                t.exit = record.turn;
+            } else if (events < 187 && t.relicCount < MAX_RELIC) {
+                relics[t.relicCount] = rand;
                 t.relicCount += 1;
             }
 
@@ -180,14 +180,14 @@ contract Rogue is Pausable, Ownable {
         if (t.relicCount != 0) {
             uint256[] memory tmp = new uint256[](t.relicCount);
             for (uint256 i = 0; i < t.relicCount; i++) {
-                tmp[i] = relic[i];
+                tmp[i] = relics[i];
             }
             record.relics = tmp;
         }
         return record;
     }
 
-    function heal(RogueLoot.AdventureRecord memory record, uint256 rate) internal pure returns (uint16) {
+    function calcHeal(RogueLoot.AdventureRecord memory record, uint256 rate) internal pure returns (uint16) {
         uint256 recovery = record.recovery * rate;
         if (recovery + record.currentHp <= record.maxHp) {
             return uint16(recovery);
@@ -196,34 +196,38 @@ contract Rogue is Pausable, Ownable {
         }
     }
 
-    function mobDamage(uint8 enemyType, uint256 turn, uint16 attack) internal pure returns (uint16) {
-        uint16 enemyAttack = uint16(enemyType + turn * (turn + 250) / 1000);
-        if (attack < enemyAttack) {
-            enemyAttack += (attack - enemyAttack * 2);
+    function difficulty(uint16 turn) internal pure returns (uint256) {
+        return turn * (turn + 250) / 1000;
+    }
+
+    function calcMobDamage(uint8 enemyType, uint16 turn, uint16 playerAttack) internal pure returns (uint16) {
+        uint16 enemyAttack = uint16(enemyType + difficulty(turn));
+        if (playerAttack < enemyAttack) {
+            enemyAttack += (enemyAttack - playerAttack) * 2;
         }
         return enemyAttack;
     }
 
-    function bossDamage(uint8 bossType, uint256 turn, uint16 attack) internal pure returns (uint16) {
-        uint256 enemyType = (bossType + 1) * 12;
-        uint16 enemyAttack = uint16(enemyType + turn * (turn + 250) / 1000);
-        if (attack < enemyAttack) {
-            enemyAttack += (attack - enemyAttack * 2);
+    function calcBossDamage(uint8 bossType, uint16 turn, uint16 playerAttack) internal pure returns (uint16) {
+        uint256 boss = (bossType + 1) * 12;
+        uint16 enemyAttack = uint16(boss + difficulty(turn));
+        if (playerAttack < enemyAttack) {
+            enemyAttack += (enemyAttack - playerAttack) * 2;
         }
         return enemyAttack;
     }
 
-    function takeDamage(RogueLoot.AdventureRecord memory record, Temporary memory t, uint256 rand, uint64 bosses) internal pure returns (uint16) {
-        uint8 enemy = checkMatchBoss(bosses, t.x, t.y);
+    function calcTakeDamage(RogueLoot.AdventureRecord memory record, Temporary memory t, uint256 rand, uint64 bosses) internal pure returns (uint16) {
+        int8 boss = checkMatchBoss(bosses, t.x, t.y);
         uint16 damage = 0;
-        if (enemy == 4) {
+        if (boss == -1) {
             uint256 n = rand % 100;
             uint8 enemyType = uint8((n * n + n * 200) / 5000);
-            damage = mobDamage(enemyType, uint256(record.turn), record.attack);
+            damage = calcMobDamage(enemyType, record.turn, record.attack);
             record.stats[enemyType] += 1;
         } else {
-            damage = bossDamage(enemy, uint256(record.turn), record.attack);
-            record.unique[enemy] = true;
+            damage = calcBossDamage(uint8(boss), record.turn, record.attack);
+            record.unique[uint8(boss)] = true;
         }
 
         uint16 playerDefence = record.defence;
@@ -240,7 +244,7 @@ contract Rogue is Pausable, Ownable {
 
     function useItem(RogueLoot.AdventureRecord memory record, Temporary memory t, uint8 item) internal pure {
         if (item == 1) {
-            record.currentHp += heal(record, 3);
+            record.currentHp += calcHeal(record, 3);
         } else if (item == 2) {
             t.defenceBuffTurn = record.turn + 3;
         } else if (item == 4) {
@@ -256,16 +260,16 @@ contract Rogue is Pausable, Ownable {
         record.attack += tmp;
         dmg += tmp;
 
-        tmp = tributeGeyserDefence(record.chestArmor);
-        tmp += tributeGeyserDefence(record.headArmor);
-        tmp += tributeGeyserDefence(record.waistArmor);
-        tmp += tributeGeyserDefence(record.footArmor);
-        tmp += tributeGeyserDefence(record.handArmor);
+        tmp = tributeGeyserDefence(record.chestArmor)
+            + tributeGeyserDefence(record.headArmor)
+            + tributeGeyserDefence(record.waistArmor)
+            + tributeGeyserDefence(record.footArmor)
+            + tributeGeyserDefence(record.handArmor);
         record.defence += tmp;
         dmg += tmp;
 
-        tmp = tributeGeyserRecovery(record.necklace);
-        tmp += tributeGeyserRecovery(record.ring);
+        tmp = tributeGeyserRecovery(record.necklace)
+            + tributeGeyserRecovery(record.ring);
         record.recovery += tmp;
         dmg += tmp;
 
@@ -381,13 +385,13 @@ contract Rogue is Pausable, Ownable {
     }
 
     function packUint8ToUint64(uint8[8] memory d) internal pure returns (uint64) {
-        return (uint64(d[0]) << 56) | (uint64(d[1]) << 48) |
-               (uint64(d[2]) << 40) | (uint64(d[3]) << 32) |
-               (uint64(d[4]) << 24) | (uint64(d[5]) << 16) |
-               (uint64(d[6]) << 8)  | uint64(d[7]);
+        return uint64(d[0]) << 56 | uint64(d[1]) << 48 |
+               uint64(d[2]) << 40 | uint64(d[3]) << 32 |
+               uint64(d[4]) << 24 | uint64(d[5]) << 16 |
+               uint64(d[6]) << 8  | uint64(d[7]);
     }
 
-    function unpackBosses(uint64 packedValue) public pure returns (uint8[8] memory) {
+    function unpackUint64(uint64 packedValue) public pure returns (uint8[8] memory) {
         return [
             uint8(packedValue >> 56),
             uint8(packedValue >> 48),
@@ -400,7 +404,7 @@ contract Rogue is Pausable, Ownable {
         ];
     }
 
-    function checkMatchBoss(uint64 packedValue, uint8 x, uint8 y) internal pure returns (uint8) {
+    function checkMatchBoss(uint64 packedValue, uint8 x, uint8 y) internal pure returns (int8) {
         if (uint8(packedValue >> 56) == x) {
             if (uint8(packedValue >> 48) == y) return 0;
         }
@@ -413,6 +417,6 @@ contract Rogue is Pausable, Ownable {
         if (uint8(packedValue >> 8) == x) {
             if (uint8(packedValue) == y) return 3;
         }
-        return 4;
+        return -1;
     }
 }
