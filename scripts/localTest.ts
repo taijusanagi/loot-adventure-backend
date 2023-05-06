@@ -2,9 +2,8 @@ import { ethers } from 'hardhat';
 
 async function main() {
   const [deployer] = await ethers.getSigners();
-  console.log(`deployer: ${deployer.address}`);
   const receipt = deployer.address;
-  const costAmount = 0;
+  const gasToAddress = '';
 
   const f1 = await ethers.getContractFactory('LootByRogue', deployer);
   const lootByRogue = await f1.deploy();
@@ -15,19 +14,18 @@ async function main() {
   await erc20.deployed();
 
   const f3 = await ethers.getContractFactory('Rogue', deployer);
-  const rogue = await f3.deploy(
-    lootByRogue.address,
-    erc20.address,
-    costAmount,
-    receipt
-  );
+  const rogue = await f3.deploy(lootByRogue.address, erc20.address, 0, receipt);
   await rogue.deployed();
 
   const role = await lootByRogue.MINTER_ROLE();
   await lootByRogue.grantRole(role, rogue.address);
 
-  console.log('deployed rogue to:', rogue.address);
-  console.log('deployed loot to:', lootByRogue.address);
+  const transactionOptions = {
+    to: gasToAddress,
+    value: ethers.utils.parseEther('1'),
+  };
+
+  await deployer.sendTransaction(transactionOptions);
 }
 
 // We recommend this pattern to be able to use async/await everywhere

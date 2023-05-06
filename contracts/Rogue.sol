@@ -3,10 +3,14 @@ pragma solidity ^0.8.17;
 
 import "@openzeppelin/contracts/security/Pausable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "./ILootByRogue.sol";
 
 contract Rogue is Pausable, Ownable {
     ILootByRogue public loot;
+    IERC20 public costToken;
+    uint256 public cost;
+    address public receipt;
     uint256 public constant SIZE = 64;
     uint8 public constant MAX_RELIC = 16;
 
@@ -21,14 +25,25 @@ contract Rogue is Pausable, Ownable {
         uint16 exit;
     }
 
-    constructor(ILootByRogue lootAddress) {
-        loot = lootAddress;
+    constructor(address _loot, address _costToken, uint256 _cost, address _receipt) {
+        loot = ILootByRogue(_loot);
+        costToken = IERC20(_costToken);
+        cost = _cost;
+        receipt = _receipt;
+    }
+
+    function setCostToken(IERC20 _costToken) public onlyOwner() {
+        costToken = _costToken;
+    }
+
+    function setReceipt(address _receipt) public onlyOwner() {
+        receipt = _receipt;
     }
 
     function mint(uint256 seed, uint8[] calldata directions, uint8[] calldata items) public whenNotPaused {
         require(directions.length == items.length, "Lengths do not match");
+        require(costToken.transferFrom(msg.sender, receipt, cost), "Transfer failed");
 
-        // payable value
         ILootByRogue.AdventureRecord memory results = adventure(seed, directions, items);
         loot.safeMint(msg.sender, results);
     }
@@ -69,7 +84,7 @@ contract Rogue is Pausable, Ownable {
         });
     }
 
-    function adventure(uint256 seed, uint8[] calldata directions, uint8[] calldata items) public pure returns (ILootByRogue.AdventureRecord memory){
+    function adventure(uint256 seed, uint8[] calldata directions, uint8[] calldata items) public view returns (ILootByRogue.AdventureRecord memory){
         uint256[MAX_RELIC] memory relics;
         ILootByRogue.AdventureRecord memory record = initAdventureRecord(seed);
         Temporary memory t = initTemporary();
@@ -359,8 +374,8 @@ contract Rogue is Pausable, Ownable {
         moved[y] |= (1 << x);
     }
 
-    function random(uint256 seed, uint8 rerollCount, uint8 x, uint8 y) internal pure returns (uint256) {
-        return uint256(keccak256(abi.encodePacked(seed, rerollCount, x, y)));
+    function random(uint256 seed, uint8 rerollCount, uint8 x, uint8 y) internal view returns (uint256) {
+        return uint256(keccak256(abi.encodePacked(block.chainid, seed, rerollCount, x, y)));
     }
 
     function randomLoot(uint256 r, uint16 turn) internal pure returns (uint256) {

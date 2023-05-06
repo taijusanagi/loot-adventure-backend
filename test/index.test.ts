@@ -6,23 +6,40 @@ import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers';
 describe('Rogue', async () => {
   let owner: SignerWithAddress;
   let tester: SignerWithAddress;
+  let tokenReceipt: SignerWithAddress;
   let rogue: Contract;
   let lootByRogue: Contract;
+  let erc20: Contract;
 
   beforeEach(async () => {
-    [owner, tester] = await ethers.getSigners();
+    [owner, tester, tokenReceipt] = await ethers.getSigners();
     console.log(owner.address);
     console.log(tester.address);
+
     const f1 = await ethers.getContractFactory('LootByRogue', owner);
     lootByRogue = await f1.deploy();
     await lootByRogue.deployed();
 
-    const f2 = await ethers.getContractFactory('Rogue', owner);
-    rogue = await f2.deploy(lootByRogue.address);
+    const f2 = await ethers.getContractFactory('MockERC20', owner);
+    erc20 = await f2.deploy();
+    await erc20.deployed();
+
+    const f3 = await ethers.getContractFactory('Rogue', owner);
+    rogue = await f3.deploy(
+      lootByRogue.address,
+      erc20.address,
+      ethers.utils.parseEther('1'),
+      tokenReceipt.address
+    );
     await rogue.deployed();
 
     const role = await lootByRogue.MINTER_ROLE();
     await lootByRogue.grantRole(role, rogue.address);
+
+    await erc20.transfer(tester.address, ethers.utils.parseEther('1'));
+    await erc20
+      .connect(tester)
+      .approve(rogue.address, ethers.utils.parseEther('1'));
   });
 
   it('mint', async () => {
@@ -30,8 +47,8 @@ describe('Rogue', async () => {
       .connect(tester)
       .mint(
         '0x5eb06d0e0c69c0f14f4937057e1b648a96c6f29cf23ad46d53c43cb03ae0b004',
-        [3, 3, 3, 0, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        [3, 3, 3, 0, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
       );
 
     console.log(await lootByRogue.tokenURI(1));
