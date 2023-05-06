@@ -3,10 +3,10 @@ pragma solidity ^0.8.17;
 
 import "@openzeppelin/contracts/security/Pausable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "./RogueLoot.sol";
+import "./ILootByRogue.sol";
 
 contract Rogue is Pausable, Ownable {
-    RogueLoot public loot;
+    ILootByRogue public loot;
     uint256 public constant SIZE = 64;
     uint8 public constant MAX_RELIC = 16;
 
@@ -21,28 +21,20 @@ contract Rogue is Pausable, Ownable {
         uint16 exit;
     }
 
-    constructor() {
-        loot = new RogueLoot();
+    constructor(ILootByRogue lootAddress) {
+        loot = lootAddress;
     }
 
-    function pause() public onlyOwner {
-        _pause();
-    }
-
-    function unpause() public onlyOwner {
-        _unpause();
-    }
-
-    function mint(uint256 seed, uint8[] calldata actions, uint8[] calldata items) public whenNotPaused {
-        require(actions.length == items.length, "len");
+    function mint(uint256 seed, uint8[] calldata directions, uint8[] calldata items) public whenNotPaused {
+        require(directions.length == items.length, "Lengths do not match");
 
         // payable value
-        RogueLoot.AdventureRecord memory results = adventure(seed, actions, items);
-        loot.mint(msg.sender, results);
+        ILootByRogue.AdventureRecord memory results = adventure(seed, directions, items);
+        loot.safeMint(msg.sender, results);
     }
 
-    function initAdventureRecord(uint256 seed) public pure returns (RogueLoot.AdventureRecord memory){
-        return RogueLoot.AdventureRecord({
+    function initAdventureRecord(uint256 seed) public pure returns (ILootByRogue.AdventureRecord memory){
+        return ILootByRogue.AdventureRecord({
             seed: seed,
             turn: 0,
             maxHp: 36,
@@ -51,7 +43,7 @@ contract Rogue is Pausable, Ownable {
             defence: 6,
             recovery: 4,
             stats: [uint16(0), uint16(0), uint16(0), uint16(0), uint16(0), uint16(0)],
-            unique: [false, false, false, false],
+            unique: [uint8(0), uint8(0), uint8(0), uint8(0)],
             weapon: 0,
             chestArmor: 0,
             headArmor: 0,
@@ -77,36 +69,36 @@ contract Rogue is Pausable, Ownable {
         });
     }
 
-    function adventure(uint256 seed, uint8[] calldata actions, uint8[] calldata items) public pure returns (RogueLoot.AdventureRecord memory){
+    function adventure(uint256 seed, uint8[] calldata directions, uint8[] calldata items) public pure returns (ILootByRogue.AdventureRecord memory){
         uint256[MAX_RELIC] memory relics;
-        RogueLoot.AdventureRecord memory record = initAdventureRecord(seed);
+        ILootByRogue.AdventureRecord memory record = initAdventureRecord(seed);
         Temporary memory t = initTemporary();
         uint64 bosses = createBosses(seed);
         uint256[SIZE] memory moved;
         setMoved(moved, t.x, t.y);
         
-        uint length = actions.length;
+        uint length = directions.length;
         for (uint i = 0; i < length;) {
             unchecked {
                 record.turn++;
             }
 
             // up=0, down=1, left=2, right=3
-            uint8 a = actions[i];
-            if (a == 0) {
-                require(!(t.y == SIZE - 1 || isMoved(moved, t.x, t.y + 1)), "Unmovable");
+            uint8 v = directions[i];
+            if (v == 0) {
+                require(!(t.y == SIZE - 1 || isMoved(moved, t.x, t.y + 1)), "Movement is not allowed");
                 t.y++;
-            } else if (a == 1) {
-                require(!(t.y == 0 || isMoved(moved, t.x, t.y - 1)), "Unmovable");
+            } else if (v == 1) {
+                require(!(t.y == 0 || isMoved(moved, t.x, t.y - 1)), "Movement is not allowed");
                 t.y--;
-            } else if (a == 2) {
-                require(!(t.x == 0 || isMoved(moved, t.x - 1, t.y)), "Unmovable"); 
+            } else if (v == 2) {
+                require(!(t.x == 0 || isMoved(moved, t.x - 1, t.y)), "Movement is not allowed"); 
                 t.x--;
-            } else if (a == 3) {
-                require(!(t.x == SIZE - 1 || isMoved(moved, t.x + 1, t.y)), "Unmovable"); 
+            } else if (v == 3) {
+                require(!(t.x == SIZE - 1 || isMoved(moved, t.x + 1, t.y)), "Movement is not allowed"); 
                 t.x++;
             } else {
-                revert("Error input");
+                revert("Invalid value in directions");
             }
             setMoved(moved, t.x, t.y);
 
@@ -187,7 +179,7 @@ contract Rogue is Pausable, Ownable {
         return record;
     }
 
-    function calcHeal(RogueLoot.AdventureRecord memory record, uint256 rate) internal pure returns (uint16) {
+    function calcHeal(ILootByRogue.AdventureRecord memory record, uint256 rate) internal pure returns (uint16) {
         uint256 recovery = record.recovery * rate;
         if (recovery + record.currentHp <= record.maxHp) {
             return uint16(recovery);
@@ -217,7 +209,7 @@ contract Rogue is Pausable, Ownable {
         return enemyAttack;
     }
 
-    function calcTakeDamage(RogueLoot.AdventureRecord memory record, Temporary memory t, uint256 rand, uint64 bosses) internal pure returns (uint16) {
+    function calcTakeDamage(ILootByRogue.AdventureRecord memory record, Temporary memory t, uint256 rand, uint64 bosses) internal pure returns (uint16) {
         int8 boss = checkMatchBoss(bosses, t.x, t.y);
         uint16 damage = 0;
         if (boss == -1) {
@@ -227,7 +219,7 @@ contract Rogue is Pausable, Ownable {
             record.stats[enemyType] += 1;
         } else {
             damage = calcBossDamage(uint8(boss), record.turn, record.attack);
-            record.unique[uint8(boss)] = true;
+            record.unique[uint8(boss)] += 1;
         }
 
         uint16 playerDefence = record.defence;
@@ -235,14 +227,14 @@ contract Rogue is Pausable, Ownable {
             playerDefence += 100;
         }
         if (playerDefence < damage) {
-            require(damage - playerDefence <= record.currentHp, "hp less than 0");
+            require(damage - playerDefence <= record.currentHp, "HP less than 0");
             return damage - playerDefence;
         } else {
             return 0;
         }
     }
 
-    function useItem(RogueLoot.AdventureRecord memory record, Temporary memory t, uint8 item) internal pure {
+    function useItem(ILootByRogue.AdventureRecord memory record, Temporary memory t, uint8 item) internal pure {
         if (item == 1) {
             record.currentHp += calcHeal(record, 3);
         } else if (item == 2) {
@@ -252,7 +244,7 @@ contract Rogue is Pausable, Ownable {
         }
     }
 
-    function tributeGeyser(RogueLoot.AdventureRecord memory record) internal pure {
+    function tributeGeyser(ILootByRogue.AdventureRecord memory record) internal pure {
         uint16 dmg = 0;
         uint16 tmp = 0;
 
@@ -367,7 +359,7 @@ contract Rogue is Pausable, Ownable {
         moved[y] |= (1 << x);
     }
 
-    function random(uint256 seed, uint8 rerollCount, uint8 x, uint8 y) public pure returns (uint256) {
+    function random(uint256 seed, uint8 rerollCount, uint8 x, uint8 y) internal pure returns (uint256) {
         return uint256(keccak256(abi.encodePacked(seed, rerollCount, x, y)));
     }
 
@@ -375,7 +367,7 @@ contract Rogue is Pausable, Ownable {
         return uint256(keccak256(abi.encodePacked(r, turn)));
     }
 
-    function createBosses(uint256 seed) public pure returns (uint64) {
+    function createBosses(uint256 seed) internal pure returns (uint64) {
         return packUint8ToUint64([
             uint8(seed % 79019 % SIZE), uint8(seed % 58899 % SIZE),
             uint8(seed % 69861 % SIZE), uint8(seed % 12874 % SIZE),
@@ -389,19 +381,6 @@ contract Rogue is Pausable, Ownable {
                uint64(d[2]) << 40 | uint64(d[3]) << 32 |
                uint64(d[4]) << 24 | uint64(d[5]) << 16 |
                uint64(d[6]) << 8  | uint64(d[7]);
-    }
-
-    function unpackUint64(uint64 packedValue) public pure returns (uint8[8] memory) {
-        return [
-            uint8(packedValue >> 56),
-            uint8(packedValue >> 48),
-            uint8(packedValue >> 40),
-            uint8(packedValue >> 32),
-            uint8(packedValue >> 24),
-            uint8(packedValue >> 16),
-            uint8(packedValue >> 8),
-            uint8(packedValue)
-        ];
     }
 
     function checkMatchBoss(uint64 packedValue, uint8 x, uint8 y) internal pure returns (int8) {
@@ -418,5 +397,13 @@ contract Rogue is Pausable, Ownable {
             if (uint8(packedValue) == y) return 3;
         }
         return -1;
+    }
+
+    function pause() public onlyOwner {
+        _pause();
+    }
+
+    function unpause() public onlyOwner {
+        _unpause();
     }
 }

@@ -3,47 +3,40 @@ pragma solidity ^0.8.17;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/utils/Base64.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/security/Pausable.sol";
+import "./ILootByRogue.sol";
 
-contract RogueLoot is ERC721, Ownable, Pausable {
+contract LootByRogue is ERC721, Ownable, Pausable, AccessControl, ILootByRogue {
     using Counters for Counters.Counter;
     using Strings for uint256;
     using Strings for uint16;
+    using Strings for uint8;
     Counters.Counter private _tokenIdCounter;
+    bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
 
-    struct AdventureRecord {
-        uint256 seed;
-        uint16 turn;
-        uint16 maxHp;
-        uint16 currentHp;
-        uint16 attack;
-        uint16 defence;
-        uint16 recovery;
-        uint16[6] stats;
-        bool[4] unique;
-        uint256 weapon;
-        uint256 chestArmor;
-        uint256 headArmor;
-        uint256 waistArmor;
-        uint256 footArmor;
-        uint256 handArmor;
-        uint256 necklace;
-        uint256 ring;
-        uint256[] relics;
-    }
+    event MintSeed(uint256 tokenId, uint256 seed);
+
     mapping (uint256 => AdventureRecord) public tokens;
+    mapping (uint256 => bool) public mintedSeed;
 
-    constructor() ERC721("RogueLoot", "RLOOT") {}
+    constructor() ERC721("LootByRogue", "LOOTR") {
+        _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
+    }
 
-    function mint(address to, AdventureRecord calldata recode) public onlyOwner {
+    function safeMint(address to, AdventureRecord calldata record) public onlyRole(MINTER_ROLE) {
+        require(!mintedSeed[record.seed], "Already minted seed");
+        mintedSeed[record.seed] = true;
+
         _tokenIdCounter.increment();
         uint256 tokenId = _tokenIdCounter.current();
-        tokens[tokenId] = recode;
+        tokens[tokenId] = record;
 
         _safeMint(to, tokenId);
+        emit MintSeed(tokenId, record.seed);
     }
 
     string[] private weapons = [
@@ -246,7 +239,7 @@ contract RogueLoot is ERC721, Ownable, Pausable {
         return tokens[tokenId].defence.toString();
     }
 
-     function getRecovery(uint256 tokenId) public view returns (string memory) {
+    function getRecovery(uint256 tokenId) public view returns (string memory) {
         return tokens[tokenId].recovery.toString();
     }
     
@@ -286,7 +279,7 @@ contract RogueLoot is ERC721, Ownable, Pausable {
         return tokens[tokenId].stats[index];
     }
 
-    function getUnique(uint256 tokenId, uint256 index) public view returns (bool) {
+    function getUnique(uint256 tokenId, uint256 index) public view returns (uint8) {
         return tokens[tokenId].unique[index];
     }
 
@@ -299,7 +292,6 @@ contract RogueLoot is ERC721, Ownable, Pausable {
     }
 
     function getRelic(uint256 tokenId, uint256 index) public view returns (uint256) {
-        require(index < tokens[tokenId].relics.length, "len");
         return tokens[tokenId].relics[index];
     }
 
@@ -326,7 +318,7 @@ contract RogueLoot is ERC721, Ownable, Pausable {
     }
 
     function tokenURI(uint256 tokenId) override public view returns (string memory) {
-        string[29] memory parts;
+        string[31] memory parts;
         parts[0] = '<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin meet" viewBox="0 0 350 350"><style>.base { fill: white; font-family: serif; font-size: 14px; }</style><rect width="100%" height="100%" fill="black" /><text x="10" y="20" class="base">';
 
         parts[1] = getSeed(tokenId);
@@ -337,7 +329,7 @@ contract RogueLoot is ERC721, Ownable, Pausable {
 
         parts[4] = '</text><text x="10" y="60" class="base">';
 
-        parts[5] = string(abi.encodePacked(getCurrentHp(tokenId), "/", getMaxHp(tokenId)));
+        parts[5] = getMaxHp(tokenId);
 
         parts[6] = '</text><text x="10" y="80" class="base">';
 
@@ -351,46 +343,50 @@ contract RogueLoot is ERC721, Ownable, Pausable {
 
         parts[11] = getRecovery(tokenId);
 
-        parts[12] = '</text><text x="10" y="160" class="base">';
+        parts[12] = '</text><text x="10" y="140" class="base">';
 
-        parts[13] = getWeapon(tokenId);
+        parts[13] = getRelicsLength(tokenId).toString();
 
         parts[14] = '</text><text x="10" y="180" class="base">';
 
-        parts[15] = getChest(tokenId);
+        parts[15] = getWeapon(tokenId);
 
         parts[16] = '</text><text x="10" y="200" class="base">';
 
-        parts[17] = getHead(tokenId);
+        parts[17] = getChest(tokenId);
 
         parts[18] = '</text><text x="10" y="220" class="base">';
 
-        parts[19] = getWaist(tokenId);
+        parts[19] = getHead(tokenId);
 
         parts[20] = '</text><text x="10" y="240" class="base">';
 
-        parts[21] = getFoot(tokenId);
+        parts[21] = getWaist(tokenId);
 
         parts[22] = '</text><text x="10" y="260" class="base">';
 
-        parts[23] = getHand(tokenId);
+        parts[23] = getFoot(tokenId);
 
         parts[24] = '</text><text x="10" y="280" class="base">';
 
-        parts[25] = getNeck(tokenId);
+        parts[25] = getHand(tokenId);
 
         parts[26] = '</text><text x="10" y="300" class="base">';
 
-        parts[27] = getRing(tokenId);
+        parts[27] = getNeck(tokenId);
 
-        parts[28] = '</text></svg>';
+        parts[28] = '</text><text x="10" y="320" class="base">';
+
+        parts[29] = getRing(tokenId);
+
+        parts[30] = '</text></svg>';
 
         string memory output = string(abi.encodePacked(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], parts[6], parts[7], parts[8]));
         output = string(abi.encodePacked(output, parts[9], parts[10], parts[11], parts[12], parts[13], parts[14], parts[15], parts[16]));
         output = string(abi.encodePacked(output, parts[17], parts[18], parts[19], parts[20], parts[21], parts[22], parts[23], parts[24]));
-        output = string(abi.encodePacked(output, parts[25], parts[26], parts[27], parts[28]));
+        output = string(abi.encodePacked(output, parts[25], parts[26], parts[27], parts[28], parts[29], parts[30]));
         
-        string memory json = Base64.encode(bytes(string(abi.encodePacked('{"name": "Adventure Record #', tokenId.toString(), '", "description": "Loot is randomized adventurer gear generated and stored on chain. Stats, images, and other functionality are intentionally omitted for others to interpret. Feel free to use Loot in any way you want.", "image": "data:image/svg+xml;base64,', Base64.encode(bytes(output)), '"}'))));
+        string memory json = Base64.encode(bytes(string(abi.encodePacked('{"name": "Loot by Rogue #', tokenId.toString(), '", "description": "Loot by Rogue is a collection of treasure obtained through playing the Rogue game, secured and stored on the blockchain. Feel free to use Loot in any way you want.", "image": "data:image/svg+xml;base64,', Base64.encode(bytes(output)), '"}'))));
         output = string(abi.encodePacked('data:application/json;base64,', json));
 
         return output;
@@ -410,5 +406,14 @@ contract RogueLoot is ERC721, Ownable, Pausable {
         override
     {
         super._beforeTokenTransfer(from, to, tokenId, batchSize);
+    }
+
+    function supportsInterface(bytes4 interfaceId)
+        public
+        view
+        override(ERC721, AccessControl)
+        returns (bool)
+    {
+        return super.supportsInterface(interfaceId);
     }
 }
