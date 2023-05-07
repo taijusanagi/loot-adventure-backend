@@ -25,19 +25,19 @@ interface ILootByRogue {
 
     function safeMint(address to, AdventureRecord calldata record) external;
     
-    function getSeed(uint256 tokenId) external view returns (string memory);
+    function getSeed(uint256 tokenId) external view returns (uint256);
 
-    function getTurn(uint256 tokenId) external view returns (string memory);
+    function getTurn(uint256 tokenId) external view returns (uint16);
 
-    function getMaxHp(uint256 tokenId) external view returns (string memory);
+    function getMaxHp(uint256 tokenId) external view returns (uint16);
 
-    function getCurrentHp(uint256 tokenId) external view returns (string memory);
+    function getCurrentHp(uint256 tokenId) external view returns (uint16);
 
-    function getAttack(uint256 tokenId) external view returns (string memory);
+    function getAttack(uint256 tokenId) external view returns (uint16);
 
-    function getDefence(uint256 tokenId) external view returns (string memory);
+    function getDefence(uint256 tokenId) external view returns (uint16);
 
-    function getRecovery(uint256 tokenId) external view returns (string memory);
+    function getRecovery(uint256 tokenId) external view returns (uint16);
 
     function getWeapon(uint256 tokenId) external view returns (string memory);
 

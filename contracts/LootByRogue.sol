@@ -15,6 +15,7 @@ contract LootByRogue is ERC721, Ownable, Pausable, AccessControl, ILootByRogue {
     using Strings for uint256;
     using Strings for uint16;
     using Strings for uint8;
+
     Counters.Counter private _tokenIdCounter;
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
 
@@ -215,32 +216,32 @@ contract LootByRogue is ERC721, Ownable, Pausable, AccessControl, ILootByRogue {
         "Moon"
     ];
 
-    function getSeed(uint256 tokenId) public view returns (string memory) {
-        return tokens[tokenId].seed.toString();
+    function getSeed(uint256 tokenId) public view returns (uint256) {
+        return tokens[tokenId].seed;
     }
 
-    function getTurn(uint256 tokenId) public view returns (string memory) {
-        return tokens[tokenId].turn.toString();
+    function getTurn(uint256 tokenId) public view returns (uint16) {
+        return tokens[tokenId].turn;
     }
 
-    function getMaxHp(uint256 tokenId) public view returns (string memory) {
-        return tokens[tokenId].maxHp.toString();
+    function getMaxHp(uint256 tokenId) public view returns (uint16) {
+        return tokens[tokenId].maxHp;
     }
 
-    function getCurrentHp(uint256 tokenId) public view returns (string memory) {
-        return tokens[tokenId].currentHp.toString();
+    function getCurrentHp(uint256 tokenId) public view returns (uint16) {
+        return tokens[tokenId].currentHp;
     }
 
-    function getAttack(uint256 tokenId) public view returns (string memory) {
-        return tokens[tokenId].attack.toString();
+    function getAttack(uint256 tokenId) public view returns (uint16) {
+        return tokens[tokenId].attack;
     }
 
-    function getDefence(uint256 tokenId) public view returns (string memory) {
-        return tokens[tokenId].defence.toString();
+    function getDefence(uint256 tokenId) public view returns (uint16) {
+        return tokens[tokenId].defence;
     }
 
-    function getRecovery(uint256 tokenId) public view returns (string memory) {
-        return tokens[tokenId].recovery.toString();
+    function getRecovery(uint256 tokenId) public view returns (uint16) {
+        return tokens[tokenId].recovery;
     }
     
     function getWeapon(uint256 tokenId) public view returns (string memory) {
@@ -318,78 +319,90 @@ contract LootByRogue is ERC721, Ownable, Pausable, AccessControl, ILootByRogue {
     }
 
     function tokenURI(uint256 tokenId) override public view returns (string memory) {
-        string[31] memory parts;
+        AdventureRecord memory record = tokens[tokenId];
+        string[28] memory parts;
         parts[0] = '<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin meet" viewBox="0 0 350 350"><style>.base { fill: white; font-family: serif; font-size: 14px; }</style><rect width="100%" height="100%" fill="black" /><text x="10" y="20" class="base">';
 
-        parts[1] = getSeed(tokenId);
+        parts[1] = record.seed.toString();
 
         parts[2] = '</text><text x="10" y="40" class="base">';
 
-        parts[3] = getTurn(tokenId);
+        parts[3] = string(abi.encodePacked(record.turn.toString(), '/', record.maxHp.toString(), '/', record.currentHp.toString()));
 
-        parts[4] = '</text><text x="10" y="60" class="base">';
+        parts[4] = string(abi.encodePacked('/', record.attack.toString(), '/', record.defence.toString(), '/', record.recovery.toString()));
 
-        parts[5] = getMaxHp(tokenId);
+        parts[5] = '</text><text x="10" y="60" class="base">';
 
-        parts[6] = '</text><text x="10" y="80" class="base">';
+        parts[6] = string(abi.encodePacked(record.stats[0].toString(), '/', record.stats[1].toString(), '/', record.stats[2].toString(), '/', record.stats[3].toString(), '/'));
 
-        parts[7] = getAttack(tokenId);
+        parts[7] = string(abi.encodePacked(record.stats[4].toString(), '/', record.stats[5].toString(), '/', record.unique[0].toString(), '/', record.unique[1].toString(), '/'));
 
-        parts[8] = '</text><text x="10" y="100" class="base">';
+        parts[8] = string(abi.encodePacked(record.unique[2].toString(), '/', record.unique[3].toString()));
 
-        parts[9] = getDefence(tokenId);
+        parts[9] = '</text><text x="10" y="80" class="base">';
 
-        parts[10] = '</text><text x="10" y="120" class="base">';
+        parts[10] = getRelicsLength(tokenId).toString();
 
-        parts[11] = getRecovery(tokenId);
+        parts[11] = '</text><text x="10" y="120" class="base">';
 
-        parts[12] = '</text><text x="10" y="140" class="base">';
+        parts[12] = getWeapon(tokenId);
 
-        parts[13] = getRelicsLength(tokenId).toString();
+        parts[13] = '</text><text x="10" y="140" class="base">';
 
-        parts[14] = '</text><text x="10" y="180" class="base">';
+        parts[14] = getChest(tokenId);
 
-        parts[15] = getWeapon(tokenId);
+        parts[15] = '</text><text x="10" y="160" class="base">';
 
-        parts[16] = '</text><text x="10" y="200" class="base">';
+        parts[16] = getHead(tokenId);
 
-        parts[17] = getChest(tokenId);
+        parts[17] = '</text><text x="10" y="180" class="base">';
 
-        parts[18] = '</text><text x="10" y="220" class="base">';
+        parts[18] = getWaist(tokenId);
 
-        parts[19] = getHead(tokenId);
+        parts[19] = '</text><text x="10" y="200" class="base">';
 
-        parts[20] = '</text><text x="10" y="240" class="base">';
+        parts[20] = getFoot(tokenId);
 
-        parts[21] = getWaist(tokenId);
+        parts[21] = '</text><text x="10" y="220" class="base">';
 
-        parts[22] = '</text><text x="10" y="260" class="base">';
+        parts[22] = getHand(tokenId);
 
-        parts[23] = getFoot(tokenId);
+        parts[23] = '</text><text x="10" y="240" class="base">';
 
-        parts[24] = '</text><text x="10" y="280" class="base">';
+        parts[24] = getNeck(tokenId);
 
-        parts[25] = getHand(tokenId);
+        parts[25] = '</text><text x="10" y="260" class="base">';
 
-        parts[26] = '</text><text x="10" y="300" class="base">';
+        parts[26] = getRing(tokenId);
 
-        parts[27] = getNeck(tokenId);
-
-        parts[28] = '</text><text x="10" y="320" class="base">';
-
-        parts[29] = getRing(tokenId);
-
-        parts[30] = '</text></svg>';
+        parts[27] = '</text></svg>';
 
         string memory output = string(abi.encodePacked(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], parts[6], parts[7], parts[8]));
         output = string(abi.encodePacked(output, parts[9], parts[10], parts[11], parts[12], parts[13], parts[14], parts[15], parts[16]));
         output = string(abi.encodePacked(output, parts[17], parts[18], parts[19], parts[20], parts[21], parts[22], parts[23], parts[24]));
-        output = string(abi.encodePacked(output, parts[25], parts[26], parts[27], parts[28], parts[29], parts[30]));
-        
-        string memory json = Base64.encode(bytes(string(abi.encodePacked('{"name": "Loot by Rogue #', tokenId.toString(), '", "description": "Loot by Rogue is a collection of treasure obtained through playing the Rogue game, secured and stored on the blockchain. Feel free to use Loot in any way you want.", "image": "data:image/svg+xml;base64,', Base64.encode(bytes(output)), '"}'))));
+        output = string(abi.encodePacked(output, parts[25], parts[26], parts[27]));
+
+        string memory c = ', ';
+        string memory attributes = string(abi.encodePacked('[', _attribute("seed", parts[1]), c, _attribute("turn", record.turn), c, _attribute("maxHp", record.maxHp), c, _attribute("currentHp", record.currentHp), c));
+        attributes = string(abi.encodePacked(attributes, _attribute("attack", record.attack), c, _attribute("defence", record.defence), c, _attribute("recovery", record.recovery), c, _attribute("countRelic", record.relics.length), c));
+        attributes = string(abi.encodePacked(attributes, _attribute("countEnemy1", record.stats[0]), c, _attribute("countEnemy2", record.stats[1]), c, _attribute("countEnemy3", record.stats[2]), c, _attribute("countEnemy4", record.stats[3]), c));
+        attributes = string(abi.encodePacked(attributes, _attribute("countEnemy5", record.stats[4]), c, _attribute("countEnemy6", record.stats[5]), c, _attribute("countBoss1", record.unique[0]), c, _attribute("countBoss2", record.unique[1]), c));
+        attributes = string(abi.encodePacked(attributes, _attribute("countBoss3", record.unique[2]), c, _attribute("countBoss4", record.unique[3]), c, _attribute("weapon", parts[12]), c, _attribute("chest", parts[14]), c));
+        attributes = string(abi.encodePacked(attributes, _attribute("head", parts[16]), c, _attribute("waist", parts[18]), c, _attribute("foot", parts[20]), c, _attribute("hand", parts[22]), c));
+        attributes = string(abi.encodePacked(attributes, _attribute("necklace", parts[24]), c, _attribute("ring", parts[26]), ']'));
+
+        string memory json = Base64.encode(bytes(string(abi.encodePacked('{"name": "Loot by Rogue #', tokenId.toString(), '", "description": "Loot by Rogue is a collection of treasure obtained through playing the Rogue game, secured and stored on the blockchain. Feel free to use Loot in any way you want.", "attributes": ', attributes ,', "image": "data:image/svg+xml;base64,', Base64.encode(bytes(output)), '"}'))));
         output = string(abi.encodePacked('data:application/json;base64,', json));
 
         return output;
+    }
+
+    function _attribute(string memory traitType, string memory value) internal pure returns (string memory) {
+        return string(abi.encodePacked('{"trait_type": "', traitType, '", "value": "', value, '"}'));
+    }
+
+    function _attribute(string memory traitType, uint256 value) internal pure returns (string memory) {
+        return string(abi.encodePacked('{"trait_type": "', traitType, '", "value": ', value.toString(), '}'));
     }
 
     function pause() public onlyOwner {

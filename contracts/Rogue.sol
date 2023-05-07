@@ -366,7 +366,7 @@ contract Rogue is Pausable, Ownable {
         }
     }
 
-     function isMoved(uint256[SIZE] memory moved, uint8 x, uint8 y) internal pure returns (bool) {
+    function isMoved(uint256[SIZE] memory moved, uint8 x, uint8 y) internal pure returns (bool) {
         return moved[y] & (1 << x) != 0;
     }
 
