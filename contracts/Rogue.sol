@@ -203,7 +203,7 @@ contract Rogue is Pausable, Ownable {
         }
     }
 
-    function difficulty(uint16 turn) internal pure returns (uint256) {
+    function difficulty(uint256 turn) internal pure returns (uint256) {
         return turn * (turn + 250) / 1000;
     }
 

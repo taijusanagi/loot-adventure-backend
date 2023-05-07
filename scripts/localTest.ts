@@ -26,6 +26,9 @@ async function main() {
   };
 
   await deployer.sendTransaction(transactionOptions);
+  console.log('deployed rogue to:', rogue.address);
+  console.log('deployed loot to:', lootByRogue.address);
+  console.log('deployed erc20 to:', erc20.address);
 }
 
 // We recommend this pattern to be able to use async/await everywhere
