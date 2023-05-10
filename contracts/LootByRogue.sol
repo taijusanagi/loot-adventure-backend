@@ -1,6 +1,12 @@
 // SPDX-License-Identifier: MIT
+//     __                  __     ____            ____                           
+//    / /   ____   ____   / /_   / __ ) __  __   / __ \ ____   ____ _ __  __ ___ 
+//   / /   / __ \ / __ \ / __/  / __  |/ / / /  / /_/ // __ \ / __ `// / / // _ \
+//  / /___/ /_/ // /_/ // /_   / /_/ // /_/ /  / _, _// /_/ // /_/ // /_/ //  __/
+// /_____/\____/ \____/ \__/  /_____/ \__, /  /_/ |_| \____/ \__, / \__,_/ \___/ 
+//                                   /____/                 /____/               
+// This project was inspired by 0xFF9C1b15B16263C61d017ee9F65C50e4AE0113D7 on the Ethereum network.
 pragma solidity ^0.8.17;
-
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
@@ -10,7 +16,7 @@ import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/security/Pausable.sol";
 import "./ILootByRogue.sol";
 
-contract LootByRogue is ERC721, Ownable, Pausable, AccessControl, ILootByRogue {
+contract LootByRogue is ERC721, Ownable, AccessControl, Pausable, ILootByRogue {
     using Counters for Counters.Counter;
     using Strings for uint256;
     using Strings for uint16;

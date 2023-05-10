@@ -4,20 +4,17 @@ async function main() {
   const [deployer] = await ethers.getSigners();
   console.log(`deployer: ${deployer.address}`);
   const receipt = deployer.address;
-  const costAmount = 0;
+  const costAmount = ethers.utils.parseEther('10');
+  const erc20Address = '';
 
   const f1 = await ethers.getContractFactory('LootByRogue', deployer);
   const lootByRogue = await f1.deploy();
   await lootByRogue.deployed();
 
-  const f2 = await ethers.getContractFactory('MockERC20', deployer);
-  const erc20 = await f2.deploy();
-  await erc20.deployed();
-
-  const f3 = await ethers.getContractFactory('Rogue', deployer);
-  const rogue = await f3.deploy(
+  const f2 = await ethers.getContractFactory('Rogue', deployer);
+  const rogue = await f2.deploy(
     lootByRogue.address,
-    erc20.address,
+    erc20Address,
     costAmount,
     receipt
   );

@@ -3,7 +3,8 @@ import { ethers } from 'hardhat';
 async function main() {
   const [deployer] = await ethers.getSigners();
   const receipt = deployer.address;
-  const gasToAddress = '';
+  const toAddress = '';
+  const cost = ethers.utils.parseEther('1');
 
   const f1 = await ethers.getContractFactory('LootByRogue', deployer);
   const lootByRogue = await f1.deploy();
@@ -14,14 +15,20 @@ async function main() {
   await erc20.deployed();
 
   const f3 = await ethers.getContractFactory('Rogue', deployer);
-  const rogue = await f3.deploy(lootByRogue.address, erc20.address, 0, receipt);
+  const rogue = await f3.deploy(
+    lootByRogue.address,
+    erc20.address,
+    cost,
+    receipt
+  );
   await rogue.deployed();
 
   const role = await lootByRogue.MINTER_ROLE();
   await lootByRogue.grantRole(role, rogue.address);
 
+  await erc20.transfer(toAddress, ethers.utils.parseEther('1'));
   const transactionOptions = {
-    to: gasToAddress,
+    to: toAddress,
     value: ethers.utils.parseEther('1'),
   };
 
