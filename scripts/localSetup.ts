@@ -4,7 +4,7 @@ async function main() {
   const [deployer] = await ethers.getSigners();
   const receipt = deployer.address;
   const toAddress = '';
-  const cost = ethers.utils.parseEther('1');
+  const cost = ethers.utils.parseEther('10');
 
   const f1 = await ethers.getContractFactory('LootByRogue', deployer);
   const lootByRogue = await f1.deploy();
@@ -26,12 +26,11 @@ async function main() {
   const role = await lootByRogue.MINTER_ROLE();
   await lootByRogue.grantRole(role, rogue.address);
 
-  await erc20.transfer(toAddress, ethers.utils.parseEther('1'));
+  await erc20.transfer(toAddress, ethers.utils.parseEther('100'));
   const transactionOptions = {
     to: toAddress,
-    value: ethers.utils.parseEther('1'),
+    value: ethers.utils.parseEther('100'),
   };
-
   await deployer.sendTransaction(transactionOptions);
   console.log('deployed rogue to:', rogue.address);
   console.log('deployed loot to:', lootByRogue.address);

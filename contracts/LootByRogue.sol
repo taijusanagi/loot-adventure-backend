@@ -25,7 +25,7 @@ contract LootByRogue is ERC721, Ownable, AccessControl, Pausable, ILootByRogue {
     Counters.Counter private _tokenIdCounter;
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
 
-    event MintSeed(uint256 tokenId, uint256 seed);
+    event MintSeed(address validator, uint256 tokenId, uint256 seed);
 
     mapping (uint256 => AdventureRecord) public tokens;
     mapping (uint256 => bool) public mintedSeed;
@@ -43,7 +43,7 @@ contract LootByRogue is ERC721, Ownable, AccessControl, Pausable, ILootByRogue {
         tokens[tokenId] = record;
 
         _safeMint(to, tokenId);
-        emit MintSeed(tokenId, record.seed);
+        emit MintSeed(msg.sender, tokenId, record.seed);
     }
 
     string[] private weapons = [

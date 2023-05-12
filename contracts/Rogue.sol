@@ -40,7 +40,7 @@ contract Rogue is Pausable, Ownable {
         receipt = _receipt;
     }
 
-    function mint(uint256 seed, uint8[] calldata directions, uint8[] calldata items) public whenNotPaused {
+    function mint(uint256 seed, uint8[] calldata directions, uint8[] calldata items) external whenNotPaused {
         require(directions.length == items.length, "Lengths do not match");
         require(costToken.transferFrom(msg.sender, receipt, cost), "Transfer failed");
 
@@ -48,15 +48,15 @@ contract Rogue is Pausable, Ownable {
         loot.safeMint(msg.sender, results);
     }
 
-    function initAdventureRecord(uint256 seed) public pure returns (ILootByRogue.AdventureRecord memory){
+    function initAdventureRecord(uint256 seed) internal pure returns (ILootByRogue.AdventureRecord memory){
         return ILootByRogue.AdventureRecord({
             seed: seed,
             turn: 0,
-            maxHp: 36,
-            currentHp: 36,
-            attack: 8,
-            defence: 6,
-            recovery: 4,
+            maxHp: 42,
+            currentHp: 42,
+            attack: 10,
+            defence: 2,
+            recovery: 1,
             stats: [uint16(0), uint16(0), uint16(0), uint16(0), uint16(0), uint16(0)],
             unique: [uint8(0), uint8(0), uint8(0), uint8(0)],
             weapon: 0,
@@ -71,7 +71,7 @@ contract Rogue is Pausable, Ownable {
         });
     }
 
-    function initTemporary() public pure returns (Temporary memory){
+    function initTemporary() internal pure returns (Temporary memory){
         return Temporary({
             x: uint8(SIZE / 2),
             y: uint8(SIZE / 2),
@@ -130,50 +130,50 @@ contract Rogue is Pausable, Ownable {
             }
 
             uint256 rand = random(seed, t.rerollCount, t.x, t.y);
-            uint256 events = rand % 197;
+            uint256 events = rand % 1357;
             record.currentHp -= calcTakeDamage(record, t, rand, bosses);
-            if (events < 80) {
+            if (events < 588) {
                 if (item != 3) {
                     uint256 drop = randomLoot(rand, record.turn);
-                    if (events < 10) {
+                    if (events < 70) {
                         record.weapon = drop;
-                    } else if (events < 20) {
+                    } else if (events < 144) {
                         record.chestArmor = drop;
-                    } else if (events < 30) {
+                    } else if (events < 218) {
                         record.headArmor = drop;
-                    } else if (events < 40) {
+                    } else if (events < 292) {
                         record.waistArmor = drop;
-                    } else if (events < 50) {
+                    } else if (events < 366) {
                         record.footArmor = drop;
-                    } else if (events < 60) {
+                    } else if (events < 440) {
                         record.handArmor = drop;
-                    } else if (events < 70) {
+                    } else if (events < 514) {
                         record.necklace = drop;
-                    } else if (events < 80) {
+                    } else if (events < 588) {
                         record.ring = drop;
                     }
                 }
-            } else if (events < 105) {
+            } else if (events < 763) {
                 record.currentHp += calcHeal(record, 1);
-            } else if (events < 130) {
-                record.maxHp += uint16(rand % 3 + 1);
-            } else if (events < 142) {
+            } else if (events < 948) {
+                record.maxHp += uint16(rand % 4 + 6);
+            } else if (events < 1046) {
                 record.attack += uint16(rand % 2 + 1);
-            } else if (events < 154) {
+            } else if (events < 1144) {
                 record.defence += uint16(rand % 2 + 1);
-            } else if (events < 166) {
-                record.recovery += uint16(rand % 2 + 1);
-            } else if (events < 178) {
+            } else if (events < 1242) {
+                record.recovery += uint16(rand % 3 + 1);
+            } else if (events < 1331) {
                 if (t.item1 == 0) {
                     t.item1 = uint8(rand % 4 + 1);
                 } else if (t.item2 == 0) {
                     t.item2 = uint8(rand % 4 + 1);
                 }
-            } else if (events < 182) {
+            } else if (events < 1336) {
                 tributeGeyser(record);
-            } else if (events < 185) {
+            } else if (events < 1342) {
                 t.exit = record.turn;
-            } else if (events < 187 && t.relicCount < MAX_RELIC) {
+            } else if (events < 1347 && t.relicCount < MAX_RELIC) {
                 relics[t.relicCount] = rand;
                 t.relicCount += 1;
             }
@@ -204,7 +204,7 @@ contract Rogue is Pausable, Ownable {
     }
 
     function difficulty(uint256 turn) internal pure returns (uint256) {
-        return turn * (turn + 250) / 1000;
+        return (turn * turn / 2 + 100 * turn) / 500;
     }
 
     function calcMobDamage(uint8 enemyType, uint16 turn, uint16 playerAttack) internal pure returns (uint16) {
@@ -216,7 +216,7 @@ contract Rogue is Pausable, Ownable {
     }
 
     function calcBossDamage(uint8 bossType, uint16 turn, uint16 playerAttack) internal pure returns (uint16) {
-        uint256 boss = (bossType + 1) * 12;
+        uint256 boss = (bossType + 1) * 15;
         uint16 enemyAttack = uint16(boss + difficulty(turn));
         if (playerAttack < enemyAttack) {
             enemyAttack += (enemyAttack - playerAttack) * 2;
@@ -239,7 +239,7 @@ contract Rogue is Pausable, Ownable {
 
         uint16 playerDefence = record.defence;
         if (record.turn < t.defenceBuffTurn) {
-            playerDefence += 100;
+            playerDefence += 70;
         }
         if (playerDefence < damage) {
             require(damage - playerDefence <= record.currentHp, "HP less than 0");
@@ -300,16 +300,16 @@ contract Rogue is Pausable, Ownable {
     function tributeGeyserAttack(uint256 rand) internal pure returns (uint16) {
         uint16 r = rarity(rand);
         if (r == 1) {
-            return 10;
+            return 6;
         }
         if (r == 2) {
-            return 15;
+            return 12;
         }
         if (r == 3) {
-            return 30;
+            return 18;
         }
         if (r == 4) {
-            return 31;
+            return 19;
         }
         return 0;
     }
@@ -317,16 +317,16 @@ contract Rogue is Pausable, Ownable {
     function tributeGeyserDefence(uint256 rand) internal pure returns (uint16) {
         uint16 r = rarity(rand);
         if (r == 1) {
-            return 2;
+            return 1;
         }
         if (r == 2) {
             return 3;
         }
         if (r == 3) {
-            return 7;
+            return 5;
         }
         if (r == 4) {
-            return 8;
+            return 6;
         }
         return 0;
     }
@@ -337,13 +337,13 @@ contract Rogue is Pausable, Ownable {
             return 4;
         }
         if (r == 2) {
-            return 7;
+            return 8;
         }
         if (r == 3) {
-            return 14;
+            return 15;
         }
         if (r == 4) {
-            return 15;
+            return 16;
         }
         return 0;
     }
