@@ -48,7 +48,7 @@ contract Rogue is Pausable, Ownable {
         loot.safeMint(msg.sender, results);
     }
 
-    function initAdventureRecord(uint256 seed) internal pure returns (ILootByRogue.AdventureRecord memory){
+    function initAdventureRecord(uint256 seed) internal pure returns (ILootByRogue.AdventureRecord memory) {
         return ILootByRogue.AdventureRecord({
             seed: seed,
             turn: 0,
@@ -71,7 +71,7 @@ contract Rogue is Pausable, Ownable {
         });
     }
 
-    function initTemporary() internal pure returns (Temporary memory){
+    function initTemporary() internal pure returns (Temporary memory) {
         return Temporary({
             x: uint8(SIZE / 2),
             y: uint8(SIZE / 2),
@@ -84,7 +84,7 @@ contract Rogue is Pausable, Ownable {
         });
     }
 
-    function adventure(uint256 seed, uint8[] calldata directions, uint8[] calldata items) public view returns (ILootByRogue.AdventureRecord memory){
+    function adventure(uint256 seed, uint8[] calldata directions, uint8[] calldata items) public view returns (ILootByRogue.AdventureRecord memory) {
         uint256[MAX_RELIC] memory relics;
         ILootByRogue.AdventureRecord memory record = initAdventureRecord(seed);
         Temporary memory t = initTemporary();
@@ -203,12 +203,17 @@ contract Rogue is Pausable, Ownable {
         }
     }
 
-    function difficulty(uint256 turn) internal pure returns (uint256) {
+    function calcDifficulty(uint256 turn) internal pure returns (uint256) {
         return (turn * turn / 2 + 100 * turn) / 500;
     }
 
+    function calcEnemyType(uint256 rand) internal pure returns (uint8) {
+        uint256 n = rand % 100;
+        return uint8((n * n + n * 200) / 5000);
+    }
+
     function calcMobDamage(uint8 enemyType, uint16 turn, uint16 playerAttack) internal pure returns (uint16) {
-        uint16 enemyAttack = uint16(enemyType + difficulty(turn));
+        uint16 enemyAttack = uint16(enemyType + calcDifficulty(turn));
         if (playerAttack < enemyAttack) {
             enemyAttack += (enemyAttack - playerAttack) * 2;
         }
@@ -217,7 +222,7 @@ contract Rogue is Pausable, Ownable {
 
     function calcBossDamage(uint8 bossType, uint16 turn, uint16 playerAttack) internal pure returns (uint16) {
         uint256 boss = (bossType + 1) * 15;
-        uint16 enemyAttack = uint16(boss + difficulty(turn));
+        uint16 enemyAttack = uint16(boss + calcDifficulty(turn));
         if (playerAttack < enemyAttack) {
             enemyAttack += (enemyAttack - playerAttack) * 2;
         }
@@ -228,8 +233,7 @@ contract Rogue is Pausable, Ownable {
         int8 boss = checkMatchBoss(bosses, t.x, t.y);
         uint16 damage = 0;
         if (boss == -1) {
-            uint256 n = rand % 100;
-            uint8 enemyType = uint8((n * n + n * 200) / 5000);
+            uint8 enemyType = calcEnemyType(rand);
             damage = calcMobDamage(enemyType, record.turn, record.attack);
             record.stats[enemyType] += 1;
         } else {
