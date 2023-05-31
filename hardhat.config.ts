@@ -34,6 +34,9 @@ const config: HardhatUserConfig = {
     },
   },
   networks: {
+    hardhat: {
+      chainId: 31337,
+    },
     local: {
       url: 'http://127.0.0.1:8545/',
       gas: 2100000,
