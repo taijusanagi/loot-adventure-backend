@@ -56,7 +56,7 @@ contract LootByRogueV2 is ERC721, Ownable, AccessControl, Pausable, ILootByRogue
 
     function reserveV1MintdSeed(uint256[] calldata seeds) public onlyOwner {
         uint length = seeds.length;
-        for (uint i = 0; i < length;) {
+        for (uint i = 0; i < length; i++) {
             _tokenIdCounter.increment();
             mintedSeed[seeds[i]] = true;
         }
