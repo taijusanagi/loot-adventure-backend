@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
-import "../ILootByRogue.sol";
-import "../Rogue.sol";
+import "../v1/ILootByRogue.sol";
+import "../v1/Rogue.sol";
 
 contract TestRogue is Rogue {
     constructor(address _loot, address _costToken, uint256 _cost, address _receipt)
