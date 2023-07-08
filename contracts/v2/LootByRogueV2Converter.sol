@@ -4,14 +4,19 @@ pragma solidity ^0.8.17;
 import "@openzeppelin/contracts/security/Pausable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
-import "../v1/LootByRogue.sol";
+import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "./RogueV2.sol";
 
+interface ILootByRogue is IERC721 {
+    function getSeed(uint256 tokenId) external view returns (uint256);
+    function getTurn(uint256 tokenId) external view returns (uint16);
+}
+
 contract LootByRogueV2Converter is RogueV2, Pausable, Ownable, IERC721Receiver {
-    LootByRogue public lootV1;
+    ILootByRogue public lootV1;
 
     constructor(address _lootV2, address _lootV1) RogueV2(_lootV2) {
-        lootV1 = LootByRogue(_lootV1);
+        lootV1 = ILootByRogue(_lootV1);
     }
 
     function convert(ILootByRogueV2.InputData calldata inputData, uint256 tokenId) external whenNotPaused {

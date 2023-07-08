@@ -81,6 +81,11 @@ describe('LootByRogueV2Minter', async () => {
       .connect(tester)
       .mint({ seed, directions, useItems });
     expect(await lootByRogueV2.ownerOf(1)).equal(tester.address);
+
+    const d = await lootByRogueV2.getDirections(1);
+    d.forEach((v, i) => expect(v).equal(directions[i]));
+    const items = await lootByRogueV2.getUseItems(1);
+    items.forEach((v, i) => expect(v).equal(items[i]));
   });
 
   it('Should be an error if insufficient token', async () => {

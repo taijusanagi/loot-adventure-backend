@@ -456,7 +456,7 @@ contract LootByRogueV2 is ERC721, Ownable, AccessControl, Pausable, ILootByRogue
     function supportsInterface(bytes4 interfaceId)
         public
         view
-        override(ERC721, AccessControl)
+        override(IERC165, ERC721, AccessControl)
         returns (bool)
     {
         return super.supportsInterface(interfaceId);

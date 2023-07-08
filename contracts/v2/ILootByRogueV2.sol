@@ -2,8 +2,9 @@
 pragma solidity ^0.8.17;
 
 import './ILoot.sol';
+import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 
-interface ILootByRogueV2 is ILoot {
+interface ILootByRogueV2 is IERC721, ILoot {
     event MintSeed(address validator, uint256 tokenId, uint256 seed);
 
     struct InputData {
