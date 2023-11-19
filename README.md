@@ -1,10 +1,39 @@
-# Loot by Rogue
+# Loot Launcher
+## Abstracrt
+* 色々なNFTを用いてTBAを作る
+* そして、TBAにはLaunchpadによって生成されたLoot (SBT)がぶら下がる
+* また、Launchpadにて獲得した武器やアイテムはTBAにNFTとして付与される
+
+## Material
+### TBA
+* ERC6551によって、各プロジェクトの既存NFTから生成する
+  
+### Loot SBT
+* 素材となるNFT(以下、素体NFT)からなる基礎値とLauchpadでプレイした結果を持って能力値が定まる
+* 前者は素体NFTの何らかの値によって生成されたハッシュ値などでTBA生成時に決まるものにする
+* 後者の部分はリアル世界での行動とかでも合わせられるよう柔軟性が必要
+
+### Item NFT
+* RPG系のNFTプロジェクトなら装備や使い捨てのアイテム
+* TBAが所有する形なので、TBAの素体NFTの所有者が回収できる
+
+
+## Memo
+* RogueV2はフルオンチェーンを想定？
+  * これの内、装備の部分を別NFTに分離すれば良いのでは？
+  * ↑ 一旦デプロイして試してみる
+* あと、追加でここら辺も
+  * 他NFTを使う際の能力値計算とかどうするかは要検討
+  * TBA生成との処理の順番を考える（TBA生成→ゲームプレイ→Lootミント→LootをTBAに付与か）
+
+
+# Backup
+
+## Loot by Rogue
 ```shell
 npx hardhat node
-
 npx hardhat run --network local scripts/localSetup.ts
 ```
-
 ## [MCH Verse](https://explorer.oasys.mycryptoheroes.net/)
 |contract|address|
 |---|---|
