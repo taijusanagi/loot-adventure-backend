@@ -1,19 +1,18 @@
 import { ethers } from 'hardhat';
 
 async function main() {
-  console.log("Deploy Start!!!!!!!!!")
+  console.log('Deploy Start!!!!!!!!!');
   const [deployer] = await ethers.getSigners();
   const receipt = deployer.address;
   const toAddress = '0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199';
   const cost = ethers.utils.parseEther('1');
-  console.log(deployer.address);
-  console.log("Signer is set!!!!!!!!!")
+  console.log('Signer is set!!!!!!!!!');
 
   const f1 = await ethers.getContractFactory('LootByRogue', deployer);
   const lootByRogue = await f1.deploy();
   await lootByRogue.deployed();
   console.log('deployed lootV1 to:', lootByRogue.address);
-  
+
   const f2 = await ethers.getContractFactory('MockERC20', deployer);
   const erc20 = await f2.deploy();
   await erc20.deployed();
@@ -66,7 +65,6 @@ async function main() {
     value: ethers.utils.parseEther('100'),
   };
   await deployer.sendTransaction(transactionOptions);
-
 
   console.log('deployed erc20 to:', erc20.address);
   console.log('--');
