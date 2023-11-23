@@ -12,7 +12,7 @@ const LandingPage = () => {
     setOpen(true);
   };
 
-  const handleClose = () => {
+  const handleClose = async() => {
     setOpen(false);
   };
 
@@ -24,7 +24,7 @@ const LandingPage = () => {
       handleClose();
     }
   };
-
+  
   return (
     <div>
       <h1>Landing Page</h1>
