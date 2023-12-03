@@ -3,12 +3,16 @@ import { useEffect, useState } from "react";
 import { SiweMessage } from "siwe";
 import { useAccount, useNetwork, useSignMessage } from "wagmi";
 import { getCsrfToken, signIn } from "next-auth/react";
+import { Button, Flex, Heading, useColorModeValue } from "@chakra-ui/react";
+import { useRouter } from 'next/navigation';
 
 export default function Auth() {
   const [mounted, setMounted] = useState(false);
   const { address, isConnected } = useAccount();
   const { chain } = useNetwork();
   const { signMessageAsync } = useSignMessage();
+  const formBackGround = useColorModeValue("gray.100", "gray.700");
+  const router = useRouter();
 
   useEffect(() => setMounted(true), []);
   if (!mounted) return <></>;
@@ -45,15 +49,21 @@ export default function Auth() {
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center">
+    <main>
       {!isConnected && <w3m-button />}
       {isConnected && (
-        <button
-          onClick={handleLogin}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        >
-          Sign Message to Login
-        </button>
+      <Flex height="100vh" alignItems="center" justifyContent="center">
+        <Flex direction="column" background={formBackGround} p={12} rounded={6}>
+          <Heading mb={6}>Log in</Heading>
+          <Button 
+            mb={6} 
+            colorScheme="teal"
+            onClick={handleLogin}
+          >
+            Log in
+          </Button>
+        </Flex>
+      </Flex>
       )}
     </main>
   );
