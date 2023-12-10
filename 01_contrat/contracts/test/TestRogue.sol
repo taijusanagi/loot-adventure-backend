@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
-import "../v1/ILootByRogue.sol";
+import "../interfaces/ILootByRogue.sol";
 import "../v1/Rogue.sol";
 
 contract TestRogue is Rogue {

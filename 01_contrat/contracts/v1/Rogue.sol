@@ -4,7 +4,7 @@ pragma solidity ^0.8.17;
 import "@openzeppelin/contracts/security/Pausable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "./ILootByRogue.sol";
+import "../interfaces/ILootByRogue.sol";
 
 contract Rogue is Pausable, Ownable {
     ILootByRogue public loot;

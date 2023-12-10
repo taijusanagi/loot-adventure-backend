@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
-import "./ILootByRogueV2.sol";
+import "../interfaces/ILootByRogueV2.sol";
 
 contract RogueV2 {
     ILootByRogueV2 public loot;

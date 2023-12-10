@@ -14,7 +14,7 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/utils/Base64.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/security/Pausable.sol";
-import "./ILootByRogue.sol";
+import "../interfaces/ILootByRogue.sol";
 
 contract LootByRogue is ERC721, Ownable, AccessControl, Pausable, ILootByRogue {
     using Counters for Counters.Counter;
