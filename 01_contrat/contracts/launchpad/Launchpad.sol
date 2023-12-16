@@ -37,7 +37,7 @@ contract Launchpad is RogueV3, Pausable, Ownable {
         return seedList[player_];
     }
 
-    function getTempEoa(address palyer_) public view returns(address tempEoa){
+    function getTempEoa(address player_) public view returns(address tempEoa){
         return tempEoaList[player_];
     }
 

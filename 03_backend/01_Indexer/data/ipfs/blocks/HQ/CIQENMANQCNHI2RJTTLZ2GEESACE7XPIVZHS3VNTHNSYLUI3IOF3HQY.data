@@ -1,0 +1,55 @@
+
+ÙÑdataSources:
+  - kind: ethereum
+    mapping:
+      abis:
+        - file:
+            /: /ipfs/QmWF47UUcYkeXZCSvVcWmUxKH7KWJ949vS8hRrfr1HucjZ
+          name: LootByRogue
+      apiVersion: 0.0.7
+      entities:
+        - Approval
+        - ApprovalForAll
+        - MintSeed
+        - OwnershipTransferred
+        - Paused
+        - RoleAdminChanged
+        - RoleGranted
+        - RoleRevoked
+        - Transfer
+        - Unpaused
+      eventHandlers:
+        - event: 'Approval(indexed address,indexed address,indexed uint256)'
+          handler: handleApproval
+        - event: 'ApprovalForAll(indexed address,indexed address,bool)'
+          handler: handleApprovalForAll
+        - event: 'MintSeed(address,uint256,uint256)'
+          handler: handleMintSeed
+        - event: 'OwnershipTransferred(indexed address,indexed address)'
+          handler: handleOwnershipTransferred
+        - event: Paused(address)
+          handler: handlePaused
+        - event: 'RoleAdminChanged(indexed bytes32,indexed bytes32,indexed bytes32)'
+          handler: handleRoleAdminChanged
+        - event: 'RoleGranted(indexed bytes32,indexed address,indexed address)'
+          handler: handleRoleGranted
+        - event: 'RoleRevoked(indexed bytes32,indexed address,indexed address)'
+          handler: handleRoleRevoked
+        - event: 'Transfer(indexed address,indexed address,indexed uint256)'
+          handler: handleTransfer
+        - event: Unpaused(address)
+          handler: handleUnpaused
+      file:
+        /: /ipfs/QmY9C4eNSvQ61H6Lb15ENxsYSru3tApm3icmiDn7nZSh4c
+      kind: ethereum/events
+      language: wasm/assemblyscript
+    name: LootByRogue
+    network: oasys_mchverce_testnet
+    source:
+      abi: LootByRogue
+      address: '0x26eb34e5ECdB23335A5Ee5189455Dc73a2aB00b2'
+schema:
+  file:
+    /: /ipfs/Qmd59hobtCWnzs5nUpcqSr7zMP754bDzY99MPJKCR7KES7
+specVersion: 0.0.5
+Ñ

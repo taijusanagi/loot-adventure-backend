@@ -57,11 +57,11 @@
     * Subgraphのデプロイ
         ```bash
         # 変数の設定
-        CONTRACT_NAME=LootByRogue
-        CONTRACT_ADDRESS=0x26eb34e5ECdB23335A5Ee5189455Dc73a2aB00b2
-        CONTRACT_ABI=./data/subgraph/abi/LootByRogue.json
-        SUBGRAPH_NAME=LootByRogueIndex
-        SUBGRAPH_DIR=./data/subgraph/lootByRogue
+        CONTRACT_NAME=ERC6551Registry
+        CONTRACT_ADDRESS=0xdE6A30B7763861E9460B3C4E19B757e65A7a0Ea7
+        CONTRACT_ABI=./data/subgraph/abi/ERC6551Registry.json
+        SUBGRAPH_NAME=Erc6551RegistryIndex
+        SUBGRAPH_DIR=./data/subgraph/erc6551Registry
         ```
 
         ```bash
@@ -79,9 +79,17 @@
         ```bash
         cd $SUBGRAPH_DIR
         ```
-    * X
-    
-3.  Subraphのデプロイ（SubgraphをIndexerに登録する）
+ 
+3. マニュフェストファイルの修正
+   * subgraph.yamlを修正
+    ```
+    # before
+    network: mainnet
+
+    # after
+    network: '<Set the $NETWORK value in the .env>'
+    ``` 
+4. Subraphのデプロイ（SubgraphをIndexerに登録する）
     ```bash
     npm run create-local
     npm run deploy-local

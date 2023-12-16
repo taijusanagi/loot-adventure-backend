@@ -11,6 +11,9 @@ dotenv.config();
 
 const PRIVATE_KEY = process.env.PRIVATE_KEY;
 const API_URL_MCH = process.env.API_URL_MCH;
+const API_URL_ZKKATANA = process.env.API_URL_ZKKATANA;
+const API_URL_MUMBAI = process.env.API_URL_MUMBAI;
+const API_KEY = process.env.API_KEY;
 
 // This is a sample Hardhat task. To learn how to create your own go to
 // https://hardhat.org/guides/create-task.html
@@ -51,13 +54,23 @@ const config: HardhatUserConfig = {
       chainId: 420,
       accounts: PRIVATE_KEY ? [PRIVATE_KEY] : [],
     },
+    astarZkKatana: {
+      url: API_URL_ZKKATANA,
+      chainId: 1261120,
+      accounts: PRIVATE_KEY ? [PRIVATE_KEY] : [],
+    },
+    mumbai: {
+      url: API_URL_MUMBAI,
+      chainId: 80001,
+      accounts: PRIVATE_KEY ? [PRIVATE_KEY] : [],
+    },
   },
   gasReporter: {
     enabled: true,
     currency: 'USD',
   },
   etherscan: {
-    apiKey: process.env.ETHERSCAN_API_KEY,
+    apiKey: API_KEY,
   },
 };
 

@@ -4,7 +4,8 @@ schema:
 dataSources:
   - kind: ethereum
     name: LootByRogue
-    network: mainnet
+    # network: mainnet
+    network: oasys_mchverce_testnet
     source:
       address: "0x26eb34e5ECdB23335A5Ee5189455Dc73a2aB00b2"
       abi: LootByRogue
