@@ -1,0 +1,28 @@
+
+âÅdataSources:
+  - kind: ethereum
+    mapping:
+      abis:
+        - file:
+            /: /ipfs/QmPB9CGs7GFoMPEtEbBiZUVqBgpqJirhRL255rQYZdqS14
+          name: ERC6551Registry
+      apiVersion: 0.0.7
+      entities:
+        - AccountCreated
+      eventHandlers:
+        - event: 'AccountCreated(address,address,uint256,address,uint256,uint256)'
+          handler: handleAccountCreated
+      file:
+        /: /ipfs/QmbUmGFXsrNq4uXvPZDUmRmPGFmJ245e6of8diP21Ufxtu
+      kind: ethereum/events
+      language: wasm/assemblyscript
+    name: ERC6551Registry
+    network: astar_zkatana
+    source:
+      abi: ERC6551Registry
+      address: '0xdE6A30B7763861E9460B3C4E19B757e65A7a0Ea7'
+schema:
+  file:
+    /: /ipfs/Qmbi8Vs8QpbymhU8y14d1ivso9Hf9pgsQhynv3Xb7Gy2bW
+specVersion: 0.0.5
+Å

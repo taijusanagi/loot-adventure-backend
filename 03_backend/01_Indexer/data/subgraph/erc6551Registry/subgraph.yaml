@@ -4,7 +4,8 @@ schema:
 dataSources:
   - kind: ethereum
     name: ERC6551Registry
-    network: mainnet
+    # network: mainnet
+    network: astar_zkatana
     source:
       address: "0xdE6A30B7763861E9460B3C4E19B757e65A7a0Ea7"
       abi: ERC6551Registry
