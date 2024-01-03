@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.17;
+pragma solidity ^0.8.16;
 
 interface ILootByRogue {
     struct AdventureRecord {
@@ -23,7 +23,7 @@ interface ILootByRogue {
         uint256[] relics;
     }
 
-    function safeMint(address to, AdventureRecord calldata record) external;
+    //function safeMint(address to, AdventureRecord calldata record) external;
     
     function getSeed(uint256 tokenId) external view returns (uint256);
 
@@ -64,4 +64,24 @@ interface ILootByRogue {
     function getRelicsLength(uint256 tokenId) external view returns (uint256);
 
     function getRelic(uint256 tokenId, uint256 index) external view returns (uint256);
+
+    function safeMint(address to, uint256 _seed,
+        uint16 _turn,
+        uint16 _maxHp,
+        uint16 _currentHp,
+        uint16 _attack,
+        uint16 _defence,
+        uint16 _recovery,
+        uint16[6] memory  _stats,
+        uint8[4] memory _unique,
+        uint256 _weapon,
+        uint256 _chestArmor,
+        uint256 _headArmor,
+        uint256 _waistArmor,
+        uint256 _footArmor,
+        uint256 _handArmor,
+        uint256 _necklace,
+        uint256 _ring,
+        uint256[] memory _relics
+    ) external;
 }
