@@ -7,4 +7,5 @@ export type { IERC6551Registry } from "./IERC6551Registry";
 export type { ILoot } from "./ILoot";
 export type { ILootByRogue } from "./ILootByRogue";
 export type { ILootByRogueV2 } from "./ILootByRogueV2";
+export type { ISoulCalculator } from "./ISoulCalculator";
 export type { ISoulNft } from "./ISoulNft";

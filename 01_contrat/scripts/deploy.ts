@@ -3,8 +3,14 @@ import { ethers } from 'hardhat';
 async function main() {
   const [deployer] = await ethers.getSigners();
 
+  console.log('Deployer is ... ', deployer.address);
+
   // Test Prameter
-  const LOOT_NFT = '0xDC11f7E700A4c898AE5CAddB1082cFfa76512aDD';
+  // MCH-Verce Testnet
+  // const LOOT_NFT = '0xFBaD63bAbe3C6324e6B49e15C6e87D58A0282295';
+
+  // Astar zKatana
+  const LOOT_NFT = '0x3a0Dc7cF61F71344348713a76C23DbEE5d6AA8b5';
   const TOKEN_ID = 1;
 
   // Deploy Contract
@@ -12,6 +18,11 @@ async function main() {
   const soulMinter = await f0.deploy();
   await soulMinter.deployed();
   console.log('deployed SoulNft to:', soulMinter.address);
+
+  const f90 = await ethers.getContractFactory('SoulLootByRogue', deployer);
+  const soulCalc0 = await f90.deploy();
+  await soulCalc0.deployed();
+  console.log('deployed SoulCalc-lootbyrogue to: ', soulCalc0.address);
 
   const f1 = await ethers.getContractFactory('SoulNft', deployer);
   const soulNft = await f1.deploy(
@@ -44,10 +55,17 @@ async function main() {
   await soulMinter.setArmourNftAddress(armourNft.address);
   console.log('NFTs is set on Minter | ', LOOT_NFT);
 
+  // Set Calc-Contracts on Minter
+  await soulMinter.setCalcContract(LOOT_NFT, soulCalc0.address);
+  console.log('Calc-Contract is set | ', soulCalc0.address);
+  
+  // (Test) Get Params from Calc-Contracts
+  // const result = await soulCalc0.calcSoul(LOOT_NFT, 1, '0x00');
+  // console.log(result);
   // (Test) Mint Soul NFTs
-  const result = soulMinter.mintSoul(LOOT_NFT, TOKEN_ID, '0x00');
-  const uri01 = await soulNft.tokenURI('20000000008');
-  const uri02 = await armourNft.uri('20000000008');
+  const result = await soulMinter.mintSoul(LOOT_NFT, TOKEN_ID, '0x00');
+  const uri01 = await soulNft.tokenURI('20000000001');
+  const uri02 = await armourNft.uri('20000000001');
   console.log('---------------SoulNFT---------------');
   console.log(uri01);
   console.log('---------------ArmourNFT---------------');

@@ -41,7 +41,7 @@ export interface ArmourNftInterface extends utils.Interface {
     "grantRole(bytes32,address)": FunctionFragment;
     "hasRole(bytes32,address)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
-    "mint(address,address,uint256,uint256,string,uint256)": FunctionFragment;
+    "mint(address,address,uint256,uint256,string,uint256,uint256)": FunctionFragment;
     "renounceRole(bytes32,address)": FunctionFragment;
     "revokeRole(bytes32,address)": FunctionFragment;
     "safeBatchTransferFrom(address,address,uint256[],uint256[],bytes)": FunctionFragment;
@@ -139,6 +139,7 @@ export interface ArmourNftInterface extends utils.Interface {
       PromiseOrValue<BigNumberish>,
       PromiseOrValue<BigNumberish>,
       PromiseOrValue<string>,
+      PromiseOrValue<BigNumberish>,
       PromiseOrValue<BigNumberish>
     ]
   ): string;
@@ -468,6 +469,7 @@ export interface ArmourNft extends BaseContract {
       tokenId_: PromiseOrValue<BigNumberish>,
       seed_: PromiseOrValue<BigNumberish>,
       name_: PromiseOrValue<string>,
+      id_: PromiseOrValue<BigNumberish>,
       type_: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
@@ -602,6 +604,7 @@ export interface ArmourNft extends BaseContract {
     tokenId_: PromiseOrValue<BigNumberish>,
     seed_: PromiseOrValue<BigNumberish>,
     name_: PromiseOrValue<string>,
+    id_: PromiseOrValue<BigNumberish>,
     type_: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
@@ -736,6 +739,7 @@ export interface ArmourNft extends BaseContract {
       tokenId_: PromiseOrValue<BigNumberish>,
       seed_: PromiseOrValue<BigNumberish>,
       name_: PromiseOrValue<string>,
+      id_: PromiseOrValue<BigNumberish>,
       type_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
@@ -953,6 +957,7 @@ export interface ArmourNft extends BaseContract {
       tokenId_: PromiseOrValue<BigNumberish>,
       seed_: PromiseOrValue<BigNumberish>,
       name_: PromiseOrValue<string>,
+      id_: PromiseOrValue<BigNumberish>,
       type_: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
@@ -1090,6 +1095,7 @@ export interface ArmourNft extends BaseContract {
       tokenId_: PromiseOrValue<BigNumberish>,
       seed_: PromiseOrValue<BigNumberish>,
       name_: PromiseOrValue<string>,
+      id_: PromiseOrValue<BigNumberish>,
       type_: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;

@@ -9,6 +9,7 @@ import "@openzeppelin/contracts/utils/Strings.sol";
 import "./lib/Bytecode.sol";
 import "./interfaces/ISoulNft.sol";
 import "./interfaces/IArmourNft.sol";
+import "./interfaces/ISoulCalculator.sol";
 
 contract SoulMinter is AccessControl {
     bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
@@ -48,6 +49,10 @@ contract SoulMinter is AccessControl {
         return jobNftAddress;
     }
 
+    function getCalcContract(address nft_) public view returns(address) {
+        return calcContract[nft_];
+    }
+
     //*********************************************
     //Setter
     //*********************************************
@@ -59,20 +64,24 @@ contract SoulMinter is AccessControl {
         _grantRole(DEVELOPER_ROLE, granted_);
     }
 
-    function setSoulNftAddress(address nftAddress_) public onlyRole(DEVELOPER_ROLE) {
-        soulNftAddress = nftAddress_;
+    function setSoulNftAddress(address nft_) public onlyRole(DEVELOPER_ROLE) {
+        soulNftAddress = nft_;
     }
 
-    function setArmourNftAddress(address nftAddress_) public onlyRole(DEVELOPER_ROLE) {
-        armourNftAddress = nftAddress_;
+    function setArmourNftAddress(address nft_) public onlyRole(DEVELOPER_ROLE) {
+        armourNftAddress = nft_;
     }
     
-    function setItemNftAddress(address nftAddress_) public onlyRole(DEVELOPER_ROLE) {
-        itemNftAddress = nftAddress_;
+    function setItemNftAddress(address nft_) public onlyRole(DEVELOPER_ROLE) {
+        itemNftAddress = nft_;
     }
 
-    function setJobNftAddress(address nftAddress_) public onlyRole(DEVELOPER_ROLE) {
-        jobNftAddress = nftAddress_;
+    function setJobNftAddress(address nft_) public onlyRole(DEVELOPER_ROLE) {
+        jobNftAddress = nft_;
+    }
+
+    function setCalcContract(address nft_, address calc_) public onlyRole(DEVELOPER_ROLE) {
+        calcContract[nft_] = calc_;
     }
 
     //*********************************************
@@ -87,32 +96,51 @@ contract SoulMinter is AccessControl {
     function _mintSoulNft(address nft_, uint256 tokenId_, bytes memory seedData_) internal virtual {
         ISoulNft _soulNft = ISoulNft(soulNftAddress);
         // get parameter via calurator contract by NFT(Address & tokenID)
-
+        ISoulCalculator _calc = ISoulCalculator(calcContract[nft_]);
+        (
+            uint256 _seed,
+            uint16 _turn,
+            uint16 _maxHp,
+            uint16 _currentHp,
+            uint16 _attack,
+            uint16 _defence,
+            uint16 _recovery
+        ) = _calc.calcSoul(nft_, tokenId_, seedData_);
         _soulNft.safeMint(
             msg.sender,
             nft_,
             tokenId_,
-            100,
-            100,
-            100,
-            100,
-            100,
-            100,
-            100
+            _seed,
+            _turn,
+            _maxHp,
+            _currentHp,
+            _attack,
+            _defence,
+            _recovery
         );
     }
 
     function _mintArmourNft(address nft_, uint256 tokenId_, bytes memory seedData_) internal virtual {
         IArmourNft _armourNft = IArmourNft(armourNftAddress);
         // get parameter via calurator contract by NFT(Address & tokenID)
-        _armourNft.mint(
-            msg.sender,
-            nft_,
-            tokenId_,
-            100,
-            'sample',
-            1
-        );
+        ISoulCalculator _calc = ISoulCalculator(calcContract[nft_]);
+        (
+            uint256 _seed,
+            uint256[8] memory _armourIds,
+            string[8] memory _armourNames
+        ) = _calc.calcArmour(nft_, tokenId_, seedData_);
+
+        for(uint i; i<8; i++){
+            _armourNft.mint(
+                msg.sender, 
+                nft_, 
+                tokenId_,
+                _seed,
+                _armourNames[i],
+                _armourIds[i],
+                i
+            );
+        }
     }
 
     function nftOwner(address nft_, uint256 tokenId_) public view returns (address) {

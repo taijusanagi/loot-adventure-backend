@@ -7,4 +7,5 @@ export { IERC6551Registry__factory } from "./IERC6551Registry__factory";
 export { ILoot__factory } from "./ILoot__factory";
 export { ILootByRogue__factory } from "./ILootByRogue__factory";
 export { ILootByRogueV2__factory } from "./ILootByRogueV2__factory";
+export { ISoulCalculator__factory } from "./ISoulCalculator__factory";
 export { ISoulNft__factory } from "./ISoulNft__factory";

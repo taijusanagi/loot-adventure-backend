@@ -10,7 +10,8 @@ import "@openzeppelin/contracts/utils/Base64.sol";
 import "../interfaces/IArmourNft.sol";
 
 contract ArmourNft is ERC1155, AccessControl, IArmourNft {
-    uint256 NFT_ID_PREFIC = 10**7;
+    uint256 NFT_ID_PREFIX = 10**7;
+    uint256 ARMOUR_TYPE_PREFIX = 10**4;
 
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     bytes32 public constant DEVELOPER_ROLE = keccak256("DEVELOPER_ROLE");
@@ -107,10 +108,11 @@ contract ArmourNft is ERC1155, AccessControl, IArmourNft {
         uint256 tokenId_, 
         uint256 seed_,
         string memory name_,
+        uint256 id_,
         uint256 type_
     ) public onlyRole(MINTER_ROLE) {
         Armour memory _armour;
-        uint256 _tokenId = nftId[nft_] * NFT_ID_PREFIC + tokenId_;
+        uint256 _tokenId = (nftId[nft_] * NFT_ID_PREFIX) + (type_ * ARMOUR_TYPE_PREFIX) + id_;
         _armour.seed = seed_;
         _armour.name = name_;
         _armour.armourType = type_;
