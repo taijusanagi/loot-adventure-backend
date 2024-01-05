@@ -27,6 +27,42 @@ import type {
   PromiseOrValue,
 } from "../../common";
 
+export declare namespace ISoulNft {
+  export type LootSoulStruct = {
+    seed: PromiseOrValue<BigNumberish>;
+    turn: PromiseOrValue<BigNumberish>;
+    maxHp: PromiseOrValue<BigNumberish>;
+    currentHp: PromiseOrValue<BigNumberish>;
+    attack: PromiseOrValue<BigNumberish>;
+    defence: PromiseOrValue<BigNumberish>;
+    recovery: PromiseOrValue<BigNumberish>;
+    rAddress: PromiseOrValue<string>;
+    rTokenId: PromiseOrValue<BigNumberish>;
+  };
+
+  export type LootSoulStructOutput = [
+    BigNumber,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    string,
+    BigNumber
+  ] & {
+    seed: BigNumber;
+    turn: number;
+    maxHp: number;
+    currentHp: number;
+    attack: number;
+    defence: number;
+    recovery: number;
+    rAddress: string;
+    rTokenId: BigNumber;
+  };
+}
+
 export interface ISoulNftInterface extends utils.Interface {
   functions: {
     "approve(address,uint256)": FunctionFragment;
@@ -35,6 +71,7 @@ export interface ISoulNftInterface extends utils.Interface {
     "getAttack(uint256)": FunctionFragment;
     "getCurrentHp(uint256)": FunctionFragment;
     "getDefence(uint256)": FunctionFragment;
+    "getLootSoul(uint256)": FunctionFragment;
     "getMaxHp(uint256)": FunctionFragment;
     "getRecovery(uint256)": FunctionFragment;
     "getSeed(uint256)": FunctionFragment;
@@ -57,6 +94,7 @@ export interface ISoulNftInterface extends utils.Interface {
       | "getAttack"
       | "getCurrentHp"
       | "getDefence"
+      | "getLootSoul"
       | "getMaxHp"
       | "getRecovery"
       | "getSeed"
@@ -93,6 +131,10 @@ export interface ISoulNftInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "getDefence",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getLootSoul",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
@@ -180,6 +222,10 @@ export interface ISoulNftInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "getDefence", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "getLootSoul",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "getMaxHp", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getRecovery",
@@ -319,6 +365,11 @@ export interface ISoulNft extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[number]>;
 
+    getLootSoul(
+      tokenId_: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[ISoulNft.LootSoulStructOutput]>;
+
     getMaxHp(
       tokenId_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -429,6 +480,11 @@ export interface ISoulNft extends BaseContract {
     overrides?: CallOverrides
   ): Promise<number>;
 
+  getLootSoul(
+    tokenId_: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<ISoulNft.LootSoulStructOutput>;
+
   getMaxHp(
     tokenId_: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
@@ -538,6 +594,11 @@ export interface ISoulNft extends BaseContract {
       tokenId_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<number>;
+
+    getLootSoul(
+      tokenId_: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<ISoulNft.LootSoulStructOutput>;
 
     getMaxHp(
       tokenId_: PromiseOrValue<BigNumberish>,
@@ -685,6 +746,11 @@ export interface ISoulNft extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    getLootSoul(
+      tokenId_: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     getMaxHp(
       tokenId_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -792,6 +858,11 @@ export interface ISoulNft extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     getDefence(
+      tokenId_: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getLootSoul(
       tokenId_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;

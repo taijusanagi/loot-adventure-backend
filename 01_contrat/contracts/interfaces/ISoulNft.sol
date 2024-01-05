@@ -28,6 +28,7 @@ interface ISoulNft is IERC721{
         uint16 defence_,
         uint16 recovery_
     ) external;
+    function getLootSoul(uint256 tokenId_) external view returns (LootSoul memory);
     function getSeed(uint256 tokenId_) external view returns (uint256);
     function getTurn(uint256 tokenId_) external view returns (uint16);
     function getMaxHp(uint256 tokenId_) external view returns (uint16);

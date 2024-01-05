@@ -8,7 +8,7 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/utils/Base64.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/security/Pausable.sol";
-import "../interfaces/ILootByRogueV2.sol";
+import "../interfaces/lootNfts/ILootByRogueV2.sol";
 
 contract SampleLootV2 is ERC721, Ownable, AccessControl, Pausable, ILootByRogueV2 {
     using Counters for Counters.Counter;
@@ -23,7 +23,7 @@ contract SampleLootV2 is ERC721, Ownable, AccessControl, Pausable, ILootByRogueV
     mapping (uint256 => AdventureRecord) public tokens;
     mapping (uint256 => bool) public mintedSeed;
 
-    constructor(address _lootV1) ERC721("LootByRogue", "LOOTR") {
+    constructor() ERC721("LootByRogue", "LOOTR") {
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
         // lootV1 = ERC721(_lootV1);
     }

@@ -25,134 +25,170 @@ import type {
   TypedListener,
   OnEvent,
   PromiseOrValue,
-} from "../../common";
+} from "../../../common";
 
-export declare namespace ISoulNft {
-  export type LootSoulStruct = {
+export declare namespace ILootByRogueV2 {
+  export type InputDataStruct = {
     seed: PromiseOrValue<BigNumberish>;
+    directions: PromiseOrValue<BigNumberish>[];
+    useItems: PromiseOrValue<BigNumberish>[];
+  };
+
+  export type InputDataStructOutput = [BigNumber, number[], number[]] & {
+    seed: BigNumber;
+    directions: number[];
+    useItems: number[];
+  };
+
+  export type AdventureRecordStruct = {
+    inputData: ILootByRogueV2.InputDataStruct;
     turn: PromiseOrValue<BigNumberish>;
     maxHp: PromiseOrValue<BigNumberish>;
     currentHp: PromiseOrValue<BigNumberish>;
     attack: PromiseOrValue<BigNumberish>;
     defence: PromiseOrValue<BigNumberish>;
     recovery: PromiseOrValue<BigNumberish>;
-    rAddress: PromiseOrValue<string>;
-    rTokenId: PromiseOrValue<BigNumberish>;
+    stats: PromiseOrValue<BigNumberish>[];
+    unique: [
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>
+    ];
+    weapon: PromiseOrValue<BigNumberish>;
+    chestArmor: PromiseOrValue<BigNumberish>;
+    headArmor: PromiseOrValue<BigNumberish>;
+    waistArmor: PromiseOrValue<BigNumberish>;
+    footArmor: PromiseOrValue<BigNumberish>;
+    handArmor: PromiseOrValue<BigNumberish>;
+    necklace: PromiseOrValue<BigNumberish>;
+    ring: PromiseOrValue<BigNumberish>;
+    relics: PromiseOrValue<BigNumberish>[];
   };
 
-  export type LootSoulStructOutput = [
+  export type AdventureRecordStructOutput = [
+    ILootByRogueV2.InputDataStructOutput,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number[],
+    [number, number, number, number],
     BigNumber,
-    number,
-    number,
-    number,
-    number,
-    number,
-    number,
-    string,
-    BigNumber
+    BigNumber,
+    BigNumber,
+    BigNumber,
+    BigNumber,
+    BigNumber,
+    BigNumber,
+    BigNumber,
+    BigNumber[]
   ] & {
-    seed: BigNumber;
+    inputData: ILootByRogueV2.InputDataStructOutput;
     turn: number;
     maxHp: number;
     currentHp: number;
     attack: number;
     defence: number;
     recovery: number;
-    rAddress: string;
-    rTokenId: BigNumber;
+    stats: number[];
+    unique: [number, number, number, number];
+    weapon: BigNumber;
+    chestArmor: BigNumber;
+    headArmor: BigNumber;
+    waistArmor: BigNumber;
+    footArmor: BigNumber;
+    handArmor: BigNumber;
+    necklace: BigNumber;
+    ring: BigNumber;
+    relics: BigNumber[];
   };
 }
 
-export interface SoulNftInterface extends utils.Interface {
+export interface ILootByRogueV2Interface extends utils.Interface {
   functions: {
-    "DEFAULT_ADMIN_ROLE()": FunctionFragment;
-    "DEVELOPER_ROLE()": FunctionFragment;
-    "MINTER_ROLE()": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
+    "convert(address,((uint256,uint8[],uint8[]),uint16,uint16,uint16,uint16,uint16,uint16,uint16[6],uint8[4],uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256[]),uint256)": FunctionFragment;
+    "getAdventureRecord(uint256)": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
     "getAttack(uint256)": FunctionFragment;
+    "getChest(uint256)": FunctionFragment;
     "getCurrentHp(uint256)": FunctionFragment;
     "getDefence(uint256)": FunctionFragment;
-    "getLootSoul(uint256)": FunctionFragment;
+    "getDirections(uint256)": FunctionFragment;
+    "getFoot(uint256)": FunctionFragment;
+    "getHand(uint256)": FunctionFragment;
+    "getHead(uint256)": FunctionFragment;
     "getMaxHp(uint256)": FunctionFragment;
+    "getNeck(uint256)": FunctionFragment;
     "getRecovery(uint256)": FunctionFragment;
-    "getRoleAdmin(bytes32)": FunctionFragment;
+    "getRelics(uint256)": FunctionFragment;
+    "getRelicsLength(uint256)": FunctionFragment;
+    "getRing(uint256)": FunctionFragment;
     "getSeed(uint256)": FunctionFragment;
+    "getStats(uint256,uint256)": FunctionFragment;
     "getTurn(uint256)": FunctionFragment;
-    "grantRole(bytes32,address)": FunctionFragment;
-    "hasRole(bytes32,address)": FunctionFragment;
+    "getUnique(uint256,uint256)": FunctionFragment;
+    "getUseItems(uint256)": FunctionFragment;
+    "getWaist(uint256)": FunctionFragment;
+    "getWeapon(uint256)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
-    "name()": FunctionFragment;
+    "isMintedSeed(uint256)": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
-    "renounceRole(bytes32,address)": FunctionFragment;
-    "revokeRole(bytes32,address)": FunctionFragment;
-    "safeMint(address,address,uint256,uint256,uint16,uint16,uint16,uint16,uint16,uint16)": FunctionFragment;
+    "pluck(uint256,string[])": FunctionFragment;
+    "reserveV1MintdSeed(uint256[])": FunctionFragment;
+    "safeMint(address,((uint256,uint8[],uint8[]),uint16,uint16,uint16,uint16,uint16,uint16,uint16[6],uint8[4],uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256[]))": FunctionFragment;
     "safeTransferFrom(address,address,uint256)": FunctionFragment;
     "safeTransferFrom(address,address,uint256,bytes)": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
-    "setBaseMetadataURI(string,string)": FunctionFragment;
-    "setDeveloperRole(address)": FunctionFragment;
-    "setMinterRole(address)": FunctionFragment;
-    "setNftId(address)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
-    "symbol()": FunctionFragment;
-    "tokenURI(uint256)": FunctionFragment;
-    "tokenURIfromRLoot(address,uint256)": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
   };
 
   getFunction(
     nameOrSignatureOrTopic:
-      | "DEFAULT_ADMIN_ROLE"
-      | "DEVELOPER_ROLE"
-      | "MINTER_ROLE"
       | "approve"
       | "balanceOf"
+      | "convert"
+      | "getAdventureRecord"
       | "getApproved"
       | "getAttack"
+      | "getChest"
       | "getCurrentHp"
       | "getDefence"
-      | "getLootSoul"
+      | "getDirections"
+      | "getFoot"
+      | "getHand"
+      | "getHead"
       | "getMaxHp"
+      | "getNeck"
       | "getRecovery"
-      | "getRoleAdmin"
+      | "getRelics"
+      | "getRelicsLength"
+      | "getRing"
       | "getSeed"
+      | "getStats"
       | "getTurn"
-      | "grantRole"
-      | "hasRole"
+      | "getUnique"
+      | "getUseItems"
+      | "getWaist"
+      | "getWeapon"
       | "isApprovedForAll"
-      | "name"
+      | "isMintedSeed"
       | "ownerOf"
-      | "renounceRole"
-      | "revokeRole"
+      | "pluck"
+      | "reserveV1MintdSeed"
       | "safeMint"
       | "safeTransferFrom(address,address,uint256)"
       | "safeTransferFrom(address,address,uint256,bytes)"
       | "setApprovalForAll"
-      | "setBaseMetadataURI"
-      | "setDeveloperRole"
-      | "setMinterRole"
-      | "setNftId"
       | "supportsInterface"
-      | "symbol"
-      | "tokenURI"
-      | "tokenURIfromRLoot"
       | "transferFrom"
   ): FunctionFragment;
 
-  encodeFunctionData(
-    functionFragment: "DEFAULT_ADMIN_ROLE",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "DEVELOPER_ROLE",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "MINTER_ROLE",
-    values?: undefined
-  ): string;
   encodeFunctionData(
     functionFragment: "approve",
     values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
@@ -162,11 +198,27 @@ export interface SoulNftInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
+    functionFragment: "convert",
+    values: [
+      PromiseOrValue<string>,
+      ILootByRogueV2.AdventureRecordStruct,
+      PromiseOrValue<BigNumberish>
+    ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getAdventureRecord",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "getApproved",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "getAttack",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getChest",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
@@ -178,7 +230,19 @@ export interface SoulNftInterface extends utils.Interface {
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
-    functionFragment: "getLootSoul",
+    functionFragment: "getDirections",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getFoot",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getHand",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getHead",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
@@ -186,60 +250,76 @@ export interface SoulNftInterface extends utils.Interface {
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
+    functionFragment: "getNeck",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "getRecovery",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
-    functionFragment: "getRoleAdmin",
-    values: [PromiseOrValue<BytesLike>]
+    functionFragment: "getRelics",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getRelicsLength",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getRing",
+    values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "getSeed",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
+    functionFragment: "getStats",
+    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "getTurn",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
-    functionFragment: "grantRole",
-    values: [PromiseOrValue<BytesLike>, PromiseOrValue<string>]
+    functionFragment: "getUnique",
+    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
-    functionFragment: "hasRole",
-    values: [PromiseOrValue<BytesLike>, PromiseOrValue<string>]
+    functionFragment: "getUseItems",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getWaist",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getWeapon",
+    values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "isApprovedForAll",
     values: [PromiseOrValue<string>, PromiseOrValue<string>]
   ): string;
-  encodeFunctionData(functionFragment: "name", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "isMintedSeed",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
   encodeFunctionData(
     functionFragment: "ownerOf",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
-    functionFragment: "renounceRole",
-    values: [PromiseOrValue<BytesLike>, PromiseOrValue<string>]
+    functionFragment: "pluck",
+    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<string>[]]
   ): string;
   encodeFunctionData(
-    functionFragment: "revokeRole",
-    values: [PromiseOrValue<BytesLike>, PromiseOrValue<string>]
+    functionFragment: "reserveV1MintdSeed",
+    values: [PromiseOrValue<BigNumberish>[]]
   ): string;
   encodeFunctionData(
     functionFragment: "safeMint",
-    values: [
-      PromiseOrValue<string>,
-      PromiseOrValue<string>,
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BigNumberish>
-    ]
+    values: [PromiseOrValue<string>, ILootByRogueV2.AdventureRecordStruct]
   ): string;
   encodeFunctionData(
     functionFragment: "safeTransferFrom(address,address,uint256)",
@@ -263,33 +343,8 @@ export interface SoulNftInterface extends utils.Interface {
     values: [PromiseOrValue<string>, PromiseOrValue<boolean>]
   ): string;
   encodeFunctionData(
-    functionFragment: "setBaseMetadataURI",
-    values: [PromiseOrValue<string>, PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setDeveloperRole",
-    values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setMinterRole",
-    values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setNftId",
-    values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
     functionFragment: "supportsInterface",
     values: [PromiseOrValue<BytesLike>]
-  ): string;
-  encodeFunctionData(functionFragment: "symbol", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "tokenURI",
-    values: [PromiseOrValue<BigNumberish>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "tokenURIfromRLoot",
-    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "transferFrom",
@@ -300,58 +355,67 @@ export interface SoulNftInterface extends utils.Interface {
     ]
   ): string;
 
-  decodeFunctionResult(
-    functionFragment: "DEFAULT_ADMIN_ROLE",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "DEVELOPER_ROLE",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "MINTER_ROLE",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "convert", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "getAdventureRecord",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "getApproved",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "getAttack", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "getChest", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getCurrentHp",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "getDefence", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "getLootSoul",
+    functionFragment: "getDirections",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "getFoot", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "getHand", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "getHead", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getMaxHp", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "getNeck", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getRecovery",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "getRelics", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "getRoleAdmin",
+    functionFragment: "getRelicsLength",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "getRing", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getSeed", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "getStats", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getTurn", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "grantRole", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "hasRole", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "getUnique", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "getUseItems",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "getWaist", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "getWeapon", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "isApprovedForAll",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "renounceRole",
+    functionFragment: "isMintedSeed",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "revokeRole", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "pluck", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "reserveV1MintdSeed",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "safeMint", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "safeTransferFrom(address,address,uint256)",
@@ -366,26 +430,7 @@ export interface SoulNftInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setBaseMetadataURI",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "setDeveloperRole",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "setMinterRole",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "setNftId", data: BytesLike): Result;
-  decodeFunctionResult(
     functionFragment: "supportsInterface",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "symbol", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "tokenURI", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "tokenURIfromRLoot",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -396,17 +441,13 @@ export interface SoulNftInterface extends utils.Interface {
   events: {
     "Approval(address,address,uint256)": EventFragment;
     "ApprovalForAll(address,address,bool)": EventFragment;
-    "RoleAdminChanged(bytes32,bytes32,bytes32)": EventFragment;
-    "RoleGranted(bytes32,address,address)": EventFragment;
-    "RoleRevoked(bytes32,address,address)": EventFragment;
+    "MintSeed(address,uint256,uint256)": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "RoleAdminChanged"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "RoleGranted"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "RoleRevoked"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "MintSeed"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
 }
 
@@ -434,42 +475,17 @@ export type ApprovalForAllEvent = TypedEvent<
 
 export type ApprovalForAllEventFilter = TypedEventFilter<ApprovalForAllEvent>;
 
-export interface RoleAdminChangedEventObject {
-  role: string;
-  previousAdminRole: string;
-  newAdminRole: string;
+export interface MintSeedEventObject {
+  validator: string;
+  tokenId: BigNumber;
+  seed: BigNumber;
 }
-export type RoleAdminChangedEvent = TypedEvent<
-  [string, string, string],
-  RoleAdminChangedEventObject
+export type MintSeedEvent = TypedEvent<
+  [string, BigNumber, BigNumber],
+  MintSeedEventObject
 >;
 
-export type RoleAdminChangedEventFilter =
-  TypedEventFilter<RoleAdminChangedEvent>;
-
-export interface RoleGrantedEventObject {
-  role: string;
-  account: string;
-  sender: string;
-}
-export type RoleGrantedEvent = TypedEvent<
-  [string, string, string],
-  RoleGrantedEventObject
->;
-
-export type RoleGrantedEventFilter = TypedEventFilter<RoleGrantedEvent>;
-
-export interface RoleRevokedEventObject {
-  role: string;
-  account: string;
-  sender: string;
-}
-export type RoleRevokedEvent = TypedEvent<
-  [string, string, string],
-  RoleRevokedEventObject
->;
-
-export type RoleRevokedEventFilter = TypedEventFilter<RoleRevokedEvent>;
+export type MintSeedEventFilter = TypedEventFilter<MintSeedEvent>;
 
 export interface TransferEventObject {
   from: string;
@@ -483,12 +499,12 @@ export type TransferEvent = TypedEvent<
 
 export type TransferEventFilter = TypedEventFilter<TransferEvent>;
 
-export interface SoulNft extends BaseContract {
+export interface ILootByRogueV2 extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: SoulNftInterface;
+  interface: ILootByRogueV2Interface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
@@ -510,12 +526,6 @@ export interface SoulNft extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
-    DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<[string]>;
-
-    DEVELOPER_ROLE(overrides?: CallOverrides): Promise<[string]>;
-
-    MINTER_ROLE(overrides?: CallOverrides): Promise<[string]>;
-
     approve(
       to: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
@@ -525,69 +535,131 @@ export interface SoulNft extends BaseContract {
     balanceOf(
       owner: PromiseOrValue<string>,
       overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
+    ): Promise<[BigNumber] & { balance: BigNumber }>;
+
+    convert(
+      to: PromiseOrValue<string>,
+      record: ILootByRogueV2.AdventureRecordStruct,
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    getAdventureRecord(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[ILootByRogueV2.AdventureRecordStructOutput]>;
 
     getApproved(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<[string]>;
+    ): Promise<[string] & { operator: string }>;
 
     getAttack(
-      tokenId_: PromiseOrValue<BigNumberish>,
+      tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[number]>;
 
+    getChest(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
+
     getCurrentHp(
-      tokenId_: PromiseOrValue<BigNumberish>,
+      tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[number]>;
 
     getDefence(
-      tokenId_: PromiseOrValue<BigNumberish>,
+      tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[number]>;
 
-    getLootSoul(
-      tokenId_: PromiseOrValue<BigNumberish>,
+    getDirections(
+      tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<[ISoulNft.LootSoulStructOutput]>;
+    ): Promise<[number[]]>;
+
+    getFoot(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
+
+    getHand(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
+
+    getHead(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
 
     getMaxHp(
-      tokenId_: PromiseOrValue<BigNumberish>,
+      tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[number]>;
+
+    getNeck(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
 
     getRecovery(
-      tokenId_: PromiseOrValue<BigNumberish>,
+      tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[number]>;
 
-    getRoleAdmin(
-      role: PromiseOrValue<BytesLike>,
+    getRelics(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber[]]>;
+
+    getRelicsLength(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
+    getRing(
+      tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[string]>;
 
     getSeed(
-      tokenId_: PromiseOrValue<BigNumberish>,
+      tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
-    getTurn(
-      tokenId_: PromiseOrValue<BigNumberish>,
+    getStats(
+      tokenId: PromiseOrValue<BigNumberish>,
+      index: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[number]>;
 
-    grantRole(
-      role: PromiseOrValue<BytesLike>,
-      account: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    hasRole(
-      role: PromiseOrValue<BytesLike>,
-      account: PromiseOrValue<string>,
+    getTurn(
+      tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<[boolean]>;
+    ): Promise<[number]>;
+
+    getUnique(
+      tokenId: PromiseOrValue<BigNumberish>,
+      index: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[number]>;
+
+    getUseItems(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[number[]]>;
+
+    getWaist(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
+
+    getWeapon(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
 
     isApprovedForAll(
       owner: PromiseOrValue<string>,
@@ -595,36 +667,30 @@ export interface SoulNft extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
-    name(overrides?: CallOverrides): Promise<[string]>;
+    isMintedSeed(
+      seed: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
 
     ownerOf(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
+    ): Promise<[string] & { owner: string }>;
+
+    pluck(
+      rand: PromiseOrValue<BigNumberish>,
+      sourceArray: PromiseOrValue<string>[],
+      overrides?: CallOverrides
     ): Promise<[string]>;
 
-    renounceRole(
-      role: PromiseOrValue<BytesLike>,
-      account: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    revokeRole(
-      role: PromiseOrValue<BytesLike>,
-      account: PromiseOrValue<string>,
+    reserveV1MintdSeed(
+      seeds: PromiseOrValue<BigNumberish>[],
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
     safeMint(
-      to_: PromiseOrValue<string>,
-      nft_: PromiseOrValue<string>,
-      tokenId_: PromiseOrValue<BigNumberish>,
-      seed_: PromiseOrValue<BigNumberish>,
-      turn_: PromiseOrValue<BigNumberish>,
-      maxHp_: PromiseOrValue<BigNumberish>,
-      currentHp_: PromiseOrValue<BigNumberish>,
-      attack_: PromiseOrValue<BigNumberish>,
-      defence_: PromiseOrValue<BigNumberish>,
-      recovery_: PromiseOrValue<BigNumberish>,
+      to: PromiseOrValue<string>,
+      record: ILootByRogueV2.AdventureRecordStruct,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -649,44 +715,10 @@ export interface SoulNft extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    setBaseMetadataURI(
-      uriPrefix_: PromiseOrValue<string>,
-      uriSuffix_: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    setDeveloperRole(
-      granted_: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    setMinterRole(
-      granted_: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    setNftId(
-      nft_: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
     supportsInterface(
       interfaceId: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
-
-    symbol(overrides?: CallOverrides): Promise<[string]>;
-
-    tokenURI(
-      tokenId_: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
-
-    tokenURIfromRLoot(
-      nft_: PromiseOrValue<string>,
-      tokenId_: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
 
     transferFrom(
       from: PromiseOrValue<string>,
@@ -695,12 +727,6 @@ export interface SoulNft extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
   };
-
-  DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
-
-  DEVELOPER_ROLE(overrides?: CallOverrides): Promise<string>;
-
-  MINTER_ROLE(overrides?: CallOverrides): Promise<string>;
 
   approve(
     to: PromiseOrValue<string>,
@@ -713,67 +739,129 @@ export interface SoulNft extends BaseContract {
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
+  convert(
+    to: PromiseOrValue<string>,
+    record: ILootByRogueV2.AdventureRecordStruct,
+    tokenId: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  getAdventureRecord(
+    tokenId: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<ILootByRogueV2.AdventureRecordStructOutput>;
+
   getApproved(
     tokenId: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<string>;
 
   getAttack(
-    tokenId_: PromiseOrValue<BigNumberish>,
+    tokenId: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<number>;
 
+  getChest(
+    tokenId: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<string>;
+
   getCurrentHp(
-    tokenId_: PromiseOrValue<BigNumberish>,
+    tokenId: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<number>;
 
   getDefence(
-    tokenId_: PromiseOrValue<BigNumberish>,
+    tokenId: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<number>;
 
-  getLootSoul(
-    tokenId_: PromiseOrValue<BigNumberish>,
+  getDirections(
+    tokenId: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
-  ): Promise<ISoulNft.LootSoulStructOutput>;
+  ): Promise<number[]>;
+
+  getFoot(
+    tokenId: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<string>;
+
+  getHand(
+    tokenId: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<string>;
+
+  getHead(
+    tokenId: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<string>;
 
   getMaxHp(
-    tokenId_: PromiseOrValue<BigNumberish>,
+    tokenId: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<number>;
+
+  getNeck(
+    tokenId: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<string>;
 
   getRecovery(
-    tokenId_: PromiseOrValue<BigNumberish>,
+    tokenId: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<number>;
 
-  getRoleAdmin(
-    role: PromiseOrValue<BytesLike>,
+  getRelics(
+    tokenId: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<BigNumber[]>;
+
+  getRelicsLength(
+    tokenId: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
+  getRing(
+    tokenId: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<string>;
 
   getSeed(
-    tokenId_: PromiseOrValue<BigNumberish>,
+    tokenId: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
-  getTurn(
-    tokenId_: PromiseOrValue<BigNumberish>,
+  getStats(
+    tokenId: PromiseOrValue<BigNumberish>,
+    index: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<number>;
 
-  grantRole(
-    role: PromiseOrValue<BytesLike>,
-    account: PromiseOrValue<string>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  hasRole(
-    role: PromiseOrValue<BytesLike>,
-    account: PromiseOrValue<string>,
+  getTurn(
+    tokenId: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
-  ): Promise<boolean>;
+  ): Promise<number>;
+
+  getUnique(
+    tokenId: PromiseOrValue<BigNumberish>,
+    index: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<number>;
+
+  getUseItems(
+    tokenId: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<number[]>;
+
+  getWaist(
+    tokenId: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<string>;
+
+  getWeapon(
+    tokenId: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<string>;
 
   isApprovedForAll(
     owner: PromiseOrValue<string>,
@@ -781,36 +869,30 @@ export interface SoulNft extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
-  name(overrides?: CallOverrides): Promise<string>;
+  isMintedSeed(
+    seed: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
 
   ownerOf(
     tokenId: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<string>;
 
-  renounceRole(
-    role: PromiseOrValue<BytesLike>,
-    account: PromiseOrValue<string>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
+  pluck(
+    rand: PromiseOrValue<BigNumberish>,
+    sourceArray: PromiseOrValue<string>[],
+    overrides?: CallOverrides
+  ): Promise<string>;
 
-  revokeRole(
-    role: PromiseOrValue<BytesLike>,
-    account: PromiseOrValue<string>,
+  reserveV1MintdSeed(
+    seeds: PromiseOrValue<BigNumberish>[],
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   safeMint(
-    to_: PromiseOrValue<string>,
-    nft_: PromiseOrValue<string>,
-    tokenId_: PromiseOrValue<BigNumberish>,
-    seed_: PromiseOrValue<BigNumberish>,
-    turn_: PromiseOrValue<BigNumberish>,
-    maxHp_: PromiseOrValue<BigNumberish>,
-    currentHp_: PromiseOrValue<BigNumberish>,
-    attack_: PromiseOrValue<BigNumberish>,
-    defence_: PromiseOrValue<BigNumberish>,
-    recovery_: PromiseOrValue<BigNumberish>,
+    to: PromiseOrValue<string>,
+    record: ILootByRogueV2.AdventureRecordStruct,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -835,44 +917,10 @@ export interface SoulNft extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  setBaseMetadataURI(
-    uriPrefix_: PromiseOrValue<string>,
-    uriSuffix_: PromiseOrValue<string>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  setDeveloperRole(
-    granted_: PromiseOrValue<string>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  setMinterRole(
-    granted_: PromiseOrValue<string>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  setNftId(
-    nft_: PromiseOrValue<string>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
   supportsInterface(
     interfaceId: PromiseOrValue<BytesLike>,
     overrides?: CallOverrides
   ): Promise<boolean>;
-
-  symbol(overrides?: CallOverrides): Promise<string>;
-
-  tokenURI(
-    tokenId_: PromiseOrValue<BigNumberish>,
-    overrides?: CallOverrides
-  ): Promise<string>;
-
-  tokenURIfromRLoot(
-    nft_: PromiseOrValue<string>,
-    tokenId_: PromiseOrValue<BigNumberish>,
-    overrides?: CallOverrides
-  ): Promise<string>;
 
   transferFrom(
     from: PromiseOrValue<string>,
@@ -882,12 +930,6 @@ export interface SoulNft extends BaseContract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
-    DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
-
-    DEVELOPER_ROLE(overrides?: CallOverrides): Promise<string>;
-
-    MINTER_ROLE(overrides?: CallOverrides): Promise<string>;
-
     approve(
       to: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
@@ -899,67 +941,129 @@ export interface SoulNft extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    convert(
+      to: PromiseOrValue<string>,
+      record: ILootByRogueV2.AdventureRecordStruct,
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    getAdventureRecord(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<ILootByRogueV2.AdventureRecordStructOutput>;
+
     getApproved(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<string>;
 
     getAttack(
-      tokenId_: PromiseOrValue<BigNumberish>,
+      tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<number>;
 
+    getChest(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<string>;
+
     getCurrentHp(
-      tokenId_: PromiseOrValue<BigNumberish>,
+      tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<number>;
 
     getDefence(
-      tokenId_: PromiseOrValue<BigNumberish>,
+      tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<number>;
 
-    getLootSoul(
-      tokenId_: PromiseOrValue<BigNumberish>,
+    getDirections(
+      tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<ISoulNft.LootSoulStructOutput>;
+    ): Promise<number[]>;
+
+    getFoot(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<string>;
+
+    getHand(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<string>;
+
+    getHead(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<string>;
 
     getMaxHp(
-      tokenId_: PromiseOrValue<BigNumberish>,
+      tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<number>;
+
+    getNeck(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<string>;
 
     getRecovery(
-      tokenId_: PromiseOrValue<BigNumberish>,
+      tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<number>;
 
-    getRoleAdmin(
-      role: PromiseOrValue<BytesLike>,
+    getRelics(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber[]>;
+
+    getRelicsLength(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getRing(
+      tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<string>;
 
     getSeed(
-      tokenId_: PromiseOrValue<BigNumberish>,
+      tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    getTurn(
-      tokenId_: PromiseOrValue<BigNumberish>,
+    getStats(
+      tokenId: PromiseOrValue<BigNumberish>,
+      index: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<number>;
 
-    grantRole(
-      role: PromiseOrValue<BytesLike>,
-      account: PromiseOrValue<string>,
+    getTurn(
+      tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<void>;
+    ): Promise<number>;
 
-    hasRole(
-      role: PromiseOrValue<BytesLike>,
-      account: PromiseOrValue<string>,
+    getUnique(
+      tokenId: PromiseOrValue<BigNumberish>,
+      index: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<boolean>;
+    ): Promise<number>;
+
+    getUseItems(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<number[]>;
+
+    getWaist(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<string>;
+
+    getWeapon(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<string>;
 
     isApprovedForAll(
       owner: PromiseOrValue<string>,
@@ -967,36 +1071,30 @@ export interface SoulNft extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
-    name(overrides?: CallOverrides): Promise<string>;
+    isMintedSeed(
+      seed: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
 
     ownerOf(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<string>;
 
-    renounceRole(
-      role: PromiseOrValue<BytesLike>,
-      account: PromiseOrValue<string>,
+    pluck(
+      rand: PromiseOrValue<BigNumberish>,
+      sourceArray: PromiseOrValue<string>[],
       overrides?: CallOverrides
-    ): Promise<void>;
+    ): Promise<string>;
 
-    revokeRole(
-      role: PromiseOrValue<BytesLike>,
-      account: PromiseOrValue<string>,
+    reserveV1MintdSeed(
+      seeds: PromiseOrValue<BigNumberish>[],
       overrides?: CallOverrides
     ): Promise<void>;
 
     safeMint(
-      to_: PromiseOrValue<string>,
-      nft_: PromiseOrValue<string>,
-      tokenId_: PromiseOrValue<BigNumberish>,
-      seed_: PromiseOrValue<BigNumberish>,
-      turn_: PromiseOrValue<BigNumberish>,
-      maxHp_: PromiseOrValue<BigNumberish>,
-      currentHp_: PromiseOrValue<BigNumberish>,
-      attack_: PromiseOrValue<BigNumberish>,
-      defence_: PromiseOrValue<BigNumberish>,
-      recovery_: PromiseOrValue<BigNumberish>,
+      to: PromiseOrValue<string>,
+      record: ILootByRogueV2.AdventureRecordStruct,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1021,44 +1119,10 @@ export interface SoulNft extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setBaseMetadataURI(
-      uriPrefix_: PromiseOrValue<string>,
-      uriSuffix_: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    setDeveloperRole(
-      granted_: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    setMinterRole(
-      granted_: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    setNftId(
-      nft_: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
     supportsInterface(
       interfaceId: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<boolean>;
-
-    symbol(overrides?: CallOverrides): Promise<string>;
-
-    tokenURI(
-      tokenId_: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<string>;
-
-    tokenURIfromRLoot(
-      nft_: PromiseOrValue<string>,
-      tokenId_: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<string>;
 
     transferFrom(
       from: PromiseOrValue<string>,
@@ -1091,38 +1155,16 @@ export interface SoulNft extends BaseContract {
       approved?: null
     ): ApprovalForAllEventFilter;
 
-    "RoleAdminChanged(bytes32,bytes32,bytes32)"(
-      role?: PromiseOrValue<BytesLike> | null,
-      previousAdminRole?: PromiseOrValue<BytesLike> | null,
-      newAdminRole?: PromiseOrValue<BytesLike> | null
-    ): RoleAdminChangedEventFilter;
-    RoleAdminChanged(
-      role?: PromiseOrValue<BytesLike> | null,
-      previousAdminRole?: PromiseOrValue<BytesLike> | null,
-      newAdminRole?: PromiseOrValue<BytesLike> | null
-    ): RoleAdminChangedEventFilter;
-
-    "RoleGranted(bytes32,address,address)"(
-      role?: PromiseOrValue<BytesLike> | null,
-      account?: PromiseOrValue<string> | null,
-      sender?: PromiseOrValue<string> | null
-    ): RoleGrantedEventFilter;
-    RoleGranted(
-      role?: PromiseOrValue<BytesLike> | null,
-      account?: PromiseOrValue<string> | null,
-      sender?: PromiseOrValue<string> | null
-    ): RoleGrantedEventFilter;
-
-    "RoleRevoked(bytes32,address,address)"(
-      role?: PromiseOrValue<BytesLike> | null,
-      account?: PromiseOrValue<string> | null,
-      sender?: PromiseOrValue<string> | null
-    ): RoleRevokedEventFilter;
-    RoleRevoked(
-      role?: PromiseOrValue<BytesLike> | null,
-      account?: PromiseOrValue<string> | null,
-      sender?: PromiseOrValue<string> | null
-    ): RoleRevokedEventFilter;
+    "MintSeed(address,uint256,uint256)"(
+      validator?: null,
+      tokenId?: null,
+      seed?: null
+    ): MintSeedEventFilter;
+    MintSeed(
+      validator?: null,
+      tokenId?: null,
+      seed?: null
+    ): MintSeedEventFilter;
 
     "Transfer(address,address,uint256)"(
       from?: PromiseOrValue<string> | null,
@@ -1137,12 +1179,6 @@ export interface SoulNft extends BaseContract {
   };
 
   estimateGas: {
-    DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
-
-    DEVELOPER_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
-
-    MINTER_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
-
     approve(
       to: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
@@ -1154,65 +1190,127 @@ export interface SoulNft extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    convert(
+      to: PromiseOrValue<string>,
+      record: ILootByRogueV2.AdventureRecordStruct,
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    getAdventureRecord(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     getApproved(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     getAttack(
-      tokenId_: PromiseOrValue<BigNumberish>,
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getChest(
+      tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     getCurrentHp(
-      tokenId_: PromiseOrValue<BigNumberish>,
+      tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     getDefence(
-      tokenId_: PromiseOrValue<BigNumberish>,
+      tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    getLootSoul(
-      tokenId_: PromiseOrValue<BigNumberish>,
+    getDirections(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getFoot(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getHand(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getHead(
+      tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     getMaxHp(
-      tokenId_: PromiseOrValue<BigNumberish>,
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getNeck(
+      tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     getRecovery(
-      tokenId_: PromiseOrValue<BigNumberish>,
+      tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    getRoleAdmin(
-      role: PromiseOrValue<BytesLike>,
+    getRelics(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getRelicsLength(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getRing(
+      tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     getSeed(
-      tokenId_: PromiseOrValue<BigNumberish>,
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getStats(
+      tokenId: PromiseOrValue<BigNumberish>,
+      index: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     getTurn(
-      tokenId_: PromiseOrValue<BigNumberish>,
+      tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    grantRole(
-      role: PromiseOrValue<BytesLike>,
-      account: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    getUnique(
+      tokenId: PromiseOrValue<BigNumberish>,
+      index: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    hasRole(
-      role: PromiseOrValue<BytesLike>,
-      account: PromiseOrValue<string>,
+    getUseItems(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getWaist(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getWeapon(
+      tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -1222,36 +1320,30 @@ export interface SoulNft extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    name(overrides?: CallOverrides): Promise<BigNumber>;
+    isMintedSeed(
+      seed: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     ownerOf(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    renounceRole(
-      role: PromiseOrValue<BytesLike>,
-      account: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    pluck(
+      rand: PromiseOrValue<BigNumberish>,
+      sourceArray: PromiseOrValue<string>[],
+      overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    revokeRole(
-      role: PromiseOrValue<BytesLike>,
-      account: PromiseOrValue<string>,
+    reserveV1MintdSeed(
+      seeds: PromiseOrValue<BigNumberish>[],
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     safeMint(
-      to_: PromiseOrValue<string>,
-      nft_: PromiseOrValue<string>,
-      tokenId_: PromiseOrValue<BigNumberish>,
-      seed_: PromiseOrValue<BigNumberish>,
-      turn_: PromiseOrValue<BigNumberish>,
-      maxHp_: PromiseOrValue<BigNumberish>,
-      currentHp_: PromiseOrValue<BigNumberish>,
-      attack_: PromiseOrValue<BigNumberish>,
-      defence_: PromiseOrValue<BigNumberish>,
-      recovery_: PromiseOrValue<BigNumberish>,
+      to: PromiseOrValue<string>,
+      record: ILootByRogueV2.AdventureRecordStruct,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -1276,42 +1368,8 @@ export interface SoulNft extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    setBaseMetadataURI(
-      uriPrefix_: PromiseOrValue<string>,
-      uriSuffix_: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    setDeveloperRole(
-      granted_: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    setMinterRole(
-      granted_: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    setNftId(
-      nft_: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
     supportsInterface(
       interfaceId: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    symbol(overrides?: CallOverrides): Promise<BigNumber>;
-
-    tokenURI(
-      tokenId_: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    tokenURIfromRLoot(
-      nft_: PromiseOrValue<string>,
-      tokenId_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -1324,14 +1382,6 @@ export interface SoulNft extends BaseContract {
   };
 
   populateTransaction: {
-    DEFAULT_ADMIN_ROLE(
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    DEVELOPER_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    MINTER_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     approve(
       to: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
@@ -1343,65 +1393,127 @@ export interface SoulNft extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    convert(
+      to: PromiseOrValue<string>,
+      record: ILootByRogueV2.AdventureRecordStruct,
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    getAdventureRecord(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     getApproved(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     getAttack(
-      tokenId_: PromiseOrValue<BigNumberish>,
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getChest(
+      tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     getCurrentHp(
-      tokenId_: PromiseOrValue<BigNumberish>,
+      tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     getDefence(
-      tokenId_: PromiseOrValue<BigNumberish>,
+      tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    getLootSoul(
-      tokenId_: PromiseOrValue<BigNumberish>,
+    getDirections(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getFoot(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getHand(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getHead(
+      tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     getMaxHp(
-      tokenId_: PromiseOrValue<BigNumberish>,
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getNeck(
+      tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     getRecovery(
-      tokenId_: PromiseOrValue<BigNumberish>,
+      tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    getRoleAdmin(
-      role: PromiseOrValue<BytesLike>,
+    getRelics(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getRelicsLength(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getRing(
+      tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     getSeed(
-      tokenId_: PromiseOrValue<BigNumberish>,
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getStats(
+      tokenId: PromiseOrValue<BigNumberish>,
+      index: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     getTurn(
-      tokenId_: PromiseOrValue<BigNumberish>,
+      tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    grantRole(
-      role: PromiseOrValue<BytesLike>,
-      account: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    getUnique(
+      tokenId: PromiseOrValue<BigNumberish>,
+      index: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    hasRole(
-      role: PromiseOrValue<BytesLike>,
-      account: PromiseOrValue<string>,
+    getUseItems(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getWaist(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getWeapon(
+      tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -1411,36 +1523,30 @@ export interface SoulNft extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    name(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    isMintedSeed(
+      seed: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
 
     ownerOf(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    renounceRole(
-      role: PromiseOrValue<BytesLike>,
-      account: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    pluck(
+      rand: PromiseOrValue<BigNumberish>,
+      sourceArray: PromiseOrValue<string>[],
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    revokeRole(
-      role: PromiseOrValue<BytesLike>,
-      account: PromiseOrValue<string>,
+    reserveV1MintdSeed(
+      seeds: PromiseOrValue<BigNumberish>[],
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     safeMint(
-      to_: PromiseOrValue<string>,
-      nft_: PromiseOrValue<string>,
-      tokenId_: PromiseOrValue<BigNumberish>,
-      seed_: PromiseOrValue<BigNumberish>,
-      turn_: PromiseOrValue<BigNumberish>,
-      maxHp_: PromiseOrValue<BigNumberish>,
-      currentHp_: PromiseOrValue<BigNumberish>,
-      attack_: PromiseOrValue<BigNumberish>,
-      defence_: PromiseOrValue<BigNumberish>,
-      recovery_: PromiseOrValue<BigNumberish>,
+      to: PromiseOrValue<string>,
+      record: ILootByRogueV2.AdventureRecordStruct,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1465,42 +1571,8 @@ export interface SoulNft extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    setBaseMetadataURI(
-      uriPrefix_: PromiseOrValue<string>,
-      uriSuffix_: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    setDeveloperRole(
-      granted_: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    setMinterRole(
-      granted_: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    setNftId(
-      nft_: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
     supportsInterface(
       interfaceId: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    symbol(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    tokenURI(
-      tokenId_: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    tokenURIfromRLoot(
-      nft_: PromiseOrValue<string>,
-      tokenId_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

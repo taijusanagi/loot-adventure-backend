@@ -4,11 +4,13 @@ pragma solidity ^0.8.13;
 import "@openzeppelin/contracts/utils/introspection/IERC165.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/interfaces/IERC1271.sol";
+import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
+import "@openzeppelin/contracts/token/ERC1155/IERC1155Receiver.sol";
 import "@openzeppelin/contracts/utils/cryptography/SignatureChecker.sol";
 import "../lib/Bytecode.sol";
 import "../interfaces/IERC6551Account.sol";
 
-contract ERC6551Account is IERC165, IERC1271, IERC6551Account {
+contract ERC6551Account is IERC165, IERC1271, IERC6551Account, IERC721Receiver, IERC1155Receiver {
     uint256 private _nonce;
 
     receive() external payable {}
@@ -77,5 +79,34 @@ contract ERC6551Account is IERC165, IERC1271, IERC6551Account {
         }
 
         return "";
+    }
+
+    function onERC721Received(
+        address operator,
+        address from,
+        uint256 tokenId,
+        bytes calldata data
+    ) public returns (bytes4){
+        return this.onERC721Received.selector;
+    }
+
+    function onERC1155Received(
+        address operator,
+        address from,
+        uint256 id,
+        uint256 value,
+        bytes calldata data
+    ) public returns (bytes4){
+        return this.onERC1155Received.selector;
+    }
+
+    function onERC1155BatchReceived(
+        address operator,
+        address from,
+        uint256[] calldata ids,
+        uint256[] calldata values,
+        bytes calldata data
+    ) public returns (bytes4){
+        return this.onERC1155BatchReceived.selector;
     }
 }

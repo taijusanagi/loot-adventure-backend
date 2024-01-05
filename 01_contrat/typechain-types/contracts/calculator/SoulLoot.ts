@@ -27,25 +27,20 @@ import type {
   PromiseOrValue,
 } from "../../common";
 
-export interface ERC6551RegistryInterface extends utils.Interface {
+export interface SoulLootInterface extends utils.Interface {
   functions: {
     "ADMIN_ROLE()": FunctionFragment;
     "DEFAULT_ADMIN_ROLE()": FunctionFragment;
     "DEVELOPER_ROLE()": FunctionFragment;
-    "account(address,uint256,address,uint256,uint256)": FunctionFragment;
-    "createAccount(address,uint256,address,uint256,uint256,bytes)": FunctionFragment;
-    "createSoul(uint256,address,uint256,uint256,bytes,bytes)": FunctionFragment;
-    "getImplementation()": FunctionFragment;
+    "calcArmour(address,uint256,bytes)": FunctionFragment;
+    "calcSoul(address,uint256,bytes)": FunctionFragment;
     "getRoleAdmin(bytes32)": FunctionFragment;
-    "getSoulMinter()": FunctionFragment;
     "grantRole(bytes32,address)": FunctionFragment;
     "hasRole(bytes32,address)": FunctionFragment;
     "renounceRole(bytes32,address)": FunctionFragment;
     "revokeRole(bytes32,address)": FunctionFragment;
     "setAdminRole(address)": FunctionFragment;
     "setDeveloperRole(address)": FunctionFragment;
-    "setImplementation(address)": FunctionFragment;
-    "setSoulMinter(address)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
   };
 
@@ -54,20 +49,15 @@ export interface ERC6551RegistryInterface extends utils.Interface {
       | "ADMIN_ROLE"
       | "DEFAULT_ADMIN_ROLE"
       | "DEVELOPER_ROLE"
-      | "account"
-      | "createAccount"
-      | "createSoul"
-      | "getImplementation"
+      | "calcArmour"
+      | "calcSoul"
       | "getRoleAdmin"
-      | "getSoulMinter"
       | "grantRole"
       | "hasRole"
       | "renounceRole"
       | "revokeRole"
       | "setAdminRole"
       | "setDeveloperRole"
-      | "setImplementation"
-      | "setSoulMinter"
       | "supportsInterface"
   ): FunctionFragment;
 
@@ -84,48 +74,24 @@ export interface ERC6551RegistryInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "account",
+    functionFragment: "calcArmour",
     values: [
       PromiseOrValue<string>,
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<string>,
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BigNumberish>
-    ]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "createAccount",
-    values: [
-      PromiseOrValue<string>,
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<string>,
-      PromiseOrValue<BigNumberish>,
       PromiseOrValue<BigNumberish>,
       PromiseOrValue<BytesLike>
     ]
   ): string;
   encodeFunctionData(
-    functionFragment: "createSoul",
+    functionFragment: "calcSoul",
     values: [
-      PromiseOrValue<BigNumberish>,
       PromiseOrValue<string>,
       PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BytesLike>,
       PromiseOrValue<BytesLike>
     ]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getImplementation",
-    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "getRoleAdmin",
     values: [PromiseOrValue<BytesLike>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getSoulMinter",
-    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "grantRole",
@@ -152,14 +118,6 @@ export interface ERC6551RegistryInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
-    functionFragment: "setImplementation",
-    values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setSoulMinter",
-    values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
     functionFragment: "supportsInterface",
     values: [PromiseOrValue<BytesLike>]
   ): string;
@@ -173,22 +131,10 @@ export interface ERC6551RegistryInterface extends utils.Interface {
     functionFragment: "DEVELOPER_ROLE",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "account", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "createAccount",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "createSoul", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "getImplementation",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "calcArmour", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "calcSoul", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getRoleAdmin",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getSoulMinter",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "grantRole", data: BytesLike): Result;
@@ -207,45 +153,20 @@ export interface ERC6551RegistryInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setImplementation",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "setSoulMinter",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
     functionFragment: "supportsInterface",
     data: BytesLike
   ): Result;
 
   events: {
-    "AccountCreated(address,address,uint256,address,uint256,uint256)": EventFragment;
     "RoleAdminChanged(bytes32,bytes32,bytes32)": EventFragment;
     "RoleGranted(bytes32,address,address)": EventFragment;
     "RoleRevoked(bytes32,address,address)": EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: "AccountCreated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "RoleAdminChanged"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "RoleGranted"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "RoleRevoked"): EventFragment;
 }
-
-export interface AccountCreatedEventObject {
-  account: string;
-  implementation: string;
-  chainId: BigNumber;
-  tokenContract: string;
-  tokenId: BigNumber;
-  salt: BigNumber;
-}
-export type AccountCreatedEvent = TypedEvent<
-  [string, string, BigNumber, string, BigNumber, BigNumber],
-  AccountCreatedEventObject
->;
-
-export type AccountCreatedEventFilter = TypedEventFilter<AccountCreatedEvent>;
 
 export interface RoleAdminChangedEventObject {
   role: string;
@@ -284,12 +205,12 @@ export type RoleRevokedEvent = TypedEvent<
 
 export type RoleRevokedEventFilter = TypedEventFilter<RoleRevokedEvent>;
 
-export interface ERC6551Registry extends BaseContract {
+export interface SoulLoot extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: ERC6551RegistryInterface;
+  interface: SoulLootInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
@@ -317,43 +238,30 @@ export interface ERC6551Registry extends BaseContract {
 
     DEVELOPER_ROLE(overrides?: CallOverrides): Promise<[string]>;
 
-    account(
-      implementation: PromiseOrValue<string>,
-      chainId: PromiseOrValue<BigNumberish>,
-      tokenContract: PromiseOrValue<string>,
-      tokenId: PromiseOrValue<BigNumberish>,
-      salt: PromiseOrValue<BigNumberish>,
+    calcArmour(
+      nft_: PromiseOrValue<string>,
+      tokenId_: PromiseOrValue<BigNumberish>,
+      data_: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
-    ): Promise<[string]>;
+    ): Promise<
+      [BigNumber, BigNumber[], string[]] & {
+        _seed: BigNumber;
+        _armourIds: BigNumber[];
+        _armourNames: string[];
+      }
+    >;
 
-    createAccount(
-      implementation: PromiseOrValue<string>,
-      chainId: PromiseOrValue<BigNumberish>,
-      tokenContract: PromiseOrValue<string>,
-      tokenId: PromiseOrValue<BigNumberish>,
-      salt: PromiseOrValue<BigNumberish>,
-      initData: PromiseOrValue<BytesLike>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    createSoul(
-      chainId: PromiseOrValue<BigNumberish>,
-      tokenContract: PromiseOrValue<string>,
-      tokenId: PromiseOrValue<BigNumberish>,
-      salt: PromiseOrValue<BigNumberish>,
-      initData: PromiseOrValue<BytesLike>,
-      seedData: PromiseOrValue<BytesLike>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    getImplementation(overrides?: CallOverrides): Promise<[string]>;
+    calcSoul(
+      nft_: PromiseOrValue<string>,
+      tokenId_: PromiseOrValue<BigNumberish>,
+      data_: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber, number, number, number, number, number, number]>;
 
     getRoleAdmin(
       role: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<[string]>;
-
-    getSoulMinter(overrides?: CallOverrides): Promise<[string]>;
 
     grantRole(
       role: PromiseOrValue<BytesLike>,
@@ -389,16 +297,6 @@ export interface ERC6551Registry extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    setImplementation(
-      contract_: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    setSoulMinter(
-      contract_: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
     supportsInterface(
       interfaceId: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
@@ -411,43 +309,30 @@ export interface ERC6551Registry extends BaseContract {
 
   DEVELOPER_ROLE(overrides?: CallOverrides): Promise<string>;
 
-  account(
-    implementation: PromiseOrValue<string>,
-    chainId: PromiseOrValue<BigNumberish>,
-    tokenContract: PromiseOrValue<string>,
-    tokenId: PromiseOrValue<BigNumberish>,
-    salt: PromiseOrValue<BigNumberish>,
+  calcArmour(
+    nft_: PromiseOrValue<string>,
+    tokenId_: PromiseOrValue<BigNumberish>,
+    data_: PromiseOrValue<BytesLike>,
     overrides?: CallOverrides
-  ): Promise<string>;
+  ): Promise<
+    [BigNumber, BigNumber[], string[]] & {
+      _seed: BigNumber;
+      _armourIds: BigNumber[];
+      _armourNames: string[];
+    }
+  >;
 
-  createAccount(
-    implementation: PromiseOrValue<string>,
-    chainId: PromiseOrValue<BigNumberish>,
-    tokenContract: PromiseOrValue<string>,
-    tokenId: PromiseOrValue<BigNumberish>,
-    salt: PromiseOrValue<BigNumberish>,
-    initData: PromiseOrValue<BytesLike>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  createSoul(
-    chainId: PromiseOrValue<BigNumberish>,
-    tokenContract: PromiseOrValue<string>,
-    tokenId: PromiseOrValue<BigNumberish>,
-    salt: PromiseOrValue<BigNumberish>,
-    initData: PromiseOrValue<BytesLike>,
-    seedData: PromiseOrValue<BytesLike>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  getImplementation(overrides?: CallOverrides): Promise<string>;
+  calcSoul(
+    nft_: PromiseOrValue<string>,
+    tokenId_: PromiseOrValue<BigNumberish>,
+    data_: PromiseOrValue<BytesLike>,
+    overrides?: CallOverrides
+  ): Promise<[BigNumber, number, number, number, number, number, number]>;
 
   getRoleAdmin(
     role: PromiseOrValue<BytesLike>,
     overrides?: CallOverrides
   ): Promise<string>;
-
-  getSoulMinter(overrides?: CallOverrides): Promise<string>;
 
   grantRole(
     role: PromiseOrValue<BytesLike>,
@@ -483,16 +368,6 @@ export interface ERC6551Registry extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  setImplementation(
-    contract_: PromiseOrValue<string>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  setSoulMinter(
-    contract_: PromiseOrValue<string>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
   supportsInterface(
     interfaceId: PromiseOrValue<BytesLike>,
     overrides?: CallOverrides
@@ -505,43 +380,30 @@ export interface ERC6551Registry extends BaseContract {
 
     DEVELOPER_ROLE(overrides?: CallOverrides): Promise<string>;
 
-    account(
-      implementation: PromiseOrValue<string>,
-      chainId: PromiseOrValue<BigNumberish>,
-      tokenContract: PromiseOrValue<string>,
-      tokenId: PromiseOrValue<BigNumberish>,
-      salt: PromiseOrValue<BigNumberish>,
+    calcArmour(
+      nft_: PromiseOrValue<string>,
+      tokenId_: PromiseOrValue<BigNumberish>,
+      data_: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
-    ): Promise<string>;
+    ): Promise<
+      [BigNumber, BigNumber[], string[]] & {
+        _seed: BigNumber;
+        _armourIds: BigNumber[];
+        _armourNames: string[];
+      }
+    >;
 
-    createAccount(
-      implementation: PromiseOrValue<string>,
-      chainId: PromiseOrValue<BigNumberish>,
-      tokenContract: PromiseOrValue<string>,
-      tokenId: PromiseOrValue<BigNumberish>,
-      salt: PromiseOrValue<BigNumberish>,
-      initData: PromiseOrValue<BytesLike>,
+    calcSoul(
+      nft_: PromiseOrValue<string>,
+      tokenId_: PromiseOrValue<BigNumberish>,
+      data_: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
-    ): Promise<string>;
-
-    createSoul(
-      chainId: PromiseOrValue<BigNumberish>,
-      tokenContract: PromiseOrValue<string>,
-      tokenId: PromiseOrValue<BigNumberish>,
-      salt: PromiseOrValue<BigNumberish>,
-      initData: PromiseOrValue<BytesLike>,
-      seedData: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    getImplementation(overrides?: CallOverrides): Promise<string>;
+    ): Promise<[BigNumber, number, number, number, number, number, number]>;
 
     getRoleAdmin(
       role: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<string>;
-
-    getSoulMinter(overrides?: CallOverrides): Promise<string>;
 
     grantRole(
       role: PromiseOrValue<BytesLike>,
@@ -577,16 +439,6 @@ export interface ERC6551Registry extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setImplementation(
-      contract_: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    setSoulMinter(
-      contract_: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
     supportsInterface(
       interfaceId: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
@@ -594,23 +446,6 @@ export interface ERC6551Registry extends BaseContract {
   };
 
   filters: {
-    "AccountCreated(address,address,uint256,address,uint256,uint256)"(
-      account?: null,
-      implementation?: null,
-      chainId?: null,
-      tokenContract?: null,
-      tokenId?: null,
-      salt?: null
-    ): AccountCreatedEventFilter;
-    AccountCreated(
-      account?: null,
-      implementation?: null,
-      chainId?: null,
-      tokenContract?: null,
-      tokenId?: null,
-      salt?: null
-    ): AccountCreatedEventFilter;
-
     "RoleAdminChanged(bytes32,bytes32,bytes32)"(
       role?: PromiseOrValue<BytesLike> | null,
       previousAdminRole?: PromiseOrValue<BytesLike> | null,
@@ -652,43 +487,24 @@ export interface ERC6551Registry extends BaseContract {
 
     DEVELOPER_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
 
-    account(
-      implementation: PromiseOrValue<string>,
-      chainId: PromiseOrValue<BigNumberish>,
-      tokenContract: PromiseOrValue<string>,
-      tokenId: PromiseOrValue<BigNumberish>,
-      salt: PromiseOrValue<BigNumberish>,
+    calcArmour(
+      nft_: PromiseOrValue<string>,
+      tokenId_: PromiseOrValue<BigNumberish>,
+      data_: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    createAccount(
-      implementation: PromiseOrValue<string>,
-      chainId: PromiseOrValue<BigNumberish>,
-      tokenContract: PromiseOrValue<string>,
-      tokenId: PromiseOrValue<BigNumberish>,
-      salt: PromiseOrValue<BigNumberish>,
-      initData: PromiseOrValue<BytesLike>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    calcSoul(
+      nft_: PromiseOrValue<string>,
+      tokenId_: PromiseOrValue<BigNumberish>,
+      data_: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
     ): Promise<BigNumber>;
-
-    createSoul(
-      chainId: PromiseOrValue<BigNumberish>,
-      tokenContract: PromiseOrValue<string>,
-      tokenId: PromiseOrValue<BigNumberish>,
-      salt: PromiseOrValue<BigNumberish>,
-      initData: PromiseOrValue<BytesLike>,
-      seedData: PromiseOrValue<BytesLike>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    getImplementation(overrides?: CallOverrides): Promise<BigNumber>;
 
     getRoleAdmin(
       role: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
-
-    getSoulMinter(overrides?: CallOverrides): Promise<BigNumber>;
 
     grantRole(
       role: PromiseOrValue<BytesLike>,
@@ -721,16 +537,6 @@ export interface ERC6551Registry extends BaseContract {
 
     setDeveloperRole(
       granted_: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    setImplementation(
-      contract_: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    setSoulMinter(
-      contract_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -749,43 +555,24 @@ export interface ERC6551Registry extends BaseContract {
 
     DEVELOPER_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    account(
-      implementation: PromiseOrValue<string>,
-      chainId: PromiseOrValue<BigNumberish>,
-      tokenContract: PromiseOrValue<string>,
-      tokenId: PromiseOrValue<BigNumberish>,
-      salt: PromiseOrValue<BigNumberish>,
+    calcArmour(
+      nft_: PromiseOrValue<string>,
+      tokenId_: PromiseOrValue<BigNumberish>,
+      data_: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    createAccount(
-      implementation: PromiseOrValue<string>,
-      chainId: PromiseOrValue<BigNumberish>,
-      tokenContract: PromiseOrValue<string>,
-      tokenId: PromiseOrValue<BigNumberish>,
-      salt: PromiseOrValue<BigNumberish>,
-      initData: PromiseOrValue<BytesLike>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    calcSoul(
+      nft_: PromiseOrValue<string>,
+      tokenId_: PromiseOrValue<BigNumberish>,
+      data_: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
-
-    createSoul(
-      chainId: PromiseOrValue<BigNumberish>,
-      tokenContract: PromiseOrValue<string>,
-      tokenId: PromiseOrValue<BigNumberish>,
-      salt: PromiseOrValue<BigNumberish>,
-      initData: PromiseOrValue<BytesLike>,
-      seedData: PromiseOrValue<BytesLike>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    getImplementation(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getRoleAdmin(
       role: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
-
-    getSoulMinter(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     grantRole(
       role: PromiseOrValue<BytesLike>,
@@ -818,16 +605,6 @@ export interface ERC6551Registry extends BaseContract {
 
     setDeveloperRole(
       granted_: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    setImplementation(
-      contract_: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    setSoulMinter(
-      contract_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

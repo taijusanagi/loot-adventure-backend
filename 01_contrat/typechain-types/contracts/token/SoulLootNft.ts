@@ -63,7 +63,7 @@ export declare namespace ISoulNft {
   };
 }
 
-export interface SoulNftInterface extends utils.Interface {
+export interface SoulLootNftInterface extends utils.Interface {
   functions: {
     "DEFAULT_ADMIN_ROLE()": FunctionFragment;
     "DEVELOPER_ROLE()": FunctionFragment;
@@ -483,12 +483,12 @@ export type TransferEvent = TypedEvent<
 
 export type TransferEventFilter = TypedEventFilter<TransferEvent>;
 
-export interface SoulNft extends BaseContract {
+export interface SoulLootNft extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: SoulNftInterface;
+  interface: SoulLootNftInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,

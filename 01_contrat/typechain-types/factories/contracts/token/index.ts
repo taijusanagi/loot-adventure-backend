@@ -3,4 +3,5 @@
 /* eslint-disable */
 export { ArmourNft__factory } from "./ArmourNft__factory";
 export { SampleLootV2__factory } from "./SampleLootV2__factory";
+export { SoulLootNft__factory } from "./SoulLootNft__factory";
 export { SoulNft__factory } from "./SoulNft__factory";

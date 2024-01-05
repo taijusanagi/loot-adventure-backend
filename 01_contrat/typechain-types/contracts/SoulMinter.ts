@@ -32,15 +32,18 @@ export interface SoulMinterInterface extends utils.Interface {
     "ADMIN_ROLE()": FunctionFragment;
     "DEFAULT_ADMIN_ROLE()": FunctionFragment;
     "DEVELOPER_ROLE()": FunctionFragment;
+    "MINTER_ROLE()": FunctionFragment;
     "getArmourNftAddress()": FunctionFragment;
     "getCalcContract(address)": FunctionFragment;
     "getItemNftAddress()": FunctionFragment;
     "getJobNftAddress()": FunctionFragment;
     "getRoleAdmin(bytes32)": FunctionFragment;
+    "getSoulLootAddress()": FunctionFragment;
     "getSoulNftAddress()": FunctionFragment;
     "grantRole(bytes32,address)": FunctionFragment;
     "hasRole(bytes32,address)": FunctionFragment;
-    "mintSoul(address,uint256,bytes)": FunctionFragment;
+    "mintSoul(address,uint256,address,address,bytes)": FunctionFragment;
+    "mintSoulLoot(address,uint256,bytes)": FunctionFragment;
     "nftOwner(address,uint256)": FunctionFragment;
     "renounceRole(bytes32,address)": FunctionFragment;
     "revokeRole(bytes32,address)": FunctionFragment;
@@ -50,6 +53,8 @@ export interface SoulMinterInterface extends utils.Interface {
     "setDeveloperRole(address)": FunctionFragment;
     "setItemNftAddress(address)": FunctionFragment;
     "setJobNftAddress(address)": FunctionFragment;
+    "setMinterRole(address)": FunctionFragment;
+    "setSoulLootAddress(address)": FunctionFragment;
     "setSoulNftAddress(address)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
   };
@@ -59,15 +64,18 @@ export interface SoulMinterInterface extends utils.Interface {
       | "ADMIN_ROLE"
       | "DEFAULT_ADMIN_ROLE"
       | "DEVELOPER_ROLE"
+      | "MINTER_ROLE"
       | "getArmourNftAddress"
       | "getCalcContract"
       | "getItemNftAddress"
       | "getJobNftAddress"
       | "getRoleAdmin"
+      | "getSoulLootAddress"
       | "getSoulNftAddress"
       | "grantRole"
       | "hasRole"
       | "mintSoul"
+      | "mintSoulLoot"
       | "nftOwner"
       | "renounceRole"
       | "revokeRole"
@@ -77,6 +85,8 @@ export interface SoulMinterInterface extends utils.Interface {
       | "setDeveloperRole"
       | "setItemNftAddress"
       | "setJobNftAddress"
+      | "setMinterRole"
+      | "setSoulLootAddress"
       | "setSoulNftAddress"
       | "supportsInterface"
   ): FunctionFragment;
@@ -91,6 +101,10 @@ export interface SoulMinterInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "DEVELOPER_ROLE",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "MINTER_ROLE",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -114,6 +128,10 @@ export interface SoulMinterInterface extends utils.Interface {
     values: [PromiseOrValue<BytesLike>]
   ): string;
   encodeFunctionData(
+    functionFragment: "getSoulLootAddress",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "getSoulNftAddress",
     values?: undefined
   ): string;
@@ -127,6 +145,16 @@ export interface SoulMinterInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "mintSoul",
+    values: [
+      PromiseOrValue<string>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<BytesLike>
+    ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "mintSoulLoot",
     values: [
       PromiseOrValue<string>,
       PromiseOrValue<BigNumberish>,
@@ -170,6 +198,14 @@ export interface SoulMinterInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
+    functionFragment: "setMinterRole",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setSoulLootAddress",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "setSoulNftAddress",
     values: [PromiseOrValue<string>]
   ): string;
@@ -185,6 +221,10 @@ export interface SoulMinterInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "DEVELOPER_ROLE",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "MINTER_ROLE",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -208,12 +248,20 @@ export interface SoulMinterInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "getSoulLootAddress",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "getSoulNftAddress",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "grantRole", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "hasRole", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "mintSoul", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "mintSoulLoot",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "nftOwner", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "renounceRole",
@@ -242,6 +290,14 @@ export interface SoulMinterInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "setJobNftAddress",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setMinterRole",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setSoulLootAddress",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -334,6 +390,8 @@ export interface SoulMinter extends BaseContract {
 
     DEVELOPER_ROLE(overrides?: CallOverrides): Promise<[string]>;
 
+    MINTER_ROLE(overrides?: CallOverrides): Promise<[string]>;
+
     getArmourNftAddress(overrides?: CallOverrides): Promise<[string]>;
 
     getCalcContract(
@@ -350,6 +408,8 @@ export interface SoulMinter extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string]>;
 
+    getSoulLootAddress(overrides?: CallOverrides): Promise<[string]>;
+
     getSoulNftAddress(overrides?: CallOverrides): Promise<[string]>;
 
     grantRole(
@@ -365,6 +425,15 @@ export interface SoulMinter extends BaseContract {
     ): Promise<[boolean]>;
 
     mintSoul(
+      nft_: PromiseOrValue<string>,
+      tokenId_: PromiseOrValue<BigNumberish>,
+      owner_: PromiseOrValue<string>,
+      recipient_: PromiseOrValue<string>,
+      seedData_: PromiseOrValue<BytesLike>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    mintSoulLoot(
       nft_: PromiseOrValue<string>,
       tokenId_: PromiseOrValue<BigNumberish>,
       seedData_: PromiseOrValue<BytesLike>,
@@ -420,6 +489,16 @@ export interface SoulMinter extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    setMinterRole(
+      granted_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    setSoulLootAddress(
+      nft_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     setSoulNftAddress(
       nft_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -437,6 +516,8 @@ export interface SoulMinter extends BaseContract {
 
   DEVELOPER_ROLE(overrides?: CallOverrides): Promise<string>;
 
+  MINTER_ROLE(overrides?: CallOverrides): Promise<string>;
+
   getArmourNftAddress(overrides?: CallOverrides): Promise<string>;
 
   getCalcContract(
@@ -453,6 +534,8 @@ export interface SoulMinter extends BaseContract {
     overrides?: CallOverrides
   ): Promise<string>;
 
+  getSoulLootAddress(overrides?: CallOverrides): Promise<string>;
+
   getSoulNftAddress(overrides?: CallOverrides): Promise<string>;
 
   grantRole(
@@ -468,6 +551,15 @@ export interface SoulMinter extends BaseContract {
   ): Promise<boolean>;
 
   mintSoul(
+    nft_: PromiseOrValue<string>,
+    tokenId_: PromiseOrValue<BigNumberish>,
+    owner_: PromiseOrValue<string>,
+    recipient_: PromiseOrValue<string>,
+    seedData_: PromiseOrValue<BytesLike>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  mintSoulLoot(
     nft_: PromiseOrValue<string>,
     tokenId_: PromiseOrValue<BigNumberish>,
     seedData_: PromiseOrValue<BytesLike>,
@@ -523,6 +615,16 @@ export interface SoulMinter extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  setMinterRole(
+    granted_: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  setSoulLootAddress(
+    nft_: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   setSoulNftAddress(
     nft_: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -540,6 +642,8 @@ export interface SoulMinter extends BaseContract {
 
     DEVELOPER_ROLE(overrides?: CallOverrides): Promise<string>;
 
+    MINTER_ROLE(overrides?: CallOverrides): Promise<string>;
+
     getArmourNftAddress(overrides?: CallOverrides): Promise<string>;
 
     getCalcContract(
@@ -556,6 +660,8 @@ export interface SoulMinter extends BaseContract {
       overrides?: CallOverrides
     ): Promise<string>;
 
+    getSoulLootAddress(overrides?: CallOverrides): Promise<string>;
+
     getSoulNftAddress(overrides?: CallOverrides): Promise<string>;
 
     grantRole(
@@ -571,6 +677,15 @@ export interface SoulMinter extends BaseContract {
     ): Promise<boolean>;
 
     mintSoul(
+      nft_: PromiseOrValue<string>,
+      tokenId_: PromiseOrValue<BigNumberish>,
+      owner_: PromiseOrValue<string>,
+      recipient_: PromiseOrValue<string>,
+      seedData_: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    mintSoulLoot(
       nft_: PromiseOrValue<string>,
       tokenId_: PromiseOrValue<BigNumberish>,
       seedData_: PromiseOrValue<BytesLike>,
@@ -622,6 +737,16 @@ export interface SoulMinter extends BaseContract {
     ): Promise<void>;
 
     setJobNftAddress(
+      nft_: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setMinterRole(
+      granted_: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setSoulLootAddress(
       nft_: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
@@ -679,6 +804,8 @@ export interface SoulMinter extends BaseContract {
 
     DEVELOPER_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
 
+    MINTER_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
+
     getArmourNftAddress(overrides?: CallOverrides): Promise<BigNumber>;
 
     getCalcContract(
@@ -695,6 +822,8 @@ export interface SoulMinter extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    getSoulLootAddress(overrides?: CallOverrides): Promise<BigNumber>;
+
     getSoulNftAddress(overrides?: CallOverrides): Promise<BigNumber>;
 
     grantRole(
@@ -710,6 +839,15 @@ export interface SoulMinter extends BaseContract {
     ): Promise<BigNumber>;
 
     mintSoul(
+      nft_: PromiseOrValue<string>,
+      tokenId_: PromiseOrValue<BigNumberish>,
+      owner_: PromiseOrValue<string>,
+      recipient_: PromiseOrValue<string>,
+      seedData_: PromiseOrValue<BytesLike>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    mintSoulLoot(
       nft_: PromiseOrValue<string>,
       tokenId_: PromiseOrValue<BigNumberish>,
       seedData_: PromiseOrValue<BytesLike>,
@@ -761,6 +899,16 @@ export interface SoulMinter extends BaseContract {
     ): Promise<BigNumber>;
 
     setJobNftAddress(
+      nft_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    setMinterRole(
+      granted_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    setSoulLootAddress(
       nft_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
@@ -785,6 +933,8 @@ export interface SoulMinter extends BaseContract {
 
     DEVELOPER_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    MINTER_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     getArmourNftAddress(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
@@ -803,6 +953,10 @@ export interface SoulMinter extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    getSoulLootAddress(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     getSoulNftAddress(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     grantRole(
@@ -818,6 +972,15 @@ export interface SoulMinter extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     mintSoul(
+      nft_: PromiseOrValue<string>,
+      tokenId_: PromiseOrValue<BigNumberish>,
+      owner_: PromiseOrValue<string>,
+      recipient_: PromiseOrValue<string>,
+      seedData_: PromiseOrValue<BytesLike>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    mintSoulLoot(
       nft_: PromiseOrValue<string>,
       tokenId_: PromiseOrValue<BigNumberish>,
       seedData_: PromiseOrValue<BytesLike>,
@@ -869,6 +1032,16 @@ export interface SoulMinter extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     setJobNftAddress(
+      nft_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setMinterRole(
+      granted_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setSoulLootAddress(
       nft_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;

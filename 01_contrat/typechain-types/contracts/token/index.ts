@@ -3,4 +3,5 @@
 /* eslint-disable */
 export type { ArmourNft } from "./ArmourNft";
 export type { SampleLootV2 } from "./SampleLootV2";
+export type { SoulLootNft } from "./SoulLootNft";
 export type { SoulNft } from "./SoulNft";

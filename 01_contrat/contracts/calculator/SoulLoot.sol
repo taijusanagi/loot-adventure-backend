@@ -5,10 +5,10 @@ import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
 import "../lib/Bytecode.sol";
-import "../interfaces/lootNfts/ILootByRogueV2.sol";
+import "../interfaces/ISoulNft.sol";
 import "../interfaces/ISoulCalculator.sol";
 
-contract SoulLootByRogue is AccessControl, ISoulCalculator {
+contract SoulLoot is AccessControl, ISoulCalculator {
     bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
     bytes32 public constant DEVELOPER_ROLE = keccak256("DEVELOPER_ROLE");
 
@@ -36,16 +36,16 @@ contract SoulLootByRogue is AccessControl, ISoulCalculator {
         uint16,
         uint16
     ){
-        ILootByRogueV2 _loot = ILootByRogueV2(nft_);
-        ILootByRogueV2.AdventureRecord memory _record = _loot.getAdventureRecord(tokenId_);
+        ISoulNft _loot = ISoulNft(nft_);
+        ISoulNft.LootSoul memory _lootSoul = _loot.getLootSoul(tokenId_);
         return (
-            _record.inputData.seed,
-            _record.turn,
-            _record.maxHp,
-            _record.currentHp,
-            _record.attack,
-            _record.defence,
-            _record.recovery
+            _lootSoul.seed,
+            _lootSoul.turn,
+            _lootSoul.maxHp,
+            _lootSoul.currentHp,
+            _lootSoul.attack,
+            _lootSoul.defence,
+            _lootSoul.recovery
         );
     }
 
@@ -58,30 +58,30 @@ contract SoulLootByRogue is AccessControl, ISoulCalculator {
         uint256[8] memory _armourIds,
         string[8] memory _armourNames
     ){
-        ILootByRogueV2 _loot = ILootByRogueV2(nft_);
-        ILootByRogueV2.AdventureRecord memory _record = _loot.getAdventureRecord(tokenId_);
-
+        ISoulNft _loot = ISoulNft(nft_);
+        ISoulNft.LootSoul memory _lootSoul = _loot.getLootSoul(tokenId_);
+        uint256 _a = 1;
         return (
-            _record.inputData.seed,
+            _lootSoul.seed,
             [
-                _record.weapon,
-                _record.chestArmor,
-                _record.headArmor,
-                _record.waistArmor,
-                _record.footArmor,
-                _record.handArmor,
-                _record.necklace,
-                _record.ring
+                _a,
+                _a,
+                _a,
+                _a,
+                _a,
+                _a,
+                _a,
+                _a
             ],
             [
-                _loot.getWeapon(tokenId_),
-                _loot.getChest(tokenId_),
-                _loot.getHead(tokenId_),
-                _loot.getWaist(tokenId_),
-                _loot.getFoot(tokenId_),
-                _loot.getHand(tokenId_),
-                _loot.getNeck(tokenId_),
-                _loot.getRing(tokenId_)
+                'a',
+                'a',
+                'a',
+                'a',
+                'a',
+                'a',
+                'a',
+                'a'
             ]
         );
     }

@@ -7,7 +7,8 @@ async function main() {
 
   // Deploy Contract
   const f0 = await ethers.getContractFactory('SampleLootV2', deployer);
-  const lootNft = await f0.deploy('0xDC11f7E700A4c898AE5CAddB1082cFfa76512aDD');
+  // const lootNft = await f0.deploy('0xDC11f7E700A4c898AE5CAddB1082cFfa76512aDD');
+  const lootNft = await f0.deploy();
   await lootNft.deployed();
   console.log('deployed LootNft to:', lootNft.address);
 

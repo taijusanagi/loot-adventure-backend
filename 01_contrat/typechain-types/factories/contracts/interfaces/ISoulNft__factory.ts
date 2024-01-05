@@ -206,6 +206,72 @@ const _abi = [
         type: "uint256",
       },
     ],
+    name: "getLootSoul",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "uint256",
+            name: "seed",
+            type: "uint256",
+          },
+          {
+            internalType: "uint16",
+            name: "turn",
+            type: "uint16",
+          },
+          {
+            internalType: "uint16",
+            name: "maxHp",
+            type: "uint16",
+          },
+          {
+            internalType: "uint16",
+            name: "currentHp",
+            type: "uint16",
+          },
+          {
+            internalType: "uint16",
+            name: "attack",
+            type: "uint16",
+          },
+          {
+            internalType: "uint16",
+            name: "defence",
+            type: "uint16",
+          },
+          {
+            internalType: "uint16",
+            name: "recovery",
+            type: "uint16",
+          },
+          {
+            internalType: "address",
+            name: "rAddress",
+            type: "address",
+          },
+          {
+            internalType: "uint256",
+            name: "rTokenId",
+            type: "uint256",
+          },
+        ],
+        internalType: "struct ISoulNft.LootSoul",
+        name: "",
+        type: "tuple",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId_",
+        type: "uint256",
+      },
+    ],
     name: "getMaxHp",
     outputs: [
       {
