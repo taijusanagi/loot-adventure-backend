@@ -97,6 +97,18 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IArmourNft__factory>;
     getContractFactory(
+      name: "IItemNft",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IItemNft__factory>;
+    getContractFactory(
+      name: "IJobNft",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IJobNft__factory>;
+    getContractFactory(
+      name: "ISoulNft",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ISoulNft__factory>;
+    getContractFactory(
       name: "IERC6551Account",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC6551Account__factory>;
@@ -113,10 +125,6 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ISoulMinter__factory>;
     getContractFactory(
-      name: "ISoulNft",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.ISoulNft__factory>;
-    getContractFactory(
       name: "ILoot",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ILoot__factory>;
@@ -129,6 +137,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ILootByRogueV2__factory>;
     getContractFactory(
+      name: "ISoulLootNft",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ISoulLootNft__factory>;
+    getContractFactory(
       name: "Bytecode",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Bytecode__factory>;
@@ -140,6 +152,14 @@ declare module "hardhat/types/runtime" {
       name: "ArmourNft",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ArmourNft__factory>;
+    getContractFactory(
+      name: "ItemNft",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ItemNft__factory>;
+    getContractFactory(
+      name: "JobNft",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.JobNft__factory>;
     getContractFactory(
       name: "SampleLootV2",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -259,6 +279,21 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.IArmourNft>;
     getContractAt(
+      name: "IItemNft",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IItemNft>;
+    getContractAt(
+      name: "IJobNft",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IJobNft>;
+    getContractAt(
+      name: "ISoulNft",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ISoulNft>;
+    getContractAt(
       name: "IERC6551Account",
       address: string,
       signer?: ethers.Signer
@@ -279,11 +314,6 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.ISoulMinter>;
     getContractAt(
-      name: "ISoulNft",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.ISoulNft>;
-    getContractAt(
       name: "ILoot",
       address: string,
       signer?: ethers.Signer
@@ -299,6 +329,11 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.ILootByRogueV2>;
     getContractAt(
+      name: "ISoulLootNft",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ISoulLootNft>;
+    getContractAt(
       name: "Bytecode",
       address: string,
       signer?: ethers.Signer
@@ -313,6 +348,16 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.ArmourNft>;
+    getContractAt(
+      name: "ItemNft",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ItemNft>;
+    getContractAt(
+      name: "JobNft",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.JobNft>;
     getContractAt(
       name: "SampleLootV2",
       address: string,

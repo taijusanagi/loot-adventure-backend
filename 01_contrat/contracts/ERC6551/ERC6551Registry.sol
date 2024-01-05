@@ -99,10 +99,9 @@ contract ERC6551Registry is IERC6551Registry, AccessControl {
         address tokenContract,
         uint256 tokenId,
         uint256 salt,
-        bytes calldata initData,
-        bytes memory seedData
+        bytes calldata initData
     ) public {
-        address _account = createAccount(
+        createAccount(
             _implementation,
             chainId,
             tokenContract,
@@ -110,12 +109,29 @@ contract ERC6551Registry is IERC6551Registry, AccessControl {
             salt,
             initData
         );
-        _executeMinter(
-            tokenContract,
-            tokenId, 
+    }
+
+    function executeMint(
+        uint256 chainId_,
+        address tokenContract_,
+        uint256 tokenId_,
+        uint256 salt_,
+        bytes memory seedData_
+    ) public {
+        address _tba = account(
+            _implementation, 
+            chainId_, 
+            tokenContract_, 
+            tokenId_, 
+            salt_
+        );
+        ISoulMinter _minter = ISoulMinter(_soulMinter);
+        _minter.mintSoul(
+            tokenContract_,
+            tokenId_, 
             msg.sender,
-            _account,
-            seedData
+            _tba, 
+            seedData_
         );
     }
     
@@ -147,22 +163,5 @@ contract ERC6551Registry is IERC6551Registry, AccessControl {
                 hex"5af43d82803e903d91602b57fd5bf3",
                 abi.encode(salt_, chainId_, tokenContract_, tokenId_)
             );
-    }
-
-    function _executeMinter(
-        address tokenContract_,
-        uint256 tokenId_,
-        address owner_,
-        address tba_,
-        bytes memory seedData_
-    ) internal virtual {
-        ISoulMinter _minter = ISoulMinter(_soulMinter);
-        _minter.mintSoul(
-            tokenContract_,
-            tokenId_, 
-            owner_, 
-            tba_, 
-            seedData_
-        );
     }
 }

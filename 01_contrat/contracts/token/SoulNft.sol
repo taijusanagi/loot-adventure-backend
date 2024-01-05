@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/utils/Base64.sol";
 
-import "../interfaces/ISoulNft.sol";
+import "../interfaces/gameNfts/ISoulNft.sol";
 
 contract SoulNft is ERC721, AccessControl, ISoulNft {
     uint256 NFT_ID_PREFIC = 10**7;

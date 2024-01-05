@@ -7,9 +7,9 @@ import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/utils/Base64.sol";
 
-import "../interfaces/gameNfts/IArmourNft.sol";
+import "../interfaces/gameNfts/IItemNft.sol";
 
-contract ArmourNft is ERC1155, AccessControl, IArmourNft {
+contract ItemNft is ERC1155, AccessControl, IItemNft {
     uint256 NFT_ID_PREFIX = 10**7;
     uint256 TYPE_PREFIX = 10**4;
 
@@ -21,7 +21,7 @@ contract ArmourNft is ERC1155, AccessControl, IArmourNft {
     uint256 private currentNftId;
 
     mapping (address => uint256) private nftId; // NFT Address => NFT ID
-    mapping (uint256 => Armour) private armour; // tokenId => Armour Status
+    mapping (uint256 => Item) private item; // tokenId => Item Status
 
     //*********************************************
     //Initializer
@@ -35,16 +35,16 @@ contract ArmourNft is ERC1155, AccessControl, IArmourNft {
     //*********************************************
     //Getter
     //*********************************************
-    function getArmourSeed(uint256 tokenId_) public view returns(uint256){
-        return armour[tokenId_].seed;
+    function getItemSeed(uint256 tokenId_) public view returns(uint256){
+        return item[tokenId_].seed;
     }
 
-    function getArmourName(uint256 tokenId_) public view returns(string memory){
-        return armour[tokenId_].name;
+    function getItemName(uint256 tokenId_) public view returns(string memory){
+        return item[tokenId_].name;
     }
 
-    function getArmourType(uint256 tokenId_) public view returns(uint256){
-        return armour[tokenId_].armourType;
+    function getItemType(uint256 tokenId_) public view returns(uint256){
+        return item[tokenId_].itemType;
     }
     
     function uri(uint256 tokenId_) public view override returns (string memory) {
@@ -52,20 +52,21 @@ contract ArmourNft is ERC1155, AccessControl, IArmourNft {
         string memory _c = ', ';
         string memory _attributes = string(abi.encodePacked(
             '[', 
-            _attribute("Seed", armour[tokenId_].seed), _c, 
-            _attribute("Name", armour[tokenId_].name), _c,
-            _attribute("Type", armour[tokenId_].armourType), _c,
-            _attribute("Loot NFT Token ID", armour[tokenId_].rTokenId),
+            _attribute("Seed", item[tokenId_].seed), _c, 
+            _attribute("Name", item[tokenId_].name), _c,
+            _attribute("Type", item[tokenId_].itemType), _c,
+            _attribute("Rarity", item[tokenId_].rarity), _c,
+            _attribute("Loot NFT Token ID", item[tokenId_].rTokenId),
             ']'
         ));
         string memory _image = string(abi.encodePacked(
             baseMetadataURIPrefix,
-            Strings.toString(armour[tokenId_].armourType),
+            Strings.toString(item[tokenId_].itemType),
             baseMetadataURISuffix
         ));
         string memory _json = Base64.encode(bytes(string(abi.encodePacked(
-            '{"name": "Armour NFT #', Strings.toString(tokenId_) ,
-            '", "description": "Minted by a Nft' ,
+            '{"name": "Item NFT #', Strings.toString(tokenId_) ,
+            '", "description": "Minted by a NFT' ,
             '", "attributes": ', 
             _attributes ,
             ', "image": "', 
@@ -107,18 +108,19 @@ contract ArmourNft is ERC1155, AccessControl, IArmourNft {
         uint256 tokenId_, 
         uint256 seed_,
         string memory name_,
-        uint256 id_,
-        uint256 type_
+        uint256 type_,
+        uint256 rarity_
     ) public onlyRole(MINTER_ROLE) {
-        Armour memory _armour;
-        uint256 _tokenId = (nftId[nft_] * NFT_ID_PREFIX) + (type_ * TYPE_PREFIX) + id_;
-        _armour.seed = seed_;
-        _armour.name = name_;
-        _armour.armourType = type_;
-        _armour.rAddress = nft_;
-        _armour.rTokenId = tokenId_;
+        Item memory _Item;
+        uint256 _tokenId = (nftId[nft_] * NFT_ID_PREFIX) + (type_ * TYPE_PREFIX);
+        _Item.seed = seed_;
+        _Item.name = name_;
+        _Item.itemType = type_;
+        _Item.rAddress = nft_;
+        _Item.rarity = rarity_;
+        _Item.rTokenId = tokenId_;
 
-        armour[_tokenId] = _armour;
+        item[_tokenId] = _Item;
         _mint(to_, _tokenId, 1, "");
     }
 

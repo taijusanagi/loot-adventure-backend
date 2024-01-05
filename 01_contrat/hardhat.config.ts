@@ -57,6 +57,8 @@ const config: HardhatUserConfig = {
     astarZkKatana: {
       url: API_URL_ZKKATANA,
       chainId: 1261120,
+      gas: 2100000,
+      gasPrice: 80000000000,
       accounts: PRIVATE_KEY ? [PRIVATE_KEY] : [],
     },
     mumbai: {

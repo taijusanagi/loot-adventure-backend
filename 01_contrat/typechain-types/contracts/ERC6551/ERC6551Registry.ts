@@ -34,7 +34,8 @@ export interface ERC6551RegistryInterface extends utils.Interface {
     "DEVELOPER_ROLE()": FunctionFragment;
     "account(address,uint256,address,uint256,uint256)": FunctionFragment;
     "createAccount(address,uint256,address,uint256,uint256,bytes)": FunctionFragment;
-    "createSoul(uint256,address,uint256,uint256,bytes,bytes)": FunctionFragment;
+    "createSoul(uint256,address,uint256,uint256,bytes)": FunctionFragment;
+    "executeMint(uint256,address,uint256,uint256,bytes)": FunctionFragment;
     "getImplementation()": FunctionFragment;
     "getRoleAdmin(bytes32)": FunctionFragment;
     "getSoulMinter()": FunctionFragment;
@@ -57,6 +58,7 @@ export interface ERC6551RegistryInterface extends utils.Interface {
       | "account"
       | "createAccount"
       | "createSoul"
+      | "executeMint"
       | "getImplementation"
       | "getRoleAdmin"
       | "getSoulMinter"
@@ -111,7 +113,16 @@ export interface ERC6551RegistryInterface extends utils.Interface {
       PromiseOrValue<string>,
       PromiseOrValue<BigNumberish>,
       PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BytesLike>,
+      PromiseOrValue<BytesLike>
+    ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "executeMint",
+    values: [
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<string>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>,
       PromiseOrValue<BytesLike>
     ]
   ): string;
@@ -179,6 +190,10 @@ export interface ERC6551RegistryInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "createSoul", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "executeMint",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "getImplementation",
     data: BytesLike
@@ -342,7 +357,15 @@ export interface ERC6551Registry extends BaseContract {
       tokenId: PromiseOrValue<BigNumberish>,
       salt: PromiseOrValue<BigNumberish>,
       initData: PromiseOrValue<BytesLike>,
-      seedData: PromiseOrValue<BytesLike>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    executeMint(
+      chainId_: PromiseOrValue<BigNumberish>,
+      tokenContract_: PromiseOrValue<string>,
+      tokenId_: PromiseOrValue<BigNumberish>,
+      salt_: PromiseOrValue<BigNumberish>,
+      seedData_: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -436,7 +459,15 @@ export interface ERC6551Registry extends BaseContract {
     tokenId: PromiseOrValue<BigNumberish>,
     salt: PromiseOrValue<BigNumberish>,
     initData: PromiseOrValue<BytesLike>,
-    seedData: PromiseOrValue<BytesLike>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  executeMint(
+    chainId_: PromiseOrValue<BigNumberish>,
+    tokenContract_: PromiseOrValue<string>,
+    tokenId_: PromiseOrValue<BigNumberish>,
+    salt_: PromiseOrValue<BigNumberish>,
+    seedData_: PromiseOrValue<BytesLike>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -530,7 +561,15 @@ export interface ERC6551Registry extends BaseContract {
       tokenId: PromiseOrValue<BigNumberish>,
       salt: PromiseOrValue<BigNumberish>,
       initData: PromiseOrValue<BytesLike>,
-      seedData: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    executeMint(
+      chainId_: PromiseOrValue<BigNumberish>,
+      tokenContract_: PromiseOrValue<string>,
+      tokenId_: PromiseOrValue<BigNumberish>,
+      salt_: PromiseOrValue<BigNumberish>,
+      seedData_: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -677,7 +716,15 @@ export interface ERC6551Registry extends BaseContract {
       tokenId: PromiseOrValue<BigNumberish>,
       salt: PromiseOrValue<BigNumberish>,
       initData: PromiseOrValue<BytesLike>,
-      seedData: PromiseOrValue<BytesLike>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    executeMint(
+      chainId_: PromiseOrValue<BigNumberish>,
+      tokenContract_: PromiseOrValue<string>,
+      tokenId_: PromiseOrValue<BigNumberish>,
+      salt_: PromiseOrValue<BigNumberish>,
+      seedData_: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -774,7 +821,15 @@ export interface ERC6551Registry extends BaseContract {
       tokenId: PromiseOrValue<BigNumberish>,
       salt: PromiseOrValue<BigNumberish>,
       initData: PromiseOrValue<BytesLike>,
-      seedData: PromiseOrValue<BytesLike>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    executeMint(
+      chainId_: PromiseOrValue<BigNumberish>,
+      tokenContract_: PromiseOrValue<string>,
+      tokenId_: PromiseOrValue<BigNumberish>,
+      salt_: PromiseOrValue<BigNumberish>,
+      seedData_: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

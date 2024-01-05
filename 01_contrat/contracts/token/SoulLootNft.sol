@@ -7,9 +7,10 @@ import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/utils/Base64.sol";
 
-import "../interfaces/ISoulNft.sol";
+import "../interfaces/lootNfts/ISoulLootNft.sol";
+import "../interfaces/lootNfts/ILootByRogueV2.sol";
 
-contract SoulLootNft is ERC721, AccessControl, ISoulNft {
+contract SoulLootNft is ERC721, AccessControl, ISoulLootNft {
     uint256 NFT_ID_PREFIC = 10**7;
 
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
@@ -19,7 +20,9 @@ contract SoulLootNft is ERC721, AccessControl, ISoulNft {
     string private baseMetadataURISuffix;
     uint256 private currentNftId;
 
-    mapping (uint256 => LootSoul) private soul;
+    mapping (uint256 => ILootByRogueV2.AdventureRecord) private record;
+    mapping (uint256 => address) private rAddress;
+    mapping (uint256 => uint256) private rTokenId;
     mapping (address => uint256) private nftId;
 
     //*********************************************
@@ -34,30 +37,94 @@ contract SoulLootNft is ERC721, AccessControl, ISoulNft {
     //*********************************************
     //Getter
     //*********************************************
-    function getLootSoul(uint256 tokenId_) public view returns (LootSoul memory) {
-        return soul[tokenId_];
+    function getAdventureRecord(uint256 tokenId_) public view returns (ILootByRogueV2.AdventureRecord memory) {
+        return record[tokenId_];
+    }
+
+    function getRAddress(uint256 tokenId_) public view returns (address) {
+        return rAddress[tokenId_];
+    }
+
+    function getRTokenId(uint256 tokenId_) public view returns (uint256) {
+        return rTokenId[tokenId_];
     }
     
     function getSeed(uint256 tokenId_) public view returns (uint256) {
-        return soul[tokenId_].seed;
+        return record[tokenId_].inputData.seed;
     }
     function getTurn(uint256 tokenId_) public view returns (uint16) {
-        return soul[tokenId_].turn;
+        return record[tokenId_].turn;
     }
     function getMaxHp(uint256 tokenId_) public view returns (uint16) {
-        return soul[tokenId_].maxHp;
+        return record[tokenId_].maxHp;
     }
     function getCurrentHp(uint256 tokenId_) public view returns (uint16) {
-        return soul[tokenId_].currentHp;
+        return record[tokenId_].currentHp;
     }
     function getAttack(uint256 tokenId_) public view returns (uint16) {
-        return soul[tokenId_].attack;
+        return record[tokenId_].attack;
     }
     function getDefence(uint256 tokenId_) public view returns (uint16) {
-        return soul[tokenId_].defence;
+        return record[tokenId_].defence;
     }
     function getRecovery(uint256 tokenId_) public view returns (uint16) {
-        return soul[tokenId_].recovery;
+        return record[tokenId_].recovery;
+    }
+
+    function getWeapon(uint256 tokenId_) public view returns (string memory) {
+        uint256 _tokenId = rTokenId[tokenId_];
+        address _nft = rAddress[tokenId_];
+        ILootByRogueV2 _loot = ILootByRogueV2(_nft);
+        return _loot.getWeapon(_tokenId);
+    }
+    
+    function getChest(uint256 tokenId_) public view returns (string memory) {
+        uint256 _tokenId = rTokenId[tokenId_];
+        address _nft = rAddress[tokenId_];
+        ILootByRogueV2 _loot = ILootByRogueV2(_nft);
+        return _loot.getChest(_tokenId);
+    }
+    
+    function getHead(uint256 tokenId_) public view returns (string memory) {
+        uint256 _tokenId = rTokenId[tokenId_];
+        address _nft = rAddress[tokenId_];
+        ILootByRogueV2 _loot = ILootByRogueV2(_nft);
+        return _loot.getHead(_tokenId);
+    }
+    
+    function getWaist(uint256 tokenId_) public view returns (string memory) {
+        uint256 _tokenId = rTokenId[tokenId_];
+        address _nft = rAddress[tokenId_];
+        ILootByRogueV2 _loot = ILootByRogueV2(_nft);
+        return _loot.getWaist(_tokenId);
+    }
+
+    function getFoot(uint256 tokenId_) public view returns (string memory) {
+        uint256 _tokenId = rTokenId[tokenId_];
+        address _nft = rAddress[tokenId_];
+        ILootByRogueV2 _loot = ILootByRogueV2(_nft);
+        return _loot.getFoot(_tokenId);
+    }
+    
+    function getHand(uint256 tokenId_) public view returns (string memory) {
+        uint256 _tokenId = rTokenId[tokenId_];
+        address _nft = rAddress[tokenId_];
+        ILootByRogueV2 _loot = ILootByRogueV2(_nft);
+        return _loot.getHand(_tokenId);
+    }
+    
+    function getNeck(uint256 tokenId_) public view returns (string memory) {
+        uint256 _tokenId = rTokenId[tokenId_];
+        address _nft = rAddress[tokenId_];
+        ILootByRogueV2 _loot = ILootByRogueV2(_nft);
+        return _loot.getNeck(_tokenId);
+    }
+    
+    function getRing(uint256 tokenId_) public view returns (string memory) {
+        uint256 _tokenId = rTokenId[tokenId_];
+        address _nft = rAddress[tokenId_];
+        ILootByRogueV2 _loot = ILootByRogueV2(_nft);
+        return _loot.getRing(_tokenId);
     }
     
     function tokenURI(uint256 tokenId_) public view override returns (string memory) {
@@ -65,13 +132,13 @@ contract SoulLootNft is ERC721, AccessControl, ISoulNft {
         string memory _c = ', ';
         string memory _attributes = string(abi.encodePacked(
             '[', 
-            _attribute("Seed", soul[tokenId_].seed), _c, 
-            _attribute("Turn", soul[tokenId_].turn), _c, 
-            _attribute("Max HP", soul[tokenId_].maxHp), _c, 
-            _attribute("Current HP", soul[tokenId_].currentHp), _c, 
-            _attribute("Attack", soul[tokenId_].attack), _c, 
-            _attribute("Defence", soul[tokenId_].defence), _c, 
-            _attribute("Recovery", soul[tokenId_].recovery),
+            _attribute("Seed", record[tokenId_].inputData.seed), _c, 
+            _attribute("Turn", record[tokenId_].turn), _c, 
+            _attribute("Max HP", record[tokenId_].maxHp), _c, 
+            _attribute("Current HP", record[tokenId_].currentHp), _c, 
+            _attribute("Attack", record[tokenId_].attack), _c, 
+            _attribute("Defence", record[tokenId_].defence), _c, 
+            _attribute("Recovery", record[tokenId_].recovery),
             ']'
         ));
 
@@ -122,33 +189,21 @@ contract SoulLootNft is ERC721, AccessControl, ISoulNft {
     //Logic
     //*********************************************
     function safeMint(
-        address to_, 
         address nft_,
-        uint256 tokenId_,
-        uint256 seed_,
-        uint16 turn_,
-        uint16 maxHp_,
-        uint16 currentHp_,
-        uint16 attack_,
-        uint16 defence_,
-        uint16 recovery_
-    ) public onlyRole(MINTER_ROLE) {
-        require(nftId[nft_]!=0, "This nft is not registered");
-        LootSoul memory _soul;
-        _soul.seed = seed_;
-        _soul.turn = turn_;
-        _soul.maxHp = maxHp_;
-        _soul.currentHp = currentHp_;
-        _soul.attack = attack_;
-        _soul.defence = defence_;
-        _soul.recovery = recovery_;
-        _soul.rAddress = nft_;
-        _soul.rTokenId = tokenId_;
+        uint256 tokenId_
+    ) public {
+        require(nftId[nft_]!=0, 'This nft is not registered');
+        ILootByRogueV2 _loot = ILootByRogueV2(nft_);
+        require(msg.sender == _loot.ownerOf(tokenId_), 'You are not owner of this token');
+
+        ILootByRogueV2.AdventureRecord memory _record = _loot.getAdventureRecord(tokenId_);
 
         uint256 _tokenId = nftId[nft_] * NFT_ID_PREFIC + tokenId_;
-        soul[_tokenId] = _soul;
+        record[_tokenId] = _record;
+        rAddress[_tokenId] = nft_;
+        rTokenId[_tokenId] = tokenId_;
 
-        _safeMint(to_, _tokenId);
+        _safeMint(msg.sender, _tokenId);
     }
 
     function _attribute(string memory traitType_, string memory value_) internal pure returns (string memory) {

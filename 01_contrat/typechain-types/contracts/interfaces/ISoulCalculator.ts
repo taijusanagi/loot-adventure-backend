@@ -24,15 +24,33 @@ import type {
 export interface ISoulCalculatorInterface extends utils.Interface {
   functions: {
     "calcArmour(address,uint256,bytes)": FunctionFragment;
+    "calcItem(address,uint256,bytes)": FunctionFragment;
+    "calcJob(address,uint256,bytes)": FunctionFragment;
     "calcSoul(address,uint256,bytes)": FunctionFragment;
   };
 
   getFunction(
-    nameOrSignatureOrTopic: "calcArmour" | "calcSoul"
+    nameOrSignatureOrTopic: "calcArmour" | "calcItem" | "calcJob" | "calcSoul"
   ): FunctionFragment;
 
   encodeFunctionData(
     functionFragment: "calcArmour",
+    values: [
+      PromiseOrValue<string>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BytesLike>
+    ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "calcItem",
+    values: [
+      PromiseOrValue<string>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BytesLike>
+    ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "calcJob",
     values: [
       PromiseOrValue<string>,
       PromiseOrValue<BigNumberish>,
@@ -49,6 +67,8 @@ export interface ISoulCalculatorInterface extends utils.Interface {
   ): string;
 
   decodeFunctionResult(functionFragment: "calcArmour", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "calcItem", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "calcJob", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "calcSoul", data: BytesLike): Result;
 
   events: {};
@@ -82,9 +102,9 @@ export interface ISoulCalculator extends BaseContract {
 
   functions: {
     calcArmour(
-      arg0: PromiseOrValue<string>,
-      arg1: PromiseOrValue<BigNumberish>,
-      arg2: PromiseOrValue<BytesLike>,
+      nft_: PromiseOrValue<string>,
+      tokenId_: PromiseOrValue<BigNumberish>,
+      seedData_: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<
       [BigNumber, BigNumber[], string[]] & {
@@ -94,10 +114,32 @@ export interface ISoulCalculator extends BaseContract {
       }
     >;
 
+    calcItem(
+      nft_: PromiseOrValue<string>,
+      tokenId_: PromiseOrValue<BigNumberish>,
+      seedData_: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber, BigNumber] & {
+        _seed: BigNumber;
+        _itemType: BigNumber;
+        _rarity: BigNumber;
+      }
+    >;
+
+    calcJob(
+      nft_: PromiseOrValue<string>,
+      tokenId_: PromiseOrValue<BigNumberish>,
+      seedData_: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber] & { _seed: BigNumber; _jobType: BigNumber }
+    >;
+
     calcSoul(
-      arg0: PromiseOrValue<string>,
-      arg1: PromiseOrValue<BigNumberish>,
-      arg2: PromiseOrValue<BytesLike>,
+      nft_: PromiseOrValue<string>,
+      tokenId_: PromiseOrValue<BigNumberish>,
+      seedData_: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<
       [BigNumber, number, number, number, number, number, number] & {
@@ -113,9 +155,9 @@ export interface ISoulCalculator extends BaseContract {
   };
 
   calcArmour(
-    arg0: PromiseOrValue<string>,
-    arg1: PromiseOrValue<BigNumberish>,
-    arg2: PromiseOrValue<BytesLike>,
+    nft_: PromiseOrValue<string>,
+    tokenId_: PromiseOrValue<BigNumberish>,
+    seedData_: PromiseOrValue<BytesLike>,
     overrides?: CallOverrides
   ): Promise<
     [BigNumber, BigNumber[], string[]] & {
@@ -125,10 +167,32 @@ export interface ISoulCalculator extends BaseContract {
     }
   >;
 
+  calcItem(
+    nft_: PromiseOrValue<string>,
+    tokenId_: PromiseOrValue<BigNumberish>,
+    seedData_: PromiseOrValue<BytesLike>,
+    overrides?: CallOverrides
+  ): Promise<
+    [BigNumber, BigNumber, BigNumber] & {
+      _seed: BigNumber;
+      _itemType: BigNumber;
+      _rarity: BigNumber;
+    }
+  >;
+
+  calcJob(
+    nft_: PromiseOrValue<string>,
+    tokenId_: PromiseOrValue<BigNumberish>,
+    seedData_: PromiseOrValue<BytesLike>,
+    overrides?: CallOverrides
+  ): Promise<
+    [BigNumber, BigNumber] & { _seed: BigNumber; _jobType: BigNumber }
+  >;
+
   calcSoul(
-    arg0: PromiseOrValue<string>,
-    arg1: PromiseOrValue<BigNumberish>,
-    arg2: PromiseOrValue<BytesLike>,
+    nft_: PromiseOrValue<string>,
+    tokenId_: PromiseOrValue<BigNumberish>,
+    seedData_: PromiseOrValue<BytesLike>,
     overrides?: CallOverrides
   ): Promise<
     [BigNumber, number, number, number, number, number, number] & {
@@ -144,9 +208,9 @@ export interface ISoulCalculator extends BaseContract {
 
   callStatic: {
     calcArmour(
-      arg0: PromiseOrValue<string>,
-      arg1: PromiseOrValue<BigNumberish>,
-      arg2: PromiseOrValue<BytesLike>,
+      nft_: PromiseOrValue<string>,
+      tokenId_: PromiseOrValue<BigNumberish>,
+      seedData_: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<
       [BigNumber, BigNumber[], string[]] & {
@@ -156,10 +220,32 @@ export interface ISoulCalculator extends BaseContract {
       }
     >;
 
+    calcItem(
+      nft_: PromiseOrValue<string>,
+      tokenId_: PromiseOrValue<BigNumberish>,
+      seedData_: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber, BigNumber] & {
+        _seed: BigNumber;
+        _itemType: BigNumber;
+        _rarity: BigNumber;
+      }
+    >;
+
+    calcJob(
+      nft_: PromiseOrValue<string>,
+      tokenId_: PromiseOrValue<BigNumberish>,
+      seedData_: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber] & { _seed: BigNumber; _jobType: BigNumber }
+    >;
+
     calcSoul(
-      arg0: PromiseOrValue<string>,
-      arg1: PromiseOrValue<BigNumberish>,
-      arg2: PromiseOrValue<BytesLike>,
+      nft_: PromiseOrValue<string>,
+      tokenId_: PromiseOrValue<BigNumberish>,
+      seedData_: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<
       [BigNumber, number, number, number, number, number, number] & {
@@ -178,32 +264,60 @@ export interface ISoulCalculator extends BaseContract {
 
   estimateGas: {
     calcArmour(
-      arg0: PromiseOrValue<string>,
-      arg1: PromiseOrValue<BigNumberish>,
-      arg2: PromiseOrValue<BytesLike>,
+      nft_: PromiseOrValue<string>,
+      tokenId_: PromiseOrValue<BigNumberish>,
+      seedData_: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    calcItem(
+      nft_: PromiseOrValue<string>,
+      tokenId_: PromiseOrValue<BigNumberish>,
+      seedData_: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    calcJob(
+      nft_: PromiseOrValue<string>,
+      tokenId_: PromiseOrValue<BigNumberish>,
+      seedData_: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     calcSoul(
-      arg0: PromiseOrValue<string>,
-      arg1: PromiseOrValue<BigNumberish>,
-      arg2: PromiseOrValue<BytesLike>,
+      nft_: PromiseOrValue<string>,
+      tokenId_: PromiseOrValue<BigNumberish>,
+      seedData_: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
   };
 
   populateTransaction: {
     calcArmour(
-      arg0: PromiseOrValue<string>,
-      arg1: PromiseOrValue<BigNumberish>,
-      arg2: PromiseOrValue<BytesLike>,
+      nft_: PromiseOrValue<string>,
+      tokenId_: PromiseOrValue<BigNumberish>,
+      seedData_: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    calcItem(
+      nft_: PromiseOrValue<string>,
+      tokenId_: PromiseOrValue<BigNumberish>,
+      seedData_: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    calcJob(
+      nft_: PromiseOrValue<string>,
+      tokenId_: PromiseOrValue<BigNumberish>,
+      seedData_: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     calcSoul(
-      arg0: PromiseOrValue<string>,
-      arg1: PromiseOrValue<BigNumberish>,
-      arg2: PromiseOrValue<BytesLike>,
+      nft_: PromiseOrValue<string>,
+      tokenId_: PromiseOrValue<BigNumberish>,
+      seedData_: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
   };

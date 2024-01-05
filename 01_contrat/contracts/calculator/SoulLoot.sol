@@ -5,8 +5,9 @@ import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
 import "../lib/Bytecode.sol";
-import "../interfaces/ISoulNft.sol";
+import "../interfaces/lootNfts/ISoulLootNft.sol";
 import "../interfaces/ISoulCalculator.sol";
+import "../interfaces/lootNfts/ILootByRogueV2.sol";
 
 contract SoulLoot is AccessControl, ISoulCalculator {
     bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
@@ -36,16 +37,16 @@ contract SoulLoot is AccessControl, ISoulCalculator {
         uint16,
         uint16
     ){
-        ISoulNft _loot = ISoulNft(nft_);
-        ISoulNft.LootSoul memory _lootSoul = _loot.getLootSoul(tokenId_);
+        ISoulLootNft _loot = ISoulLootNft(nft_);
+        ILootByRogueV2.AdventureRecord memory _record = _loot.getAdventureRecord(tokenId_);
         return (
-            _lootSoul.seed,
-            _lootSoul.turn,
-            _lootSoul.maxHp,
-            _lootSoul.currentHp,
-            _lootSoul.attack,
-            _lootSoul.defence,
-            _lootSoul.recovery
+            _record.inputData.seed,
+            _record.turn,
+            _record.maxHp,
+            _record.currentHp,
+            _record.attack,
+            _record.defence,
+            _record.recovery
         );
     }
 
@@ -58,32 +59,52 @@ contract SoulLoot is AccessControl, ISoulCalculator {
         uint256[8] memory _armourIds,
         string[8] memory _armourNames
     ){
-        ISoulNft _loot = ISoulNft(nft_);
-        ISoulNft.LootSoul memory _lootSoul = _loot.getLootSoul(tokenId_);
-        uint256 _a = 1;
+        ISoulLootNft _loot = ISoulLootNft(nft_);
+        ILootByRogueV2.AdventureRecord memory _record = _loot.getAdventureRecord(tokenId_);
+
         return (
-            _lootSoul.seed,
-            [
-                _a,
-                _a,
-                _a,
-                _a,
-                _a,
-                _a,
-                _a,
-                _a
-            ],
-            [
-                'a',
-                'a',
-                'a',
-                'a',
-                'a',
-                'a',
-                'a',
-                'a'
-            ]
+            _record.inputData.seed,
+            [_record.weapon, _record.chestArmor, _record.headArmor, _record.waistArmor, _record.footArmor, _record.handArmor, _record.necklace, _record.ring],
+            [_loot.getWeapon(tokenId_), _loot.getChest(tokenId_), _loot.getHead(tokenId_), _loot.getWaist(tokenId_), _loot.getFoot(tokenId_), _loot.getHand(tokenId_), _loot.getNeck(tokenId_), _loot.getRing(tokenId_)]
         );
+    }
+
+    function calcJob (
+        address nft_, 
+        uint256 tokenId_, 
+        bytes memory data_
+    ) public view returns (
+        uint256 _seed,
+        uint256 _jobType
+    ){
+        ISoulLootNft _loot = ISoulLootNft(nft_);
+        ILootByRogueV2.AdventureRecord memory _record = _loot.getAdventureRecord(tokenId_);
+
+        return (_record.inputData.seed, _record.inputData.seed % 4);
+    }
+
+    function calcItem(
+        address nft_, 
+        uint256 tokenId_, 
+        bytes memory data_
+    ) public view returns(
+        uint256 _seed,
+        uint256 _itemType,
+        uint256 _rarity
+    ){
+        ISoulLootNft _loot = ISoulLootNft(nft_);
+        ILootByRogueV2.AdventureRecord memory _record = _loot.getAdventureRecord(tokenId_);
+        uint16 _stats = _record.stats[0] + _record.stats[1] + _record.stats[2] + _record.stats[3] + _record.stats[4] + _record.stats[5];
+        uint8 _unique = _record.unique[0] + _record.unique[1] + _record.unique[2] + _record.unique[3];
+        uint256 _pt = _stats + (_unique * 10);
+        if (_pt > 400) {
+            _rarity = 2;
+        } else if(_pt > 200) {
+            _rarity = 1;
+        } else {
+            _rarity = 0;
+        }
+        return (_record.inputData.seed, _record.inputData.seed % 10 ,1);
     }
 
     //*********************************************

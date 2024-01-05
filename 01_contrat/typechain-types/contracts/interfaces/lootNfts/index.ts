@@ -4,3 +4,4 @@
 export type { ILoot } from "./ILoot";
 export type { ILootByRogue } from "./ILootByRogue";
 export type { ILootByRogueV2 } from "./ILootByRogueV2";
+export type { ISoulLootNft } from "./ISoulLootNft";

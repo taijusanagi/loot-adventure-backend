@@ -14,17 +14,17 @@ const _abi = [
     inputs: [
       {
         internalType: "address",
-        name: "",
+        name: "nft_",
         type: "address",
       },
       {
         internalType: "uint256",
-        name: "",
+        name: "tokenId_",
         type: "uint256",
       },
       {
         internalType: "bytes",
-        name: "",
+        name: "seedData_",
         type: "bytes",
       },
     ],
@@ -53,17 +53,90 @@ const _abi = [
     inputs: [
       {
         internalType: "address",
-        name: "",
+        name: "nft_",
         type: "address",
       },
       {
         internalType: "uint256",
-        name: "",
+        name: "tokenId_",
         type: "uint256",
       },
       {
         internalType: "bytes",
-        name: "",
+        name: "seedData_",
+        type: "bytes",
+      },
+    ],
+    name: "calcItem",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "_seed",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "_itemType",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "_rarity",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "nft_",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "tokenId_",
+        type: "uint256",
+      },
+      {
+        internalType: "bytes",
+        name: "seedData_",
+        type: "bytes",
+      },
+    ],
+    name: "calcJob",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "_seed",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "_jobType",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "nft_",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "tokenId_",
+        type: "uint256",
+      },
+      {
+        internalType: "bytes",
+        name: "seedData_",
         type: "bytes",
       },
     ],
