@@ -13,6 +13,7 @@ import "./interfaces/gameNfts/IArmourNft.sol";
 import "./interfaces/gameNfts/IJobNft.sol";
 import "./interfaces/gameNfts/IItemNft.sol";
 import "./interfaces/ISoulCalculator.sol";
+import "./interfaces/IXp.sol";
 
 contract SoulMinter is AccessControl {
     bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
@@ -21,11 +22,15 @@ contract SoulMinter is AccessControl {
     string[4] private JOB_TYPE = ['Warrior','Guardian','Clown','Tank'];
     string[10] private ITEM_TYPE = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
 
-    address private soulNftAddress;
+    // NFT Contract (ERC721)
+    address private soulNft;
     address private soulLootAddress;
-    address private armourNftAddress;
-    address private itemNftAddress;
-    address private jobNftAddress;
+    // SFT Contract (ERC1155)
+    address private armourNft;
+    address private itemNft;
+    address private jobNft;
+    // FT Contract (ERC20)
+    address private xp;
 
     mapping (address => address) calcContract;
 
@@ -40,25 +45,30 @@ contract SoulMinter is AccessControl {
     //*********************************************
     //Getter
     //*********************************************
-    function getSoulNftAddress() public view returns(address){
-        return soulNftAddress;
+    function getSoulNft() public view returns(address){
+        return soulNft;
     }
 
-    function getSoulLootAddress() public view returns(address){
+    function getSoulLoot() public view returns(address){
         return soulLootAddress;
     }
 
-    function getArmourNftAddress() public view returns(address){
-        return armourNftAddress;
+    function getArmourNft() public view returns(address){
+        return armourNft;
     }
 
-    function getItemNftAddress() public view returns(address){
-        return itemNftAddress;
+    function getItemNft() public view returns(address){
+        return itemNft;
     }
 
-    function getJobNftAddress() public view returns(address){
-        return jobNftAddress;
+    function getJobNft() public view returns(address){
+        return jobNft;
     }
+
+    function getXp() public view returns(address){
+        return xp;
+    }
+
 
     function getCalcContract(address nft_) public view returns(address) {
         return calcContract[nft_];
@@ -75,24 +85,28 @@ contract SoulMinter is AccessControl {
         _grantRole(DEVELOPER_ROLE, granted_);
     }
 
-    function setSoulNftAddress(address nft_) public onlyRole(DEVELOPER_ROLE) {
-        soulNftAddress = nft_;
+    function setSoulNft(address nft_) public onlyRole(DEVELOPER_ROLE) {
+        soulNft = nft_;
     }
 
-    function setSoulLootAddress(address nft_) public onlyRole(DEVELOPER_ROLE) {
+    function setSoulLoot(address nft_) public onlyRole(DEVELOPER_ROLE) {
         soulLootAddress = nft_;
     }
 
-    function setArmourNftAddress(address nft_) public onlyRole(DEVELOPER_ROLE) {
-        armourNftAddress = nft_;
+    function setArmourNft(address nft_) public onlyRole(DEVELOPER_ROLE) {
+        armourNft = nft_;
     }
     
-    function setItemNftAddress(address nft_) public onlyRole(DEVELOPER_ROLE) {
-        itemNftAddress = nft_;
+    function setItemNft(address nft_) public onlyRole(DEVELOPER_ROLE) {
+        itemNft = nft_;
     }
 
-    function setJobNftAddress(address nft_) public onlyRole(DEVELOPER_ROLE) {
-        jobNftAddress = nft_;
+    function setJobNft(address nft_) public onlyRole(DEVELOPER_ROLE) {
+        jobNft = nft_;
+    }
+
+    function setXp(address ft_) public onlyRole(DEVELOPER_ROLE) {
+        xp = ft_;
     }
 
     function setCalcContract(address nft_, address calc_) public onlyRole(DEVELOPER_ROLE) {
@@ -114,6 +128,7 @@ contract SoulMinter is AccessControl {
         _mintArmourNft(nft_, tokenId_, recipient_, seedData_);
         _mintJobNft(nft_, tokenId_, recipient_, seedData_);
         _mintItemNft(nft_, tokenId_, recipient_, seedData_);
+        _mintXp(recipient_, 10**18, 'LA000|Create SOul');
     }
 
     function _mintSoulNft(
@@ -122,7 +137,7 @@ contract SoulMinter is AccessControl {
         address recipient_,
         bytes memory seedData_
     ) internal virtual {
-        ISoulNft _soulNft = ISoulNft(soulNftAddress);
+        ISoulNft _soulNft = ISoulNft(soulNft);
         // get parameter via calurator contract by NFT(Address & tokenID)
         ISoulCalculator _calc = ISoulCalculator(calcContract[nft_]);
         (
@@ -149,7 +164,7 @@ contract SoulMinter is AccessControl {
     }
 
     function _mintArmourNft(address nft_, uint256 tokenId_, address recipient_, bytes memory seedData_) internal virtual {
-        IArmourNft _armourNft = IArmourNft(armourNftAddress);
+        IArmourNft _armourNft = IArmourNft(armourNft);
         // get parameter via calurator contract by NFT(Address & tokenID)
         ISoulCalculator _calc = ISoulCalculator(calcContract[nft_]);
         (
@@ -172,7 +187,7 @@ contract SoulMinter is AccessControl {
     }
 
     function _mintJobNft(address nft_, uint256 tokenId_, address recipient_, bytes memory seedData_) internal virtual {
-        IJobNft _jobNft = IJobNft(jobNftAddress);
+        IJobNft _jobNft = IJobNft(jobNft);
         ISoulCalculator _calc = ISoulCalculator(calcContract[nft_]);
         (
             uint256 _seed,
@@ -189,7 +204,7 @@ contract SoulMinter is AccessControl {
     }
 
     function _mintItemNft(address nft_, uint256 tokenId_, address recipient_, bytes memory seedData_) internal virtual {
-        IItemNft _itemNft = IItemNft(itemNftAddress);
+        IItemNft _itemNft = IItemNft(itemNft);
         ISoulCalculator _calc = ISoulCalculator(calcContract[nft_]);
         (
             uint256 _seed,
@@ -205,6 +220,11 @@ contract SoulMinter is AccessControl {
             _itemType,
             _rarity
         );
+    }
+
+    function _mintXp(address recipient_, uint256 amount_, string memory source_) internal virtual {
+        IXp _xp = IXp(xp);
+        _xp.mint(recipient_, amount_, source_);
     }
 
     function nftOwner(address nft_, uint256 tokenId_) public view returns (address) {

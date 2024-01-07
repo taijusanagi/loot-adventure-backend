@@ -49,6 +49,14 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC1155Receiver__factory>;
     getContractFactory(
+      name: "ERC20",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC20__factory>;
+    getContractFactory(
+      name: "IERC20Metadata",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC20Metadata__factory>;
+    getContractFactory(
       name: "IERC20",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC20__factory>;
@@ -125,6 +133,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ISoulMinter__factory>;
     getContractFactory(
+      name: "IXp",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IXp__factory>;
+    getContractFactory(
       name: "ILoot",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ILoot__factory>;
@@ -160,6 +172,10 @@ declare module "hardhat/types/runtime" {
       name: "JobNft",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.JobNft__factory>;
+    getContractFactory(
+      name: "LaXp",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.LaXp__factory>;
     getContractFactory(
       name: "SampleLootV2",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -218,6 +234,16 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.IERC1155Receiver>;
+    getContractAt(
+      name: "ERC20",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC20>;
+    getContractAt(
+      name: "IERC20Metadata",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC20Metadata>;
     getContractAt(
       name: "IERC20",
       address: string,
@@ -314,6 +340,11 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.ISoulMinter>;
     getContractAt(
+      name: "IXp",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IXp>;
+    getContractAt(
       name: "ILoot",
       address: string,
       signer?: ethers.Signer
@@ -358,6 +389,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.JobNft>;
+    getContractAt(
+      name: "LaXp",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.LaXp>;
     getContractAt(
       name: "SampleLootV2",
       address: string,

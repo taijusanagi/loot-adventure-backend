@@ -7,3 +7,4 @@ export { IERC6551Account__factory } from "./IERC6551Account__factory";
 export { IERC6551Registry__factory } from "./IERC6551Registry__factory";
 export { ISoulCalculator__factory } from "./ISoulCalculator__factory";
 export { ISoulMinter__factory } from "./ISoulMinter__factory";
+export { IXp__factory } from "./IXp__factory";

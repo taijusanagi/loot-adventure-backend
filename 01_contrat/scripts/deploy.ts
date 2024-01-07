@@ -1,4 +1,6 @@
 import { ethers } from 'hardhat';
+import { erc6551AccountAbi } from './abi/erc6551-account-abi';
+import { erc20laxpAbi } from './abi/erc20-laxp-abi';
 
 async function main() {
   const [deployer] = await ethers.getSigners();
@@ -6,20 +8,20 @@ async function main() {
   console.log('Deployer is ... ', deployer.address);
 
   // Test Prameter
-  const TOKEN_ID = 1;
+  const TOKEN_ID = 0;
 
   // Local
-  const CHAIN_ID = 31337;
-  const LOOT_NFT = '0x162700d1613DfEC978032A909DE02643bC55df1A'; 
+  // const CHAIN_ID = 31337;
+  // const LOOT_NFT = '0x162700d1613DfEC978032A909DE02643bC55df1A'; 
 
   // MCH-Verce Testnet
-  // const LOOT_NFT = '0xFBaD63bAbe3C6324e6B49e15C6e87D58A0282295';
-  // const CHAIN_ID = 420;
+  const LOOT_NFT = '0x4476065dD1823254B0fC4a5761F4041a4f8DD23e';
+  const CHAIN_ID = 420;
   // Astar zKatana
   // const LOOT_NFT = '0x3a0Dc7cF61F71344348713a76C23DbEE5d6AA8b5';
   // const CHAIN_ID = 1261120;
   // Polygon Mumbai
-  // const LOOT_NFT = '0x76381e79B2b00B898979CD74aCE8E1def8cba005';
+  // const LOOT_NFT = '0xc88626Ec166160ea843d12FED77804e0B7DbB9DA';
   // const CHAIN_ID = 80001;
 
   // Deploy Contract
@@ -71,6 +73,11 @@ async function main() {
   await itemNft.deployed();
   console.log('deployed JobNft to:', itemNft.address);
   
+  const f14 = await ethers.getContractFactory('LaXp', deployer);
+  const laXp = await f14.deploy();
+  await laXp.deployed();
+  console.log('deployed LA-XP to:', laXp.address);
+
   const f3 = await ethers.getContractFactory('ERC6551Account', deployer);
   const erc6551Account = await f3.deploy();
   await erc6551Account.deployed();
@@ -95,6 +102,7 @@ async function main() {
   await armourNft.setMinterRole(soulMinter.address);
   await jobNft.setMinterRole(soulMinter.address);
   await itemNft.setMinterRole(soulMinter.address);
+  await laXp.setMinterRole(soulMinter.address);
   console.log('Minter is set on NFTs |', soulMinter.address);
 
   // Set NFT-ID on NFTs
@@ -111,11 +119,12 @@ async function main() {
   console.log('NFT-ID is set on NFTs | ', LOOT_NFT);
 
   // Set NFTs on Minter
-  await soulMinter.setSoulNftAddress(soulNft.address);
-  await soulMinter.setSoulLootAddress(soulLootNft.address);
-  await soulMinter.setArmourNftAddress(armourNft.address);
-  await soulMinter.setJobNftAddress(jobNft.address);
-  await soulMinter.setItemNftAddress(itemNft.address);
+  await soulMinter.setSoulNft(soulNft.address);
+  await soulMinter.setSoulLoot(soulLootNft.address);
+  await soulMinter.setArmourNft(armourNft.address);
+  await soulMinter.setJobNft(jobNft.address);
+  await soulMinter.setItemNft(itemNft.address);
+  await soulMinter.setXp(laXp.address);
   console.log('NFTs is set on Minter | ', soulMinter.address);
 
   // Set Calc-Contracts on Minter
@@ -126,6 +135,7 @@ async function main() {
 
   // Mint SoulLoot
   await soulLootNft.safeMint(LOOT_NFT, TOKEN_ID);
+  console.log('SoulLoot is mint!!!');
 
   // Set on Imple&minter Contracts on ERC6551Registry
   await erc6551Registry.setImplementation(erc6551Account.address);
@@ -133,25 +143,41 @@ async function main() {
   console.log('Imple&SoulMinter Contracts is set on ERC6551Registry');
 
   // (Test) Create TBA & Mint Soul NFTs
-  const owner = await soulLootNft.ownerOf(20000000001);
+  const owner = await soulLootNft.ownerOf(20000000000);
   console.log('Owner is ...', owner);
 
   await erc6551Registry.createSoul(
     CHAIN_ID,
     soulLootNft.address,
-    20000000001,
-    1,
-    '0x0000000000000000000000000000000000000000',
+    20000000000,
+    5,
+    '0x0000000000000000000000000000000000000000'
   );
   console.log('TBA is created');
 
-  await erc6551Registry.executeMint(
+  // (Test) executeCall TBA (transfer burn LaXp)
+  const tba = await erc6551Registry.account(
+    erc6551Account.address,
     CHAIN_ID,
     soulLootNft.address,
-    20000000001,
-    1,
-    '0x00'
-  );
+    20000000000,
+    5
+  )
+  await laXp.setMinterRole(tba);
+  console.log('tba is...', tba);
+  console.log('& set Minter')
+
+  const iface = new ethers.utils.Interface(erc20laxpAbi)
+  const funcData = iface.encodeFunctionData("burn", [
+    tba,
+    10**7,
+    'LA001|Use XpToken'
+  ])
+  
+  const contract = new ethers.Contract(tba, erc6551AccountAbi, deployer);
+  const result = await contract.executeCall(laXp.address, 0, funcData);
+  // const result = await contract.executeCall.staticCall(laXp.address, 0, funcData);
+  console.log(result);
 }
 
 // We recommend this pattern to be able to use async/await everywhere

@@ -4,6 +4,7 @@
 export type { ArmourNft } from "./ArmourNft";
 export type { ItemNft } from "./ItemNft";
 export type { JobNft } from "./JobNft";
+export type { LaXp } from "./LaXp";
 export type { SampleLootV2 } from "./SampleLootV2";
 export type { SoulLootNft } from "./SoulLootNft";
 export type { SoulNft } from "./SoulNft";

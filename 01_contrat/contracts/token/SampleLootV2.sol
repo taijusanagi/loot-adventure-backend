@@ -82,12 +82,13 @@ contract SampleLootV2 is ERC721, Ownable, AccessControl, Pausable, ILootByRogueV
         tmpRecord.relics = _relics;
 
         mintedSeed[tmpRecord.inputData.seed] = true;
-        _tokenIdCounter.increment();
+        
         uint256 tokenId = _tokenIdCounter.current();
         tokens[tokenId] = tmpRecord;
 
         _safeMint(to, tokenId);
         emit MintSeed(msg.sender, tokenId, tmpRecord.inputData.seed);
+        _tokenIdCounter.increment();
     }
 
     function convert(address to, AdventureRecord calldata record, uint256 tokenId) public whenNotPaused onlyRole(MINTER_ROLE) {

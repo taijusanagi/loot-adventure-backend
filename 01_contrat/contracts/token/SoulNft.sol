@@ -2,7 +2,6 @@
 pragma solidity ^0.8.19;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/utils/Base64.sol";
@@ -161,5 +160,12 @@ contract SoulNft is ERC721, AccessControl, ISoulNft {
 
     function supportsInterface(bytes4 interfaceId) public view virtual override (ERC721, AccessControl, IERC165) returns (bool) {
         return super.supportsInterface(interfaceId);
+    }
+
+    function _beforeTokenTransfer(address from, address to, uint256 tokenId, uint256 batchSize)
+        internal virtual override(ERC721)
+    {
+        require(from == address(0), "Soul-Nft Error: Token is SOUL BOUND");
+        super._beforeTokenTransfer(from, to, tokenId, batchSize);
     }
 }

@@ -22,7 +22,7 @@ async function main() {
     [1,1,1]
   );
   
-  const tokenOwner = await lootNft.ownerOf(1);
+  const tokenOwner = await lootNft.ownerOf(0);
   console.log('Owner Address is... ', deployer.address)
   console.log('TokenID 1: ', tokenOwner);
 }

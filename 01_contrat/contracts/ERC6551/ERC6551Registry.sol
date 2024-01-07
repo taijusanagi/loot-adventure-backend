@@ -109,6 +109,14 @@ contract ERC6551Registry is IERC6551Registry, AccessControl {
             salt,
             initData
         );
+
+        executeMint(
+            chainId,
+            tokenContract,
+            tokenId,
+            salt,
+            initData
+        );
     }
 
     function executeMint(
