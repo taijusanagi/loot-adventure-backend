@@ -1,0 +1,16 @@
+{
+    "address": "0x95438de9fe674d3678f3890adf1ab09b8c21cc82", 
+    "topics": [], 
+    "data": "0x0000000000000000000000003f2347df5e2359417fd3a8b8…0000000000000000000000000000000000000000000000001", 
+    "blockNumber": 30048n, 
+    "blockHash": "0xf3b7435108a3fe7310d7e70260fb8c8306305c12a82f71bdf6833",
+    "transactionHash": "0x35b9c9bf93bd3ad5547f167bf85c1bc937a2b9fb0b8b1ee8acaffc8ba60f7261",
+    "args": {
+        "account": "0x3f2347DF5E2359417fD3A8B842Cd967E7178857f",
+        "chainId": 420n,
+        "implementation": "0x2EBB65e232570B9703De896c231337D375af675c",
+        "salt": 1n,
+        "tokenContract": "0x24eB555242b86A27876946032519C2d6fc729c43",
+        "tokenId": 20000000012n
+    }
+}

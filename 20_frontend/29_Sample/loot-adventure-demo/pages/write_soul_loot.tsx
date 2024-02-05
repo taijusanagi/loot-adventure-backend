@@ -21,7 +21,7 @@ type formInputs = {
 
 const MintSoulLoot:NextPage = () => {
     const [lootNft, setLootNft] = useState(NFT_CONTRACT);
-    const [tokenId, setTokenId] = useState(3);
+    const [tokenId, setTokenId] = useState(10);
     const [approved, setApproved] = useState(false);
     const { getValues, register, formState: { errors, isSubmitting },} = useForm<formInputs>()
 
@@ -55,11 +55,13 @@ const MintSoulLoot:NextPage = () => {
     const submitTx = () => {
         const _tokenId = getValues('tokenId');
         setTokenId(_tokenId);
+        console.log(_tokenId);
+        console.log(typeof(write));
+        console.log(approved);
         if(typeof(write) != 'undefined'){ 
             setTimeout(write, 1000);
-            if(!approved) {
-                setApproved(true);
-            }
+            setApproved(true);
+            
         };
     }
 
