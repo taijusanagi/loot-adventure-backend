@@ -96,7 +96,7 @@ const CreateSoulTBA:NextPage = () => {
                             <div>Transaction hash: {JSON.stringify(data)}</div>
                         </div>
                         <Box>
-                            <p>Check your console</p>
+                            <p>Check your console(F12)</p>
                         </Box>
                     </div>
                 }
