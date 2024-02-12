@@ -5,6 +5,13 @@
     * ABIの反映 -> 20_frontend/29_Demo/loot-adventure-demo/components/abi 
     * コントラクトアドレスの反映 -> 20_frontend/29_Demo/loot-adventure-demo/config.ts
     * コントラクト実行＆出力の処理反映 -> 20_frontend/29_Demo/loot-adventure-demo/pages/index.tsx
+
+* theGraphの用意
+  * AWSのサンプルからのブロックチェーンノードを外す
+  * AWSのサンプルをデプロイする
+  * SubGraphを作る
+  * SubGraphを叩くAPIを作る
+
 * APIで取得・実行するもの
   * 空のLamgdaを作る
     *  30_backenc/01_AWS/src/ にサンプルデータのJSONだけ返すソースコードを作る

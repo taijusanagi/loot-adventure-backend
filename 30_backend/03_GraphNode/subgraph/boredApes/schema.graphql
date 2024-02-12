@@ -1,0 +1,86 @@
+# © 2023 Amazon Web Services, Inc. or its affiliates. All Rights Reserved.
+
+# This AWS Content is provided subject to the terms of the AWS Customer Agreement
+# available at http://aws.amazon.com/agreement or other written agreement between
+# Customer and either Amazon Web Services, Inc. or Amazon Web Services EMEA SARL or both.
+
+type Approval @entity(immutable: true) {
+  id: Bytes!
+  owner: Bytes! # address
+  approved: Bytes! # address
+  token_id: BigInt! # uint256
+  block_number: BigInt!
+  block_timestamp: BigInt!
+  transaction_hash: Bytes!
+}
+
+type ApprovalForAll @entity(immutable: true) {
+  id: Bytes!
+  owner: Bytes! # address
+  operator: Bytes! # address
+  approved: Boolean! # bool
+  block_number: BigInt!
+  block_timestamp: BigInt!
+  transaction_hash: Bytes!
+}
+
+type OwnershipTransferred @entity(immutable: true) {
+  id: Bytes!
+  previous_owner: Bytes! # address
+  new_owner: Bytes! # address
+  block_number: BigInt!
+  block_timestamp: BigInt!
+  transaction_hash: Bytes!
+}
+
+type Transfer @entity(immutable: true) {
+  id: Bytes!
+  from: Bytes! # address
+  to: Bytes! # address
+  token_id: BigInt! # uint256
+  block_number: BigInt!
+  block_timestamp: BigInt!
+  transaction_hash: Bytes!
+}
+
+type Contract @entity {
+  id: Bytes! # address
+  name: String!
+  symbol: String!
+  tokens: [Token!]! @derivedFrom(field: "contract")
+}
+
+type Token @entity {
+  id: Bytes!
+  token_id: BigInt!
+  uri: String!
+  metadata: TokenMetadata
+  mint_tx: Transfer
+  owner: Account!
+  contract: Contract!
+  updated_at_timestamp: BigInt!
+  previous_owners: [PrevTokenAccount!]! @derivedFrom(field: "token")
+}
+
+type PrevTokenAccount @entity {
+  id: Bytes! # Set to account.id.concat(token.id)
+  account: Account!
+  token: Token!
+}
+
+type TokenMetadata @entity(immutable: true) {
+  id: Bytes!
+  image: String!
+  attributes: [Attribute!]!
+}
+
+type Attribute @entity(immutable: true) {
+  id: Bytes!
+  key: String!
+  value: String!
+}
+
+type Account @entity {
+  id: Bytes! # address
+  tokens: [Token!]! @derivedFrom(field: "owner")
+}
