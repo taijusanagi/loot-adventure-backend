@@ -8,6 +8,8 @@ interface IEquipmentNft {
         uint256 equipmentType;
         address rAddress;
         uint256 rTokenId;
+        uint256 rarity;
+        uint256 level;
     }
 
     //Setter
@@ -15,6 +17,7 @@ interface IEquipmentNft {
     function setMinterRole(address) external;
     function setDeveloperRole(address) external;
     function setNftId(address) external;
+    function setOnGame (address) external;
 
-    function mint(address, address, uint256, uint256, string memory, uint256, uint256) external;
+    function mint(address, address, uint256, uint256, string memory, uint256, uint256, uint256) external;
 }

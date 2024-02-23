@@ -80,7 +80,7 @@ class TheGraphCluster extends Construct {
       [4, 'rinkeby'],
       [5, 'goerli'],
       [137, 'matic'],
-      [420, 'mchverce-testnet'],
+      [420, 'mchverce'],
       [80001, 'mumbai'],
       [11155111, 'sepolia'],
     ])

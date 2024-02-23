@@ -11,4 +11,5 @@ import type * as lib from "./lib";
 export type { lib };
 import type * as token from "./token";
 export type { token };
+export type { SoulControler } from "./SoulControler";
 export type { SoulMinter } from "./SoulMinter";

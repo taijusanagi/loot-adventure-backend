@@ -127,10 +127,11 @@ contract SoulMinter is AccessControl {
         (
             uint256 _seed,
             uint256[8] memory _equipmentIds,
-            string[8] memory _equipmentNames
+            string[8] memory _equipmentNames,
+            uint256[8] memory _equipmentRarities
         ) = _calc.calcEquipment(nft_, tokenId_, seedData_);
 
-        for(uint i; i<8; i++){
+        for(uint i=0; i<8; i++){
             _equipmentNft.mint(
                 recipient_, 
                 nft_, 
@@ -138,7 +139,8 @@ contract SoulMinter is AccessControl {
                 _seed,
                 _equipmentNames[i],
                 _equipmentIds[i],
-                i
+                i,
+                _equipmentRarities[i]
             );
         }
     }

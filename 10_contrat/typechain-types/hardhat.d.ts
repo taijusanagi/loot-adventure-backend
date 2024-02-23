@@ -153,6 +153,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Bytecode__factory>;
     getContractFactory(
+      name: "SoulControler",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.SoulControler__factory>;
+    getContractFactory(
       name: "SoulMinter",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.SoulMinter__factory>;
@@ -356,6 +360,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.Bytecode>;
+    getContractAt(
+      name: "SoulControler",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.SoulControler>;
     getContractAt(
       name: "SoulMinter",
       address: string,

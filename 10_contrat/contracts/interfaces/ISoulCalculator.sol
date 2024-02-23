@@ -23,7 +23,8 @@ interface ISoulCalculator {
     ) external view returns (
         uint256 _seed,
         uint256[8] memory _equipmentIds,
-        string[8] memory _equipmentNames
+        string[8] memory _equipmentNames,
+        uint256[8] memory _equipmentRarities
     );
 
     function calcArtifact(

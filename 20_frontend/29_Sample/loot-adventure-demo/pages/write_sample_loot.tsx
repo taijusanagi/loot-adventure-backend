@@ -31,7 +31,7 @@ type event = {
     transactionIndex: number
 }
 const MintSampleLoot:NextPage = () => {
-    const [to, setTo] = useState('0xBcd4042DE499D14e55001CcbB24a551F3b954096');
+    const [to, setTo] = useState('0x7b718D4Ce6ca83536660a314639559F3d3f6e9e3');
     const [emit, setEmit] = useState<event>();
     // const [emit, setEmit] = useState('');
 

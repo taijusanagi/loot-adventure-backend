@@ -22,7 +22,7 @@ type formInputs = {
 const MintSoulLoot:NextPage = () => {
     const [lootNft, setLootNft] = useState(NFT_CONTRACT);
     const [tokenId, setTokenId] = useState(10);
-    const [approved, setApproved] = useState(false);
+    const [approved, setApproved] = useState(true);
     const { getValues, register, formState: { errors, isSubmitting },} = useForm<formInputs>()
 
     const approveEvent = watchClientMchTestnet.watchContractEvent({
@@ -46,10 +46,10 @@ const MintSoulLoot:NextPage = () => {
     });
     
     const { config } = usePrepareContractWrite({
-        address: approved ? SOULLOOT_NFT : NFT_CONTRACT,
-        abi: approved ? soulLootNftAbi : sampleLootV2Abi,
-        functionName: approved ? 'safeMint' : 'approve',
-        args: approved ? [NFT_CONTRACT, tokenId] : [SOULLOOT_NFT, tokenId]
+        address: SOULLOOT_NFT,
+        abi: soulLootNftAbi,
+        functionName: 'safeMint',
+        args: [NFT_CONTRACT, tokenId]
     });
     const { data, isLoading, isSuccess, write } = useContractWrite(config);
     const submitTx = () => {
@@ -58,10 +58,10 @@ const MintSoulLoot:NextPage = () => {
         console.log(_tokenId);
         console.log(typeof(write));
         console.log(approved);
+        write()
         if(typeof(write) != 'undefined'){ 
             setTimeout(write, 1000);
-            setApproved(true);
-            
+            setApproved(true);  
         };
     }
 

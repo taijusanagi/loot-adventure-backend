@@ -79,6 +79,11 @@ const _abi = [
         name: "_equipmentNames",
         type: "string[8]",
       },
+      {
+        internalType: "uint256[8]",
+        name: "_equipmentRarities",
+        type: "uint256[8]",
+      },
     ],
     stateMutability: "view",
     type: "function",

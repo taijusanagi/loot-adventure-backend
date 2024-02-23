@@ -281,10 +281,11 @@ export interface SoulLoot extends BaseContract {
       data_: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<
-      [BigNumber, BigNumber[], string[]] & {
+      [BigNumber, BigNumber[], string[], BigNumber[]] & {
         _seed: BigNumber;
         _equipmentIds: BigNumber[];
         _equipmentNames: string[];
+        _equipmentRarities: BigNumber[];
       }
     >;
 
@@ -374,10 +375,11 @@ export interface SoulLoot extends BaseContract {
     data_: PromiseOrValue<BytesLike>,
     overrides?: CallOverrides
   ): Promise<
-    [BigNumber, BigNumber[], string[]] & {
+    [BigNumber, BigNumber[], string[], BigNumber[]] & {
       _seed: BigNumber;
       _equipmentIds: BigNumber[];
       _equipmentNames: string[];
+      _equipmentRarities: BigNumber[];
     }
   >;
 
@@ -467,10 +469,11 @@ export interface SoulLoot extends BaseContract {
       data_: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<
-      [BigNumber, BigNumber[], string[]] & {
+      [BigNumber, BigNumber[], string[], BigNumber[]] & {
         _seed: BigNumber;
         _equipmentIds: BigNumber[];
         _equipmentNames: string[];
+        _equipmentRarities: BigNumber[];
       }
     >;
 

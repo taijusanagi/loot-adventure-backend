@@ -56,11 +56,12 @@ contract SoulLootByRogue is AccessControl, ISoulCalculator {
     ) public view returns (
         uint256 _seed,
         uint256[8] memory _equipmentIds,
-        string[8] memory _equipmentNames
+        string[8] memory _equipmentNames,
+        uint256[8] memory _equipmentRarities
     ){
         ILootByRogueV2 _loot = ILootByRogueV2(nft_);
         ILootByRogueV2.AdventureRecord memory _record = _loot.getAdventureRecord(tokenId_);
-
+        uint256 _rarity = 1;
         return (
             _record.inputData.seed,
             [
@@ -82,7 +83,8 @@ contract SoulLootByRogue is AccessControl, ISoulCalculator {
                 _loot.getHand(tokenId_),
                 _loot.getNeck(tokenId_),
                 _loot.getRing(tokenId_)
-            ]
+            ],
+            [_rarity,_rarity,_rarity,_rarity,_rarity,_rarity,_rarity,_rarity]
         );
     }
 

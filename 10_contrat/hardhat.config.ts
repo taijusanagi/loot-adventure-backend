@@ -48,6 +48,7 @@ const config: HardhatUserConfig = {
       gas: 2100000,
       gasPrice: 8000000000,
       chainId: 31337,
+      accounts: PRIVATE_KEY ? [PRIVATE_KEY] : []
     },
     mchTest: {
       url: API_URL_MCH,
@@ -72,7 +73,19 @@ const config: HardhatUserConfig = {
     currency: 'USD',
   },
   etherscan: {
-    apiKey: API_KEY,
+    apiKey: {
+      mchTest: "aaa"
+    },
+    customChains: [
+      {
+        network: "mchTest",
+        chainId: 420,
+        urls: {
+          apiURL: "https://explorer.oasys.sand.mchdfgh.xyz/api ",
+          browserURL: "https://explorer.oasys.sand.mchdfgh.xyz/"
+        }
+      }
+    ]
   },
 };
 

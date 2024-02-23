@@ -6,4 +6,5 @@ export * as erc6551 from "./erc6551";
 export * as interfaces from "./interfaces";
 export * as lib from "./lib";
 export * as token from "./token";
+export { SoulControler__factory } from "./SoulControler__factory";
 export { SoulMinter__factory } from "./SoulMinter__factory";

@@ -76,6 +76,8 @@ export type { ISoulLoot } from "./contracts/interfaces/lootNfts/ISoulLoot";
 export { ISoulLoot__factory } from "./factories/contracts/interfaces/lootNfts/ISoulLoot__factory";
 export type { Bytecode } from "./contracts/lib/Bytecode";
 export { Bytecode__factory } from "./factories/contracts/lib/Bytecode__factory";
+export type { SoulControler } from "./contracts/SoulControler";
+export { SoulControler__factory } from "./factories/contracts/SoulControler__factory";
 export type { SoulMinter } from "./contracts/SoulMinter";
 export { SoulMinter__factory } from "./factories/contracts/SoulMinter__factory";
 export type { ArtifactNft } from "./contracts/token/ArtifactNft";

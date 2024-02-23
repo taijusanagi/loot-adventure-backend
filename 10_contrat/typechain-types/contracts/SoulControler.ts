@@ -25,25 +25,35 @@ import type {
   TypedListener,
   OnEvent,
   PromiseOrValue,
-} from "../../common";
+} from "../common";
 
-export interface SoulLootByRogueInterface extends utils.Interface {
+export interface SoulControlerInterface extends utils.Interface {
   functions: {
     "ADMIN_ROLE()": FunctionFragment;
     "DEFAULT_ADMIN_ROLE()": FunctionFragment;
     "DEVELOPER_ROLE()": FunctionFragment;
-    "calcArtifact(address,uint256,bytes)": FunctionFragment;
-    "calcEquipment(address,uint256,bytes)": FunctionFragment;
-    "calcItem(address,uint256,bytes)": FunctionFragment;
-    "calcSoul(address,uint256,bytes)": FunctionFragment;
+    "getArtifactNft()": FunctionFragment;
+    "getEquipmentNft()": FunctionFragment;
+    "getItemNft()": FunctionFragment;
     "getRoleAdmin(bytes32)": FunctionFragment;
+    "getSoulLoot()": FunctionFragment;
+    "getTreasury()": FunctionFragment;
+    "getXp()": FunctionFragment;
     "grantRole(bytes32,address)": FunctionFragment;
     "hasRole(bytes32,address)": FunctionFragment;
     "renounceRole(bytes32,address)": FunctionFragment;
     "revokeRole(bytes32,address)": FunctionFragment;
     "setAdminRole(address)": FunctionFragment;
+    "setArtifactNft(address)": FunctionFragment;
     "setDeveloperRole(address)": FunctionFragment;
+    "setEquipmentNft(address)": FunctionFragment;
+    "setItemNft(address)": FunctionFragment;
+    "setNftsOnGame(address)": FunctionFragment;
+    "setSoulLoot(address)": FunctionFragment;
+    "setTreasury(address)": FunctionFragment;
+    "setXp(address)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
+    "transferEquipmentNft(address,uint256)": FunctionFragment;
   };
 
   getFunction(
@@ -51,18 +61,28 @@ export interface SoulLootByRogueInterface extends utils.Interface {
       | "ADMIN_ROLE"
       | "DEFAULT_ADMIN_ROLE"
       | "DEVELOPER_ROLE"
-      | "calcArtifact"
-      | "calcEquipment"
-      | "calcItem"
-      | "calcSoul"
+      | "getArtifactNft"
+      | "getEquipmentNft"
+      | "getItemNft"
       | "getRoleAdmin"
+      | "getSoulLoot"
+      | "getTreasury"
+      | "getXp"
       | "grantRole"
       | "hasRole"
       | "renounceRole"
       | "revokeRole"
       | "setAdminRole"
+      | "setArtifactNft"
       | "setDeveloperRole"
+      | "setEquipmentNft"
+      | "setItemNft"
+      | "setNftsOnGame"
+      | "setSoulLoot"
+      | "setTreasury"
+      | "setXp"
       | "supportsInterface"
+      | "transferEquipmentNft"
   ): FunctionFragment;
 
   encodeFunctionData(
@@ -78,41 +98,30 @@ export interface SoulLootByRogueInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "calcArtifact",
-    values: [
-      PromiseOrValue<string>,
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BytesLike>
-    ]
+    functionFragment: "getArtifactNft",
+    values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "calcEquipment",
-    values: [
-      PromiseOrValue<string>,
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BytesLike>
-    ]
+    functionFragment: "getEquipmentNft",
+    values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "calcItem",
-    values: [
-      PromiseOrValue<string>,
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BytesLike>
-    ]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "calcSoul",
-    values: [
-      PromiseOrValue<string>,
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BytesLike>
-    ]
+    functionFragment: "getItemNft",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "getRoleAdmin",
     values: [PromiseOrValue<BytesLike>]
   ): string;
+  encodeFunctionData(
+    functionFragment: "getSoulLoot",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getTreasury",
+    values?: undefined
+  ): string;
+  encodeFunctionData(functionFragment: "getXp", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "grantRole",
     values: [PromiseOrValue<BytesLike>, PromiseOrValue<string>]
@@ -134,12 +143,44 @@ export interface SoulLootByRogueInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
+    functionFragment: "setArtifactNft",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "setDeveloperRole",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setEquipmentNft",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setItemNft",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setNftsOnGame",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setSoulLoot",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setTreasury",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setXp",
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "supportsInterface",
     values: [PromiseOrValue<BytesLike>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "transferEquipmentNft",
+    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
   ): string;
 
   decodeFunctionResult(functionFragment: "ADMIN_ROLE", data: BytesLike): Result;
@@ -152,19 +193,27 @@ export interface SoulLootByRogueInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "calcArtifact",
+    functionFragment: "getArtifactNft",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "calcEquipment",
+    functionFragment: "getEquipmentNft",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "calcItem", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "calcSoul", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "getItemNft", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getRoleAdmin",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "getSoulLoot",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getTreasury",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "getXp", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "grantRole", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "hasRole", data: BytesLike): Result;
   decodeFunctionResult(
@@ -177,11 +226,37 @@ export interface SoulLootByRogueInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "setArtifactNft",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "setDeveloperRole",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "setEquipmentNft",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "setItemNft", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "setNftsOnGame",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setSoulLoot",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setTreasury",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "setXp", data: BytesLike): Result;
+  decodeFunctionResult(
     functionFragment: "supportsInterface",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "transferEquipmentNft",
     data: BytesLike
   ): Result;
 
@@ -233,12 +308,12 @@ export type RoleRevokedEvent = TypedEvent<
 
 export type RoleRevokedEventFilter = TypedEventFilter<RoleRevokedEvent>;
 
-export interface SoulLootByRogue extends BaseContract {
+export interface SoulControler extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: SoulLootByRogueInterface;
+  interface: SoulControlerInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
@@ -266,53 +341,22 @@ export interface SoulLootByRogue extends BaseContract {
 
     DEVELOPER_ROLE(overrides?: CallOverrides): Promise<[string]>;
 
-    calcArtifact(
-      nft_: PromiseOrValue<string>,
-      tokenId_: PromiseOrValue<BigNumberish>,
-      data_: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<
-      [BigNumber, BigNumber] & { _seed: BigNumber; _artifactType: BigNumber }
-    >;
+    getArtifactNft(overrides?: CallOverrides): Promise<[string]>;
 
-    calcEquipment(
-      nft_: PromiseOrValue<string>,
-      tokenId_: PromiseOrValue<BigNumberish>,
-      data_: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<
-      [BigNumber, BigNumber[], string[], BigNumber[]] & {
-        _seed: BigNumber;
-        _equipmentIds: BigNumber[];
-        _equipmentNames: string[];
-        _equipmentRarities: BigNumber[];
-      }
-    >;
+    getEquipmentNft(overrides?: CallOverrides): Promise<[string]>;
 
-    calcItem(
-      nft_: PromiseOrValue<string>,
-      tokenId_: PromiseOrValue<BigNumberish>,
-      data_: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<
-      [BigNumber, BigNumber, BigNumber] & {
-        _seed: BigNumber;
-        _itemType: BigNumber;
-        _rarity: BigNumber;
-      }
-    >;
-
-    calcSoul(
-      nft_: PromiseOrValue<string>,
-      tokenId_: PromiseOrValue<BigNumberish>,
-      data_: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber, number, number, number, number, number, number]>;
+    getItemNft(overrides?: CallOverrides): Promise<[string]>;
 
     getRoleAdmin(
       role: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<[string]>;
+
+    getSoulLoot(overrides?: CallOverrides): Promise<[string]>;
+
+    getTreasury(overrides?: CallOverrides): Promise<[string]>;
+
+    getXp(overrides?: CallOverrides): Promise<[string]>;
 
     grantRole(
       role: PromiseOrValue<BytesLike>,
@@ -343,8 +387,43 @@ export interface SoulLootByRogue extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    setArtifactNft(
+      nft_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     setDeveloperRole(
       granted_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    setEquipmentNft(
+      nft_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    setItemNft(
+      nft_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    setNftsOnGame(
+      player_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    setSoulLoot(
+      nft_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    setTreasury(
+      treasury_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    setXp(
+      ft_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -352,6 +431,12 @@ export interface SoulLootByRogue extends BaseContract {
       interfaceId: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
+
+    transferEquipmentNft(
+      from_: PromiseOrValue<string>,
+      tokenIdEquipment_: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
   };
 
   ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
@@ -360,53 +445,22 @@ export interface SoulLootByRogue extends BaseContract {
 
   DEVELOPER_ROLE(overrides?: CallOverrides): Promise<string>;
 
-  calcArtifact(
-    nft_: PromiseOrValue<string>,
-    tokenId_: PromiseOrValue<BigNumberish>,
-    data_: PromiseOrValue<BytesLike>,
-    overrides?: CallOverrides
-  ): Promise<
-    [BigNumber, BigNumber] & { _seed: BigNumber; _artifactType: BigNumber }
-  >;
+  getArtifactNft(overrides?: CallOverrides): Promise<string>;
 
-  calcEquipment(
-    nft_: PromiseOrValue<string>,
-    tokenId_: PromiseOrValue<BigNumberish>,
-    data_: PromiseOrValue<BytesLike>,
-    overrides?: CallOverrides
-  ): Promise<
-    [BigNumber, BigNumber[], string[], BigNumber[]] & {
-      _seed: BigNumber;
-      _equipmentIds: BigNumber[];
-      _equipmentNames: string[];
-      _equipmentRarities: BigNumber[];
-    }
-  >;
+  getEquipmentNft(overrides?: CallOverrides): Promise<string>;
 
-  calcItem(
-    nft_: PromiseOrValue<string>,
-    tokenId_: PromiseOrValue<BigNumberish>,
-    data_: PromiseOrValue<BytesLike>,
-    overrides?: CallOverrides
-  ): Promise<
-    [BigNumber, BigNumber, BigNumber] & {
-      _seed: BigNumber;
-      _itemType: BigNumber;
-      _rarity: BigNumber;
-    }
-  >;
-
-  calcSoul(
-    nft_: PromiseOrValue<string>,
-    tokenId_: PromiseOrValue<BigNumberish>,
-    data_: PromiseOrValue<BytesLike>,
-    overrides?: CallOverrides
-  ): Promise<[BigNumber, number, number, number, number, number, number]>;
+  getItemNft(overrides?: CallOverrides): Promise<string>;
 
   getRoleAdmin(
     role: PromiseOrValue<BytesLike>,
     overrides?: CallOverrides
   ): Promise<string>;
+
+  getSoulLoot(overrides?: CallOverrides): Promise<string>;
+
+  getTreasury(overrides?: CallOverrides): Promise<string>;
+
+  getXp(overrides?: CallOverrides): Promise<string>;
 
   grantRole(
     role: PromiseOrValue<BytesLike>,
@@ -437,8 +491,43 @@ export interface SoulLootByRogue extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  setArtifactNft(
+    nft_: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   setDeveloperRole(
     granted_: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  setEquipmentNft(
+    nft_: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  setItemNft(
+    nft_: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  setNftsOnGame(
+    player_: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  setSoulLoot(
+    nft_: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  setTreasury(
+    treasury_: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  setXp(
+    ft_: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -447,6 +536,12 @@ export interface SoulLootByRogue extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
+  transferEquipmentNft(
+    from_: PromiseOrValue<string>,
+    tokenIdEquipment_: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   callStatic: {
     ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
 
@@ -454,53 +549,22 @@ export interface SoulLootByRogue extends BaseContract {
 
     DEVELOPER_ROLE(overrides?: CallOverrides): Promise<string>;
 
-    calcArtifact(
-      nft_: PromiseOrValue<string>,
-      tokenId_: PromiseOrValue<BigNumberish>,
-      data_: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<
-      [BigNumber, BigNumber] & { _seed: BigNumber; _artifactType: BigNumber }
-    >;
+    getArtifactNft(overrides?: CallOverrides): Promise<string>;
 
-    calcEquipment(
-      nft_: PromiseOrValue<string>,
-      tokenId_: PromiseOrValue<BigNumberish>,
-      data_: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<
-      [BigNumber, BigNumber[], string[], BigNumber[]] & {
-        _seed: BigNumber;
-        _equipmentIds: BigNumber[];
-        _equipmentNames: string[];
-        _equipmentRarities: BigNumber[];
-      }
-    >;
+    getEquipmentNft(overrides?: CallOverrides): Promise<string>;
 
-    calcItem(
-      nft_: PromiseOrValue<string>,
-      tokenId_: PromiseOrValue<BigNumberish>,
-      data_: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<
-      [BigNumber, BigNumber, BigNumber] & {
-        _seed: BigNumber;
-        _itemType: BigNumber;
-        _rarity: BigNumber;
-      }
-    >;
-
-    calcSoul(
-      nft_: PromiseOrValue<string>,
-      tokenId_: PromiseOrValue<BigNumberish>,
-      data_: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber, number, number, number, number, number, number]>;
+    getItemNft(overrides?: CallOverrides): Promise<string>;
 
     getRoleAdmin(
       role: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<string>;
+
+    getSoulLoot(overrides?: CallOverrides): Promise<string>;
+
+    getTreasury(overrides?: CallOverrides): Promise<string>;
+
+    getXp(overrides?: CallOverrides): Promise<string>;
 
     grantRole(
       role: PromiseOrValue<BytesLike>,
@@ -531,8 +595,43 @@ export interface SoulLootByRogue extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    setArtifactNft(
+      nft_: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     setDeveloperRole(
       granted_: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setEquipmentNft(
+      nft_: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setItemNft(
+      nft_: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setNftsOnGame(
+      player_: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setSoulLoot(
+      nft_: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setTreasury(
+      treasury_: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setXp(
+      ft_: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -540,6 +639,12 @@ export interface SoulLootByRogue extends BaseContract {
       interfaceId: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<boolean>;
+
+    transferEquipmentNft(
+      from_: PromiseOrValue<string>,
+      tokenIdEquipment_: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
   };
 
   filters: {
@@ -584,38 +689,22 @@ export interface SoulLootByRogue extends BaseContract {
 
     DEVELOPER_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
 
-    calcArtifact(
-      nft_: PromiseOrValue<string>,
-      tokenId_: PromiseOrValue<BigNumberish>,
-      data_: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    getArtifactNft(overrides?: CallOverrides): Promise<BigNumber>;
 
-    calcEquipment(
-      nft_: PromiseOrValue<string>,
-      tokenId_: PromiseOrValue<BigNumberish>,
-      data_: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    getEquipmentNft(overrides?: CallOverrides): Promise<BigNumber>;
 
-    calcItem(
-      nft_: PromiseOrValue<string>,
-      tokenId_: PromiseOrValue<BigNumberish>,
-      data_: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    calcSoul(
-      nft_: PromiseOrValue<string>,
-      tokenId_: PromiseOrValue<BigNumberish>,
-      data_: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    getItemNft(overrides?: CallOverrides): Promise<BigNumber>;
 
     getRoleAdmin(
       role: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    getSoulLoot(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getTreasury(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getXp(overrides?: CallOverrides): Promise<BigNumber>;
 
     grantRole(
       role: PromiseOrValue<BytesLike>,
@@ -646,14 +735,55 @@ export interface SoulLootByRogue extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    setArtifactNft(
+      nft_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     setDeveloperRole(
       granted_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    setEquipmentNft(
+      nft_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    setItemNft(
+      nft_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    setNftsOnGame(
+      player_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    setSoulLoot(
+      nft_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    setTreasury(
+      treasury_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    setXp(
+      ft_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     supportsInterface(
       interfaceId: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    transferEquipmentNft(
+      from_: PromiseOrValue<string>,
+      tokenIdEquipment_: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
   };
 
@@ -666,38 +796,22 @@ export interface SoulLootByRogue extends BaseContract {
 
     DEVELOPER_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    calcArtifact(
-      nft_: PromiseOrValue<string>,
-      tokenId_: PromiseOrValue<BigNumberish>,
-      data_: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
+    getArtifactNft(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    calcEquipment(
-      nft_: PromiseOrValue<string>,
-      tokenId_: PromiseOrValue<BigNumberish>,
-      data_: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
+    getEquipmentNft(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    calcItem(
-      nft_: PromiseOrValue<string>,
-      tokenId_: PromiseOrValue<BigNumberish>,
-      data_: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    calcSoul(
-      nft_: PromiseOrValue<string>,
-      tokenId_: PromiseOrValue<BigNumberish>,
-      data_: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
+    getItemNft(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getRoleAdmin(
       role: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
+
+    getSoulLoot(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    getTreasury(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    getXp(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     grantRole(
       role: PromiseOrValue<BytesLike>,
@@ -728,14 +842,55 @@ export interface SoulLootByRogue extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
+    setArtifactNft(
+      nft_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
     setDeveloperRole(
       granted_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setEquipmentNft(
+      nft_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setItemNft(
+      nft_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setNftsOnGame(
+      player_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setSoulLoot(
+      nft_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setTreasury(
+      treasury_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setXp(
+      ft_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     supportsInterface(
       interfaceId: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    transferEquipmentNft(
+      from_: PromiseOrValue<string>,
+      tokenIdEquipment_: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
   };
 }

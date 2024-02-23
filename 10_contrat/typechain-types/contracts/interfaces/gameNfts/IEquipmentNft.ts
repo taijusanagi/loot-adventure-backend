@@ -25,11 +25,12 @@ import type {
 
 export interface IEquipmentNftInterface extends utils.Interface {
   functions: {
-    "mint(address,address,uint256,uint256,string,uint256,uint256)": FunctionFragment;
+    "mint(address,address,uint256,uint256,string,uint256,uint256,uint256)": FunctionFragment;
     "setBaseMetadataURI(string,string)": FunctionFragment;
     "setDeveloperRole(address)": FunctionFragment;
     "setMinterRole(address)": FunctionFragment;
     "setNftId(address)": FunctionFragment;
+    "setOnGame(address)": FunctionFragment;
   };
 
   getFunction(
@@ -39,6 +40,7 @@ export interface IEquipmentNftInterface extends utils.Interface {
       | "setDeveloperRole"
       | "setMinterRole"
       | "setNftId"
+      | "setOnGame"
   ): FunctionFragment;
 
   encodeFunctionData(
@@ -49,6 +51,7 @@ export interface IEquipmentNftInterface extends utils.Interface {
       PromiseOrValue<BigNumberish>,
       PromiseOrValue<BigNumberish>,
       PromiseOrValue<string>,
+      PromiseOrValue<BigNumberish>,
       PromiseOrValue<BigNumberish>,
       PromiseOrValue<BigNumberish>
     ]
@@ -69,6 +72,10 @@ export interface IEquipmentNftInterface extends utils.Interface {
     functionFragment: "setNftId",
     values: [PromiseOrValue<string>]
   ): string;
+  encodeFunctionData(
+    functionFragment: "setOnGame",
+    values: [PromiseOrValue<string>]
+  ): string;
 
   decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
   decodeFunctionResult(
@@ -84,6 +91,7 @@ export interface IEquipmentNftInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "setNftId", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "setOnGame", data: BytesLike): Result;
 
   events: {};
 }
@@ -123,6 +131,7 @@ export interface IEquipmentNft extends BaseContract {
       arg4: PromiseOrValue<string>,
       arg5: PromiseOrValue<BigNumberish>,
       arg6: PromiseOrValue<BigNumberish>,
+      arg7: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -146,6 +155,11 @@ export interface IEquipmentNft extends BaseContract {
       arg0: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
+
+    setOnGame(
+      arg0: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
   };
 
   mint(
@@ -156,6 +170,7 @@ export interface IEquipmentNft extends BaseContract {
     arg4: PromiseOrValue<string>,
     arg5: PromiseOrValue<BigNumberish>,
     arg6: PromiseOrValue<BigNumberish>,
+    arg7: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -180,6 +195,11 @@ export interface IEquipmentNft extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  setOnGame(
+    arg0: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   callStatic: {
     mint(
       arg0: PromiseOrValue<string>,
@@ -189,6 +209,7 @@ export interface IEquipmentNft extends BaseContract {
       arg4: PromiseOrValue<string>,
       arg5: PromiseOrValue<BigNumberish>,
       arg6: PromiseOrValue<BigNumberish>,
+      arg7: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -209,6 +230,11 @@ export interface IEquipmentNft extends BaseContract {
     ): Promise<void>;
 
     setNftId(
+      arg0: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setOnGame(
       arg0: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
@@ -225,6 +251,7 @@ export interface IEquipmentNft extends BaseContract {
       arg4: PromiseOrValue<string>,
       arg5: PromiseOrValue<BigNumberish>,
       arg6: PromiseOrValue<BigNumberish>,
+      arg7: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -245,6 +272,11 @@ export interface IEquipmentNft extends BaseContract {
     ): Promise<BigNumber>;
 
     setNftId(
+      arg0: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    setOnGame(
       arg0: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
@@ -259,6 +291,7 @@ export interface IEquipmentNft extends BaseContract {
       arg4: PromiseOrValue<string>,
       arg5: PromiseOrValue<BigNumberish>,
       arg6: PromiseOrValue<BigNumberish>,
+      arg7: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -279,6 +312,11 @@ export interface IEquipmentNft extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     setNftId(
+      arg0: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setOnGame(
       arg0: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
