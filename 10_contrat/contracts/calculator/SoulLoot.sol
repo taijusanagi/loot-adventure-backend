@@ -62,13 +62,21 @@ contract SoulLoot is AccessControl, ISoulCalculator {
     ){
         ISoulLoot _loot = ISoulLoot(nft_);
         ILootByRogueV2.AdventureRecord memory _record = _loot.getAdventureRecord(tokenId_);
-        uint256 _rarity = 1;
 
         return (
             _record.inputData.seed,
             [_record.weapon, _record.chestArmor, _record.headArmor, _record.waistArmor, _record.footArmor, _record.handArmor, _record.necklace, _record.ring],
             [_loot.getWeapon(tokenId_), _loot.getChest(tokenId_), _loot.getHead(tokenId_), _loot.getWaist(tokenId_), _loot.getFoot(tokenId_), _loot.getHand(tokenId_), _loot.getNeck(tokenId_), _loot.getRing(tokenId_)],
-            [_rarity,_rarity,_rarity,_rarity,_rarity,_rarity,_rarity,_rarity]
+            [
+                _calcRarity(_record.weapon),
+                _calcRarity(_record.chestArmor),
+                _calcRarity(_record.headArmor),
+                _calcRarity(_record.waistArmor),
+                _calcRarity(_record.footArmor),
+                _calcRarity(_record.handArmor),
+                _calcRarity(_record.necklace),
+                _calcRarity(_record.ring)
+            ]
         );
     }
 
@@ -124,4 +132,19 @@ contract SoulLoot is AccessControl, ISoulCalculator {
     //*********************************************
     //Logic
     //*********************************************
+    function _calcRarity(uint256 pt_) private view returns(uint256 rarity_){
+        rarity_=0;
+        if(pt_ > 0){
+            rarity_=1;
+            uint256 _greatness = pt_ % 21;
+            if(_greatness == 19) {
+                rarity_=3;
+            } else if(_greatness > 19) {
+                rarity_=4;
+            } else if(_greatness > 14) {
+                rarity_=2;
+            }
+        }
+        return rarity_;
+    }
 }

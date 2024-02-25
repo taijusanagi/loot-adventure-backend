@@ -15,7 +15,7 @@ async function main() {
     console.log(operator);
     console.log(from);
     console.log(to);
-    console.log(tokenId);
+    console.log(tokenId.toString());
   })
 
   const itemNft = new ethers.Contract(ITEM_NFT, erc1155Item, signer);
@@ -23,18 +23,18 @@ async function main() {
     console.log(operator);
     console.log(from);
     console.log(to);
-    console.log(tokenId);
+    console.log(tokenId.toString());
   })
 
   // Set Contract
   const soulControler = new ethers.Contract(SOUL_CONTROLER, soulControlerAbi, signer);
   const tx0 = await soulControler.transferEquipment(
-    '0x734053c35CCFcEa69D8bfa82c3a0DCdBE7f7a167',
+    '0x4303831d70BEf1E2ba7d6b802bf90990124F3C36',
     20000010001
   );
   tx0.wait();
   const tx1 = await soulControler.transferItem(
-    '0x734053c35CCFcEa69D8bfa82c3a0DCdBE7f7a167',
+    '0x4303831d70BEf1E2ba7d6b802bf90990124F3C36',
     20000010000
   );
   tx1.wait();
