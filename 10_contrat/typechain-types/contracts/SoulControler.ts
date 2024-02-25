@@ -55,6 +55,7 @@ export interface SoulControlerInterface extends utils.Interface {
     "supportsInterface(bytes4)": FunctionFragment;
     "transferEquipment(address,uint256)": FunctionFragment;
     "transferItem(address,uint256)": FunctionFragment;
+    "transferNfts(address,uint256,uint256)": FunctionFragment;
   };
 
   getFunction(
@@ -85,6 +86,7 @@ export interface SoulControlerInterface extends utils.Interface {
       | "supportsInterface"
       | "transferEquipment"
       | "transferItem"
+      | "transferNfts"
   ): FunctionFragment;
 
   encodeFunctionData(
@@ -188,6 +190,14 @@ export interface SoulControlerInterface extends utils.Interface {
     functionFragment: "transferItem",
     values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
   ): string;
+  encodeFunctionData(
+    functionFragment: "transferNfts",
+    values: [
+      PromiseOrValue<string>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>
+    ]
+  ): string;
 
   decodeFunctionResult(functionFragment: "ADMIN_ROLE", data: BytesLike): Result;
   decodeFunctionResult(
@@ -267,6 +277,10 @@ export interface SoulControlerInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "transferItem",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "transferNfts",
     data: BytesLike
   ): Result;
 
@@ -453,6 +467,13 @@ export interface SoulControler extends BaseContract {
       tokenIdItem_: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
+
+    transferNfts(
+      from_: PromiseOrValue<string>,
+      tokenIdEquipment_: PromiseOrValue<BigNumberish>,
+      tokenIdItem_: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
   };
 
   ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
@@ -564,6 +585,13 @@ export interface SoulControler extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  transferNfts(
+    from_: PromiseOrValue<string>,
+    tokenIdEquipment_: PromiseOrValue<BigNumberish>,
+    tokenIdItem_: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   callStatic: {
     ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
 
@@ -670,6 +698,13 @@ export interface SoulControler extends BaseContract {
 
     transferItem(
       from_: PromiseOrValue<string>,
+      tokenIdItem_: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    transferNfts(
+      from_: PromiseOrValue<string>,
+      tokenIdEquipment_: PromiseOrValue<BigNumberish>,
       tokenIdItem_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
@@ -819,6 +854,13 @@ export interface SoulControler extends BaseContract {
       tokenIdItem_: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
+
+    transferNfts(
+      from_: PromiseOrValue<string>,
+      tokenIdEquipment_: PromiseOrValue<BigNumberish>,
+      tokenIdItem_: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -929,6 +971,13 @@ export interface SoulControler extends BaseContract {
 
     transferItem(
       from_: PromiseOrValue<string>,
+      tokenIdItem_: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    transferNfts(
+      from_: PromiseOrValue<string>,
+      tokenIdEquipment_: PromiseOrValue<BigNumberish>,
       tokenIdItem_: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;

@@ -100,6 +100,7 @@ async function main() {
   
   // Set Controler-Role on Nfts
   await equipmentNft.setControlerRole(soulControler.address);
+  await itemNft.setControlerRole(soulControler.address);
 
   // Set NFT-ID on NFTs
   await soulLootNft.setNftId(SAMPLE_LOOT);
@@ -119,6 +120,7 @@ async function main() {
   
   // Set NFTs on Controler
   await soulControler.setEquipmentNft(equipmentNft.address);
+  await soulControler.setItemNft(itemNft.address);
   await soulControler.setTreasury(TREASURY);
 
   // Set Calc-Contracts on Minter

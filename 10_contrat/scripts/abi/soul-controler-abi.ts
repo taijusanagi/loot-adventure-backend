@@ -464,5 +464,28 @@ export const soulControlerAbi = [
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "from_",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "tokenIdEquipment_",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "tokenIdItem_",
+        "type": "uint256"
+      }
+    ],
+    "name": "transferNfts",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   }
 ]

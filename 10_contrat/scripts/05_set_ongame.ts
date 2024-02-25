@@ -11,16 +11,13 @@ async function main() {
 
   // Set Contract
   const soulControler = new ethers.Contract(SOUL_CONTROLER, soulControlerAbi, signer);
-  const tx = await soulControler.setNftsOnGame('0x563B4537fF195B32fD2A3F995bb029D53BeCf6dC');
+  const tx = await soulControler.setNftsOnGame('0x734053c35CCFcEa69D8bfa82c3a0DCdBE7f7a167');
   tx.wait();
 
   // const tx2 = await equipmentNft.setControlerRole('0x7b718D4Ce6ca83536660a314639559F3d3f6e9e3');
   // tx2.wait();
   // const tx4 = await equipmentNft.setDeveloperRole('0x7b718D4Ce6ca83536660a314639559F3d3f6e9e3');
   // tx4.wait();
-
-  const tx3 = await equipmentNft.setControlerRole(soulControler.address);
-  tx3.wait();
 }
 
 // We recommend this pattern to be able to use async/await everywhere

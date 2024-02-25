@@ -119,6 +119,10 @@ contract ItemNft is ERC1155, AccessControl, IItemNft {
         _grantRole(DEVELOPER_ROLE, granted_);
     }
 
+    function setControlerRole(address granted_) public onlyRole(DEVELOPER_ROLE){
+        _grantRole(CONTROLER_ROLE, granted_);
+    }
+
     function setNftId (address nft_) public onlyRole(DEVELOPER_ROLE) {
         nftId[nft_] = currentNftId;
         currentNftId++;

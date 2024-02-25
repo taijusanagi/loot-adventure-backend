@@ -745,6 +745,19 @@ export const erc1155Item = [
         "type": "address"
       }
     ],
+    "name": "setControlerRole",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "granted_",
+        "type": "address"
+      }
+    ],
     "name": "setDeveloperRole",
     "outputs": [],
     "stateMutability": "nonpayable",

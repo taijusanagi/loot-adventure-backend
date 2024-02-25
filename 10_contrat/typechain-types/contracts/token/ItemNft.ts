@@ -53,6 +53,7 @@ export interface ItemNftInterface extends utils.Interface {
     "setApprovalForAll(address,bool)": FunctionFragment;
     "setBaseMetadataURI(string,string)": FunctionFragment;
     "setBaseValRarity(uint256,uint256)": FunctionFragment;
+    "setControlerRole(address)": FunctionFragment;
     "setDeveloperRole(address)": FunctionFragment;
     "setMinterRole(address)": FunctionFragment;
     "setNftId(address)": FunctionFragment;
@@ -88,6 +89,7 @@ export interface ItemNftInterface extends utils.Interface {
       | "setApprovalForAll"
       | "setBaseMetadataURI"
       | "setBaseValRarity"
+      | "setControlerRole"
       | "setDeveloperRole"
       | "setMinterRole"
       | "setNftId"
@@ -211,6 +213,10 @@ export interface ItemNftInterface extends utils.Interface {
     values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
+    functionFragment: "setControlerRole",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "setDeveloperRole",
     values: [PromiseOrValue<string>]
   ): string;
@@ -312,6 +318,10 @@ export interface ItemNftInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "setBaseValRarity",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setControlerRole",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -607,6 +617,11 @@ export interface ItemNft extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    setControlerRole(
+      granted_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     setDeveloperRole(
       granted_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -772,6 +787,11 @@ export interface ItemNft extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  setControlerRole(
+    granted_: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   setDeveloperRole(
     granted_: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -934,6 +954,11 @@ export interface ItemNft extends BaseContract {
     setBaseValRarity(
       rarity_: PromiseOrValue<BigNumberish>,
       val_: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setControlerRole(
+      granted_: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1200,6 +1225,11 @@ export interface ItemNft extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    setControlerRole(
+      granted_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     setDeveloperRole(
       granted_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -1365,6 +1395,11 @@ export interface ItemNft extends BaseContract {
     setBaseValRarity(
       rarity_: PromiseOrValue<BigNumberish>,
       val_: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setControlerRole(
+      granted_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

@@ -104,12 +104,10 @@ contract SoulControler is AccessControl {
     //*********************************************
     function setNftsOnGame(address player_) public onlyRole(DEVELOPER_ROLE) {
         IEquipmentNft _equipmentNft = IEquipmentNft(equipmentNft);
-        IArtifactNft _artifactNft = IArtifactNft(artifactNft);
         IItemNft _itemNft = IItemNft(itemNft);
 
         _equipmentNft.setOnGame(player_);
-        // _artifactNft.setOnGame(msg.sender);
-        // _itemNft.setOnGame(msg.sender);
+        _itemNft.setOnGame(player_);
     }
 
     function transferEquipment(
@@ -117,8 +115,6 @@ contract SoulControler is AccessControl {
         uint256 tokenIdEquipment_
     ) public onlyRole(DEVELOPER_ROLE){
         IERC1155 _equipmentNft = IERC1155(equipmentNft);
-        // IERC1155 _artifactNft = IERC1155(artifactNft);
-        // IERC1155 _itemNft = IERC1155(itemNft);
         _equipmentNft.safeTransferFrom(from_, treasury, tokenIdEquipment_, 1, '0x00');
     }
 
@@ -127,8 +123,17 @@ contract SoulControler is AccessControl {
         uint256 tokenIdItem_
     ) public onlyRole(DEVELOPER_ROLE){
         IERC1155 _itemNft = IERC1155(itemNft);
-        // IERC1155 _artifactNft = IERC1155(artifactNft);
-        // IERC1155 _itemNft = IERC1155(itemNft);
+        _itemNft.safeTransferFrom(from_, treasury, tokenIdItem_, 1, '0x00');
+    }
+
+    function transferNfts(
+        address from_, 
+        uint256 tokenIdEquipment_,
+        uint256 tokenIdItem_
+    ) public onlyRole(DEVELOPER_ROLE){
+        IERC1155 _equipmentNft = IERC1155(equipmentNft);
+        _equipmentNft.safeTransferFrom(from_, treasury, tokenIdEquipment_, 1, '0x00');
+        IERC1155 _itemNft = IERC1155(itemNft);
         _itemNft.safeTransferFrom(from_, treasury, tokenIdItem_, 1, '0x00');
     }
 }

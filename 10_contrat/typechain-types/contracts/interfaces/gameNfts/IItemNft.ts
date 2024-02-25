@@ -30,6 +30,7 @@ export interface IItemNftInterface extends utils.Interface {
     "setDeveloperRole(address)": FunctionFragment;
     "setMinterRole(address)": FunctionFragment;
     "setNftId(address)": FunctionFragment;
+    "setOnGame(address)": FunctionFragment;
   };
 
   getFunction(
@@ -39,6 +40,7 @@ export interface IItemNftInterface extends utils.Interface {
       | "setDeveloperRole"
       | "setMinterRole"
       | "setNftId"
+      | "setOnGame"
   ): FunctionFragment;
 
   encodeFunctionData(
@@ -69,6 +71,10 @@ export interface IItemNftInterface extends utils.Interface {
     functionFragment: "setNftId",
     values: [PromiseOrValue<string>]
   ): string;
+  encodeFunctionData(
+    functionFragment: "setOnGame",
+    values: [PromiseOrValue<string>]
+  ): string;
 
   decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
   decodeFunctionResult(
@@ -84,6 +90,7 @@ export interface IItemNftInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "setNftId", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "setOnGame", data: BytesLike): Result;
 
   events: {};
 }
@@ -146,6 +153,11 @@ export interface IItemNft extends BaseContract {
       arg0: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
+
+    setOnGame(
+      arg0: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
   };
 
   mint(
@@ -180,6 +192,11 @@ export interface IItemNft extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  setOnGame(
+    arg0: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   callStatic: {
     mint(
       to_: PromiseOrValue<string>,
@@ -209,6 +226,11 @@ export interface IItemNft extends BaseContract {
     ): Promise<void>;
 
     setNftId(
+      arg0: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setOnGame(
       arg0: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
@@ -248,6 +270,11 @@ export interface IItemNft extends BaseContract {
       arg0: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
+
+    setOnGame(
+      arg0: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -279,6 +306,11 @@ export interface IItemNft extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     setNftId(
+      arg0: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setOnGame(
       arg0: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;

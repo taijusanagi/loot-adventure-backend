@@ -16,6 +16,7 @@ interface IItemNft {
     function setMinterRole(address) external;
     function setDeveloperRole(address) external;
     function setNftId(address) external;
+    function setOnGame (address) external;
 
     function mint(
         address to_,

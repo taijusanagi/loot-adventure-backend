@@ -3,7 +3,7 @@ import { ethers } from 'hardhat';
 import { soulLootAbi } from './abi/erc721-soul-loot-abi';
 import { SAMPLE_LOOT, SOUL_LOOT } from './config';
 
-const TOKEN_ID = 0;
+const TOKEN_ID = 2;
 
 async function main() {
   const [signer] = await ethers.getSigners();
@@ -16,7 +16,7 @@ async function main() {
     console.log('To: ', to);
     console.log('TokenID(Minted): ', tokenId.toString());
     console.log('root NFT Address: ', rAddress);
-    console.log('root NFT TokenId: ', rTokenId);
+    console.log('root NFT TokenId: ', rTokenId.toString());
   })
   const tx = await soulLoot.safeMint(
     SAMPLE_LOOT,
