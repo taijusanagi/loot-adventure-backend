@@ -11,13 +11,13 @@ async function main() {
 
   // Set Contract
   const soulControler = new ethers.Contract(SOUL_CONTROLER, soulControlerAbi, signer);
-  const tx = await soulControler.setNftsOnGame('0x3774C920032be0cD31A25B3D827504De7C3DC4f3');
+  const tx = await soulControler.setNftsOnGame('0x563B4537fF195B32fD2A3F995bb029D53BeCf6dC');
   tx.wait();
 
-  const tx2 = await equipmentNft.setControlerRole('0xFABB0ac9d68B0B445fB7357272Ff202C5651694a');
-  tx2.wait();
-  const tx4 = await equipmentNft.setDeveloperRole('0xFABB0ac9d68B0B445fB7357272Ff202C5651694a');
-  tx4.wait();
+  // const tx2 = await equipmentNft.setControlerRole('0x7b718D4Ce6ca83536660a314639559F3d3f6e9e3');
+  // tx2.wait();
+  // const tx4 = await equipmentNft.setDeveloperRole('0x7b718D4Ce6ca83536660a314639559F3d3f6e9e3');
+  // tx4.wait();
 
   const tx3 = await equipmentNft.setControlerRole(soulControler.address);
   tx3.wait();

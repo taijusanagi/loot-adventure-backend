@@ -112,7 +112,7 @@ contract SoulControler is AccessControl {
         // _itemNft.setOnGame(msg.sender);
     }
 
-    function transferEquipmentNft(
+    function transferEquipment(
         address from_, 
         uint256 tokenIdEquipment_
     ) public onlyRole(DEVELOPER_ROLE){
@@ -120,5 +120,15 @@ contract SoulControler is AccessControl {
         // IERC1155 _artifactNft = IERC1155(artifactNft);
         // IERC1155 _itemNft = IERC1155(itemNft);
         _equipmentNft.safeTransferFrom(from_, treasury, tokenIdEquipment_, 1, '0x00');
+    }
+
+    function transferItem(
+        address from_, 
+        uint256 tokenIdItem_
+    ) public onlyRole(DEVELOPER_ROLE){
+        IERC1155 _itemNft = IERC1155(itemNft);
+        // IERC1155 _artifactNft = IERC1155(artifactNft);
+        // IERC1155 _itemNft = IERC1155(itemNft);
+        _itemNft.safeTransferFrom(from_, treasury, tokenIdItem_, 1, '0x00');
     }
 }

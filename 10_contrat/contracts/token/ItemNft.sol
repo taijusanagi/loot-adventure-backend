@@ -10,11 +10,14 @@ import "@openzeppelin/contracts/utils/Base64.sol";
 import "../interfaces/gameNfts/IItemNft.sol";
 
 contract ItemNft is ERC1155, AccessControl, IItemNft {
+    event mitItem(address _to, uint256 _tokenId, uint256 _type, string _name, uint256 _val);
+
     uint256 NFT_ID_PREFIX = 10**7;
     uint256 TYPE_PREFIX = 10**4;
 
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     bytes32 public constant DEVELOPER_ROLE = keccak256("DEVELOPER_ROLE");
+    bytes32 public constant CONTROLER_ROLE = keccak256("CONTROLER_ROLE");
 
     string private baseMetadataURIPrefix;
     string private baseMetadataURISuffix;
@@ -22,14 +25,22 @@ contract ItemNft is ERC1155, AccessControl, IItemNft {
 
     mapping (address => uint256) private nftId; // NFT Address => NFT ID
     mapping (uint256 => Item) private item; // tokenId => Item Status
+    mapping (address => bool) private onGame; // Owner => On Game Status
+    mapping (uint256 => uint256) private baseValRarity; // Rarity => Base value
 
     //*********************************************
     //Initializer
     //*********************************************
     constructor(string memory uriPrefic_, string memory uriSuffix_) ERC1155("") {
         _grantRole(DEVELOPER_ROLE, msg.sender);
+        _grantRole(CONTROLER_ROLE, msg.sender);
         currentNftId = 2000;
         setBaseMetadataURI(uriPrefic_, uriSuffix_);
+
+        baseValRarity[0] = 0;
+        baseValRarity[1] = 3;
+        baseValRarity[2] = 6;
+        baseValRarity[3] = 9;
     }
 
     //*********************************************
@@ -45,6 +56,10 @@ contract ItemNft is ERC1155, AccessControl, IItemNft {
 
     function getItemType(uint256 tokenId_) public view returns(uint256){
         return item[tokenId_].itemType;
+    }
+
+    function getBaseValRarity(uint256 rarity_) public view returns (uint256 _value) {
+        return baseValRarity[rarity_];
     }
     
     function uri(uint256 tokenId_) public view override returns (string memory) {
@@ -78,6 +93,16 @@ contract ItemNft is ERC1155, AccessControl, IItemNft {
         return _output;
     }
 
+    function name() public view returns (string memory){
+        return 'LootAdventure ItemNft';
+    }
+
+    function getItemVal(uint256 tokenId_) public view returns (uint256 _value) {
+        Item memory _item = item[tokenId_];
+        _value = _item.seed % 5 + baseValRarity[_item.rarity];
+        return _value;
+    }
+
     //*********************************************
     //Setter
     //*********************************************
@@ -97,6 +122,26 @@ contract ItemNft is ERC1155, AccessControl, IItemNft {
     function setNftId (address nft_) public onlyRole(DEVELOPER_ROLE) {
         nftId[nft_] = currentNftId;
         currentNftId++;
+    }
+
+    function setOnGame (address owner_) public {
+        require(
+            hasRole(CONTROLER_ROLE, msg.sender) || hasRole(DEVELOPER_ROLE, msg.sender),
+            'EquipmentNft: You are not granted for this operation'
+        );
+        onGame[owner_] = true;
+    }
+
+    function setOffGame (address owner_) public {
+        require(
+            hasRole(CONTROLER_ROLE, msg.sender) || hasRole(DEVELOPER_ROLE, msg.sender),
+            'EquipmentNft: You are not granted for this operation'
+        );
+        onGame[owner_] = false;
+    }
+
+    function setBaseValRarity(uint256 rarity_, uint256 val_) public onlyRole(DEVELOPER_ROLE) {
+        baseValRarity[rarity_] = val_;
     }
 
     //*********************************************
@@ -122,6 +167,38 @@ contract ItemNft is ERC1155, AccessControl, IItemNft {
 
         item[_tokenId] = _Item;
         _mint(to_, _tokenId, 1, "");
+    }
+
+    function safeTransferFrom(
+        address from,
+        address to,
+        uint256 id,
+        uint256 amount,
+        bytes memory data
+    ) public virtual override {
+        require(
+            (from == _msgSender() && !onGame[from]) 
+            || (isApprovedForAll(from, _msgSender())  && !onGame[from])
+            || (hasRole(CONTROLER_ROLE, msg.sender) && onGame[from]),
+            "ERC1155: caller is not token owner or approved"
+        );
+        _safeTransferFrom(from, to, id, amount, data);
+    }
+
+    function safeBatchTransferFrom(
+        address from,
+        address to,
+        uint256[] memory ids,
+        uint256[] memory amounts,
+        bytes memory data
+    ) public virtual override {
+        require(
+            (from == _msgSender() && !onGame[from]) 
+            || (isApprovedForAll(from, _msgSender())  && !onGame[from])
+            || (hasRole(CONTROLER_ROLE, msg.sender) && onGame[from]),
+            "ERC1155: caller is not token owner or approved"
+        );
+        _safeBatchTransferFrom(from, to, ids, amounts, data);
     }
 
     function _attribute(string memory traitType_, string memory value_) internal pure returns (string memory) {

@@ -27,6 +27,36 @@ import type {
   PromiseOrValue,
 } from "../../common";
 
+export declare namespace IEquipmentNft {
+  export type EquipmentStruct = {
+    seed: PromiseOrValue<BigNumberish>;
+    name: PromiseOrValue<string>;
+    equipmentType: PromiseOrValue<BigNumberish>;
+    rAddress: PromiseOrValue<string>;
+    rTokenId: PromiseOrValue<BigNumberish>;
+    rarity: PromiseOrValue<BigNumberish>;
+    level: PromiseOrValue<BigNumberish>;
+  };
+
+  export type EquipmentStructOutput = [
+    BigNumber,
+    string,
+    BigNumber,
+    string,
+    BigNumber,
+    BigNumber,
+    BigNumber
+  ] & {
+    seed: BigNumber;
+    name: string;
+    equipmentType: BigNumber;
+    rAddress: string;
+    rTokenId: BigNumber;
+    rarity: BigNumber;
+    level: BigNumber;
+  };
+}
+
 export interface EquipmentNftInterface extends utils.Interface {
   functions: {
     "CONTROLER_ROLE()": FunctionFragment;
@@ -45,6 +75,7 @@ export interface EquipmentNftInterface extends utils.Interface {
     "grantRole(bytes32,address)": FunctionFragment;
     "hasRole(bytes32,address)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
+    "levelUp(uint256)": FunctionFragment;
     "mint(address,address,uint256,uint256,string,uint256,uint256,uint256)": FunctionFragment;
     "name()": FunctionFragment;
     "renounceRole(bytes32,address)": FunctionFragment;
@@ -83,6 +114,7 @@ export interface EquipmentNftInterface extends utils.Interface {
       | "grantRole"
       | "hasRole"
       | "isApprovedForAll"
+      | "levelUp"
       | "mint"
       | "name"
       | "renounceRole"
@@ -166,6 +198,10 @@ export interface EquipmentNftInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "isApprovedForAll",
     values: [PromiseOrValue<string>, PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "levelUp",
+    values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "mint",
@@ -313,6 +349,7 @@ export interface EquipmentNftInterface extends utils.Interface {
     functionFragment: "isApprovedForAll",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "levelUp", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
   decodeFunctionResult(
@@ -374,6 +411,7 @@ export interface EquipmentNftInterface extends utils.Interface {
     "TransferSingle(address,address,address,uint256,uint256)": EventFragment;
     "URI(string,uint256)": EventFragment;
     "mintEquipment(address,uint256,uint256,string,uint256)": EventFragment;
+    "updateEquipment(uint256,tuple)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
@@ -384,6 +422,7 @@ export interface EquipmentNftInterface extends utils.Interface {
   getEvent(nameOrSignatureOrTopic: "TransferSingle"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "URI"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "mintEquipment"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "updateEquipment"): EventFragment;
 }
 
 export interface ApprovalForAllEventObject {
@@ -485,6 +524,17 @@ export type mintEquipmentEvent = TypedEvent<
 
 export type mintEquipmentEventFilter = TypedEventFilter<mintEquipmentEvent>;
 
+export interface updateEquipmentEventObject {
+  _tokenId: BigNumber;
+  _equipment: IEquipmentNft.EquipmentStructOutput;
+}
+export type updateEquipmentEvent = TypedEvent<
+  [BigNumber, IEquipmentNft.EquipmentStructOutput],
+  updateEquipmentEventObject
+>;
+
+export type updateEquipmentEventFilter = TypedEventFilter<updateEquipmentEvent>;
+
 export interface EquipmentNft extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
@@ -584,6 +634,11 @@ export interface EquipmentNft extends BaseContract {
       operator: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
+
+    levelUp(
+      tokenId_: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
 
     mint(
       to_: PromiseOrValue<string>,
@@ -767,6 +822,11 @@ export interface EquipmentNft extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
+  levelUp(
+    tokenId_: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   mint(
     to_: PromiseOrValue<string>,
     nft_: PromiseOrValue<string>,
@@ -948,6 +1008,11 @@ export interface EquipmentNft extends BaseContract {
       operator: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<boolean>;
+
+    levelUp(
+      tokenId_: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     mint(
       to_: PromiseOrValue<string>,
@@ -1153,6 +1218,15 @@ export interface EquipmentNft extends BaseContract {
       _name?: null,
       _val?: null
     ): mintEquipmentEventFilter;
+
+    "updateEquipment(uint256,tuple)"(
+      _tokenId?: null,
+      _equipment?: null
+    ): updateEquipmentEventFilter;
+    updateEquipment(
+      _tokenId?: null,
+      _equipment?: null
+    ): updateEquipmentEventFilter;
   };
 
   estimateGas: {
@@ -1227,6 +1301,11 @@ export interface EquipmentNft extends BaseContract {
       account: PromiseOrValue<string>,
       operator: PromiseOrValue<string>,
       overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    levelUp(
+      tokenId_: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     mint(
@@ -1412,6 +1491,11 @@ export interface EquipmentNft extends BaseContract {
       account: PromiseOrValue<string>,
       operator: PromiseOrValue<string>,
       overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    levelUp(
+      tokenId_: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     mint(

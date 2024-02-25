@@ -53,7 +53,8 @@ export interface SoulControlerInterface extends utils.Interface {
     "setTreasury(address)": FunctionFragment;
     "setXp(address)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
-    "transferEquipmentNft(address,uint256)": FunctionFragment;
+    "transferEquipment(address,uint256)": FunctionFragment;
+    "transferItem(address,uint256)": FunctionFragment;
   };
 
   getFunction(
@@ -82,7 +83,8 @@ export interface SoulControlerInterface extends utils.Interface {
       | "setTreasury"
       | "setXp"
       | "supportsInterface"
-      | "transferEquipmentNft"
+      | "transferEquipment"
+      | "transferItem"
   ): FunctionFragment;
 
   encodeFunctionData(
@@ -179,7 +181,11 @@ export interface SoulControlerInterface extends utils.Interface {
     values: [PromiseOrValue<BytesLike>]
   ): string;
   encodeFunctionData(
-    functionFragment: "transferEquipmentNft",
+    functionFragment: "transferEquipment",
+    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "transferItem",
     values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
   ): string;
 
@@ -256,7 +262,11 @@ export interface SoulControlerInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "transferEquipmentNft",
+    functionFragment: "transferEquipment",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "transferItem",
     data: BytesLike
   ): Result;
 
@@ -432,9 +442,15 @@ export interface SoulControler extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
-    transferEquipmentNft(
+    transferEquipment(
       from_: PromiseOrValue<string>,
       tokenIdEquipment_: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    transferItem(
+      from_: PromiseOrValue<string>,
+      tokenIdItem_: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
   };
@@ -536,9 +552,15 @@ export interface SoulControler extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
-  transferEquipmentNft(
+  transferEquipment(
     from_: PromiseOrValue<string>,
     tokenIdEquipment_: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  transferItem(
+    from_: PromiseOrValue<string>,
+    tokenIdItem_: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -640,9 +662,15 @@ export interface SoulControler extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
-    transferEquipmentNft(
+    transferEquipment(
       from_: PromiseOrValue<string>,
       tokenIdEquipment_: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    transferItem(
+      from_: PromiseOrValue<string>,
+      tokenIdItem_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
   };
@@ -780,9 +808,15 @@ export interface SoulControler extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    transferEquipmentNft(
+    transferEquipment(
       from_: PromiseOrValue<string>,
       tokenIdEquipment_: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    transferItem(
+      from_: PromiseOrValue<string>,
+      tokenIdItem_: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
   };
@@ -887,9 +921,15 @@ export interface SoulControler extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    transferEquipmentNft(
+    transferEquipment(
       from_: PromiseOrValue<string>,
       tokenIdEquipment_: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    transferItem(
+      from_: PromiseOrValue<string>,
+      tokenIdItem_: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
   };

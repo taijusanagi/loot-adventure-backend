@@ -11,7 +11,7 @@ import "../interfaces/gameNfts/IEquipmentNft.sol";
 
 contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
     event mintEquipment(address _to, uint256 _tokenId, uint256 _type, string _name, uint256 _val);
-
+    event updateEquipment(uint256 _tokenId, Equipment _equipment);
     uint256 NFT_ID_PREFIX = 10**7;
     uint256 TYPE_PREFIX = 10**4;
 
@@ -41,6 +41,7 @@ contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
         baseValRarity[0] = 0;
         baseValRarity[1] = 3;
         baseValRarity[2] = 6;
+        baseValRarity[3] = 9;
     }
 
     //*********************************************
@@ -186,7 +187,8 @@ contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
         _mint(to_, _tokenId, 1, "");
 
         uint256 _value = getEquipmentVal(tokenId_);
-        emit mintEquipment(to_, _tokenId,type_, name_, _value);
+        emit mintEquipment(to_, _tokenId, type_, name_, _value);
+        emit updateEquipment(_tokenId, _equipment);
     }
 
     function safeTransferFrom(
@@ -203,6 +205,7 @@ contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
             "ERC1155: caller is not token owner or approved"
         );
         _safeTransferFrom(from, to, id, amount, data);
+        emit updateEquipment(id, equipment[id]);
     }
 
     function safeBatchTransferFrom(
@@ -215,11 +218,22 @@ contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
         require(
             (from == _msgSender() && !onGame[from]) 
             || (isApprovedForAll(from, _msgSender())  && !onGame[from])
-            || (hasRole(CONTROLER_ROLE, from) && onGame[from]),
+            || (hasRole(CONTROLER_ROLE, msg.sender) && onGame[from]),
             "ERC1155: caller is not token owner or approved"
         );
         _safeBatchTransferFrom(from, to, ids, amounts, data);
     }
+
+    function levelUp(
+        uint256 tokenId_
+    ) public {
+        require(hasRole(DEVELOPER_ROLE, msg.sender) || hasRole(CONTROLER_ROLE, msg.sender));
+        Equipment memory _equipment = equipment[tokenId_];
+        uint256 _level = _equipment.level + 1;
+        _equipment.level = _level;
+        equipment[tokenId_] = _equipment;
+        emit updateEquipment(tokenId_, _equipment);
+    } 
 
     function _attribute(string memory traitType_, string memory value_) internal pure returns (string memory) {
         return string(abi.encodePacked('{"trait_type": "', traitType_, '", "value": "', value_, '"}'));
