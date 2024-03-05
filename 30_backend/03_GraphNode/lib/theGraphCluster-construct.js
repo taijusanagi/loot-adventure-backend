@@ -410,7 +410,7 @@ class TheGraphCluster extends Construct {
         streamPrefix: 'TheGraph',
         // logRetention: RetentionDays.ONE_WEEK,
       }),
-      image: ContainerImage.fromRegistry('graphprotocol/graph-node:v0.30.0'),
+      image: ContainerImage.fromRegistry('graphprotocol/graph-node:v0.31.0'),
       memoryLimitMiB: 8192,
       environment: environmentVars,
       // healthCheck: {

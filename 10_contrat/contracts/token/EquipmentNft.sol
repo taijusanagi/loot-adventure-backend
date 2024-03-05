@@ -11,7 +11,7 @@ import "../interfaces/gameNfts/IEquipmentNft.sol";
 
 contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
     event mintEquipment(address _to, uint256 _tokenId, uint256 _type, string _name, uint256 _val);
-    event updateEquipment(uint256 _tokenId, Equipment _equipment);
+    event updateEquipment(uint256 _tokenId, uint256 _seed, string _name, uint256 _equipmentType, address _rAddress, uint256 _rTokenId, uint256 _rarity, uint256 _level);
     uint256 NFT_ID_PREFIX = 10**7;
     uint256 TYPE_PREFIX = 10**4;
 
@@ -188,7 +188,16 @@ contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
 
         uint256 _value = getEquipmentVal(tokenId_);
         emit mintEquipment(to_, _tokenId, type_, name_, _value);
-        emit updateEquipment(_tokenId, _equipment);
+        emit updateEquipment(
+            _tokenId, 
+            _equipment.seed,
+            _equipment.name,
+            _equipment.equipmentType,
+            _equipment.rAddress,
+            _equipment.rTokenId,
+            _equipment.rarity,
+            _equipment.level
+        );
     }
 
     function safeTransferFrom(
@@ -205,7 +214,16 @@ contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
             "ERC1155: caller is not token owner or approved"
         );
         _safeTransferFrom(from, to, id, amount, data);
-        emit updateEquipment(id, equipment[id]);
+        emit updateEquipment(
+            id, 
+            equipment[id].seed,
+            equipment[id].name,
+            equipment[id].equipmentType,
+            equipment[id].rAddress,
+            equipment[id].rTokenId,
+            equipment[id].rarity,
+            equipment[id].level
+        );
     }
 
     function safeBatchTransferFrom(
@@ -232,7 +250,16 @@ contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
         uint256 _level = _equipment.level + 1;
         _equipment.level = _level;
         equipment[tokenId_] = _equipment;
-        emit updateEquipment(tokenId_, _equipment);
+        emit updateEquipment(
+            tokenId_, 
+            _equipment.seed,
+            _equipment.name,
+            _equipment.equipmentType,
+            _equipment.rAddress,
+            _equipment.rTokenId,
+            _equipment.rarity,
+            _equipment.level
+        );
     } 
 
     function _attribute(string memory traitType_, string memory value_) internal pure returns (string memory) {

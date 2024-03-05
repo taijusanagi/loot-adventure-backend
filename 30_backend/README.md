@@ -141,6 +141,11 @@
         npm run deploy-local
         ```
 ### Add Subgraph
+* Create Schema
+  ```bash
+  graph codegen
+  # after above command, edit query code(in src)
+  ```
 * Build other Subgraph([subgraph/erc6551Registry](./02_SubGraph/data/subgraph/erc6551Registry/) directory)
     ```bash
     # example

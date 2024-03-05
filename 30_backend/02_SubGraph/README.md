@@ -124,6 +124,19 @@
 
 ## フロントエンドからの実行
 
+## Appendix. Setup on local environment
+* Host local graph node(execute in [02_SubGraph](./02_SubGraph))
+  ```bash
+  docker-compose up
+  ```
+
+* Deploy Subgraph
+  ```bash
+  # Only Initial
+  npm run create-local
+  npm run deploy-local
+  ```
+
 ## 参考
 * [X](https://zenn.dev/jy8752/articles/4801c60aab3d3e)
 * [x](https://docs.astar.network/docs/build/integrations/indexers/thegraph)
