@@ -27,36 +27,6 @@ import type {
   PromiseOrValue,
 } from "../../common";
 
-export declare namespace IEquipmentNft {
-  export type EquipmentStruct = {
-    seed: PromiseOrValue<BigNumberish>;
-    name: PromiseOrValue<string>;
-    equipmentType: PromiseOrValue<BigNumberish>;
-    rAddress: PromiseOrValue<string>;
-    rTokenId: PromiseOrValue<BigNumberish>;
-    rarity: PromiseOrValue<BigNumberish>;
-    level: PromiseOrValue<BigNumberish>;
-  };
-
-  export type EquipmentStructOutput = [
-    BigNumber,
-    string,
-    BigNumber,
-    string,
-    BigNumber,
-    BigNumber,
-    BigNumber
-  ] & {
-    seed: BigNumber;
-    name: string;
-    equipmentType: BigNumber;
-    rAddress: string;
-    rTokenId: BigNumber;
-    rarity: BigNumber;
-    level: BigNumber;
-  };
-}
-
 export interface EquipmentNftInterface extends utils.Interface {
   functions: {
     "CONTROLER_ROLE()": FunctionFragment;
@@ -411,7 +381,7 @@ export interface EquipmentNftInterface extends utils.Interface {
     "TransferSingle(address,address,address,uint256,uint256)": EventFragment;
     "URI(string,uint256)": EventFragment;
     "mintEquipment(address,uint256,uint256,string,uint256)": EventFragment;
-    "updateEquipment(uint256,tuple)": EventFragment;
+    "updateEquipment(uint256,uint256,string,uint256,address,uint256,uint256,uint256)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
@@ -526,10 +496,25 @@ export type mintEquipmentEventFilter = TypedEventFilter<mintEquipmentEvent>;
 
 export interface updateEquipmentEventObject {
   _tokenId: BigNumber;
-  _equipment: IEquipmentNft.EquipmentStructOutput;
+  _seed: BigNumber;
+  _name: string;
+  _equipmentType: BigNumber;
+  _rAddress: string;
+  _rTokenId: BigNumber;
+  _rarity: BigNumber;
+  _level: BigNumber;
 }
 export type updateEquipmentEvent = TypedEvent<
-  [BigNumber, IEquipmentNft.EquipmentStructOutput],
+  [
+    BigNumber,
+    BigNumber,
+    string,
+    BigNumber,
+    string,
+    BigNumber,
+    BigNumber,
+    BigNumber
+  ],
   updateEquipmentEventObject
 >;
 
@@ -1219,13 +1204,25 @@ export interface EquipmentNft extends BaseContract {
       _val?: null
     ): mintEquipmentEventFilter;
 
-    "updateEquipment(uint256,tuple)"(
+    "updateEquipment(uint256,uint256,string,uint256,address,uint256,uint256,uint256)"(
       _tokenId?: null,
-      _equipment?: null
+      _seed?: null,
+      _name?: null,
+      _equipmentType?: null,
+      _rAddress?: null,
+      _rTokenId?: null,
+      _rarity?: null,
+      _level?: null
     ): updateEquipmentEventFilter;
     updateEquipment(
       _tokenId?: null,
-      _equipment?: null
+      _seed?: null,
+      _name?: null,
+      _equipmentType?: null,
+      _rAddress?: null,
+      _rTokenId?: null,
+      _rarity?: null,
+      _level?: null
     ): updateEquipmentEventFilter;
   };
 

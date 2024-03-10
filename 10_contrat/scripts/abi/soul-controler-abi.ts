@@ -80,6 +80,67 @@ export const soulControlerAbi = [
     "type": "event"
   },
   {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "onwer_",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "weapon",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "cheastArmor",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "headArmor",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "waistArmor",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "footArmor",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "handArmor",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "necklace",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "ring",
+        "type": "uint256"
+      }
+    ],
+    "name": "UpdateEquips",
+    "type": "event"
+  },
+  {
     "inputs": [],
     "name": "ADMIN_ROLE",
     "outputs": [
@@ -322,6 +383,19 @@ export const soulControlerAbi = [
   {
     "inputs": [
       {
+        "internalType": "uint256",
+        "name": "tokenId_",
+        "type": "uint256"
+      }
+    ],
+    "name": "setChestArmor",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "address",
         "name": "granted_",
         "type": "address"
@@ -348,6 +422,93 @@ export const soulControlerAbi = [
   {
     "inputs": [
       {
+        "internalType": "uint256",
+        "name": "weapon_",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "chestArmor_",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "headArmor_",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "waistArmor_",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "footArmor_",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "handArmor_",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "necklace_",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "ring_",
+        "type": "uint256"
+      }
+    ],
+    "name": "setEquips",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "tokenId_",
+        "type": "uint256"
+      }
+    ],
+    "name": "setFootArmor",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "tokenId_",
+        "type": "uint256"
+      }
+    ],
+    "name": "setHandArmor",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "tokenId_",
+        "type": "uint256"
+      }
+    ],
+    "name": "setHeadArmor",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "address",
         "name": "nft_",
         "type": "address"
@@ -361,12 +522,38 @@ export const soulControlerAbi = [
   {
     "inputs": [
       {
+        "internalType": "uint256",
+        "name": "tokenId_",
+        "type": "uint256"
+      }
+    ],
+    "name": "setNecklace",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "address",
         "name": "player_",
         "type": "address"
       }
     ],
     "name": "setNftsOnGame",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "tokenId_",
+        "type": "uint256"
+      }
+    ],
+    "name": "setRing",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -393,6 +580,32 @@ export const soulControlerAbi = [
       }
     ],
     "name": "setTreasury",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "tokenId_",
+        "type": "uint256"
+      }
+    ],
+    "name": "setWaistArmor",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "tokenId_",
+        "type": "uint256"
+      }
+    ],
+    "name": "setWeapon",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

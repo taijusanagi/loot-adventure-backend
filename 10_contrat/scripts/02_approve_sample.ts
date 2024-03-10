@@ -8,7 +8,7 @@ async function main() {
   console.log('Signer is ... ', signer.address);
 
   // Test Prameter
-  const TOKEN_ID = 3;
+  const TOKEN_ID = 1;
 
   // Set Contract
   const sampleLoot = new ethers.Contract(SAMPLE_LOOT, sampleLootAbi, signer);
