@@ -255,47 +255,46 @@ export const erc1155Equipment = [
         "type": "uint256"
       },
       {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "seed",
-            "type": "uint256"
-          },
-          {
-            "internalType": "string",
-            "name": "name",
-            "type": "string"
-          },
-          {
-            "internalType": "uint256",
-            "name": "equipmentType",
-            "type": "uint256"
-          },
-          {
-            "internalType": "address",
-            "name": "rAddress",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256",
-            "name": "rTokenId",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "rarity",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "level",
-            "type": "uint256"
-          }
-        ],
         "indexed": false,
-        "internalType": "struct IEquipmentNft.Equipment",
-        "name": "_equipment",
-        "type": "tuple"
+        "internalType": "uint256",
+        "name": "_seed",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "_name",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_equipmentType",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "_rAddress",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_rTokenId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_rarity",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_level",
+        "type": "uint256"
       }
     ],
     "name": "updateEquipment",
@@ -516,6 +515,19 @@ export const erc1155Equipment = [
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "getKValLevelup",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "bytes32",
@@ -529,6 +541,32 @@ export const erc1155Equipment = [
         "internalType": "bytes32",
         "name": "",
         "type": "bytes32"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getTreasury",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getXp",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
       }
     ],
     "stateMutability": "view",
@@ -877,6 +915,19 @@ export const erc1155Equipment = [
   {
     "inputs": [
       {
+        "internalType": "uint256",
+        "name": "kVal_",
+        "type": "uint256"
+      }
+    ],
+    "name": "setKValLevelup",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "address",
         "name": "granted_",
         "type": "address"
@@ -922,6 +973,32 @@ export const erc1155Equipment = [
       }
     ],
     "name": "setOnGame",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "treasury_",
+        "type": "address"
+      }
+    ],
+    "name": "setTreasury",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "ft_",
+        "type": "address"
+      }
+    ],
+    "name": "setXp",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

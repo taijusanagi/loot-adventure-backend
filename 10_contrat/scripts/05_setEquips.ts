@@ -3,17 +3,13 @@ import { ContractInterface } from 'ethers';
 
 import { SOUL_CONTROLER, EQUIPMENT_NFT, ERC6551_REGISTRY } from './config';
 import { soulControlerAbi } from './abi/soul-controler-abi';
-import { erc1155Equipment } from './abi/erc1155-equipment-abi';
-import { erc6551RegistryAbi } from './abi/erc6551-registry-abi';
 import { erc6551AccountAbi } from './abi/erc6551-account-abi';
 
-const tba = "0x85Afd297B9CE6ac546d06a4A1c112f1b432f2c13";
+const tba = "0xBA69869A0d134311C1dA25e812BDe3c452e87864";
 
 async function main() {
   const [signer] = await ethers.getSigners();
   console.log('Signer is ... ', signer.address);
-  const equipmentNft = new ethers.Contract(EQUIPMENT_NFT, erc1155Equipment, signer);
-  const erc6551Registry = new ethers.Contract(ERC6551_REGISTRY, erc6551RegistryAbi, signer);
   const soulControler = new ethers.Contract(SOUL_CONTROLER, soulControlerAbi, signer);
   const tbaContract = new ethers.Contract(tba, erc6551AccountAbi, signer);
   

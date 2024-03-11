@@ -117,7 +117,7 @@ contract SoulMinter is AccessControl {
         _mintEquipmentNft(nft_, tokenId_, recipient_, seedData_);
         _mintArtifactNft(nft_, tokenId_, recipient_, seedData_);
         _mintItemNft(nft_, tokenId_, recipient_, seedData_);
-        _mintXp(recipient_, 10**18, 'LA000|Create SOul');
+        _mintXp(recipient_, 10**20, 'LA000|Create Soul');
     }
 
     function _mintEquipmentNft(address nft_, uint256 tokenId_, address recipient_, bytes memory seedData_) internal virtual {

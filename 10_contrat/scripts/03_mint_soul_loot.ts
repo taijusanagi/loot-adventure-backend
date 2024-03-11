@@ -3,7 +3,7 @@ import { ethers } from 'hardhat';
 import { soulLootAbi } from './abi/erc721-soul-loot-abi';
 import { SAMPLE_LOOT, SOUL_LOOT } from './config';
 
-const TOKEN_ID = 1;
+const TOKEN_ID = 5;
 
 async function main() {
   const [signer] = await ethers.getSigners();

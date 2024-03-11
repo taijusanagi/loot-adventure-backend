@@ -34,6 +34,7 @@ export interface SoulControlerInterface extends utils.Interface {
     "DEVELOPER_ROLE()": FunctionFragment;
     "getArtifactNft()": FunctionFragment;
     "getEquipmentNft()": FunctionFragment;
+    "getEquips(address)": FunctionFragment;
     "getItemNft()": FunctionFragment;
     "getRoleAdmin(bytes32)": FunctionFragment;
     "getSoulLoot()": FunctionFragment;
@@ -74,6 +75,7 @@ export interface SoulControlerInterface extends utils.Interface {
       | "DEVELOPER_ROLE"
       | "getArtifactNft"
       | "getEquipmentNft"
+      | "getEquips"
       | "getItemNft"
       | "getRoleAdmin"
       | "getSoulLoot"
@@ -126,6 +128,10 @@ export interface SoulControlerInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "getEquipmentNft",
     values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getEquips",
+    values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "getItemNft",
@@ -279,6 +285,7 @@ export interface SoulControlerInterface extends utils.Interface {
     functionFragment: "getEquipmentNft",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "getEquips", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getItemNft", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getRoleAdmin",
@@ -489,6 +496,31 @@ export interface SoulControler extends BaseContract {
 
     getEquipmentNft(overrides?: CallOverrides): Promise<[string]>;
 
+    getEquips(
+      owner_: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<
+      [
+        BigNumber,
+        BigNumber,
+        BigNumber,
+        BigNumber,
+        BigNumber,
+        BigNumber,
+        BigNumber,
+        BigNumber
+      ] & {
+        weapon: BigNumber;
+        cheastArmor: BigNumber;
+        headArmor: BigNumber;
+        waistArmor: BigNumber;
+        footArmor: BigNumber;
+        handArmor: BigNumber;
+        necklace: BigNumber;
+        ring: BigNumber;
+      }
+    >;
+
     getItemNft(overrides?: CallOverrides): Promise<[string]>;
 
     getRoleAdmin(
@@ -658,6 +690,31 @@ export interface SoulControler extends BaseContract {
 
   getEquipmentNft(overrides?: CallOverrides): Promise<string>;
 
+  getEquips(
+    owner_: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<
+    [
+      BigNumber,
+      BigNumber,
+      BigNumber,
+      BigNumber,
+      BigNumber,
+      BigNumber,
+      BigNumber,
+      BigNumber
+    ] & {
+      weapon: BigNumber;
+      cheastArmor: BigNumber;
+      headArmor: BigNumber;
+      waistArmor: BigNumber;
+      footArmor: BigNumber;
+      handArmor: BigNumber;
+      necklace: BigNumber;
+      ring: BigNumber;
+    }
+  >;
+
   getItemNft(overrides?: CallOverrides): Promise<string>;
 
   getRoleAdmin(
@@ -826,6 +883,31 @@ export interface SoulControler extends BaseContract {
     getArtifactNft(overrides?: CallOverrides): Promise<string>;
 
     getEquipmentNft(overrides?: CallOverrides): Promise<string>;
+
+    getEquips(
+      owner_: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<
+      [
+        BigNumber,
+        BigNumber,
+        BigNumber,
+        BigNumber,
+        BigNumber,
+        BigNumber,
+        BigNumber,
+        BigNumber
+      ] & {
+        weapon: BigNumber;
+        cheastArmor: BigNumber;
+        headArmor: BigNumber;
+        waistArmor: BigNumber;
+        footArmor: BigNumber;
+        handArmor: BigNumber;
+        necklace: BigNumber;
+        ring: BigNumber;
+      }
+    >;
 
     getItemNft(overrides?: CallOverrides): Promise<string>;
 
@@ -1055,6 +1137,11 @@ export interface SoulControler extends BaseContract {
 
     getEquipmentNft(overrides?: CallOverrides): Promise<BigNumber>;
 
+    getEquips(
+      owner_: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     getItemNft(overrides?: CallOverrides): Promise<BigNumber>;
 
     getRoleAdmin(
@@ -1226,6 +1313,11 @@ export interface SoulControler extends BaseContract {
     getArtifactNft(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getEquipmentNft(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    getEquips(
+      owner_: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
 
     getItemNft(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 

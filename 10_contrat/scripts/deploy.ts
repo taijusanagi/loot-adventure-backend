@@ -102,10 +102,11 @@ async function main() {
   await equipmentNft.setControlerRole(soulControler.address);
   await itemNft.setControlerRole(soulControler.address);
 
-  // Set NFT-ID on NFTs
+  // Set NFT-ID on NFTs&XP
   await soulLootNft.setNftId(SAMPLE_LOOT);
 
   await equipmentNft.setNftId(soulLootNft.address);
+  await equipmentNft.setXp(laXp.address);
   await artifactNft.setNftId(soulLootNft.address);
   await itemNft.setNftId(soulLootNft.address);
   console.log('NFT-ID is set on NFTs | ', SAMPLE_LOOT);

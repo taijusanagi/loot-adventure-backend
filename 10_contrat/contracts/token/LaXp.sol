@@ -51,24 +51,13 @@ contract LaXp is ERC20, AccessControl, IXp {
     //*********************************************
     //Logic
     //*********************************************
-    function mint(address to_, uint256 amount_, string memory source_) public {
+    function mint(address to_, uint256 amount_, string memory source_) public onlyRole(MINTER_ROLE) {
         _mint(to_, amount_);
         emit getXp(to_, amount_, source_);
     }
 
-    function burn(address from_, uint256 amount_, string memory source_) public {
+    function burn(address from_, uint256 amount_, string memory source_) public onlyRole(DEVELOPER_ROLE) {
         _burn(from_, amount_);
         emit burnXp(from_, amount_, source_);
     }
-
-    function _beforeTokenTransfer(address from, address to, uint256 amount) 
-        internal virtual override(ERC20)
-    {
-        if(transferLock){
-            require(from == address(0) || to == address(0));
-            require(amount > 0);
-            _checkRole(MINTER_ROLE, msg.sender);
-        }
-    }
-
 }

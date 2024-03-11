@@ -22,6 +22,9 @@ contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
     string private baseMetadataURIPrefix;
     string private baseMetadataURISuffix;
     uint256 private currentNftId;
+    address private xp;
+    uint256 private kValLevelUp;
+    address private treasury;
 
     mapping (address => uint256) private nftId; // NFT Address => NFT ID
     mapping (uint256 => Equipment) private equipment; // tokenId => Equipment Status
@@ -35,6 +38,7 @@ contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
     constructor(string memory uriPrefic_, string memory uriSuffix_) ERC1155("") {
         _grantRole(DEVELOPER_ROLE, msg.sender);
         _grantRole(CONTROLER_ROLE, msg.sender);
+        setTreasury(msg.sender);
         currentNftId = 2000;
         setBaseMetadataURI(uriPrefic_, uriSuffix_);
 
@@ -42,6 +46,8 @@ contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
         baseValRarity[1] = 3;
         baseValRarity[2] = 6;
         baseValRarity[3] = 9;
+
+        kValLevelUp = 5;
     }
 
     //*********************************************
@@ -65,6 +71,18 @@ contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
 
     function getBaseValLevel(uint256 level_) public view returns (uint256 _value) {
         return baseValLevel[level_];
+    }
+
+    function getXp() public view returns(address){
+        return xp;
+    }
+
+    function getTreasury() public view returns(address){
+        return treasury;
+    }
+
+    function getKValLevelup() public view returns(uint256){
+        return kValLevelUp;
     }
     
     function uri(uint256 tokenId_) public view override returns (string memory) {
@@ -159,6 +177,18 @@ contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
         baseValLevel[level_] = val_;
     }
 
+    function setXp(address ft_) public onlyRole(DEVELOPER_ROLE) {
+        xp = ft_;
+    }
+
+    function setTreasury(address treasury_) public onlyRole(DEVELOPER_ROLE) {
+        treasury = treasury_;
+    }
+
+    function setKValLevelup(uint256 kVal_)  public onlyRole(DEVELOPER_ROLE){
+        kValLevelUp = kVal_;
+    }
+
     //*********************************************
     //Logic
     //*********************************************
@@ -245,10 +275,14 @@ contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
     function levelUp(
         uint256 tokenId_
     ) public {
-        require(hasRole(DEVELOPER_ROLE, msg.sender) || hasRole(CONTROLER_ROLE, msg.sender));
+        IERC20 _xp = IERC20(xp);
         Equipment memory _equipment = equipment[tokenId_];
-        uint256 _level = _equipment.level + 1;
-        _equipment.level = _level;
+        uint256 _level = _equipment.level;
+        uint256 _amount = (100 + _level * kValLevelUp) * (10 ** 16);
+        (bool _success) = _xp.transferFrom(msg.sender, treasury, _amount);
+        require(_success, 'EquipmentNFT error: Your XP Token is insufficient');
+
+        _equipment.level = _level + 1;
         equipment[tokenId_] = _equipment;
         emit updateEquipment(
             tokenId_, 
