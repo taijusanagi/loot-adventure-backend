@@ -80,13 +80,13 @@ contract SoulLoot is AccessControl, ISoulCalculator {
         );
     }
 
-    function calcArtifact (
+    function calcJob (
         address nft_, 
         uint256 tokenId_, 
         bytes memory data_
     ) public view returns (
         uint256 _seed,
-        uint256 _artifactType
+        uint256 _jobType
     ){
         ISoulLoot _loot = ISoulLoot(nft_);
         ILootByRogueV2.AdventureRecord memory _record = _loot.getAdventureRecord(tokenId_);
@@ -94,13 +94,13 @@ contract SoulLoot is AccessControl, ISoulCalculator {
         return (_record.inputData.seed, _record.inputData.seed % 4);
     }
 
-    function calcItem(
+    function calcArtifact(
         address nft_, 
         uint256 tokenId_, 
         bytes memory data_
     ) public view returns(
         uint256 _seed,
-        uint256 _itemType,
+        uint256 _artifactType,
         uint256 _rarity
     ){
         ISoulLoot _loot = ISoulLoot(nft_);

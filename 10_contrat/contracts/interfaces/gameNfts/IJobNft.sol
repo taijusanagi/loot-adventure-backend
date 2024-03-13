@@ -1,12 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
-interface IItemNft {
-    struct Item {
+interface IJobNft {
+    struct Job {
         uint256 seed;
-        uint256 itemType;
+        uint256 jobType;
         string name;
-        uint256 rarity;
         address rAddress;
         uint256 rTokenId;
     }
@@ -16,7 +15,6 @@ interface IItemNft {
     function setMinterRole(address) external;
     function setDeveloperRole(address) external;
     function setNftId(address) external;
-    function setOnGame (address) external;
 
     function mint(
         address to_,
@@ -24,7 +22,6 @@ interface IItemNft {
         uint256 tokenId_, 
         uint256 seed_,
         string memory name_,
-        uint256 type_,
-        uint256 rarity_
+        uint256 type_
     ) external;
 }

@@ -206,8 +206,62 @@ export const soulControlerAbi = [
     "type": "function"
   },
   {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "owner_",
+        "type": "address"
+      }
+    ],
+    "name": "getEquips",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "weapon",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "cheastArmor",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "headArmor",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "waistArmor",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "footArmor",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "handArmor",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "necklace",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "ring",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [],
-    "name": "getItemNft",
+    "name": "getJobNft",
     "outputs": [
       {
         "internalType": "address",
@@ -514,7 +568,7 @@ export const soulControlerAbi = [
         "type": "address"
       }
     ],
-    "name": "setItemNft",
+    "name": "setJobNft",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -533,13 +587,14 @@ export const soulControlerAbi = [
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "player_",
-        "type": "address"
-      }
-    ],
+    "inputs": [],
+    "name": "setNftsOffGame",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "setNftsOnGame",
     "outputs": [],
     "stateMutability": "nonpayable",
@@ -651,8 +706,21 @@ export const soulControlerAbi = [
       },
       {
         "internalType": "uint256",
-        "name": "tokenIdEquipment_",
+        "name": "tokenIdArtifact_",
         "type": "uint256"
+      }
+    ],
+    "name": "transferArtifact",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "from_",
+        "type": "address"
       }
     ],
     "name": "transferEquipment",
@@ -669,30 +737,12 @@ export const soulControlerAbi = [
       },
       {
         "internalType": "uint256",
-        "name": "tokenIdItem_",
-        "type": "uint256"
-      }
-    ],
-    "name": "transferItem",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "from_",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
         "name": "tokenIdEquipment_",
         "type": "uint256"
       },
       {
         "internalType": "uint256",
-        "name": "tokenIdItem_",
+        "name": "tokenIdArtifact_",
         "type": "uint256"
       }
     ],

@@ -123,6 +123,19 @@ const _abi = [
         type: "address",
       },
     ],
+    name: "setOffGame",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
     name: "setOnGame",
     outputs: [],
     stateMutability: "nonpayable",

@@ -34,7 +34,7 @@ export interface SoulLootInterface extends utils.Interface {
     "DEVELOPER_ROLE()": FunctionFragment;
     "calcArtifact(address,uint256,bytes)": FunctionFragment;
     "calcEquipment(address,uint256,bytes)": FunctionFragment;
-    "calcItem(address,uint256,bytes)": FunctionFragment;
+    "calcJob(address,uint256,bytes)": FunctionFragment;
     "calcSoul(address,uint256,bytes)": FunctionFragment;
     "getRoleAdmin(bytes32)": FunctionFragment;
     "grantRole(bytes32,address)": FunctionFragment;
@@ -53,7 +53,7 @@ export interface SoulLootInterface extends utils.Interface {
       | "DEVELOPER_ROLE"
       | "calcArtifact"
       | "calcEquipment"
-      | "calcItem"
+      | "calcJob"
       | "calcSoul"
       | "getRoleAdmin"
       | "grantRole"
@@ -94,7 +94,7 @@ export interface SoulLootInterface extends utils.Interface {
     ]
   ): string;
   encodeFunctionData(
-    functionFragment: "calcItem",
+    functionFragment: "calcJob",
     values: [
       PromiseOrValue<string>,
       PromiseOrValue<BigNumberish>,
@@ -159,7 +159,7 @@ export interface SoulLootInterface extends utils.Interface {
     functionFragment: "calcEquipment",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "calcItem", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "calcJob", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "calcSoul", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getRoleAdmin",
@@ -272,7 +272,11 @@ export interface SoulLoot extends BaseContract {
       data_: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<
-      [BigNumber, BigNumber] & { _seed: BigNumber; _artifactType: BigNumber }
+      [BigNumber, BigNumber, BigNumber] & {
+        _seed: BigNumber;
+        _artifactType: BigNumber;
+        _rarity: BigNumber;
+      }
     >;
 
     calcEquipment(
@@ -289,17 +293,13 @@ export interface SoulLoot extends BaseContract {
       }
     >;
 
-    calcItem(
+    calcJob(
       nft_: PromiseOrValue<string>,
       tokenId_: PromiseOrValue<BigNumberish>,
       data_: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<
-      [BigNumber, BigNumber, BigNumber] & {
-        _seed: BigNumber;
-        _itemType: BigNumber;
-        _rarity: BigNumber;
-      }
+      [BigNumber, BigNumber] & { _seed: BigNumber; _jobType: BigNumber }
     >;
 
     calcSoul(
@@ -366,7 +366,11 @@ export interface SoulLoot extends BaseContract {
     data_: PromiseOrValue<BytesLike>,
     overrides?: CallOverrides
   ): Promise<
-    [BigNumber, BigNumber] & { _seed: BigNumber; _artifactType: BigNumber }
+    [BigNumber, BigNumber, BigNumber] & {
+      _seed: BigNumber;
+      _artifactType: BigNumber;
+      _rarity: BigNumber;
+    }
   >;
 
   calcEquipment(
@@ -383,17 +387,13 @@ export interface SoulLoot extends BaseContract {
     }
   >;
 
-  calcItem(
+  calcJob(
     nft_: PromiseOrValue<string>,
     tokenId_: PromiseOrValue<BigNumberish>,
     data_: PromiseOrValue<BytesLike>,
     overrides?: CallOverrides
   ): Promise<
-    [BigNumber, BigNumber, BigNumber] & {
-      _seed: BigNumber;
-      _itemType: BigNumber;
-      _rarity: BigNumber;
-    }
+    [BigNumber, BigNumber] & { _seed: BigNumber; _jobType: BigNumber }
   >;
 
   calcSoul(
@@ -460,7 +460,11 @@ export interface SoulLoot extends BaseContract {
       data_: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<
-      [BigNumber, BigNumber] & { _seed: BigNumber; _artifactType: BigNumber }
+      [BigNumber, BigNumber, BigNumber] & {
+        _seed: BigNumber;
+        _artifactType: BigNumber;
+        _rarity: BigNumber;
+      }
     >;
 
     calcEquipment(
@@ -477,17 +481,13 @@ export interface SoulLoot extends BaseContract {
       }
     >;
 
-    calcItem(
+    calcJob(
       nft_: PromiseOrValue<string>,
       tokenId_: PromiseOrValue<BigNumberish>,
       data_: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<
-      [BigNumber, BigNumber, BigNumber] & {
-        _seed: BigNumber;
-        _itemType: BigNumber;
-        _rarity: BigNumber;
-      }
+      [BigNumber, BigNumber] & { _seed: BigNumber; _jobType: BigNumber }
     >;
 
     calcSoul(
@@ -598,7 +598,7 @@ export interface SoulLoot extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    calcItem(
+    calcJob(
       nft_: PromiseOrValue<string>,
       tokenId_: PromiseOrValue<BigNumberish>,
       data_: PromiseOrValue<BytesLike>,
@@ -680,7 +680,7 @@ export interface SoulLoot extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    calcItem(
+    calcJob(
       nft_: PromiseOrValue<string>,
       tokenId_: PromiseOrValue<BigNumberish>,
       data_: PromiseOrValue<BytesLike>,

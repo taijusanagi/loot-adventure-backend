@@ -28,12 +28,12 @@ export interface ISoulMinterInterface extends utils.Interface {
     "getArtifactNftAddress()": FunctionFragment;
     "getCalcContract(address)": FunctionFragment;
     "getEquipmentNftAddress()": FunctionFragment;
-    "getItemNftAddress()": FunctionFragment;
+    "getJobNftAddress()": FunctionFragment;
     "mintSoul(address,uint256,address,address,bytes)": FunctionFragment;
     "setArtifactNftAddress(address)": FunctionFragment;
     "setCalcContract(address,address)": FunctionFragment;
     "setEquipmentNftAddress(address)": FunctionFragment;
-    "setItemNftAddress(address)": FunctionFragment;
+    "setJobNftAddress(address)": FunctionFragment;
   };
 
   getFunction(
@@ -41,12 +41,12 @@ export interface ISoulMinterInterface extends utils.Interface {
       | "getArtifactNftAddress"
       | "getCalcContract"
       | "getEquipmentNftAddress"
-      | "getItemNftAddress"
+      | "getJobNftAddress"
       | "mintSoul"
       | "setArtifactNftAddress"
       | "setCalcContract"
       | "setEquipmentNftAddress"
-      | "setItemNftAddress"
+      | "setJobNftAddress"
   ): FunctionFragment;
 
   encodeFunctionData(
@@ -62,7 +62,7 @@ export interface ISoulMinterInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "getItemNftAddress",
+    functionFragment: "getJobNftAddress",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -88,7 +88,7 @@ export interface ISoulMinterInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
-    functionFragment: "setItemNftAddress",
+    functionFragment: "setJobNftAddress",
     values: [PromiseOrValue<string>]
   ): string;
 
@@ -105,7 +105,7 @@ export interface ISoulMinterInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "getItemNftAddress",
+    functionFragment: "getJobNftAddress",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "mintSoul", data: BytesLike): Result;
@@ -122,7 +122,7 @@ export interface ISoulMinterInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setItemNftAddress",
+    functionFragment: "setJobNftAddress",
     data: BytesLike
   ): Result;
 
@@ -165,7 +165,7 @@ export interface ISoulMinter extends BaseContract {
 
     getEquipmentNftAddress(overrides?: CallOverrides): Promise<[string]>;
 
-    getItemNftAddress(overrides?: CallOverrides): Promise<[string]>;
+    getJobNftAddress(overrides?: CallOverrides): Promise<[string]>;
 
     mintSoul(
       nft_: PromiseOrValue<string>,
@@ -192,7 +192,7 @@ export interface ISoulMinter extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    setItemNftAddress(
+    setJobNftAddress(
       nft_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
@@ -207,7 +207,7 @@ export interface ISoulMinter extends BaseContract {
 
   getEquipmentNftAddress(overrides?: CallOverrides): Promise<string>;
 
-  getItemNftAddress(overrides?: CallOverrides): Promise<string>;
+  getJobNftAddress(overrides?: CallOverrides): Promise<string>;
 
   mintSoul(
     nft_: PromiseOrValue<string>,
@@ -234,7 +234,7 @@ export interface ISoulMinter extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  setItemNftAddress(
+  setJobNftAddress(
     nft_: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
@@ -249,7 +249,7 @@ export interface ISoulMinter extends BaseContract {
 
     getEquipmentNftAddress(overrides?: CallOverrides): Promise<string>;
 
-    getItemNftAddress(overrides?: CallOverrides): Promise<string>;
+    getJobNftAddress(overrides?: CallOverrides): Promise<string>;
 
     mintSoul(
       nft_: PromiseOrValue<string>,
@@ -276,7 +276,7 @@ export interface ISoulMinter extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setItemNftAddress(
+    setJobNftAddress(
       nft_: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
@@ -294,7 +294,7 @@ export interface ISoulMinter extends BaseContract {
 
     getEquipmentNftAddress(overrides?: CallOverrides): Promise<BigNumber>;
 
-    getItemNftAddress(overrides?: CallOverrides): Promise<BigNumber>;
+    getJobNftAddress(overrides?: CallOverrides): Promise<BigNumber>;
 
     mintSoul(
       nft_: PromiseOrValue<string>,
@@ -321,7 +321,7 @@ export interface ISoulMinter extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    setItemNftAddress(
+    setJobNftAddress(
       nft_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
@@ -341,7 +341,7 @@ export interface ISoulMinter extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    getItemNftAddress(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    getJobNftAddress(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     mintSoul(
       nft_: PromiseOrValue<string>,
@@ -368,7 +368,7 @@ export interface ISoulMinter extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    setItemNftAddress(
+    setJobNftAddress(
       nft_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;

@@ -57,7 +57,7 @@ const _abi = [
   },
   {
     inputs: [],
-    name: "getItemNftAddress",
+    name: "getJobNftAddress",
     outputs: [
       {
         internalType: "address",
@@ -153,7 +153,7 @@ const _abi = [
         type: "address",
       },
     ],
-    name: "setItemNftAddress",
+    name: "setJobNftAddress",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",

@@ -42,6 +42,11 @@ const _abi = [
         name: "type_",
         type: "uint256",
       },
+      {
+        internalType: "uint256",
+        name: "rarity_",
+        type: "uint256",
+      },
     ],
     name: "mint",
     outputs: [],
@@ -101,6 +106,19 @@ const _abi = [
       },
     ],
     name: "setNftId",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    name: "setOnGame",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",

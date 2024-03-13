@@ -1,9 +1,10 @@
 import { ethers } from 'hardhat';
 
+import { erc20laxpAbi } from './abi/erc20-laxp-abi';
 import { soulLootAbi } from './abi/erc721-soul-loot-abi';
-import { SAMPLE_LOOT, SOUL_LOOT } from './config';
+import { SAMPLE_LOOT, SOUL_LOOT, XP_FT } from './config';
 
-const TOKEN_ID = 5;
+const TOKEN_ID = 3;
 
 async function main() {
   const [signer] = await ethers.getSigners();

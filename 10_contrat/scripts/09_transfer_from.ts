@@ -3,7 +3,7 @@ import { ethers } from 'hardhat';
 import { erc1155Equipment } from './abi/erc1155-equipment-abi';
 import { erc1155Item } from './abi/erc1155-item-abi';
 import { soulControlerAbi } from './abi/soul-controler-abi';
-import { SOUL_CONTROLER, EQUIPMENT_NFT, ITEM_NFT } from './config';
+import { SOUL_CONTROLER, EQUIPMENT_NFT, ARTIFACT_NFT } from './config';
 
 const TOKEN_ID = 20000000001;
 
@@ -18,7 +18,7 @@ async function main() {
     console.log(tokenId.toString());
   })
 
-  const itemNft = new ethers.Contract(ITEM_NFT, erc1155Item, signer);
+  const itemNft = new ethers.Contract(ARTIFACT_NFT, erc1155Item, signer);
   itemNft.once("TransferSingle", (operator, from, to, tokenId)=>{
     console.log(operator);
     console.log(from);

@@ -56,6 +56,8 @@ export type { IEquipmentNft } from "./contracts/interfaces/gameNfts/IEquipmentNf
 export { IEquipmentNft__factory } from "./factories/contracts/interfaces/gameNfts/IEquipmentNft__factory";
 export type { IItemNft } from "./contracts/interfaces/gameNfts/IItemNft";
 export { IItemNft__factory } from "./factories/contracts/interfaces/gameNfts/IItemNft__factory";
+export type { IJobNft } from "./contracts/interfaces/gameNfts/IJobNft";
+export { IJobNft__factory } from "./factories/contracts/interfaces/gameNfts/IJobNft__factory";
 export type { IERC6551Account } from "./contracts/interfaces/IERC6551Account";
 export { IERC6551Account__factory } from "./factories/contracts/interfaces/IERC6551Account__factory";
 export type { IERC6551Registry } from "./contracts/interfaces/IERC6551Registry";
@@ -86,6 +88,8 @@ export type { EquipmentNft } from "./contracts/token/EquipmentNft";
 export { EquipmentNft__factory } from "./factories/contracts/token/EquipmentNft__factory";
 export type { ItemNft } from "./contracts/token/ItemNft";
 export { ItemNft__factory } from "./factories/contracts/token/ItemNft__factory";
+export type { JobNft } from "./contracts/token/JobNft";
+export { JobNft__factory } from "./factories/contracts/token/JobNft__factory";
 export type { LaXp } from "./contracts/token/LaXp";
 export { LaXp__factory } from "./factories/contracts/token/LaXp__factory";
 export type { SampleLootV2 } from "./contracts/token/SampleLootV2";

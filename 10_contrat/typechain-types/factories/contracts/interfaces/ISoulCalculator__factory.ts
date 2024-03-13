@@ -40,6 +40,11 @@ const _abi = [
         name: "_artifactType",
         type: "uint256",
       },
+      {
+        internalType: "uint256",
+        name: "_rarity",
+        type: "uint256",
+      },
     ],
     stateMutability: "view",
     type: "function",
@@ -106,7 +111,7 @@ const _abi = [
         type: "bytes",
       },
     ],
-    name: "calcItem",
+    name: "calcJob",
     outputs: [
       {
         internalType: "uint256",
@@ -115,12 +120,7 @@ const _abi = [
       },
       {
         internalType: "uint256",
-        name: "_itemType",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "_rarity",
+        name: "_jobType",
         type: "uint256",
       },
     ],

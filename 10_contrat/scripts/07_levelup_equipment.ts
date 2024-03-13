@@ -4,7 +4,7 @@ import { erc1155Equipment } from './abi/erc1155-equipment-abi';
 import { erc6551AccountAbi } from './abi/erc6551-account-abi';
 import { EQUIPMENT_NFT, XP_FT } from './config';
 
-const tba = "0xBA69869A0d134311C1dA25e812BDe3c452e87864";
+const tba = "0xc3F17f4eDe40b31cA43E7DF7a05C311CC48AaB09";
 
 async function main() {
   const [signer] = await ethers.getSigners();
@@ -31,8 +31,7 @@ async function main() {
   tx.wait();
 
   const tx02 = await laXp.balanceOf(tba);
-  tx02.wait();
-  console.log('Balance is :', tx02);
+  console.log('Balance is :', tx02.toString());
 }
 
 // We recommend this pattern to be able to use async/await everywhere

@@ -25,7 +25,7 @@ export interface ISoulCalculatorInterface extends utils.Interface {
   functions: {
     "calcArtifact(address,uint256,bytes)": FunctionFragment;
     "calcEquipment(address,uint256,bytes)": FunctionFragment;
-    "calcItem(address,uint256,bytes)": FunctionFragment;
+    "calcJob(address,uint256,bytes)": FunctionFragment;
     "calcSoul(address,uint256,bytes)": FunctionFragment;
   };
 
@@ -33,7 +33,7 @@ export interface ISoulCalculatorInterface extends utils.Interface {
     nameOrSignatureOrTopic:
       | "calcArtifact"
       | "calcEquipment"
-      | "calcItem"
+      | "calcJob"
       | "calcSoul"
   ): FunctionFragment;
 
@@ -54,7 +54,7 @@ export interface ISoulCalculatorInterface extends utils.Interface {
     ]
   ): string;
   encodeFunctionData(
-    functionFragment: "calcItem",
+    functionFragment: "calcJob",
     values: [
       PromiseOrValue<string>,
       PromiseOrValue<BigNumberish>,
@@ -78,7 +78,7 @@ export interface ISoulCalculatorInterface extends utils.Interface {
     functionFragment: "calcEquipment",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "calcItem", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "calcJob", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "calcSoul", data: BytesLike): Result;
 
   events: {};
@@ -117,7 +117,11 @@ export interface ISoulCalculator extends BaseContract {
       seedData_: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<
-      [BigNumber, BigNumber] & { _seed: BigNumber; _artifactType: BigNumber }
+      [BigNumber, BigNumber, BigNumber] & {
+        _seed: BigNumber;
+        _artifactType: BigNumber;
+        _rarity: BigNumber;
+      }
     >;
 
     calcEquipment(
@@ -134,17 +138,13 @@ export interface ISoulCalculator extends BaseContract {
       }
     >;
 
-    calcItem(
+    calcJob(
       nft_: PromiseOrValue<string>,
       tokenId_: PromiseOrValue<BigNumberish>,
       seedData_: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<
-      [BigNumber, BigNumber, BigNumber] & {
-        _seed: BigNumber;
-        _itemType: BigNumber;
-        _rarity: BigNumber;
-      }
+      [BigNumber, BigNumber] & { _seed: BigNumber; _jobType: BigNumber }
     >;
 
     calcSoul(
@@ -171,7 +171,11 @@ export interface ISoulCalculator extends BaseContract {
     seedData_: PromiseOrValue<BytesLike>,
     overrides?: CallOverrides
   ): Promise<
-    [BigNumber, BigNumber] & { _seed: BigNumber; _artifactType: BigNumber }
+    [BigNumber, BigNumber, BigNumber] & {
+      _seed: BigNumber;
+      _artifactType: BigNumber;
+      _rarity: BigNumber;
+    }
   >;
 
   calcEquipment(
@@ -188,17 +192,13 @@ export interface ISoulCalculator extends BaseContract {
     }
   >;
 
-  calcItem(
+  calcJob(
     nft_: PromiseOrValue<string>,
     tokenId_: PromiseOrValue<BigNumberish>,
     seedData_: PromiseOrValue<BytesLike>,
     overrides?: CallOverrides
   ): Promise<
-    [BigNumber, BigNumber, BigNumber] & {
-      _seed: BigNumber;
-      _itemType: BigNumber;
-      _rarity: BigNumber;
-    }
+    [BigNumber, BigNumber] & { _seed: BigNumber; _jobType: BigNumber }
   >;
 
   calcSoul(
@@ -225,7 +225,11 @@ export interface ISoulCalculator extends BaseContract {
       seedData_: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<
-      [BigNumber, BigNumber] & { _seed: BigNumber; _artifactType: BigNumber }
+      [BigNumber, BigNumber, BigNumber] & {
+        _seed: BigNumber;
+        _artifactType: BigNumber;
+        _rarity: BigNumber;
+      }
     >;
 
     calcEquipment(
@@ -242,17 +246,13 @@ export interface ISoulCalculator extends BaseContract {
       }
     >;
 
-    calcItem(
+    calcJob(
       nft_: PromiseOrValue<string>,
       tokenId_: PromiseOrValue<BigNumberish>,
       seedData_: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<
-      [BigNumber, BigNumber, BigNumber] & {
-        _seed: BigNumber;
-        _itemType: BigNumber;
-        _rarity: BigNumber;
-      }
+      [BigNumber, BigNumber] & { _seed: BigNumber; _jobType: BigNumber }
     >;
 
     calcSoul(
@@ -290,7 +290,7 @@ export interface ISoulCalculator extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    calcItem(
+    calcJob(
       nft_: PromiseOrValue<string>,
       tokenId_: PromiseOrValue<BigNumberish>,
       seedData_: PromiseOrValue<BytesLike>,
@@ -320,7 +320,7 @@ export interface ISoulCalculator extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    calcItem(
+    calcJob(
       nft_: PromiseOrValue<string>,
       tokenId_: PromiseOrValue<BigNumberish>,
       seedData_: PromiseOrValue<BytesLike>,

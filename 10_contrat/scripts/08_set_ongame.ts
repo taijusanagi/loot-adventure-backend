@@ -1,23 +1,21 @@
 import { ethers } from 'hardhat';
 
 import { soulControlerAbi } from './abi/soul-controler-abi';
-import { SOUL_CONTROLER, EQUIPMENT_NFT } from './config';
-import { erc1155Equipment } from './abi/erc1155-equipment-abi';
+import { SOUL_CONTROLER } from './config';
+import { erc6551AccountAbi } from './abi/erc6551-account-abi';
+
+const tba = "0xc3F17f4eDe40b31cA43E7DF7a05C311CC48AaB09";
 
 async function main() {
   const [signer] = await ethers.getSigners();
   console.log('Signer is ... ', signer.address);
-  const equipmentNft = new ethers.Contract(EQUIPMENT_NFT, erc1155Equipment, signer);
+  const tbaContract = new ethers.Contract(tba, erc6551AccountAbi, signer);
 
   // Set Contract
   const soulControler = new ethers.Contract(SOUL_CONTROLER, soulControlerAbi, signer);
-  const tx = await soulControler.setNftsOnGame('0x4303831d70BEf1E2ba7d6b802bf90990124F3C36');
+  const txData = await soulControler.interface.encodeFunctionData('setNftsOnGame', []);
+  const tx = await tbaContract.executeCall(SOUL_CONTROLER, 0, txData);
   tx.wait();
-
-  // const tx2 = await equipmentNft.setControlerRole('0x7b718D4Ce6ca83536660a314639559F3d3f6e9e3');
-  // tx2.wait();
-  // const tx4 = await equipmentNft.setDeveloperRole('0x7b718D4Ce6ca83536660a314639559F3d3f6e9e3');
-  // tx4.wait();
 }
 
 // We recommend this pattern to be able to use async/await everywhere

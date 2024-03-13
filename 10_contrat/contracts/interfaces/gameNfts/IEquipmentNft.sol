@@ -18,6 +18,7 @@ interface IEquipmentNft {
     function setDeveloperRole(address) external;
     function setNftId(address) external;
     function setOnGame (address) external;
+    function setOffGame (address) external;
 
     function mint(address, address, uint256, uint256, string memory, uint256, uint256, uint256) external;
 }

@@ -35,7 +35,7 @@ export interface SoulMinterInterface extends utils.Interface {
     "getArtifactNft()": FunctionFragment;
     "getCalcContract(address)": FunctionFragment;
     "getEquipmentNft()": FunctionFragment;
-    "getItemNft()": FunctionFragment;
+    "getJobNft()": FunctionFragment;
     "getRoleAdmin(bytes32)": FunctionFragment;
     "getSoulLoot()": FunctionFragment;
     "getXp()": FunctionFragment;
@@ -50,7 +50,7 @@ export interface SoulMinterInterface extends utils.Interface {
     "setCalcContract(address,address)": FunctionFragment;
     "setDeveloperRole(address)": FunctionFragment;
     "setEquipmentNft(address)": FunctionFragment;
-    "setItemNft(address)": FunctionFragment;
+    "setJobNft(address)": FunctionFragment;
     "setSoulLoot(address)": FunctionFragment;
     "setXp(address)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
@@ -64,7 +64,7 @@ export interface SoulMinterInterface extends utils.Interface {
       | "getArtifactNft"
       | "getCalcContract"
       | "getEquipmentNft"
-      | "getItemNft"
+      | "getJobNft"
       | "getRoleAdmin"
       | "getSoulLoot"
       | "getXp"
@@ -79,7 +79,7 @@ export interface SoulMinterInterface extends utils.Interface {
       | "setCalcContract"
       | "setDeveloperRole"
       | "setEquipmentNft"
-      | "setItemNft"
+      | "setJobNft"
       | "setSoulLoot"
       | "setXp"
       | "supportsInterface"
@@ -109,10 +109,7 @@ export interface SoulMinterInterface extends utils.Interface {
     functionFragment: "getEquipmentNft",
     values?: undefined
   ): string;
-  encodeFunctionData(
-    functionFragment: "getItemNft",
-    values?: undefined
-  ): string;
+  encodeFunctionData(functionFragment: "getJobNft", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "getRoleAdmin",
     values: [PromiseOrValue<BytesLike>]
@@ -173,7 +170,7 @@ export interface SoulMinterInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
-    functionFragment: "setItemNft",
+    functionFragment: "setJobNft",
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
@@ -210,7 +207,7 @@ export interface SoulMinterInterface extends utils.Interface {
     functionFragment: "getEquipmentNft",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "getItemNft", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "getJobNft", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getRoleAdmin",
     data: BytesLike
@@ -249,7 +246,7 @@ export interface SoulMinterInterface extends utils.Interface {
     functionFragment: "setEquipmentNft",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "setItemNft", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "setJobNft", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "setSoulLoot",
     data: BytesLike
@@ -350,7 +347,7 @@ export interface SoulMinter extends BaseContract {
 
     getEquipmentNft(overrides?: CallOverrides): Promise<[string]>;
 
-    getItemNft(overrides?: CallOverrides): Promise<[string]>;
+    getJobNft(overrides?: CallOverrides): Promise<[string]>;
 
     getRoleAdmin(
       role: PromiseOrValue<BytesLike>,
@@ -426,7 +423,7 @@ export interface SoulMinter extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    setItemNft(
+    setJobNft(
       nft_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
@@ -462,7 +459,7 @@ export interface SoulMinter extends BaseContract {
 
   getEquipmentNft(overrides?: CallOverrides): Promise<string>;
 
-  getItemNft(overrides?: CallOverrides): Promise<string>;
+  getJobNft(overrides?: CallOverrides): Promise<string>;
 
   getRoleAdmin(
     role: PromiseOrValue<BytesLike>,
@@ -538,7 +535,7 @@ export interface SoulMinter extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  setItemNft(
+  setJobNft(
     nft_: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
@@ -574,7 +571,7 @@ export interface SoulMinter extends BaseContract {
 
     getEquipmentNft(overrides?: CallOverrides): Promise<string>;
 
-    getItemNft(overrides?: CallOverrides): Promise<string>;
+    getJobNft(overrides?: CallOverrides): Promise<string>;
 
     getRoleAdmin(
       role: PromiseOrValue<BytesLike>,
@@ -650,7 +647,7 @@ export interface SoulMinter extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setItemNft(
+    setJobNft(
       nft_: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
@@ -722,7 +719,7 @@ export interface SoulMinter extends BaseContract {
 
     getEquipmentNft(overrides?: CallOverrides): Promise<BigNumber>;
 
-    getItemNft(overrides?: CallOverrides): Promise<BigNumber>;
+    getJobNft(overrides?: CallOverrides): Promise<BigNumber>;
 
     getRoleAdmin(
       role: PromiseOrValue<BytesLike>,
@@ -798,7 +795,7 @@ export interface SoulMinter extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    setItemNft(
+    setJobNft(
       nft_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
@@ -837,7 +834,7 @@ export interface SoulMinter extends BaseContract {
 
     getEquipmentNft(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    getItemNft(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    getJobNft(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getRoleAdmin(
       role: PromiseOrValue<BytesLike>,
@@ -913,7 +910,7 @@ export interface SoulMinter extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    setItemNft(
+    setJobNft(
       nft_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;

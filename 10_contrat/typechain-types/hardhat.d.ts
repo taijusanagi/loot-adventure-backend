@@ -113,6 +113,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IItemNft__factory>;
     getContractFactory(
+      name: "IJobNft",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IJobNft__factory>;
+    getContractFactory(
       name: "IERC6551Account",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC6551Account__factory>;
@@ -172,6 +176,10 @@ declare module "hardhat/types/runtime" {
       name: "ItemNft",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ItemNft__factory>;
+    getContractFactory(
+      name: "JobNft",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.JobNft__factory>;
     getContractFactory(
       name: "LaXp",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -311,6 +319,11 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.IItemNft>;
     getContractAt(
+      name: "IJobNft",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IJobNft>;
+    getContractAt(
       name: "IERC6551Account",
       address: string,
       signer?: ethers.Signer
@@ -385,6 +398,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.ItemNft>;
+    getContractAt(
+      name: "JobNft",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.JobNft>;
     getContractAt(
       name: "LaXp",
       address: string,

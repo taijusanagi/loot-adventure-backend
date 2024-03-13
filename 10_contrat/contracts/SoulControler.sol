@@ -8,8 +8,8 @@ import "@openzeppelin/contracts/utils/Strings.sol";
 import "./lib/Bytecode.sol";
 import "./interfaces/lootNfts/ISoulLoot.sol";
 import "./interfaces/gameNfts/IEquipmentNft.sol";
+import "./interfaces/gameNfts/IJobNft.sol";
 import "./interfaces/gameNfts/IArtifactNft.sol";
-import "./interfaces/gameNfts/IItemNft.sol";
 import "./interfaces/ISoulCalculator.sol";
 import "./interfaces/IXp.sol";
 
@@ -43,8 +43,8 @@ contract SoulControler is AccessControl {
     address private soulLoot;
     // SFT Contract (ERC1155)
     address private equipmentNft;
-    address private itemNft;
     address private artifactNft;
+    address private jobNft;
     // FT Contract (ERC20)
     address private xp;
     address private treasury;
@@ -71,12 +71,12 @@ contract SoulControler is AccessControl {
         return equipmentNft;
     }
 
-    function getItemNft() public view returns(address){
-        return itemNft;
-    }
-
     function getArtifactNft() public view returns(address){
         return artifactNft;
+    }
+
+    function getJobNft() public view returns(address){
+        return jobNft;
     }
 
     function getXp() public view returns(address){
@@ -128,12 +128,12 @@ contract SoulControler is AccessControl {
         equipmentNft = nft_;
     }
     
-    function setItemNft(address nft_) public onlyRole(DEVELOPER_ROLE) {
-        itemNft = nft_;
-    }
-
     function setArtifactNft(address nft_) public onlyRole(DEVELOPER_ROLE) {
         artifactNft = nft_;
+    }
+
+    function setJobNft(address nft_) public onlyRole(DEVELOPER_ROLE) {
+        jobNft = nft_;
     }
 
     function setXp(address ft_) public onlyRole(DEVELOPER_ROLE) {
@@ -251,38 +251,87 @@ contract SoulControler is AccessControl {
     //*********************************************
     //Logic
     //*********************************************
-    function setNftsOnGame(address player_) public onlyRole(DEVELOPER_ROLE) {
+    function setNftsOnGame() public {
         IEquipmentNft _equipmentNft = IEquipmentNft(equipmentNft);
-        IItemNft _itemNft = IItemNft(itemNft);
+        _equipmentNft.setOnGame(msg.sender);
+    }
 
-        _equipmentNft.setOnGame(player_);
-        _itemNft.setOnGame(player_);
+    function setNftsOffGame() public onlyRole(DEVELOPER_ROLE){
+        IEquipmentNft _equipmentNft = IEquipmentNft(equipmentNft);
+        _equipmentNft.setOffGame(msg.sender);
     }
 
     function transferEquipment(
-        address from_, 
-        uint256 tokenIdEquipment_
+        address from_
     ) public onlyRole(DEVELOPER_ROLE){
-        IERC1155 _equipmentNft = IERC1155(equipmentNft);
-        _equipmentNft.safeTransferFrom(from_, treasury, tokenIdEquipment_, 1, '0x00');
+        // uint256 weapon,
+        // uint256 cheastArmor,
+        // uint256 headArmor,
+        // uint256 waistArmor,
+        // uint256 footArmor,
+        // uint256 handArmor,
+        // uint256 necklace,
+        // uint256 ring
+        uint256 _count = 0;
+        uint256[] memory _equipArray;
+        Equips memory _equips = equips[from_];
+        if(_equips.weapon!=0){
+            _equipArray[_count]=_equips.weapon;
+            _count++;
+        }
+        if(_equips.cheastArmor!=0){
+            _equipArray[_count]=_equips.cheastArmor;
+            _count++;
+        }
+        if(_equips.headArmor!=0){
+            _equipArray[_count]=_equips.headArmor;
+            _count++;
+        }
+        if(_equips.waistArmor!=0){
+            _equipArray[_count]=_equips.waistArmor;
+            _count++;
+        }
+        if(_equips.footArmor!=0){
+            _equipArray[_count]=_equips.footArmor;
+            _count++;
+        }
+        if(_equips.handArmor!=0){
+            _equipArray[_count]=_equips.handArmor;
+            _count++;
+        }
+        if(_equips.necklace!=0){
+            _equipArray[_count]=_equips.necklace;
+            _count++;
+        }
+        if(_equips.ring!=0){
+            _equipArray[_count]=_equips.ring;
+            _count++;
+        }
+
+        if(_count>0){
+            IERC1155 _equipmentNft = IERC1155(equipmentNft);
+            uint256 _index = block.timestamp % _count;
+            uint256 _tokenIdEquipment = _equipArray[_index];
+            _equipmentNft.safeTransferFrom(from_, treasury, _tokenIdEquipment, 1, '0x00');
+        }
     }
 
-    function transferItem(
+    function transferArtifact(
         address from_, 
-        uint256 tokenIdItem_
+        uint256 tokenIdArtifact_
     ) public onlyRole(DEVELOPER_ROLE){
-        IERC1155 _itemNft = IERC1155(itemNft);
-        _itemNft.safeTransferFrom(from_, treasury, tokenIdItem_, 1, '0x00');
+        IERC1155 _artifactNft = IERC1155(artifactNft);
+        _artifactNft.safeTransferFrom(from_, treasury, tokenIdArtifact_, 1, '0x00');
     }
 
     function transferNfts(
         address from_, 
         uint256 tokenIdEquipment_,
-        uint256 tokenIdItem_
+        uint256 tokenIdArtifact_
     ) public onlyRole(DEVELOPER_ROLE){
         IERC1155 _equipmentNft = IERC1155(equipmentNft);
         _equipmentNft.safeTransferFrom(from_, treasury, tokenIdEquipment_, 1, '0x00');
-        IERC1155 _itemNft = IERC1155(itemNft);
-        _itemNft.safeTransferFrom(from_, treasury, tokenIdItem_, 1, '0x00');
+        IERC1155 _artifactNft = IERC1155(artifactNft);
+        _artifactNft.safeTransferFrom(from_, treasury, tokenIdArtifact_, 1, '0x00');
     }
 }

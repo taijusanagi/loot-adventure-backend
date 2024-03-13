@@ -9,8 +9,8 @@ import "@openzeppelin/contracts/utils/Strings.sol";
 import "./lib/Bytecode.sol";
 import "./interfaces/lootNfts/ISoulLoot.sol";
 import "./interfaces/gameNfts/IEquipmentNft.sol";
+import "./interfaces/gameNfts/IJobNft.sol";
 import "./interfaces/gameNfts/IArtifactNft.sol";
-import "./interfaces/gameNfts/IItemNft.sol";
 import "./interfaces/ISoulCalculator.sol";
 import "./interfaces/IXp.sol";
 
@@ -25,8 +25,8 @@ contract SoulMinter is AccessControl {
     address private soulLoot;
     // SFT Contract (ERC1155)
     address private equipmentNft;
-    address private itemNft;
     address private artifactNft;
+    address private jobNft;
     // FT Contract (ERC20)
     address private xp;
 
@@ -51,12 +51,12 @@ contract SoulMinter is AccessControl {
         return equipmentNft;
     }
 
-    function getItemNft() public view returns(address){
-        return itemNft;
-    }
-
     function getArtifactNft() public view returns(address){
         return artifactNft;
+    }
+
+    function getJobNft() public view returns(address){
+        return jobNft;
     }
 
     function getXp() public view returns(address){
@@ -87,12 +87,12 @@ contract SoulMinter is AccessControl {
         equipmentNft = nft_;
     }
     
-    function setItemNft(address nft_) public onlyRole(DEVELOPER_ROLE) {
-        itemNft = nft_;
-    }
-
     function setArtifactNft(address nft_) public onlyRole(DEVELOPER_ROLE) {
         artifactNft = nft_;
+    }
+
+    function setJobNft(address nft_) public onlyRole(DEVELOPER_ROLE) {
+        jobNft = nft_;
     }
 
     function setXp(address ft_) public onlyRole(DEVELOPER_ROLE) {
@@ -115,9 +115,9 @@ contract SoulMinter is AccessControl {
     ) public {
         require(owner_ == nftOwner(nft_, tokenId_), "Not token owner");
         _mintEquipmentNft(nft_, tokenId_, recipient_, seedData_);
+        _mintJobNft(nft_, tokenId_, recipient_, seedData_);
         _mintArtifactNft(nft_, tokenId_, recipient_, seedData_);
-        _mintItemNft(nft_, tokenId_, recipient_, seedData_);
-        _mintXp(recipient_, 10**20, 'LA000|Create Soul');
+        // _mintXp(recipient_, 10**20, 'LA000|Create Soul');
     }
 
     function _mintEquipmentNft(address nft_, uint256 tokenId_, address recipient_, bytes memory seedData_) internal virtual {
@@ -145,38 +145,38 @@ contract SoulMinter is AccessControl {
         }
     }
 
+    function _mintJobNft(address nft_, uint256 tokenId_, address recipient_, bytes memory seedData_) internal virtual {
+        IJobNft _jobNft = IJobNft(jobNft);
+        ISoulCalculator _calc = ISoulCalculator(calcContract[nft_]);
+        (
+            uint256 _seed,
+            uint256 _jobType
+        ) = _calc.calcJob(nft_, tokenId_, seedData_);
+        _jobNft.mint(
+            recipient_, 
+            nft_, 
+            tokenId_,
+            _seed,
+            JOB_TYPE[_jobType],
+            _jobType
+        );
+    }
+
     function _mintArtifactNft(address nft_, uint256 tokenId_, address recipient_, bytes memory seedData_) internal virtual {
         IArtifactNft _artifactNft = IArtifactNft(artifactNft);
         ISoulCalculator _calc = ISoulCalculator(calcContract[nft_]);
         (
             uint256 _seed,
-            uint256 _artifactType
+            uint256 _artifactType,
+            uint256 _rarity
         ) = _calc.calcArtifact(nft_, tokenId_, seedData_);
         _artifactNft.mint(
             recipient_, 
             nft_, 
             tokenId_,
             _seed,
-            JOB_TYPE[_artifactType],
-            _artifactType
-        );
-    }
-
-    function _mintItemNft(address nft_, uint256 tokenId_, address recipient_, bytes memory seedData_) internal virtual {
-        IItemNft _itemNft = IItemNft(itemNft);
-        ISoulCalculator _calc = ISoulCalculator(calcContract[nft_]);
-        (
-            uint256 _seed,
-            uint256 _itemType,
-            uint256 _rarity
-        ) = _calc.calcItem(nft_, tokenId_, seedData_);
-        _itemNft.mint(
-            recipient_, 
-            nft_, 
-            tokenId_,
-            _seed,
-            ITEM_TYPE[_itemType],
-            _itemType,
+            ITEM_TYPE[_artifactType],
+            _artifactType,
             _rarity
         );
     }

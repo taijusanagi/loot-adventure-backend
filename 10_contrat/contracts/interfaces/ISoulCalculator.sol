@@ -27,22 +27,22 @@ interface ISoulCalculator {
         uint256[8] memory _equipmentRarities
     );
 
+    function calcJob(
+        address nft_, 
+        uint256 tokenId_, 
+        bytes memory seedData_
+    ) external view returns (
+        uint256 _seed,
+        uint256 _jobType
+    );
+
     function calcArtifact(
         address nft_, 
         uint256 tokenId_, 
         bytes memory seedData_
     ) external view returns (
         uint256 _seed,
-        uint256 _artifactType
-    );
-
-    function calcItem(
-        address nft_, 
-        uint256 tokenId_, 
-        bytes memory seedData_
-    ) external view returns (
-        uint256 _seed,
-        uint256 _itemType,
+        uint256 _artifactType,
         uint256 _rarity
     );
 }

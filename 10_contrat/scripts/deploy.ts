@@ -34,10 +34,10 @@ async function main() {
   await soulControler.deployed();
   console.log('deployed SoulControler to:', soulControler.address);
 
-  const f90 = await ethers.getContractFactory('SoulLootByRogue', deployer);
-  const soulCalc0 = await f90.deploy();
-  await soulCalc0.deployed();
-  console.log('deployed SoulCalc-lootbyrogue to: ', soulCalc0.address);
+  // const f90 = await ethers.getContractFactory('SoulLootByRogue', deployer);
+  // const soulCalc0 = await f90.deploy();
+  // await soulCalc0.deployed();
+  // console.log('deployed SoulCalc-lootbyrogue to: ', soulCalc0.address);
   const f91 = await ethers.getContractFactory('SoulLoot', deployer);
   const soulCalc1 = await f91.deploy();
   await soulCalc1.deployed();
@@ -51,21 +51,21 @@ async function main() {
   await equipmentNft.deployed();
   console.log('deployed EquipmentNft to:', equipmentNft.address);
 
-  const f12 = await ethers.getContractFactory('ArtifactNft', deployer);
-  const artifactNft = await f12.deploy(
+  const f12 = await ethers.getContractFactory('JobNft', deployer);
+  const jobNft = await f12.deploy(
+    'https://sample-image-la.s3.ap-northeast-1.amazonaws.com/',
+    '.png'
+  );
+  await jobNft.deployed();
+  console.log('deployed JobNft to:', jobNft.address);
+
+  const f13 = await ethers.getContractFactory('ArtifactNft', deployer);
+  const artifactNft = await f13.deploy(
     'https://sample-image-la.s3.ap-northeast-1.amazonaws.com/',
     '.png'
   );
   await artifactNft.deployed();
   console.log('deployed ArtifactNft to:', artifactNft.address);
-
-  const f13 = await ethers.getContractFactory('ItemNft', deployer);
-  const itemNft = await f13.deploy(
-    'https://sample-image-la.s3.ap-northeast-1.amazonaws.com/',
-    '.png'
-  );
-  await itemNft.deployed();
-  console.log('deployed ItemNft to:', itemNft.address);
   
   const f14 = await ethers.getContractFactory('LaXp', deployer);
   const laXp = await f14.deploy();
@@ -93,40 +93,40 @@ async function main() {
   // Set Minter-Role on NFTs&SoulMinter
   await soulLootNft.setMinterRole(soulMinter.address);
   await equipmentNft.setMinterRole(soulMinter.address);
+  await jobNft.setMinterRole(soulMinter.address);
   await artifactNft.setMinterRole(soulMinter.address);
-  await itemNft.setMinterRole(soulMinter.address);
   await laXp.setMinterRole(soulMinter.address);
   console.log('Minter is set on NFTs |', soulMinter.address);
   
   // Set Controler-Role on Nfts
   await equipmentNft.setControlerRole(soulControler.address);
-  await itemNft.setControlerRole(soulControler.address);
+  await artifactNft.setControlerRole(soulControler.address);
 
   // Set NFT-ID on NFTs&XP
   await soulLootNft.setNftId(SAMPLE_LOOT);
 
   await equipmentNft.setNftId(soulLootNft.address);
   await equipmentNft.setXp(laXp.address);
+  await jobNft.setNftId(soulLootNft.address);
   await artifactNft.setNftId(soulLootNft.address);
-  await itemNft.setNftId(soulLootNft.address);
   console.log('NFT-ID is set on NFTs | ', SAMPLE_LOOT);
 
   // Set NFTs on Minter
   await soulMinter.setSoulLoot(soulLootNft.address);
   await soulMinter.setEquipmentNft(equipmentNft.address);
+  await soulMinter.setJobNft(jobNft.address);
   await soulMinter.setArtifactNft(artifactNft.address);
-  await soulMinter.setItemNft(itemNft.address);
   await soulMinter.setXp(laXp.address);
   console.log('NFTs is set on Minter | ', soulMinter.address);
   
   // Set NFTs on Controler
   await soulControler.setEquipmentNft(equipmentNft.address);
-  await soulControler.setItemNft(itemNft.address);
+  await soulControler.setArtifactNft(artifactNft.address);
   await soulControler.setTreasury(TREASURY);
 
   // Set Calc-Contracts on Minter
-  await soulMinter.setCalcContract(SAMPLE_LOOT, soulCalc0.address);
-  console.log('Calc-Contract is set | ', soulCalc0.address);
+  // await soulMinter.setCalcContract(SAMPLE_LOOT, soulCalc0.address);
+  // console.log('Calc-Contract is set | ', soulCalc0.address);
   await soulMinter.setCalcContract(soulLootNft.address, soulCalc1.address);
   console.log('Calc-Contract is set | ', soulCalc1.address);
 
