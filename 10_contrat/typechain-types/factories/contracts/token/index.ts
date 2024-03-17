@@ -3,7 +3,6 @@
 /* eslint-disable */
 export { ArtifactNft__factory } from "./ArtifactNft__factory";
 export { EquipmentNft__factory } from "./EquipmentNft__factory";
-export { ItemNft__factory } from "./ItemNft__factory";
 export { JobNft__factory } from "./JobNft__factory";
 export { LaXp__factory } from "./LaXp__factory";
 export { SampleLootV2__factory } from "./SampleLootV2__factory";

@@ -19,7 +19,7 @@ contract SoulMinter is AccessControl {
     bytes32 public constant DEVELOPER_ROLE = keccak256("DEVELOPER_ROLE");
 
     string[4] private JOB_TYPE = ['Warrior','Guardian','Clown','Tank'];
-    string[10] private ITEM_TYPE = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
+    string[10] private ARTIFACT_TYPE = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
 
     // NFT Contract (ERC721)
     address private soulLoot;
@@ -175,7 +175,7 @@ contract SoulMinter is AccessControl {
             nft_, 
             tokenId_,
             _seed,
-            ITEM_TYPE[_artifactType],
+            ARTIFACT_TYPE[_artifactType],
             _artifactType,
             _rarity
         );

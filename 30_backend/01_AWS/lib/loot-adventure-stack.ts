@@ -10,6 +10,8 @@ import * as iam from 'aws-cdk-lib/aws-iam';
 import { Runtime } from 'aws-cdk-lib/aws-lambda';
 import * as lambda from 'aws-cdk-lib/aws-lambda-nodejs';
 import { NodejsFunctionProps } from 'aws-cdk-lib/aws-lambda-nodejs';
+import * as secretsmanager from 'aws-cdk-lib/aws-secretsmanager';
+import { SecretValue } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import * as dotenv from 'dotenv';
 
@@ -46,24 +48,42 @@ export class LootAdventureStack extends Stack {
     // --------------------------------------------------
     // Resources | DynamoDB
     // --------------------------------------------------
-    const dynamoDbUserXp = new aws_dynamodb.TableV2(
+    const dynamoDbCustody = new aws_dynamodb.TableV2(
       this,
-      'userXp',
+      'custodyViaEoa',
       {
         partitionKey: {
-          name: 'userId',
+          name: 'EOA',
           type: aws_dynamodb.AttributeType.STRING,
         },
       },
     );
 
-    const dynamoDbRanking = new aws_dynamodb.TableV2(this, 'ranking', {
+    const dynamoDbStaus = new aws_dynamodb.TableV2(this, 'ranking', {
       partitionKey: {
         name: 'userId',
         type: aws_dynamodb.AttributeType.STRING,
       },
     });
-    
+
+    // --------------------------------------------------
+    // Resources | Secrets Manager(Private Key for On-Chain TXs)
+    // --------------------------------------------------
+    const prv00 = new secretsmanager.Secret(this, 'PrivateKeyPool00', {
+      secretObjectValue: {
+        0: SecretValue.unsafePlainText(process.env.key00 as string),
+        1: SecretValue.unsafePlainText(process.env.key01 as string),
+        2: SecretValue.unsafePlainText(process.env.key02 as string),
+        3: SecretValue.unsafePlainText(process.env.key03 as string),
+        4: SecretValue.unsafePlainText(process.env.key04 as string),
+        5: SecretValue.unsafePlainText(process.env.key05 as string),
+        6: SecretValue.unsafePlainText(process.env.key06 as string),
+        7: SecretValue.unsafePlainText(process.env.key07 as string),
+        8: SecretValue.unsafePlainText(process.env.key08 as string),
+        9: SecretValue.unsafePlainText(process.env.key09 as string),
+      },
+    })
+
     // --------------------------------------------------
     // Resources | IAM
     // --------------------------------------------------
@@ -114,20 +134,20 @@ export class LootAdventureStack extends Stack {
         entry: 'src/outgame-ranking-read.ts',
         environment: {
           LOG_LEVEL: 'DEBUG',
-          tableRanking: dynamoDbRanking.tableName,
+          tableRanking: dynamoDbStaus.tableName,
         },
         iamRole: iam_role_lambda_connectDb,
       }),
     );
     
-    const lambdaWriteRanking = new lambda.NodejsFunction(
+    const lambdaWriteDungeon = new lambda.NodejsFunction(
       this,
       'writeRanking',
       getLambdaOptions({
-        entry: 'src/outgame-ranking-write.ts',
+        entry: 'src/outgame-dungeon-result-write.ts',
         environment: {
           LOG_LEVEL: 'DEBUG',
-          tableRanking: dynamoDbRanking.tableName,
+          tableRanking: dynamoDbStaus.tableName,
         },
         iamRole: iam_role_lambda_connectDb,
       }),
@@ -195,6 +215,41 @@ export class LootAdventureStack extends Stack {
         },
       );
 
+      const lambdaBinCreateCustody = new lambda.NodejsFunction(
+        this,
+        'createCustody',
+        {
+          entry: 'src/bin-create-custody.ts',
+          depsLockFilePath: PACKAGE_LOCK_JSON,
+          handler: 'handler',
+          runtime: Runtime.NODEJS_18_X,
+          memorySize: 512,
+          timeout: cdk.Duration.seconds(10),
+          environment: {
+            LOG_LEVEL: 'DEBUG',
+            SSM_NAME: prv00.secretName
+          },
+        },
+      );
+
+      const lambdaBinMintXpToken = new lambda.NodejsFunction(
+        this,
+        'mintXpToken',
+        {
+          entry: 'src/bin-mint-xptoken.ts',
+          depsLockFilePath: PACKAGE_LOCK_JSON,
+          handler: 'handler',
+          runtime: Runtime.NODEJS_18_X,
+          memorySize: 512,
+          timeout: cdk.Duration.seconds(10),
+          environment: {
+            LOG_LEVEL: 'DEBUG',
+            SSM_NAME: prv00.secretName
+          },
+        },
+      );
+
+
     // const lambdaAuthorizerFunction = new lambda.NodejsFunction(
     //   this,
     //   'authorizeRequest',
@@ -220,6 +275,12 @@ export class LootAdventureStack extends Stack {
     });
 
     // ---------------------------------------------------------------------------------
+    // Config for connecting resources (Lambda<>Secrets Manager)
+    // ---------------------------------------------------------------------------------
+    prv00.grantRead(lambdaBinCreateCustody);
+    prv00.grantRead(lambdaBinMintXpToken);
+
+    // ---------------------------------------------------------------------------------
     // Config for connecting resources (Lambda<>API Gateway)
     // ---------------------------------------------------------------------------------
     // API Gateay<>Lambda
@@ -233,11 +294,13 @@ export class LootAdventureStack extends Stack {
     //   },
     // );
     // API Config | https://xxxx.com/monster/~
-    const restApiTasks = restApi.root.addResource('monster');
-
-    restApiTasks.addMethod(
-      'GET',
-      new aws_apigateway.LambdaIntegration(lambdaReadAccount),
+    const restApiDungeon = restApi.root.addResource('dungeon');
+    const restApiDungeonResult = restApiDungeon.addResource('result');
+    restApiDungeonResult.addMethod(
+      'POST',
+      new aws_apigateway.LambdaIntegration(
+        lambdaWriteDungeon
+      ),
       // {
       //   authorizer: lambdaAuth, // 定義したLambdaAuthorizerを指定
       // },

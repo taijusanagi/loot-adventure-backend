@@ -11,16 +11,27 @@ export const handler = async (
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   context: Context,
 ): Promise<APIGatewayProxyResult> => {
-  console.log(event);
+  console.log(event.body);
+  const _body = JSON.parse(event.body as string);
+  if(_body?.tba == 'undefined'){
+    return {
+      statusCode: 502,
+      body: JSON.stringify('Error:invalid parameter'),
+    };
+  }
+  const nowDateIso: string = new Date().toISOString();
 
-  const command = new PutCommand({
+  // Read a item
+
+  const commandWrite = new PutCommand({
     TableName: tableName,
     Item: {
-        "userId": "22222",
-        "point": 0
+        "userId": _body.tba,
+        "status": _body.status,
+        "updatedAt": nowDateIso
     }
   });
-  const putResult = await dynamo.send(command);
+  const putResult = await dynamo.send(commandWrite);
   console.log(putResult);
   
   return {

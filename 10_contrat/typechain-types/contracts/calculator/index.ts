@@ -2,4 +2,3 @@
 /* tslint:disable */
 /* eslint-disable */
 export type { SoulLoot } from "./SoulLoot";
-export type { SoulLootByRogue } from "./SoulLootByRogue";

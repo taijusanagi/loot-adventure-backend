@@ -44,8 +44,6 @@ export type { IERC165 } from "./@openzeppelin/contracts/utils/introspection/IERC
 export { IERC165__factory } from "./factories/@openzeppelin/contracts/utils/introspection/IERC165__factory";
 export type { SoulLoot } from "./contracts/calculator/SoulLoot";
 export { SoulLoot__factory } from "./factories/contracts/calculator/SoulLoot__factory";
-export type { SoulLootByRogue } from "./contracts/calculator/SoulLootByRogue";
-export { SoulLootByRogue__factory } from "./factories/contracts/calculator/SoulLootByRogue__factory";
 export type { ERC6551Account } from "./contracts/erc6551/ERC6551Account";
 export { ERC6551Account__factory } from "./factories/contracts/erc6551/ERC6551Account__factory";
 export type { ERC6551Registry } from "./contracts/erc6551/ERC6551Registry";
@@ -54,8 +52,6 @@ export type { IArtifactNft } from "./contracts/interfaces/gameNfts/IArtifactNft"
 export { IArtifactNft__factory } from "./factories/contracts/interfaces/gameNfts/IArtifactNft__factory";
 export type { IEquipmentNft } from "./contracts/interfaces/gameNfts/IEquipmentNft";
 export { IEquipmentNft__factory } from "./factories/contracts/interfaces/gameNfts/IEquipmentNft__factory";
-export type { IItemNft } from "./contracts/interfaces/gameNfts/IItemNft";
-export { IItemNft__factory } from "./factories/contracts/interfaces/gameNfts/IItemNft__factory";
 export type { IJobNft } from "./contracts/interfaces/gameNfts/IJobNft";
 export { IJobNft__factory } from "./factories/contracts/interfaces/gameNfts/IJobNft__factory";
 export type { IERC6551Account } from "./contracts/interfaces/IERC6551Account";
@@ -86,8 +82,6 @@ export type { ArtifactNft } from "./contracts/token/ArtifactNft";
 export { ArtifactNft__factory } from "./factories/contracts/token/ArtifactNft__factory";
 export type { EquipmentNft } from "./contracts/token/EquipmentNft";
 export { EquipmentNft__factory } from "./factories/contracts/token/EquipmentNft__factory";
-export type { ItemNft } from "./contracts/token/ItemNft";
-export { ItemNft__factory } from "./factories/contracts/token/ItemNft__factory";
 export type { JobNft } from "./contracts/token/JobNft";
 export { JobNft__factory } from "./factories/contracts/token/JobNft__factory";
 export type { LaXp } from "./contracts/token/LaXp";

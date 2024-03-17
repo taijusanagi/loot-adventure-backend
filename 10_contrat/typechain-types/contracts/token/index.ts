@@ -3,7 +3,6 @@
 /* eslint-disable */
 export type { ArtifactNft } from "./ArtifactNft";
 export type { EquipmentNft } from "./EquipmentNft";
-export type { ItemNft } from "./ItemNft";
 export type { JobNft } from "./JobNft";
 export type { LaXp } from "./LaXp";
 export type { SampleLootV2 } from "./SampleLootV2";
