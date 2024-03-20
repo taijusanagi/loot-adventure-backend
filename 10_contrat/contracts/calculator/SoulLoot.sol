@@ -107,6 +107,8 @@ contract SoulLoot is AccessControl, ISoulCalculator {
         ILootByRogueV2.AdventureRecord memory _record = _loot.getAdventureRecord(tokenId_);
         uint16 _stats = _record.stats[0] + _record.stats[1] + _record.stats[2] + _record.stats[3] + _record.stats[4] + _record.stats[5];
         uint8 _unique = _record.unique[0] + _record.unique[1] + _record.unique[2] + _record.unique[3];
+
+        // Calculate rarity
         uint256 _pt = _stats + (_unique * 10);
         if (_pt > 400) {
             _rarity = 2;
@@ -115,7 +117,27 @@ contract SoulLoot is AccessControl, ISoulCalculator {
         } else {
             _rarity = 0;
         }
-        return (_record.inputData.seed, _record.inputData.seed % 10 ,1);
+
+        // Calculate type
+        if(_unique==0){
+            _artifactType=2; // Dragon Slayer(type: 2)
+        } else if(_unique==1){
+            _artifactType=3; // Dragon Slayer+(type: 3)
+        } else if(_unique==2){
+            _artifactType=4; // Dragon Slayer++(type: 4)
+        } else if(_unique==4){
+            _artifactType=5; // Dragon Slayer+++(type: 5)
+        } else if(_record.relics.length > 10) {
+            _artifactType=6; // Ruins Hunter(type: 6)
+        }else if(
+            _record.weapon==0 && _record.chestArmor==0 && _record.headArmor==0
+            && _record.waistArmor==0 && _record.footArmor==0 && _record.handArmor==0
+            && _record.necklace==0 && _record.ring==0
+        ){
+            _artifactType = 1; // Naked King(type: 1)
+        }
+
+        return (_record.inputData.seed, _record.inputData.seed % 10 ,_artifactType);
     }
 
     //*********************************************

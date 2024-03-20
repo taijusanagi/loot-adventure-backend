@@ -1,27 +1,53 @@
 import { ethers } from 'hardhat';
 import { soulMinterAbi } from '../abi/soul-minter-abi';
 import { soulControlerAbi } from '../abi/soul-controler-abi';
-import { SOUL_MINETR, SOUL_CONTROLER } from '../config';
+import { SOUL_MINTER, SOUL_CONTROLER } from '../config';
 
 async function main() {
   const [signer] = await ethers.getSigners();
   console.log('Signer is ... ', signer.address);
-
-  // Test Prameter
-  const TOKEN_ID = 3;
+  console.log(SOUL_MINTER)
 
   // Set Contract
-  const soulMinter = new ethers.Contract(SOUL_MINETR, soulMinterAbi, signer);
+  const soulMinter = new ethers.Contract(SOUL_MINTER, soulMinterAbi, signer);
   const soulControler = new ethers.Contract(SOUL_CONTROLER, soulControlerAbi, signer);
 
-  const tx = await soulMinter.setDeveloperRole("");
-  // sampleLoot.once('Approval', (owner, to, tokenId) => {
-  //   console.log('Approve from ', owner);
-  //   console.log('To: ', to);
-  //   console.log('Tokenid: ', tokenId.toString());
-  // })
-
+  let tx;
+  tx = await soulMinter.setDeveloperRole(process.env.dev00);
   tx.wait();
+  console.log('set:', tx);
+  tx = await soulMinter.setDeveloperRole(process.env.dev01);
+  tx.wait();
+  console.log('set:', tx);
+  tx = await soulMinter.setDeveloperRole(process.env.dev02);
+  tx.wait();
+  console.log('set:', tx);
+  tx = await soulMinter.setDeveloperRole(process.env.dev03);
+  tx.wait();
+  console.log('set:', tx);
+  tx = await soulMinter.setDeveloperRole(process.env.dev04);
+  tx.wait();
+  console.log('set:', tx);
+  tx = await soulMinter.setDeveloperRole(process.env.dev05);
+  tx.wait();
+  tx = await soulMinter.setDeveloperRole(process.env.dev06);
+  tx.wait();
+  console.log('set:', tx);
+  tx = await soulMinter.setDeveloperRole(process.env.dev07);
+  tx.wait();
+  console.log('set:', tx);
+  tx = await soulMinter.setDeveloperRole(process.env.dev08);
+  tx.wait();
+  console.log('set:', tx);
+  tx = await soulMinter.setDeveloperRole(process.env.dev09);
+  tx.wait();
+  console.log('set:', tx);
+  tx = await soulMinter.setDeveloperRole(process.env.dev01);
+  tx.wait();
+  console.log('set:', tx);
+  tx = await soulMinter.setDeveloperRole(process.env.dev01);
+  tx.wait();
+  console.log('set:', tx);
 }
 
 // We recommend this pattern to be able to use async/await everywhere

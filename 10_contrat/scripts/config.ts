@@ -1,6 +1,6 @@
 export const CHAIN_ID=process.env.CHAIN_ID as string;
 
-export const SOUL_MINETR=process.env.SOUL_MINTER as string;
+export const SOUL_MINTER=process.env.SOUL_MINTER as string;
 export const SOUL_CONTROLER=process.env.SOUL_CONTROLER as string;
 
 export const SOUL_LOOT=process.env.SOUL_LOOT as string;

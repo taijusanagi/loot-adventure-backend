@@ -19,7 +19,17 @@ contract SoulMinter is AccessControl {
     bytes32 public constant DEVELOPER_ROLE = keccak256("DEVELOPER_ROLE");
 
     string[4] private JOB_TYPE = ['Warrior','Guardian','Clown','Tank'];
-    string[10] private ARTIFACT_TYPE = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
+    string[10] private ARTIFACT_TYPE = [
+        'Blank',
+        'Naked King', 
+        'Dragon Slayer',
+        'Dragon Slayer+',
+        'Dragon Slayer++',
+        'Dragon Slayer+++', 
+        'Ruins Hunter',
+        'Slime Slayer',
+        'Item Master'
+    ];
 
     // NFT Contract (ERC721)
     address private soulLoot;
@@ -79,6 +89,13 @@ contract SoulMinter is AccessControl {
         _grantRole(DEVELOPER_ROLE, granted_);
     }
 
+    function setDeveloperRoles(address[] memory grantedList_) public onlyRole(DEVELOPER_ROLE){
+        uint256 _length = grantedList_.length;
+        for (uint256 i=0;i< _length; i++){
+            _grantRole(DEVELOPER_ROLE, grantedList_[i]);
+        }
+    }
+
     function setSoulLoot(address nft_) public onlyRole(DEVELOPER_ROLE) {
         soulLoot = nft_;
     }
@@ -117,7 +134,11 @@ contract SoulMinter is AccessControl {
         _mintEquipmentNft(nft_, tokenId_, recipient_, seedData_);
         _mintJobNft(nft_, tokenId_, recipient_, seedData_);
         _mintArtifactNft(nft_, tokenId_, recipient_, seedData_);
-        // _mintXp(recipient_, 10**20, 'LA000|Create Soul');
+    }
+
+    function mintXp(address recipient_, uint256 amount_, string memory source_) public onlyRole(DEVELOPER_ROLE) {
+        IXp _xp = IXp(xp);
+        _xp.mint(recipient_, amount_, source_);
     }
 
     function _mintEquipmentNft(address nft_, uint256 tokenId_, address recipient_, bytes memory seedData_) internal virtual {

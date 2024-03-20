@@ -47,7 +47,7 @@ contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
         baseValRarity[2] = 6;
         baseValRarity[3] = 9;
 
-        kValLevelUp = 5;
+        kValLevelUp = 11;
     }
 
     //*********************************************
@@ -278,7 +278,7 @@ contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
         IERC20 _xp = IERC20(xp);
         Equipment memory _equipment = equipment[tokenId_];
         uint256 _level = _equipment.level;
-        uint256 _amount = (100 + _level * kValLevelUp) * (10 ** 16);
+        uint256 _amount = (100 + _level ** kValLevelUp) * (10 ** 15);
         (bool _success) = _xp.transferFrom(msg.sender, treasury, _amount);
         require(_success, 'EquipmentNFT error: Your XP Token is insufficient');
 
