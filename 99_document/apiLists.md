@@ -18,11 +18,11 @@ RLoot=>SoulLoot変換|write|on-chain|XXXX|[XXX]()
 ### MCH Verce Testnet (Chain ID: 420)
 Contract | Address | Abstarct 
 ----|-----|-----
-ERC6551Registry.sol|0x5c286b558037905F8F79c3861c421840EE90b9aA|XXX
-ERC6551Account.sol |0x7CEadC71CE0bD1FD92c72740A36280A615140d65|XXX
-SoulLootNft.sol    |0x4d6eeA4c99aDB78F7cd18aCf2bF8474966E0E9EA|XXX
+ERC6551Registry.sol|0xbF859d8685deb61bFBa684FDDdF5E5d68b97A4C8|XXX
+ERC6551Account.sol |0x4fD0b7f11eC367607de79Ee1a25aa355234ED7A0|XXX
+SoulLootNft.sol    |0xE34aCCef7c8A61fa2aa0daEC7a4237b6Ea3108F1|XXX
 SampleLoot.sol     |0x1020B0e03C054900Ed0A6db7b0AFa82a38934E19|XXX
-ArtifactNft.sol    |0x701f87df2026A6151574F3be261D025fd6F77764|xx
-EquipmentNft.sol   |0x273Ac9BFbfCcC9c59acF2F34488Dd4e4b7b9e53F|xxx
-Item.sol           |0xeD9DAe691EB1211334e1d6dac56Fc85f0D60aEf0|xx
-XP.sol             |0x5D8EC5Ac744529f2E7861588cb81318a422004b8|XP Token used for level up(ERC20)
+JobNft.sol         |0xbF8c29F504c65D3b6C4A62A92321836Ce16760A5|xx
+EquipmentNft.sol   |0x131aB6Aba62ebA057Ea1A5e09a9d89dA1BB118Ca|xxx
+ArtifactNft.sol    |0xeD9DAe691EB1211334e1d6dac56Fc85f0D60aEf0|xx
+XP.sol             |0x9d4Ba698b62f19cDc3703f70447da28266ebD03a|XP Token used for level up(ERC20)
