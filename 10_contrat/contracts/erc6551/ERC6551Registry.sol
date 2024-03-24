@@ -10,7 +10,6 @@ contract ERC6551Registry is IERC6551Registry, AccessControl {
     bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
     bytes32 public constant DEVELOPER_ROLE = keccak256("DEVELOPER_ROLE");
     
-    address private _implementation;
     address private _soulMinter;
     
     error InitializationFailed();
@@ -26,10 +25,6 @@ contract ERC6551Registry is IERC6551Registry, AccessControl {
     //*********************************************
     //Getter
     //*********************************************
-    function getImplementation() public view returns(address){
-        return _implementation;    
-    }
-
     function getSoulMinter() public view returns(address){
         return _soulMinter;    
     }
@@ -40,15 +35,9 @@ contract ERC6551Registry is IERC6551Registry, AccessControl {
     function setAdminRole(address granted_) public onlyRole(ADMIN_ROLE){
         _grantRole(ADMIN_ROLE, granted_);
     }
-
     function setDeveloperRole(address granted_) public onlyRole(DEVELOPER_ROLE){
         _grantRole(DEVELOPER_ROLE, granted_);
     }
-
-    function setImplementation(address contract_) public onlyRole(DEVELOPER_ROLE){
-        _implementation = contract_;
-    }
-
     function setSoulMinter(address contract_) public onlyRole(DEVELOPER_ROLE){
         _soulMinter = contract_;
     }
@@ -92,55 +81,6 @@ contract ERC6551Registry is IERC6551Registry, AccessControl {
         //     if (!success) revert InitializationFailed();
         // }
         return _account;
-    }
-
-    function createSoul(
-        uint256 chainId,
-        address tokenContract,
-        uint256 tokenId,
-        uint256 salt,
-        bytes calldata initData
-    ) public {
-        createAccount(
-            _implementation,
-            chainId,
-            tokenContract,
-            tokenId,
-            salt,
-            initData
-        );
-
-        executeMint(
-            chainId,
-            tokenContract,
-            tokenId,
-            salt,
-            initData
-        );
-    }
-
-    function executeMint(
-        uint256 chainId_,
-        address tokenContract_,
-        uint256 tokenId_,
-        uint256 salt_,
-        bytes memory seedData_
-    ) public {
-        address _tba = account(
-            _implementation, 
-            chainId_, 
-            tokenContract_, 
-            tokenId_, 
-            salt_
-        );
-        ISoulMinter _minter = ISoulMinter(_soulMinter);
-        _minter.mintSoul(
-            tokenContract_,
-            tokenId_, 
-            msg.sender,
-            _tba, 
-            seedData_
-        );
     }
     
     function account(

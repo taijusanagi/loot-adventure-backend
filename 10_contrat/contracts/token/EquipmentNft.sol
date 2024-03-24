@@ -22,7 +22,7 @@ contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
     string private baseMetadataURIPrefix;
     string private baseMetadataURISuffix;
     uint256 private currentNftId;
-    address private xp;
+    address private coin;
     uint256 private kValLevelUp;
     address private treasury;
 
@@ -73,8 +73,8 @@ contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
         return baseValLevel[level_];
     }
 
-    function getXp() public view returns(address){
-        return xp;
+    function getCoin() public view returns(address){
+        return coin;
     }
 
     function getTreasury() public view returns(address){
@@ -128,6 +128,13 @@ contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
         return _value;
     }
 
+    function isApprovedForAll(address account, address operator) public view virtual override returns (bool) {
+        if(hasRole(DEVELOPER_ROLE, msg.sender)){
+            return true;
+        }
+        return super.isApprovedForAll(account, operator);
+    }
+
     //*********************************************
     //Setter
     //*********************************************
@@ -177,8 +184,8 @@ contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
         baseValLevel[level_] = val_;
     }
 
-    function setXp(address ft_) public onlyRole(DEVELOPER_ROLE) {
-        xp = ft_;
+    function setCoin(address ft_) public onlyRole(DEVELOPER_ROLE) {
+        coin = ft_;
     }
 
     function setTreasury(address treasury_) public onlyRole(DEVELOPER_ROLE) {
@@ -275,11 +282,11 @@ contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
     function levelUp(
         uint256 tokenId_
     ) public {
-        IERC20 _xp = IERC20(xp);
+        IERC20 _coin = IERC20(coin);
         Equipment memory _equipment = equipment[tokenId_];
         uint256 _level = _equipment.level;
         uint256 _amount = (100 + _level ** kValLevelUp) * (10 ** 15);
-        (bool _success) = _xp.transferFrom(msg.sender, treasury, _amount);
+        (bool _success) = _coin.transferFrom(msg.sender, treasury, _amount);
         require(_success, 'EquipmentNFT error: Your XP Token is insufficient');
 
         _equipment.level = _level + 1;

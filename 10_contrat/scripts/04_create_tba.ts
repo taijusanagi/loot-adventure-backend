@@ -4,7 +4,7 @@ import { erc6551RegistryAbi } from './abi/erc6551-registry-abi';
 import { erc1155Equipment } from './abi/erc1155-equipment-abi'; 
 import { SOUL_LOOT, ERC6551_REGISTRY, ERC6551_ACCOUNT, EQUIPMENT_NFT, CHAIN_ID } from './config';
 
-const TOKEN_ID = 20000000003; // TokenID of SoulLoot
+const TOKEN_ID = 20000000007; // TokenID of SoulLoot
 
 async function main() {
   const [signer] = await ethers.getSigners();

@@ -1,18 +1,18 @@
 import { ethers } from 'hardhat';
 import { sampleLootAbi } from './abi/erc721-sample-loot-abi';
 // import { soulLootAbi } from './abi/erc721-soul-loot-abi'
-import { SAMPLE_LOOT, SOUL_LOOT } from './config';
+import { SAMPLE_LOOT, SOUL_LOOT, SOUL_MINTER } from './config';
 
 async function main() {
   const [signer] = await ethers.getSigners();
   console.log('Signer is ... ', signer.address);
 
   // Test Prameter
-  const TOKEN_ID = 3;
+  const TOKEN_ID = 20;
 
   // Set Contract
   const sampleLoot = new ethers.Contract(SAMPLE_LOOT, sampleLootAbi, signer);
-  const tx = await sampleLoot.approve(SOUL_LOOT, TOKEN_ID);
+  const tx = await sampleLoot.approve(SOUL_MINTER, TOKEN_ID);
   sampleLoot.once('Approval', (owner, to, tokenId) => {
     console.log('Approve from ', owner);
     console.log('To: ', to);

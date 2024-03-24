@@ -2,22 +2,23 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/utils/Base64.sol";
-import "../interfaces/IXp.sol";
+import "../interfaces/ICoin.sol";
 
-contract LaXp is ERC20, AccessControl, IXp {
+// XP => Coin
+contract LaCoin is ERC20, AccessControl, ICoin {
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     bytes32 public constant DEVELOPER_ROLE = keccak256("DEVELOPER_ROLE");
     bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
 
     bool transferLock;
 
-    event getXp(address to_, uint256 amount_, string source_);
-    event burnXp(address to_, uint256 amount_, string source_);
+    event getCoin(address to_, uint256 amount_, string source_);
+    event burnCoin(address to_, uint256 amount_, string source_);
 
     //*********************************************
     //Initializer
     //*********************************************
-    constructor() ERC20('LootAdventure Xp', 'laXP'){
+    constructor() ERC20('LootAdventure Coin', 'laXP'){
         transferLock = true;
         _grantRole(MINTER_ROLE, msg.sender);
         _grantRole(DEVELOPER_ROLE, msg.sender);
@@ -53,11 +54,11 @@ contract LaXp is ERC20, AccessControl, IXp {
     //*********************************************
     function mint(address to_, uint256 amount_, string memory source_) public onlyRole(MINTER_ROLE) {
         _mint(to_, amount_);
-        emit getXp(to_, amount_, source_);
+        emit getCoin(to_, amount_, source_);
     }
 
     function burn(address from_, uint256 amount_, string memory source_) public onlyRole(DEVELOPER_ROLE) {
         _burn(from_, amount_);
-        emit burnXp(from_, amount_, source_);
+        emit burnCoin(from_, amount_, source_);
     }
 }

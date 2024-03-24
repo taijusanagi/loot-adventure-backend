@@ -33,13 +33,13 @@ export interface SoulControlerInterface extends utils.Interface {
     "DEFAULT_ADMIN_ROLE()": FunctionFragment;
     "DEVELOPER_ROLE()": FunctionFragment;
     "getArtifactNft()": FunctionFragment;
+    "getCoin()": FunctionFragment;
     "getEquipmentNft()": FunctionFragment;
     "getEquips(address)": FunctionFragment;
     "getJobNft()": FunctionFragment;
     "getRoleAdmin(bytes32)": FunctionFragment;
     "getSoulLoot()": FunctionFragment;
     "getTreasury()": FunctionFragment;
-    "getXp()": FunctionFragment;
     "grantRole(bytes32,address)": FunctionFragment;
     "hasRole(bytes32,address)": FunctionFragment;
     "renounceRole(bytes32,address)": FunctionFragment;
@@ -47,9 +47,11 @@ export interface SoulControlerInterface extends utils.Interface {
     "setAdminRole(address)": FunctionFragment;
     "setArtifactNft(address)": FunctionFragment;
     "setChestArmor(uint256)": FunctionFragment;
+    "setCoin(address)": FunctionFragment;
     "setDeveloperRole(address)": FunctionFragment;
     "setEquipmentNft(address)": FunctionFragment;
     "setEquips(uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256)": FunctionFragment;
+    "setEquipsOff()": FunctionFragment;
     "setFootArmor(uint256)": FunctionFragment;
     "setHandArmor(uint256)": FunctionFragment;
     "setHeadArmor(uint256)": FunctionFragment;
@@ -62,7 +64,6 @@ export interface SoulControlerInterface extends utils.Interface {
     "setTreasury(address)": FunctionFragment;
     "setWaistArmor(uint256)": FunctionFragment;
     "setWeapon(uint256)": FunctionFragment;
-    "setXp(address)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "transferArtifact(address,uint256)": FunctionFragment;
     "transferEquipment(address)": FunctionFragment;
@@ -75,13 +76,13 @@ export interface SoulControlerInterface extends utils.Interface {
       | "DEFAULT_ADMIN_ROLE"
       | "DEVELOPER_ROLE"
       | "getArtifactNft"
+      | "getCoin"
       | "getEquipmentNft"
       | "getEquips"
       | "getJobNft"
       | "getRoleAdmin"
       | "getSoulLoot"
       | "getTreasury"
-      | "getXp"
       | "grantRole"
       | "hasRole"
       | "renounceRole"
@@ -89,9 +90,11 @@ export interface SoulControlerInterface extends utils.Interface {
       | "setAdminRole"
       | "setArtifactNft"
       | "setChestArmor"
+      | "setCoin"
       | "setDeveloperRole"
       | "setEquipmentNft"
       | "setEquips"
+      | "setEquipsOff"
       | "setFootArmor"
       | "setHandArmor"
       | "setHeadArmor"
@@ -104,7 +107,6 @@ export interface SoulControlerInterface extends utils.Interface {
       | "setTreasury"
       | "setWaistArmor"
       | "setWeapon"
-      | "setXp"
       | "supportsInterface"
       | "transferArtifact"
       | "transferEquipment"
@@ -127,6 +129,7 @@ export interface SoulControlerInterface extends utils.Interface {
     functionFragment: "getArtifactNft",
     values?: undefined
   ): string;
+  encodeFunctionData(functionFragment: "getCoin", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "getEquipmentNft",
     values?: undefined
@@ -148,7 +151,6 @@ export interface SoulControlerInterface extends utils.Interface {
     functionFragment: "getTreasury",
     values?: undefined
   ): string;
-  encodeFunctionData(functionFragment: "getXp", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "grantRole",
     values: [PromiseOrValue<BytesLike>, PromiseOrValue<string>]
@@ -178,6 +180,10 @@ export interface SoulControlerInterface extends utils.Interface {
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
+    functionFragment: "setCoin",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "setDeveloperRole",
     values: [PromiseOrValue<string>]
   ): string;
@@ -197,6 +203,10 @@ export interface SoulControlerInterface extends utils.Interface {
       PromiseOrValue<BigNumberish>,
       PromiseOrValue<BigNumberish>
     ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setEquipsOff",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "setFootArmor",
@@ -247,10 +257,6 @@ export interface SoulControlerInterface extends utils.Interface {
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
-    functionFragment: "setXp",
-    values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
     functionFragment: "supportsInterface",
     values: [PromiseOrValue<BytesLike>]
   ): string;
@@ -284,6 +290,7 @@ export interface SoulControlerInterface extends utils.Interface {
     functionFragment: "getArtifactNft",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "getCoin", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getEquipmentNft",
     data: BytesLike
@@ -302,7 +309,6 @@ export interface SoulControlerInterface extends utils.Interface {
     functionFragment: "getTreasury",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "getXp", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "grantRole", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "hasRole", data: BytesLike): Result;
   decodeFunctionResult(
@@ -322,6 +328,7 @@ export interface SoulControlerInterface extends utils.Interface {
     functionFragment: "setChestArmor",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "setCoin", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "setDeveloperRole",
     data: BytesLike
@@ -331,6 +338,10 @@ export interface SoulControlerInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "setEquips", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "setEquipsOff",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "setFootArmor",
     data: BytesLike
@@ -370,7 +381,6 @@ export interface SoulControlerInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "setWeapon", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "setXp", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "supportsInterface",
     data: BytesLike
@@ -501,6 +511,8 @@ export interface SoulControler extends BaseContract {
 
     getArtifactNft(overrides?: CallOverrides): Promise<[string]>;
 
+    getCoin(overrides?: CallOverrides): Promise<[string]>;
+
     getEquipmentNft(overrides?: CallOverrides): Promise<[string]>;
 
     getEquips(
@@ -538,8 +550,6 @@ export interface SoulControler extends BaseContract {
     getSoulLoot(overrides?: CallOverrides): Promise<[string]>;
 
     getTreasury(overrides?: CallOverrides): Promise<[string]>;
-
-    getXp(overrides?: CallOverrides): Promise<[string]>;
 
     grantRole(
       role: PromiseOrValue<BytesLike>,
@@ -580,6 +590,11 @@ export interface SoulControler extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    setCoin(
+      ft_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     setDeveloperRole(
       granted_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -599,6 +614,10 @@ export interface SoulControler extends BaseContract {
       handArmor_: PromiseOrValue<BigNumberish>,
       necklace_: PromiseOrValue<BigNumberish>,
       ring_: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    setEquipsOff(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -660,11 +679,6 @@ export interface SoulControler extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    setXp(
-      ft_: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
     supportsInterface(
       interfaceId: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
@@ -696,6 +710,8 @@ export interface SoulControler extends BaseContract {
   DEVELOPER_ROLE(overrides?: CallOverrides): Promise<string>;
 
   getArtifactNft(overrides?: CallOverrides): Promise<string>;
+
+  getCoin(overrides?: CallOverrides): Promise<string>;
 
   getEquipmentNft(overrides?: CallOverrides): Promise<string>;
 
@@ -734,8 +750,6 @@ export interface SoulControler extends BaseContract {
   getSoulLoot(overrides?: CallOverrides): Promise<string>;
 
   getTreasury(overrides?: CallOverrides): Promise<string>;
-
-  getXp(overrides?: CallOverrides): Promise<string>;
 
   grantRole(
     role: PromiseOrValue<BytesLike>,
@@ -776,6 +790,11 @@ export interface SoulControler extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  setCoin(
+    ft_: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   setDeveloperRole(
     granted_: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -795,6 +814,10 @@ export interface SoulControler extends BaseContract {
     handArmor_: PromiseOrValue<BigNumberish>,
     necklace_: PromiseOrValue<BigNumberish>,
     ring_: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  setEquipsOff(
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -856,11 +879,6 @@ export interface SoulControler extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  setXp(
-    ft_: PromiseOrValue<string>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
   supportsInterface(
     interfaceId: PromiseOrValue<BytesLike>,
     overrides?: CallOverrides
@@ -892,6 +910,8 @@ export interface SoulControler extends BaseContract {
     DEVELOPER_ROLE(overrides?: CallOverrides): Promise<string>;
 
     getArtifactNft(overrides?: CallOverrides): Promise<string>;
+
+    getCoin(overrides?: CallOverrides): Promise<string>;
 
     getEquipmentNft(overrides?: CallOverrides): Promise<string>;
 
@@ -930,8 +950,6 @@ export interface SoulControler extends BaseContract {
     getSoulLoot(overrides?: CallOverrides): Promise<string>;
 
     getTreasury(overrides?: CallOverrides): Promise<string>;
-
-    getXp(overrides?: CallOverrides): Promise<string>;
 
     grantRole(
       role: PromiseOrValue<BytesLike>,
@@ -972,6 +990,11 @@ export interface SoulControler extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    setCoin(
+      ft_: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     setDeveloperRole(
       granted_: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -993,6 +1016,8 @@ export interface SoulControler extends BaseContract {
       ring_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    setEquipsOff(overrides?: CallOverrides): Promise<void>;
 
     setFootArmor(
       tokenId_: PromiseOrValue<BigNumberish>,
@@ -1045,11 +1070,6 @@ export interface SoulControler extends BaseContract {
 
     setWeapon(
       tokenId_: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    setXp(
-      ft_: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1144,6 +1164,8 @@ export interface SoulControler extends BaseContract {
 
     getArtifactNft(overrides?: CallOverrides): Promise<BigNumber>;
 
+    getCoin(overrides?: CallOverrides): Promise<BigNumber>;
+
     getEquipmentNft(overrides?: CallOverrides): Promise<BigNumber>;
 
     getEquips(
@@ -1161,8 +1183,6 @@ export interface SoulControler extends BaseContract {
     getSoulLoot(overrides?: CallOverrides): Promise<BigNumber>;
 
     getTreasury(overrides?: CallOverrides): Promise<BigNumber>;
-
-    getXp(overrides?: CallOverrides): Promise<BigNumber>;
 
     grantRole(
       role: PromiseOrValue<BytesLike>,
@@ -1203,6 +1223,11 @@ export interface SoulControler extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    setCoin(
+      ft_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     setDeveloperRole(
       granted_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -1222,6 +1247,10 @@ export interface SoulControler extends BaseContract {
       handArmor_: PromiseOrValue<BigNumberish>,
       necklace_: PromiseOrValue<BigNumberish>,
       ring_: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    setEquipsOff(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -1280,11 +1309,6 @@ export interface SoulControler extends BaseContract {
 
     setWeapon(
       tokenId_: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    setXp(
-      ft_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -1323,6 +1347,8 @@ export interface SoulControler extends BaseContract {
 
     getArtifactNft(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    getCoin(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     getEquipmentNft(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getEquips(
@@ -1340,8 +1366,6 @@ export interface SoulControler extends BaseContract {
     getSoulLoot(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getTreasury(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    getXp(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     grantRole(
       role: PromiseOrValue<BytesLike>,
@@ -1382,6 +1406,11 @@ export interface SoulControler extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
+    setCoin(
+      ft_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
     setDeveloperRole(
       granted_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -1401,6 +1430,10 @@ export interface SoulControler extends BaseContract {
       handArmor_: PromiseOrValue<BigNumberish>,
       necklace_: PromiseOrValue<BigNumberish>,
       ring_: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setEquipsOff(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1459,11 +1492,6 @@ export interface SoulControler extends BaseContract {
 
     setWeapon(
       tokenId_: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    setXp(
-      ft_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

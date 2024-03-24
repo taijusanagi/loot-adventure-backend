@@ -72,6 +72,11 @@ const _abi = [
     inputs: [
       {
         internalType: "address",
+        name: "chainId_",
+        type: "address",
+      },
+      {
+        internalType: "address",
         name: "nft_",
         type: "address",
       },
@@ -79,16 +84,6 @@ const _abi = [
         internalType: "uint256",
         name: "tokenId_",
         type: "uint256",
-      },
-      {
-        internalType: "address",
-        name: "owner_",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "recipient_",
-        type: "address",
       },
       {
         internalType: "bytes",

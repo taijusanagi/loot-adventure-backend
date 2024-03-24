@@ -11,7 +11,7 @@ import "./interfaces/gameNfts/IEquipmentNft.sol";
 import "./interfaces/gameNfts/IJobNft.sol";
 import "./interfaces/gameNfts/IArtifactNft.sol";
 import "./interfaces/ISoulCalculator.sol";
-import "./interfaces/IXp.sol";
+import "./interfaces/ICoin.sol";
 
 contract SoulControler is AccessControl {
     event UpdateEquips(
@@ -46,7 +46,7 @@ contract SoulControler is AccessControl {
     address private artifactNft;
     address private jobNft;
     // FT Contract (ERC20)
-    address private xp;
+    address private coin;
     address private treasury;
 
     mapping (address => Equips) equips; // NFT onwer => Equips   
@@ -79,8 +79,8 @@ contract SoulControler is AccessControl {
         return jobNft;
     }
 
-    function getXp() public view returns(address){
-        return xp;
+    function getCoin() public view returns(address){
+        return coin;
     }
 
     function getTreasury() public view returns(address){
@@ -136,8 +136,8 @@ contract SoulControler is AccessControl {
         jobNft = nft_;
     }
 
-    function setXp(address ft_) public onlyRole(DEVELOPER_ROLE) {
-        xp = ft_;
+    function setCoin(address ft_) public onlyRole(DEVELOPER_ROLE) {
+        coin = ft_;
     }
 
     function setTreasury(address treasury_) public onlyRole(DEVELOPER_ROLE) {
@@ -164,6 +164,19 @@ contract SoulControler is AccessControl {
         _setNecklace(_equipmentNft, necklace_);
         _setRing(_equipmentNft, ring_);
         emit UpdateEquips(msg.sender, weapon_, chestArmor_, headArmor_, waistArmor_, footArmor_, handArmor_, necklace_, ring_);
+    }
+
+    function setEquipsOff() public {
+        IERC1155 _equipmentNft = IERC1155(equipmentNft);
+        _setWeapon(_equipmentNft, 0);
+        _setChestArmor(_equipmentNft, 0);
+        _setHeadArmor(_equipmentNft, 0);
+        _setWaistArmor(_equipmentNft, 0);
+        _setFootArmor(_equipmentNft, 0);
+        _setHandArmor(_equipmentNft, 0);
+        _setNecklace(_equipmentNft, 0);
+        _setRing(_equipmentNft, 0);
+        emit UpdateEquips(msg.sender, 0, 0, 0, 0, 0, 0, 0, 0);
     }
 
     function setWeapon(uint256 tokenId_) public {
@@ -264,53 +277,31 @@ contract SoulControler is AccessControl {
     function transferEquipment(
         address from_
     ) public onlyRole(DEVELOPER_ROLE){
-        // uint256 weapon,
-        // uint256 cheastArmor,
-        // uint256 headArmor,
-        // uint256 waistArmor,
-        // uint256 footArmor,
-        // uint256 handArmor,
-        // uint256 necklace,
-        // uint256 ring
         uint256 _count = 0;
         uint256[] memory _equipArray;
         Equips memory _equips = equips[from_];
-        if(_equips.weapon!=0){
-            _equipArray[_count]=_equips.weapon;
-            _count++;
-        }
-        if(_equips.cheastArmor!=0){
-            _equipArray[_count]=_equips.cheastArmor;
-            _count++;
-        }
-        if(_equips.headArmor!=0){
-            _equipArray[_count]=_equips.headArmor;
-            _count++;
-        }
-        if(_equips.waistArmor!=0){
-            _equipArray[_count]=_equips.waistArmor;
-            _count++;
-        }
-        if(_equips.footArmor!=0){
-            _equipArray[_count]=_equips.footArmor;
-            _count++;
-        }
-        if(_equips.handArmor!=0){
-            _equipArray[_count]=_equips.handArmor;
-            _count++;
-        }
-        if(_equips.necklace!=0){
-            _equipArray[_count]=_equips.necklace;
-            _count++;
-        }
-        if(_equips.ring!=0){
-            _equipArray[_count]=_equips.ring;
-            _count++;
+        uint256 _index = block.timestamp % 10;
+        uint256 _tokenId;
+        if(_index==0){
+            _tokenId = _equips.weapon;
+        } else if(_index==1){
+            _tokenId = _equips.cheastArmor;
+        } else if(_index==2){
+            _tokenId = _equips.headArmor;
+        } else if(_index==3){
+            _tokenId = _equips.waistArmor;
+        } else if(_index==4){
+            _tokenId = _equips.footArmor;
+        } else if(_index==5){
+            _tokenId = _equips.handArmor;
+        } else if(_index==6){
+            _tokenId = _equips.necklace;
+        } else if(_index==7){
+            _tokenId = _equips.ring;
         }
 
-        if(_count>0){
+        if(_tokenId > 0){
             IERC1155 _equipmentNft = IERC1155(equipmentNft);
-            uint256 _index = block.timestamp % _count;
             uint256 _tokenIdEquipment = _equipArray[_index];
             _equipmentNft.safeTransferFrom(from_, treasury, _tokenIdEquipment, 1, '0x00');
         }

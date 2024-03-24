@@ -14,6 +14,8 @@ interface ISoulLoot is IERC721{
     }
 
     function safeMint(
+        address to_,
+        uint256 chainId_,
         address nft_,
         uint256 tokenId_
     ) external;

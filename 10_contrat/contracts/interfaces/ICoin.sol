@@ -3,7 +3,7 @@ pragma solidity ^0.8.19;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
-interface IXp is IERC20 {
+interface ICoin is IERC20 {
     function setMinterRole(address granted_)external;
     function setDeveloperRole(address granted_)external;
     function setTransferRockTrue()external;

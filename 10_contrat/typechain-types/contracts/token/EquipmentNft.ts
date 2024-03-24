@@ -37,6 +37,7 @@ export interface EquipmentNftInterface extends utils.Interface {
     "balanceOfBatch(address[],uint256[])": FunctionFragment;
     "getBaseValLevel(uint256)": FunctionFragment;
     "getBaseValRarity(uint256)": FunctionFragment;
+    "getCoin()": FunctionFragment;
     "getEquipmentName(uint256)": FunctionFragment;
     "getEquipmentSeed(uint256)": FunctionFragment;
     "getEquipmentType(uint256)": FunctionFragment;
@@ -44,7 +45,6 @@ export interface EquipmentNftInterface extends utils.Interface {
     "getKValLevelup()": FunctionFragment;
     "getRoleAdmin(bytes32)": FunctionFragment;
     "getTreasury()": FunctionFragment;
-    "getXp()": FunctionFragment;
     "grantRole(bytes32,address)": FunctionFragment;
     "hasRole(bytes32,address)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
@@ -59,6 +59,7 @@ export interface EquipmentNftInterface extends utils.Interface {
     "setBaseMetadataURI(string,string)": FunctionFragment;
     "setBaseValLevel(uint256,uint256)": FunctionFragment;
     "setBaseValRarity(uint256,uint256)": FunctionFragment;
+    "setCoin(address)": FunctionFragment;
     "setControlerRole(address)": FunctionFragment;
     "setDeveloperRole(address)": FunctionFragment;
     "setKValLevelup(uint256)": FunctionFragment;
@@ -67,7 +68,6 @@ export interface EquipmentNftInterface extends utils.Interface {
     "setOffGame(address)": FunctionFragment;
     "setOnGame(address)": FunctionFragment;
     "setTreasury(address)": FunctionFragment;
-    "setXp(address)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "uri(uint256)": FunctionFragment;
   };
@@ -82,6 +82,7 @@ export interface EquipmentNftInterface extends utils.Interface {
       | "balanceOfBatch"
       | "getBaseValLevel"
       | "getBaseValRarity"
+      | "getCoin"
       | "getEquipmentName"
       | "getEquipmentSeed"
       | "getEquipmentType"
@@ -89,7 +90,6 @@ export interface EquipmentNftInterface extends utils.Interface {
       | "getKValLevelup"
       | "getRoleAdmin"
       | "getTreasury"
-      | "getXp"
       | "grantRole"
       | "hasRole"
       | "isApprovedForAll"
@@ -104,6 +104,7 @@ export interface EquipmentNftInterface extends utils.Interface {
       | "setBaseMetadataURI"
       | "setBaseValLevel"
       | "setBaseValRarity"
+      | "setCoin"
       | "setControlerRole"
       | "setDeveloperRole"
       | "setKValLevelup"
@@ -112,7 +113,6 @@ export interface EquipmentNftInterface extends utils.Interface {
       | "setOffGame"
       | "setOnGame"
       | "setTreasury"
-      | "setXp"
       | "supportsInterface"
       | "uri"
   ): FunctionFragment;
@@ -149,6 +149,7 @@ export interface EquipmentNftInterface extends utils.Interface {
     functionFragment: "getBaseValRarity",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
+  encodeFunctionData(functionFragment: "getCoin", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "getEquipmentName",
     values: [PromiseOrValue<BigNumberish>]
@@ -177,7 +178,6 @@ export interface EquipmentNftInterface extends utils.Interface {
     functionFragment: "getTreasury",
     values?: undefined
   ): string;
-  encodeFunctionData(functionFragment: "getXp", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "grantRole",
     values: [PromiseOrValue<BytesLike>, PromiseOrValue<string>]
@@ -253,6 +253,10 @@ export interface EquipmentNftInterface extends utils.Interface {
     values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
+    functionFragment: "setCoin",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "setControlerRole",
     values: [PromiseOrValue<string>]
   ): string;
@@ -282,10 +286,6 @@ export interface EquipmentNftInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "setTreasury",
-    values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setXp",
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
@@ -326,6 +326,7 @@ export interface EquipmentNftInterface extends utils.Interface {
     functionFragment: "getBaseValRarity",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "getCoin", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getEquipmentName",
     data: BytesLike
@@ -354,7 +355,6 @@ export interface EquipmentNftInterface extends utils.Interface {
     functionFragment: "getTreasury",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "getXp", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "grantRole", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "hasRole", data: BytesLike): Result;
   decodeFunctionResult(
@@ -393,6 +393,7 @@ export interface EquipmentNftInterface extends utils.Interface {
     functionFragment: "setBaseValRarity",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "setCoin", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "setControlerRole",
     data: BytesLike
@@ -416,7 +417,6 @@ export interface EquipmentNftInterface extends utils.Interface {
     functionFragment: "setTreasury",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "setXp", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "supportsInterface",
     data: BytesLike
@@ -628,6 +628,8 @@ export interface EquipmentNft extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber] & { _value: BigNumber }>;
 
+    getCoin(overrides?: CallOverrides): Promise<[string]>;
+
     getEquipmentName(
       tokenId_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -656,8 +658,6 @@ export interface EquipmentNft extends BaseContract {
     ): Promise<[string]>;
 
     getTreasury(overrides?: CallOverrides): Promise<[string]>;
-
-    getXp(overrides?: CallOverrides): Promise<[string]>;
 
     grantRole(
       role: PromiseOrValue<BytesLike>,
@@ -750,6 +750,11 @@ export interface EquipmentNft extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    setCoin(
+      ft_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     setControlerRole(
       granted_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -787,11 +792,6 @@ export interface EquipmentNft extends BaseContract {
 
     setTreasury(
       treasury_: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    setXp(
-      ft_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -836,6 +836,8 @@ export interface EquipmentNft extends BaseContract {
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
+  getCoin(overrides?: CallOverrides): Promise<string>;
+
   getEquipmentName(
     tokenId_: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
@@ -864,8 +866,6 @@ export interface EquipmentNft extends BaseContract {
   ): Promise<string>;
 
   getTreasury(overrides?: CallOverrides): Promise<string>;
-
-  getXp(overrides?: CallOverrides): Promise<string>;
 
   grantRole(
     role: PromiseOrValue<BytesLike>,
@@ -958,6 +958,11 @@ export interface EquipmentNft extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  setCoin(
+    ft_: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   setControlerRole(
     granted_: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -995,11 +1000,6 @@ export interface EquipmentNft extends BaseContract {
 
   setTreasury(
     treasury_: PromiseOrValue<string>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  setXp(
-    ft_: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -1044,6 +1044,8 @@ export interface EquipmentNft extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    getCoin(overrides?: CallOverrides): Promise<string>;
+
     getEquipmentName(
       tokenId_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -1072,8 +1074,6 @@ export interface EquipmentNft extends BaseContract {
     ): Promise<string>;
 
     getTreasury(overrides?: CallOverrides): Promise<string>;
-
-    getXp(overrides?: CallOverrides): Promise<string>;
 
     grantRole(
       role: PromiseOrValue<BytesLike>,
@@ -1166,6 +1166,11 @@ export interface EquipmentNft extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    setCoin(
+      ft_: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     setControlerRole(
       granted_: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -1203,11 +1208,6 @@ export interface EquipmentNft extends BaseContract {
 
     setTreasury(
       treasury_: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    setXp(
-      ft_: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1371,6 +1371,8 @@ export interface EquipmentNft extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    getCoin(overrides?: CallOverrides): Promise<BigNumber>;
+
     getEquipmentName(
       tokenId_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -1399,8 +1401,6 @@ export interface EquipmentNft extends BaseContract {
     ): Promise<BigNumber>;
 
     getTreasury(overrides?: CallOverrides): Promise<BigNumber>;
-
-    getXp(overrides?: CallOverrides): Promise<BigNumber>;
 
     grantRole(
       role: PromiseOrValue<BytesLike>,
@@ -1493,6 +1493,11 @@ export interface EquipmentNft extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    setCoin(
+      ft_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     setControlerRole(
       granted_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -1530,11 +1535,6 @@ export interface EquipmentNft extends BaseContract {
 
     setTreasury(
       treasury_: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    setXp(
-      ft_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -1582,6 +1582,8 @@ export interface EquipmentNft extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    getCoin(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     getEquipmentName(
       tokenId_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -1610,8 +1612,6 @@ export interface EquipmentNft extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     getTreasury(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    getXp(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     grantRole(
       role: PromiseOrValue<BytesLike>,
@@ -1704,6 +1704,11 @@ export interface EquipmentNft extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
+    setCoin(
+      ft_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
     setControlerRole(
       granted_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -1741,11 +1746,6 @@ export interface EquipmentNft extends BaseContract {
 
     setTreasury(
       treasury_: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    setXp(
-      ft_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

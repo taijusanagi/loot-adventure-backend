@@ -29,7 +29,7 @@ export interface ISoulMinterInterface extends utils.Interface {
     "getCalcContract(address)": FunctionFragment;
     "getEquipmentNftAddress()": FunctionFragment;
     "getJobNftAddress()": FunctionFragment;
-    "mintSoul(address,uint256,address,address,bytes)": FunctionFragment;
+    "mintSoul(address,address,uint256,bytes)": FunctionFragment;
     "setArtifactNftAddress(address)": FunctionFragment;
     "setCalcContract(address,address)": FunctionFragment;
     "setEquipmentNftAddress(address)": FunctionFragment;
@@ -69,9 +69,8 @@ export interface ISoulMinterInterface extends utils.Interface {
     functionFragment: "mintSoul",
     values: [
       PromiseOrValue<string>,
+      PromiseOrValue<string>,
       PromiseOrValue<BigNumberish>,
-      PromiseOrValue<string>,
-      PromiseOrValue<string>,
       PromiseOrValue<BytesLike>
     ]
   ): string;
@@ -168,10 +167,9 @@ export interface ISoulMinter extends BaseContract {
     getJobNftAddress(overrides?: CallOverrides): Promise<[string]>;
 
     mintSoul(
+      chainId_: PromiseOrValue<string>,
       nft_: PromiseOrValue<string>,
       tokenId_: PromiseOrValue<BigNumberish>,
-      owner_: PromiseOrValue<string>,
-      recipient_: PromiseOrValue<string>,
       seedData_: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
@@ -210,10 +208,9 @@ export interface ISoulMinter extends BaseContract {
   getJobNftAddress(overrides?: CallOverrides): Promise<string>;
 
   mintSoul(
+    chainId_: PromiseOrValue<string>,
     nft_: PromiseOrValue<string>,
     tokenId_: PromiseOrValue<BigNumberish>,
-    owner_: PromiseOrValue<string>,
-    recipient_: PromiseOrValue<string>,
     seedData_: PromiseOrValue<BytesLike>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
@@ -252,10 +249,9 @@ export interface ISoulMinter extends BaseContract {
     getJobNftAddress(overrides?: CallOverrides): Promise<string>;
 
     mintSoul(
+      chainId_: PromiseOrValue<string>,
       nft_: PromiseOrValue<string>,
       tokenId_: PromiseOrValue<BigNumberish>,
-      owner_: PromiseOrValue<string>,
-      recipient_: PromiseOrValue<string>,
       seedData_: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<void>;
@@ -297,10 +293,9 @@ export interface ISoulMinter extends BaseContract {
     getJobNftAddress(overrides?: CallOverrides): Promise<BigNumber>;
 
     mintSoul(
+      chainId_: PromiseOrValue<string>,
       nft_: PromiseOrValue<string>,
       tokenId_: PromiseOrValue<BigNumberish>,
-      owner_: PromiseOrValue<string>,
-      recipient_: PromiseOrValue<string>,
       seedData_: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
@@ -344,10 +339,9 @@ export interface ISoulMinter extends BaseContract {
     getJobNftAddress(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     mintSoul(
+      chainId_: PromiseOrValue<string>,
       nft_: PromiseOrValue<string>,
       tokenId_: PromiseOrValue<BigNumberish>,
-      owner_: PromiseOrValue<string>,
-      recipient_: PromiseOrValue<string>,
       seedData_: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;

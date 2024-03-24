@@ -11,7 +11,7 @@ import "../interfaces/lootNfts/ISoulLoot.sol";
 import "../interfaces/lootNfts/ILootByRogueV2.sol";
 
 contract SoulLootNft is ERC721, AccessControl, ISoulLoot {
-    event mintSoulLoot(address from, address to, uint256 tokenId, address rAddress, uint256 rTokenId);
+    event mintSoulLoot(address from, address to, uint256 tokenId, uint256 rChainId, address rAddress, uint256 rTokenId);
     
     uint256 NFT_ID_PREFIC = 10**7;
 
@@ -23,6 +23,7 @@ contract SoulLootNft is ERC721, AccessControl, ISoulLoot {
     uint256 private currentNftId;
 
     mapping (uint256 => ILootByRogueV2.AdventureRecord) private record;
+    mapping (uint256 => uint256) private rChainId;
     mapping (uint256 => address) private rAddress;
     mapping (uint256 => uint256) private rTokenId;
     mapping (address => uint256) private nftId;
@@ -32,6 +33,7 @@ contract SoulLootNft is ERC721, AccessControl, ISoulLoot {
     //*********************************************
     constructor(string memory uriPrefic_, string memory uriSuffix_) ERC721("SoulLoot", "sLoot") {
         _grantRole(DEVELOPER_ROLE, msg.sender);
+        _grantRole(MINTER_ROLE, msg.sender);
         currentNftId = 2000;
         setBaseMetadataURI(uriPrefic_, uriSuffix_);
     }
@@ -39,18 +41,21 @@ contract SoulLootNft is ERC721, AccessControl, ISoulLoot {
     //*********************************************
     //Getter
     //*********************************************
+    function getNftId(address nft_) public view returns (uint256) {
+        return nftId[nft_];
+    }
     function getAdventureRecord(uint256 tokenId_) public view returns (ILootByRogueV2.AdventureRecord memory) {
         return record[tokenId_];
     }
-
+    function getRChainId(uint256 tokenId_) public view returns (uint256) {
+        return rChainId[tokenId_];
+    }
     function getRAddress(uint256 tokenId_) public view returns (address) {
         return rAddress[tokenId_];
     }
-
     function getRTokenId(uint256 tokenId_) public view returns (uint256) {
         return rTokenId[tokenId_];
     }
-    
     function getSeed(uint256 tokenId_) public view returns (uint256) {
         return record[tokenId_].inputData.seed;
     }
@@ -72,63 +77,55 @@ contract SoulLootNft is ERC721, AccessControl, ISoulLoot {
     function getRecovery(uint256 tokenId_) public view returns (uint16) {
         return record[tokenId_].recovery;
     }
-
     function getWeapon(uint256 tokenId_) public view returns (string memory) {
         uint256 _tokenId = rTokenId[tokenId_];
         address _nft = rAddress[tokenId_];
         ILootByRogueV2 _loot = ILootByRogueV2(_nft);
         return _loot.getWeapon(_tokenId);
     }
-    
     function getChest(uint256 tokenId_) public view returns (string memory) {
         uint256 _tokenId = rTokenId[tokenId_];
         address _nft = rAddress[tokenId_];
         ILootByRogueV2 _loot = ILootByRogueV2(_nft);
         return _loot.getChest(_tokenId);
     }
-    
     function getHead(uint256 tokenId_) public view returns (string memory) {
         uint256 _tokenId = rTokenId[tokenId_];
         address _nft = rAddress[tokenId_];
         ILootByRogueV2 _loot = ILootByRogueV2(_nft);
         return _loot.getHead(_tokenId);
     }
-    
     function getWaist(uint256 tokenId_) public view returns (string memory) {
         uint256 _tokenId = rTokenId[tokenId_];
         address _nft = rAddress[tokenId_];
         ILootByRogueV2 _loot = ILootByRogueV2(_nft);
         return _loot.getWaist(_tokenId);
     }
-
     function getFoot(uint256 tokenId_) public view returns (string memory) {
         uint256 _tokenId = rTokenId[tokenId_];
         address _nft = rAddress[tokenId_];
         ILootByRogueV2 _loot = ILootByRogueV2(_nft);
         return _loot.getFoot(_tokenId);
     }
-    
     function getHand(uint256 tokenId_) public view returns (string memory) {
         uint256 _tokenId = rTokenId[tokenId_];
         address _nft = rAddress[tokenId_];
         ILootByRogueV2 _loot = ILootByRogueV2(_nft);
         return _loot.getHand(_tokenId);
     }
-    
     function getNeck(uint256 tokenId_) public view returns (string memory) {
         uint256 _tokenId = rTokenId[tokenId_];
         address _nft = rAddress[tokenId_];
         ILootByRogueV2 _loot = ILootByRogueV2(_nft);
         return _loot.getNeck(_tokenId);
     }
-    
     function getRing(uint256 tokenId_) public view returns (string memory) {
         uint256 _tokenId = rTokenId[tokenId_];
         address _nft = rAddress[tokenId_];
         ILootByRogueV2 _loot = ILootByRogueV2(_nft);
         return _loot.getRing(_tokenId);
     }
-    
+
     function tokenURI(uint256 tokenId_) public view override returns (string memory) {
         string memory _output;
         string memory _c = ', ';
@@ -173,15 +170,12 @@ contract SoulLootNft is ERC721, AccessControl, ISoulLoot {
         baseMetadataURIPrefix = uriPrefix_;
         baseMetadataURISuffix = uriSuffix_;
     }
-
     function setMinterRole(address granted_) public onlyRole(DEVELOPER_ROLE){
         _grantRole(MINTER_ROLE, granted_);
     }
-
     function setDeveloperRole(address granted_) public onlyRole(DEVELOPER_ROLE){
         _grantRole(DEVELOPER_ROLE, granted_);
     }
-
     function setNftId (address nft_) public onlyRole(DEVELOPER_ROLE) {
         nftId[nft_] = currentNftId;
         currentNftId++;
@@ -191,23 +185,25 @@ contract SoulLootNft is ERC721, AccessControl, ISoulLoot {
     //Logic
     //*********************************************
     function safeMint(
+        address to_,
+        uint256 chainId_,
         address nft_,
         uint256 tokenId_
-    ) public {
+    ) public onlyRole(MINTER_ROLE){
         require(nftId[nft_]!=0, 'This nft is not registered');
         ILootByRogueV2 _loot = ILootByRogueV2(nft_);
-        require(msg.sender == _loot.ownerOf(tokenId_), 'You are not owner of this token');
-
         ILootByRogueV2.AdventureRecord memory _record = _loot.getAdventureRecord(tokenId_);
 
         uint256 _tokenId = nftId[nft_] * NFT_ID_PREFIC + tokenId_;
         record[_tokenId] = _record;
+        rChainId[_tokenId] = chainId_;
         rAddress[_tokenId] = nft_;
         rTokenId[_tokenId] = tokenId_;
 
-        _safeMint(msg.sender, _tokenId);
-        _loot.safeTransferFrom(msg.sender, address(this), tokenId_);
-        emit mintSoulLoot(address(0), msg.sender, _tokenId, nft_, tokenId_);
+        // Mint SoulLootNft
+        _mint(to_, _tokenId);
+
+        emit mintSoulLoot(address(0), to_, _tokenId, chainId_, nft_, tokenId_);
     }
 
     function _attribute(string memory traitType_, string memory value_) internal pure returns (string memory) {

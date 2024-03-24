@@ -1,4 +1,4 @@
-export const erc20laxpAbi = [
+export const erc20lacoinAbi = [
   {
     "inputs": [],
     "stateMutability": "nonpayable",

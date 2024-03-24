@@ -125,7 +125,9 @@ export interface SoulLootNftInterface extends utils.Interface {
     "getHead(uint256)": FunctionFragment;
     "getMaxHp(uint256)": FunctionFragment;
     "getNeck(uint256)": FunctionFragment;
+    "getNftId(address)": FunctionFragment;
     "getRAddress(uint256)": FunctionFragment;
+    "getRChainId(uint256)": FunctionFragment;
     "getRTokenId(uint256)": FunctionFragment;
     "getRecovery(uint256)": FunctionFragment;
     "getRing(uint256)": FunctionFragment;
@@ -143,7 +145,7 @@ export interface SoulLootNftInterface extends utils.Interface {
     "ownerOf(uint256)": FunctionFragment;
     "renounceRole(bytes32,address)": FunctionFragment;
     "revokeRole(bytes32,address)": FunctionFragment;
-    "safeMint(address,uint256)": FunctionFragment;
+    "safeMint(address,uint256,address,uint256)": FunctionFragment;
     "safeTransferFrom(address,address,uint256)": FunctionFragment;
     "safeTransferFrom(address,address,uint256,bytes)": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
@@ -176,7 +178,9 @@ export interface SoulLootNftInterface extends utils.Interface {
       | "getHead"
       | "getMaxHp"
       | "getNeck"
+      | "getNftId"
       | "getRAddress"
+      | "getRChainId"
       | "getRTokenId"
       | "getRecovery"
       | "getRing"
@@ -274,7 +278,15 @@ export interface SoulLootNftInterface extends utils.Interface {
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
+    functionFragment: "getNftId",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "getRAddress",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getRChainId",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
@@ -355,7 +367,12 @@ export interface SoulLootNftInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "safeMint",
-    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
+    values: [
+      PromiseOrValue<string>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<string>,
+      PromiseOrValue<BigNumberish>
+    ]
   ): string;
   encodeFunctionData(
     functionFragment: "safeTransferFrom(address,address,uint256)",
@@ -450,8 +467,13 @@ export interface SoulLootNftInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "getHead", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getMaxHp", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getNeck", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "getNftId", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getRAddress",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getRChainId",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -540,7 +562,7 @@ export interface SoulLootNftInterface extends utils.Interface {
     "RoleGranted(bytes32,address,address)": EventFragment;
     "RoleRevoked(bytes32,address,address)": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
-    "mintSoulLoot(address,address,uint256,address,uint256)": EventFragment;
+    "mintSoulLoot(address,address,uint256,uint256,address,uint256)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
@@ -629,11 +651,12 @@ export interface mintSoulLootEventObject {
   from: string;
   to: string;
   tokenId: BigNumber;
+  rChainId: BigNumber;
   rAddress: string;
   rTokenId: BigNumber;
 }
 export type mintSoulLootEvent = TypedEvent<
-  [string, string, BigNumber, string, BigNumber],
+  [string, string, BigNumber, BigNumber, string, BigNumber],
   mintSoulLootEventObject
 >;
 
@@ -738,10 +761,20 @@ export interface SoulLootNft extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string]>;
 
+    getNftId(
+      nft_: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
     getRAddress(
       tokenId_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[string]>;
+
+    getRChainId(
+      tokenId_: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
 
     getRTokenId(
       tokenId_: PromiseOrValue<BigNumberish>,
@@ -838,6 +871,8 @@ export interface SoulLootNft extends BaseContract {
     ): Promise<ContractTransaction>;
 
     safeMint(
+      to_: PromiseOrValue<string>,
+      chainId_: PromiseOrValue<BigNumberish>,
       nft_: PromiseOrValue<string>,
       tokenId_: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -983,10 +1018,20 @@ export interface SoulLootNft extends BaseContract {
     overrides?: CallOverrides
   ): Promise<string>;
 
+  getNftId(
+    nft_: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
   getRAddress(
     tokenId_: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<string>;
+
+  getRChainId(
+    tokenId_: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
 
   getRTokenId(
     tokenId_: PromiseOrValue<BigNumberish>,
@@ -1083,6 +1128,8 @@ export interface SoulLootNft extends BaseContract {
   ): Promise<ContractTransaction>;
 
   safeMint(
+    to_: PromiseOrValue<string>,
+    chainId_: PromiseOrValue<BigNumberish>,
     nft_: PromiseOrValue<string>,
     tokenId_: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -1228,10 +1275,20 @@ export interface SoulLootNft extends BaseContract {
       overrides?: CallOverrides
     ): Promise<string>;
 
+    getNftId(
+      nft_: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     getRAddress(
       tokenId_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<string>;
+
+    getRChainId(
+      tokenId_: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     getRTokenId(
       tokenId_: PromiseOrValue<BigNumberish>,
@@ -1328,6 +1385,8 @@ export interface SoulLootNft extends BaseContract {
     ): Promise<void>;
 
     safeMint(
+      to_: PromiseOrValue<string>,
+      chainId_: PromiseOrValue<BigNumberish>,
       nft_: PromiseOrValue<string>,
       tokenId_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -1468,10 +1527,11 @@ export interface SoulLootNft extends BaseContract {
       tokenId?: PromiseOrValue<BigNumberish> | null
     ): TransferEventFilter;
 
-    "mintSoulLoot(address,address,uint256,address,uint256)"(
+    "mintSoulLoot(address,address,uint256,uint256,address,uint256)"(
       from?: null,
       to?: null,
       tokenId?: null,
+      rChainId?: null,
       rAddress?: null,
       rTokenId?: null
     ): mintSoulLootEventFilter;
@@ -1479,6 +1539,7 @@ export interface SoulLootNft extends BaseContract {
       from?: null,
       to?: null,
       tokenId?: null,
+      rChainId?: null,
       rAddress?: null,
       rTokenId?: null
     ): mintSoulLootEventFilter;
@@ -1557,7 +1618,17 @@ export interface SoulLootNft extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    getNftId(
+      nft_: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     getRAddress(
+      tokenId_: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getRChainId(
       tokenId_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -1657,6 +1728,8 @@ export interface SoulLootNft extends BaseContract {
     ): Promise<BigNumber>;
 
     safeMint(
+      to_: PromiseOrValue<string>,
+      chainId_: PromiseOrValue<BigNumberish>,
       nft_: PromiseOrValue<string>,
       tokenId_: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -1805,7 +1878,17 @@ export interface SoulLootNft extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    getNftId(
+      nft_: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     getRAddress(
+      tokenId_: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getRChainId(
       tokenId_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
@@ -1905,6 +1988,8 @@ export interface SoulLootNft extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     safeMint(
+      to_: PromiseOrValue<string>,
+      chainId_: PromiseOrValue<BigNumberish>,
       nft_: PromiseOrValue<string>,
       tokenId_: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }

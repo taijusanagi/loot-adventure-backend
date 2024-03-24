@@ -130,7 +130,7 @@ export interface ISoulLootInterface extends utils.Interface {
     "getWeapon(uint256)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
-    "safeMint(address,uint256)": FunctionFragment;
+    "safeMint(address,uint256,address,uint256)": FunctionFragment;
     "safeTransferFrom(address,address,uint256)": FunctionFragment;
     "safeTransferFrom(address,address,uint256,bytes)": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
@@ -255,7 +255,12 @@ export interface ISoulLootInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "safeMint",
-    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
+    values: [
+      PromiseOrValue<string>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<string>,
+      PromiseOrValue<BigNumberish>
+    ]
   ): string;
   encodeFunctionData(
     functionFragment: "safeTransferFrom(address,address,uint256)",
@@ -531,6 +536,8 @@ export interface ISoulLoot extends BaseContract {
     ): Promise<[string] & { owner: string }>;
 
     safeMint(
+      to_: PromiseOrValue<string>,
+      chainId_: PromiseOrValue<BigNumberish>,
       nft_: PromiseOrValue<string>,
       tokenId_: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -678,6 +685,8 @@ export interface ISoulLoot extends BaseContract {
   ): Promise<string>;
 
   safeMint(
+    to_: PromiseOrValue<string>,
+    chainId_: PromiseOrValue<BigNumberish>,
     nft_: PromiseOrValue<string>,
     tokenId_: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -825,6 +834,8 @@ export interface ISoulLoot extends BaseContract {
     ): Promise<string>;
 
     safeMint(
+      to_: PromiseOrValue<string>,
+      chainId_: PromiseOrValue<BigNumberish>,
       nft_: PromiseOrValue<string>,
       tokenId_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -1008,6 +1019,8 @@ export interface ISoulLoot extends BaseContract {
     ): Promise<BigNumber>;
 
     safeMint(
+      to_: PromiseOrValue<string>,
+      chainId_: PromiseOrValue<BigNumberish>,
       nft_: PromiseOrValue<string>,
       tokenId_: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -1156,6 +1169,8 @@ export interface ISoulLoot extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     safeMint(
+      to_: PromiseOrValue<string>,
+      chainId_: PromiseOrValue<BigNumberish>,
       nft_: PromiseOrValue<string>,
       tokenId_: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }

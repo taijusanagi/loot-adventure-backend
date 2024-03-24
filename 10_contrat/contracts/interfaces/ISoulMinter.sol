@@ -13,10 +13,9 @@ interface ISoulMinter {
     function setCalcContract(address nft_, address calc_) external;
 
     function mintSoul(
+        address chainId_,
         address nft_, 
         uint256 tokenId_,
-        address owner_,
-        address recipient_,
         bytes memory seedData_
     ) external;
 }

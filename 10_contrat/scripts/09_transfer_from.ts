@@ -18,26 +18,12 @@ async function main() {
     console.log(tokenId.toString());
   })
 
-  const itemNft = new ethers.Contract(ARTIFACT_NFT, erc1155Item, signer);
-  itemNft.once("TransferSingle", (operator, from, to, tokenId)=>{
-    console.log(operator);
-    console.log(from);
-    console.log(to);
-    console.log(tokenId.toString());
-  })
-
   // Set Contract
   const soulControler = new ethers.Contract(SOUL_CONTROLER, soulControlerAbi, signer);
   const tx0 = await soulControler.transferEquipment(
-    '0x4303831d70BEf1E2ba7d6b802bf90990124F3C36',
-    20000010001
+    '0x91662e8DBc048333dAA3e2746518091011aD1c67',
   );
   tx0.wait();
-  const tx1 = await soulControler.transferItem(
-    '0x4303831d70BEf1E2ba7d6b802bf90990124F3C36',
-    20000010000
-  );
-  tx1.wait();
 }
 
 // We recommend this pattern to be able to use async/await everywhere

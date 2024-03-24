@@ -12,11 +12,13 @@ import "./interfaces/gameNfts/IEquipmentNft.sol";
 import "./interfaces/gameNfts/IJobNft.sol";
 import "./interfaces/gameNfts/IArtifactNft.sol";
 import "./interfaces/ISoulCalculator.sol";
-import "./interfaces/IXp.sol";
+import "./interfaces/ICoin.sol";
+import "./interfaces/IERC6551Registry.sol";
 
 contract SoulMinter is AccessControl {
     bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
     bytes32 public constant DEVELOPER_ROLE = keccak256("DEVELOPER_ROLE");
+    address public constant ZERO_ADDRESS = 0x0000000000000000000000000000000000000001;
 
     string[4] private JOB_TYPE = ['Warrior','Guardian','Clown','Tank'];
     string[10] private ARTIFACT_TYPE = [
@@ -38,7 +40,10 @@ contract SoulMinter is AccessControl {
     address private artifactNft;
     address private jobNft;
     // FT Contract (ERC20)
-    address private xp;
+    address private coin;
+    // ERC6551Account(Registry&Account)
+    address private erc6551Registry;
+    address private implementation;
 
     mapping (address => address) calcContract;
 
@@ -56,26 +61,26 @@ contract SoulMinter is AccessControl {
     function getSoulLoot() public view returns(address){
         return soulLoot;
     }
-
     function getEquipmentNft() public view returns(address){
         return equipmentNft;
     }
-
     function getArtifactNft() public view returns(address){
         return artifactNft;
     }
-
     function getJobNft() public view returns(address){
         return jobNft;
     }
-
-    function getXp() public view returns(address){
-        return xp;
+    function getCoin() public view returns(address){
+        return coin;
     }
-
-
     function getCalcContract(address nft_) public view returns(address) {
         return calcContract[nft_];
+    }
+    function getErc6551Registry() public view returns(address){
+        return erc6551Registry;
+    }
+    function getImplementation() public view returns(address){
+        return implementation;    
     }
 
     //*********************************************
@@ -84,61 +89,75 @@ contract SoulMinter is AccessControl {
     function setAdminRole(address granted_) public onlyRole(ADMIN_ROLE){
         _grantRole(ADMIN_ROLE, granted_);
     }
-
     function setDeveloperRole(address granted_) public onlyRole(DEVELOPER_ROLE){
         _grantRole(DEVELOPER_ROLE, granted_);
     }
-
     function setDeveloperRoles(address[] memory grantedList_) public onlyRole(DEVELOPER_ROLE){
         uint256 _length = grantedList_.length;
         for (uint256 i=0;i< _length; i++){
             _grantRole(DEVELOPER_ROLE, grantedList_[i]);
         }
     }
-
     function setSoulLoot(address nft_) public onlyRole(DEVELOPER_ROLE) {
         soulLoot = nft_;
     }
-
     function setEquipmentNft(address nft_) public onlyRole(DEVELOPER_ROLE) {
         equipmentNft = nft_;
     }
-    
     function setArtifactNft(address nft_) public onlyRole(DEVELOPER_ROLE) {
         artifactNft = nft_;
     }
-
     function setJobNft(address nft_) public onlyRole(DEVELOPER_ROLE) {
         jobNft = nft_;
     }
-
-    function setXp(address ft_) public onlyRole(DEVELOPER_ROLE) {
-        xp = ft_;
+    function setCoin(address ft_) public onlyRole(DEVELOPER_ROLE) {
+        coin = ft_;
     }
-
     function setCalcContract(address nft_, address calc_) public onlyRole(DEVELOPER_ROLE) {
         calcContract[nft_] = calc_;
+    }
+    function setErc6551Registry(address erc6551Registry_) public onlyRole(DEVELOPER_ROLE){
+        erc6551Registry = erc6551Registry_;
+    }
+    function setImplementation(address contract_) public onlyRole(DEVELOPER_ROLE){
+        implementation = contract_;
     }
 
     //*********************************************
     //Logic
     //*********************************************
     function mintSoul(
+        uint256 chainId_,
         address nft_, 
         uint256 tokenId_,
-        address owner_,
-        address recipient_,
         bytes memory seedData_
     ) public {
-        require(owner_ == nftOwner(nft_, tokenId_), "Not token owner");
-        _mintEquipmentNft(nft_, tokenId_, recipient_, seedData_);
-        _mintJobNft(nft_, tokenId_, recipient_, seedData_);
-        _mintArtifactNft(nft_, tokenId_, recipient_, seedData_);
+        IERC721 _nft = IERC721(nft_);
+        require(_nft.ownerOf(tokenId_)==msg.sender, 'SoulMinter Error: You are not NFT owner');
+        ISoulLoot _soulLoot = ISoulLoot(soulLoot);
+        IERC6551Registry _registry = IERC6551Registry(erc6551Registry);
+        ILootByRogueV2 _loot = ILootByRogueV2(nft_);
+
+        // Mint SoulLoot to EOA
+        _soulLoot.safeMint(msg.sender, chainId_, nft_, tokenId_);
+        _loot.safeTransferFrom(msg.sender, ZERO_ADDRESS, tokenId_);
+        // Create TBA
+        _registry.createAccount(implementation, chainId_, nft_, tokenId_, 1, '0x0000000000000000000000000000000000000000');
+        address _tba = _registry.account(
+            implementation, 
+            chainId_, 
+            nft_, 
+            tokenId_, 
+            1
+        );
+        // Mint Equipmnt&Job&Artifact to TBA
+        _mintEquipmentNft(nft_, tokenId_, _tba, seedData_);
+        _mintJobNft(nft_, tokenId_, _tba, seedData_);
+        _mintArtifactNft(nft_, tokenId_, _tba, seedData_);
     }
 
-    function mintXp(address recipient_, uint256 amount_, string memory source_) public onlyRole(DEVELOPER_ROLE) {
-        IXp _xp = IXp(xp);
-        _xp.mint(recipient_, amount_, source_);
+    function mintCoin(address recipient_, uint256 amount_, string memory source_) public onlyRole(DEVELOPER_ROLE) {
+        _mintCoin(recipient_, amount_, source_);
     }
 
     function _mintEquipmentNft(address nft_, uint256 tokenId_, address recipient_, bytes memory seedData_) internal virtual {
@@ -202,9 +221,9 @@ contract SoulMinter is AccessControl {
         );
     }
 
-    function _mintXp(address recipient_, uint256 amount_, string memory source_) internal virtual {
-        IXp _xp = IXp(xp);
-        _xp.mint(recipient_, amount_, source_);
+    function _mintCoin(address recipient_, uint256 amount_, string memory source_) internal virtual {
+        ICoin _coin = ICoin(coin);
+        _coin.mint(recipient_, amount_, source_);
     }
 
     function nftOwner(address nft_, uint256 tokenId_) public view returns (address) {

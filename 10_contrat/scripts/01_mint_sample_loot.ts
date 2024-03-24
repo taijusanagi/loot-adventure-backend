@@ -24,7 +24,6 @@ async function main() {
     [1,1,1]
   );
   tx.wait();
-  
 }
 
 // We recommend this pattern to be able to use async/await everywhere

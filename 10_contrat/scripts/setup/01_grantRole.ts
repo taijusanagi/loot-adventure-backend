@@ -48,6 +48,12 @@ async function main() {
   tx = await soulMinter.setDeveloperRole(process.env.dev01);
   tx.wait();
   console.log('set:', tx);
+
+  tx = await soulControler.setDeveloperRole(process.env.dev00);
+  tx.wait();
+  console.log('set:', tx);
+  tx = await soulControler.setDeveloperRole(process.env.dev01);
+  tx.wait();
 }
 
 // We recommend this pattern to be able to use async/await everywhere
