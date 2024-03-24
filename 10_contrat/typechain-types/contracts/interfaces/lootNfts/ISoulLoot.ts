@@ -130,7 +130,7 @@ export interface ISoulLootInterface extends utils.Interface {
     "getWeapon(uint256)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
-    "safeMint(address,uint256,address,uint256)": FunctionFragment;
+    "safeMint(address,uint256,address,uint256,((uint256,uint8[],uint8[]),uint16,uint16,uint16,uint16,uint16,uint16,uint16[6],uint8[4],uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256[]))": FunctionFragment;
     "safeTransferFrom(address,address,uint256)": FunctionFragment;
     "safeTransferFrom(address,address,uint256,bytes)": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
@@ -259,7 +259,8 @@ export interface ISoulLootInterface extends utils.Interface {
       PromiseOrValue<string>,
       PromiseOrValue<BigNumberish>,
       PromiseOrValue<string>,
-      PromiseOrValue<BigNumberish>
+      PromiseOrValue<BigNumberish>,
+      ILootByRogueV2.AdventureRecordStruct
     ]
   ): string;
   encodeFunctionData(
@@ -540,6 +541,7 @@ export interface ISoulLoot extends BaseContract {
       chainId_: PromiseOrValue<BigNumberish>,
       nft_: PromiseOrValue<string>,
       tokenId_: PromiseOrValue<BigNumberish>,
+      record_: ILootByRogueV2.AdventureRecordStruct,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -689,6 +691,7 @@ export interface ISoulLoot extends BaseContract {
     chainId_: PromiseOrValue<BigNumberish>,
     nft_: PromiseOrValue<string>,
     tokenId_: PromiseOrValue<BigNumberish>,
+    record_: ILootByRogueV2.AdventureRecordStruct,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -838,6 +841,7 @@ export interface ISoulLoot extends BaseContract {
       chainId_: PromiseOrValue<BigNumberish>,
       nft_: PromiseOrValue<string>,
       tokenId_: PromiseOrValue<BigNumberish>,
+      record_: ILootByRogueV2.AdventureRecordStruct,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1023,6 +1027,7 @@ export interface ISoulLoot extends BaseContract {
       chainId_: PromiseOrValue<BigNumberish>,
       nft_: PromiseOrValue<string>,
       tokenId_: PromiseOrValue<BigNumberish>,
+      record_: ILootByRogueV2.AdventureRecordStruct,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -1173,6 +1178,7 @@ export interface ISoulLoot extends BaseContract {
       chainId_: PromiseOrValue<BigNumberish>,
       nft_: PromiseOrValue<string>,
       tokenId_: PromiseOrValue<BigNumberish>,
+      record_: ILootByRogueV2.AdventureRecordStruct,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

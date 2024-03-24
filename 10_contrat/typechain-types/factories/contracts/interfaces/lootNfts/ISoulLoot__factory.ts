@@ -619,6 +619,120 @@ const _abi = [
         name: "tokenId_",
         type: "uint256",
       },
+      {
+        components: [
+          {
+            components: [
+              {
+                internalType: "uint256",
+                name: "seed",
+                type: "uint256",
+              },
+              {
+                internalType: "uint8[]",
+                name: "directions",
+                type: "uint8[]",
+              },
+              {
+                internalType: "uint8[]",
+                name: "useItems",
+                type: "uint8[]",
+              },
+            ],
+            internalType: "struct ILootByRogueV2.InputData",
+            name: "inputData",
+            type: "tuple",
+          },
+          {
+            internalType: "uint16",
+            name: "turn",
+            type: "uint16",
+          },
+          {
+            internalType: "uint16",
+            name: "maxHp",
+            type: "uint16",
+          },
+          {
+            internalType: "uint16",
+            name: "currentHp",
+            type: "uint16",
+          },
+          {
+            internalType: "uint16",
+            name: "attack",
+            type: "uint16",
+          },
+          {
+            internalType: "uint16",
+            name: "defence",
+            type: "uint16",
+          },
+          {
+            internalType: "uint16",
+            name: "recovery",
+            type: "uint16",
+          },
+          {
+            internalType: "uint16[6]",
+            name: "stats",
+            type: "uint16[6]",
+          },
+          {
+            internalType: "uint8[4]",
+            name: "unique",
+            type: "uint8[4]",
+          },
+          {
+            internalType: "uint256",
+            name: "weapon",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "chestArmor",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "headArmor",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "waistArmor",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "footArmor",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "handArmor",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "necklace",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "ring",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256[]",
+            name: "relics",
+            type: "uint256[]",
+          },
+        ],
+        internalType: "struct ILootByRogueV2.AdventureRecord",
+        name: "record_",
+        type: "tuple",
+      },
     ],
     name: "safeMint",
     outputs: [],

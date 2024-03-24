@@ -27,25 +27,11 @@ contract LootByRogueV2 is AccessControl, ISoulCalculator {
         address nft_, 
         uint256 tokenId_, 
         bytes memory data_
-    ) public view returns (
-        uint256,
-        uint16,
-        uint16,
-        uint16,
-        uint16,
-        uint16,
-        uint16
-    ){
+    ) public view returns (ILootByRogueV2.AdventureRecord memory record_){
         ILootByRogueV2 _loot = ILootByRogueV2(nft_);
         ILootByRogueV2.AdventureRecord memory _record = _loot.getAdventureRecord(tokenId_);
         return (
-            _record.inputData.seed,
-            _record.turn,
-            _record.maxHp,
-            _record.currentHp,
-            _record.attack,
-            _record.defence,
-            _record.recovery
+            _record
         );
     }
 

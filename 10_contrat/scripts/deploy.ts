@@ -19,10 +19,10 @@ async function main() {
   const soulCalc0 = await f90.deploy();
   await soulCalc0.deployed();
   console.log('deployed SoulCalc-lootbyrogue to: ', soulCalc0.address);
-  const f91 = await ethers.getContractFactory('SoulLoot', deployer);
-  const soulCalc1 = await f91.deploy();
-  await soulCalc1.deployed();
-  console.log('deployed SoulCalc-SoulLoot to: ', soulCalc1.address);
+  // const f91 = await ethers.getContractFactory('SoulLoot', deployer);
+  // const soulCalc1 = await f91.deploy();
+  // await soulCalc1.deployed();
+  // console.log('deployed SoulCalc-SoulLoot to: ', soulCalc1.address);
 
   const f11 = await ethers.getContractFactory('EquipmentNft', deployer);
   const equipmentNft = await f11.deploy(
@@ -111,8 +111,8 @@ async function main() {
   // Set Calc-Contracts on Minter
   await soulMinter.setCalcContract(SAMPLE_LOOT, soulCalc0.address);
   console.log('Calc-Contract is set | ', soulCalc0.address);
-  await soulMinter.setCalcContract(soulLootNft.address, soulCalc1.address);
-  console.log('Calc-Contract is set | ', soulCalc1.address);
+  // await soulMinter.setCalcContract(soulLootNft.address, soulCalc1.address);
+  // console.log('Calc-Contract is set | ', soulCalc1.address);
 
   // Set on Imple&minter Contracts on ERC6551Registry
   await soulMinter.setImplementation(erc6551Account.address);

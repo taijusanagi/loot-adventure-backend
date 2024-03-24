@@ -21,6 +21,86 @@ import type {
   PromiseOrValue,
 } from "../../common";
 
+export declare namespace ILootByRogueV2 {
+  export type InputDataStruct = {
+    seed: PromiseOrValue<BigNumberish>;
+    directions: PromiseOrValue<BigNumberish>[];
+    useItems: PromiseOrValue<BigNumberish>[];
+  };
+
+  export type InputDataStructOutput = [BigNumber, number[], number[]] & {
+    seed: BigNumber;
+    directions: number[];
+    useItems: number[];
+  };
+
+  export type AdventureRecordStruct = {
+    inputData: ILootByRogueV2.InputDataStruct;
+    turn: PromiseOrValue<BigNumberish>;
+    maxHp: PromiseOrValue<BigNumberish>;
+    currentHp: PromiseOrValue<BigNumberish>;
+    attack: PromiseOrValue<BigNumberish>;
+    defence: PromiseOrValue<BigNumberish>;
+    recovery: PromiseOrValue<BigNumberish>;
+    stats: PromiseOrValue<BigNumberish>[];
+    unique: [
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>
+    ];
+    weapon: PromiseOrValue<BigNumberish>;
+    chestArmor: PromiseOrValue<BigNumberish>;
+    headArmor: PromiseOrValue<BigNumberish>;
+    waistArmor: PromiseOrValue<BigNumberish>;
+    footArmor: PromiseOrValue<BigNumberish>;
+    handArmor: PromiseOrValue<BigNumberish>;
+    necklace: PromiseOrValue<BigNumberish>;
+    ring: PromiseOrValue<BigNumberish>;
+    relics: PromiseOrValue<BigNumberish>[];
+  };
+
+  export type AdventureRecordStructOutput = [
+    ILootByRogueV2.InputDataStructOutput,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number[],
+    [number, number, number, number],
+    BigNumber,
+    BigNumber,
+    BigNumber,
+    BigNumber,
+    BigNumber,
+    BigNumber,
+    BigNumber,
+    BigNumber,
+    BigNumber[]
+  ] & {
+    inputData: ILootByRogueV2.InputDataStructOutput;
+    turn: number;
+    maxHp: number;
+    currentHp: number;
+    attack: number;
+    defence: number;
+    recovery: number;
+    stats: number[];
+    unique: [number, number, number, number];
+    weapon: BigNumber;
+    chestArmor: BigNumber;
+    headArmor: BigNumber;
+    waistArmor: BigNumber;
+    footArmor: BigNumber;
+    handArmor: BigNumber;
+    necklace: BigNumber;
+    ring: BigNumber;
+    relics: BigNumber[];
+  };
+}
+
 export interface ISoulCalculatorInterface extends utils.Interface {
   functions: {
     "calcArtifact(address,uint256,bytes)": FunctionFragment;
@@ -153,14 +233,8 @@ export interface ISoulCalculator extends BaseContract {
       seedData_: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<
-      [BigNumber, number, number, number, number, number, number] & {
-        _seed: BigNumber;
-        _turn: number;
-        _maxHp: number;
-        _currentHp: number;
-        _attack: number;
-        _defence: number;
-        _recovery: number;
+      [ILootByRogueV2.AdventureRecordStructOutput] & {
+        _record: ILootByRogueV2.AdventureRecordStructOutput;
       }
     >;
   };
@@ -206,17 +280,7 @@ export interface ISoulCalculator extends BaseContract {
     tokenId_: PromiseOrValue<BigNumberish>,
     seedData_: PromiseOrValue<BytesLike>,
     overrides?: CallOverrides
-  ): Promise<
-    [BigNumber, number, number, number, number, number, number] & {
-      _seed: BigNumber;
-      _turn: number;
-      _maxHp: number;
-      _currentHp: number;
-      _attack: number;
-      _defence: number;
-      _recovery: number;
-    }
-  >;
+  ): Promise<ILootByRogueV2.AdventureRecordStructOutput>;
 
   callStatic: {
     calcArtifact(
@@ -260,17 +324,7 @@ export interface ISoulCalculator extends BaseContract {
       tokenId_: PromiseOrValue<BigNumberish>,
       seedData_: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
-    ): Promise<
-      [BigNumber, number, number, number, number, number, number] & {
-        _seed: BigNumber;
-        _turn: number;
-        _maxHp: number;
-        _currentHp: number;
-        _attack: number;
-        _defence: number;
-        _recovery: number;
-      }
-    >;
+    ): Promise<ILootByRogueV2.AdventureRecordStructOutput>;
   };
 
   filters: {};

@@ -1,19 +1,15 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
+import "./lootNfts/ILootByRogueV2.sol";
+
 interface ISoulCalculator {
     function calcSoul(
         address nft_, 
         uint256 tokenId_, 
         bytes memory seedData_
     ) external view returns (
-        uint256 _seed,
-        uint16 _turn,
-        uint16 _maxHp,
-        uint16 _currentHp,
-        uint16 _attack,
-        uint16 _defence,
-        uint16 _recovery
+        ILootByRogueV2.AdventureRecord memory _record
     );
 
     function calcEquipment(

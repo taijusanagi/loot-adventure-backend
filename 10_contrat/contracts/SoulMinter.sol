@@ -137,9 +137,12 @@ contract SoulMinter is AccessControl {
         ISoulLoot _soulLoot = ISoulLoot(soulLoot);
         IERC6551Registry _registry = IERC6551Registry(erc6551Registry);
         ILootByRogueV2 _loot = ILootByRogueV2(nft_);
+        
+        ISoulCalculator _calc = ISoulCalculator(calcContract[nft_]);
+        (ILootByRogueV2.AdventureRecord memory _record) = _calc.calcSoul(nft_, tokenId_, seedData_);
 
         // Mint SoulLoot to EOA
-        _soulLoot.safeMint(msg.sender, chainId_, nft_, tokenId_);
+        _soulLoot.safeMint(msg.sender, chainId_, nft_, tokenId_, _record);
         _loot.safeTransferFrom(msg.sender, ZERO_ADDRESS, tokenId_);
         // Create TBA
         _registry.createAccount(implementation, chainId_, nft_, tokenId_, 1, '0x0000000000000000000000000000000000000000');

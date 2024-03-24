@@ -188,14 +188,13 @@ contract SoulLootNft is ERC721, AccessControl, ISoulLoot {
         address to_,
         uint256 chainId_,
         address nft_,
-        uint256 tokenId_
+        uint256 tokenId_,
+        ILootByRogueV2.AdventureRecord memory record_
     ) public onlyRole(MINTER_ROLE){
         require(nftId[nft_]!=0, 'This nft is not registered');
-        ILootByRogueV2 _loot = ILootByRogueV2(nft_);
-        ILootByRogueV2.AdventureRecord memory _record = _loot.getAdventureRecord(tokenId_);
 
         uint256 _tokenId = nftId[nft_] * NFT_ID_PREFIC + tokenId_;
-        record[_tokenId] = _record;
+        record[_tokenId] = record_;
         rChainId[_tokenId] = chainId_;
         rAddress[_tokenId] = nft_;
         rTokenId[_tokenId] = tokenId_;

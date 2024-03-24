@@ -17,7 +17,8 @@ interface ISoulLoot is IERC721{
         address to_,
         uint256 chainId_,
         address nft_,
-        uint256 tokenId_
+        uint256 tokenId_,
+        ILootByRogueV2.AdventureRecord memory record_
     ) external;
     function getAdventureRecord(uint256 tokenId_) external view returns (ILootByRogueV2.AdventureRecord memory);
     function getSeed(uint256 tokenId_) external view returns (uint256);

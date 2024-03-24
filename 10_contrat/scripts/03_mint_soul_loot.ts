@@ -6,7 +6,7 @@ import { SAMPLE_LOOT, SOUL_LOOT, SOUL_MINTER, ERC6551_REGISTRY, EQUIPMENT_NFT, C
 import { erc6551RegistryAbi } from './abi/erc6551-registry-abi';
 import { erc1155Equipment } from './abi/erc1155-equipment-abi'; 
 
-const TOKEN_ID = 20;
+const TOKEN_ID = 9;
 
 async function main() {
   const [signer] = await ethers.getSigners();
