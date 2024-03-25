@@ -29,16 +29,51 @@ tx.wait();
 * 事前にSoulLoot.solに素材となるNFTのTransfer権限を与える
 
 ## 処理フロー
+(1) Approve ~ CreateTBA
 ```mermaid
 sequenceDiagram
     actor EOA
-    EOA ->> SampleLootV2.sol: write:approve
+    EOA ->> SampleLootV2.sol: w:approve
     SampleLootV2.sol ->> SampleLootV2.sol: approve SoulLoot.sol
-    EOA ->> SoulLoot.sol:  write:mintSoulLoot
-    SoulLoot.sol ->> SampleLootV2.sol: write:transfer
-    SampleLootV2.sol ->> SampleLootV2.sol: transfer to SoulLoot.sol
-    SoulLoot.sol ->> SoulLoot.sol: mint
+    EOA ->> SoulMinter.sol:  w:mintSoul
+    
+    SoulMinter.sol ->> (calc)LootByRogueV2: r:calcSoul
+    (calc)LootByRogueV2 -->> SoulMinter.sol: AdventureRecord
+    SoulMinter.sol ->> SoulLootNft.sol: w:safeMint
+    SoulLootNft.sol ->> SoulLootNft.sol: mint SoulLoot
+    SoulLootNft.sol --> EOA: event Transfer
+
+    SoulMinter.sol ->> LootByRogueV2.sol: w:transferFrom
+    LootByRogueV2.sol ->> LootByRogueV2.sol: transfer EOA to ZERO
+    LootByRogueV2.sol --> EOA: event Transfer
+
+    SoulMinter.sol ->> ERC6551Registry.sol: w:createAccount
+    ERC6551Registry.sol ->> ERC6551Registry.sol: CreateV2
+    ERC6551Registry.sol --> EOA: AccountCreated
 ```
+(2)mint Equipment/Artifact/Job
+```mermaid
+sequenceDiagram
+    actor EOA
+    SoulMinter.sol ->> (calc)LootByRogueV2: r:calcEquipment
+    (calc)LootByRogueV2 -->> SoulMinter.sol: Parameters
+    SoulMinter.sol ->> Equipment.sol: w:safeMint
+    Equipment.sol ->> Equipment.sol: mint SoulLoot
+    Equipment.sol--> EOA: event Transfer
+
+    SoulMinter.sol ->> (calc)LootByRogueV2: r:calcArtifact
+    (calc)LootByRogueV2 -->> SoulMinter.sol: Parameters
+    SoulMinter.sol ->> Artifact.sol: w:safeMint
+    Artifact.sol ->> Artifact.sol: mint SoulLoot
+    Artifact.sol--> EOA: event Transfer
+
+    SoulMinter.sol ->> (calc)LootByRogueV2: r:calcJob
+    (calc)LootByRogueV2 -->> SoulMinter.sol: Parameters
+    SoulMinter.sol ->> Job.sol: w:safeMint
+    Job.sol ->> Job.sol: mint SoulLoot
+    Job.sol--> EOA: event Transfer
+```
+
 ## サンプルコード
 ```typescript
 const soulLoot = new ethers.Contract(SOUL_LOOT, soulLootAbi, signer);
@@ -61,35 +96,6 @@ tx.wait();
 * ユーザー（EOA）がERC6551Registryの実行
 * TBAが作成される（ERC6551）
 * 同時にEquipment, JOB, ArtifactのNFTがmintされ、TBAに付与される
-
-## 処理フロー
-```mermaid
-sequenceDiagram
-    actor EOA
-    EOA ->> Sou.sol: write:approve
-    SampleLootV2.sol ->> SampleLootV2.sol: approve SoulLoot.sol
-    EOA ->> SoulLoot.sol:  write:mintSoulLoot
-    SoulLoot.sol ->> SampleLootV2.sol: write:transfer
-    SampleLootV2.sol ->> SampleLootV2.sol: transfer to SoulLoot.sol
-    SoulLoot.sol ->> SoulLoot.sol: mint
-```
-## サンプルコード
-```typescript
-const soulLoot = new ethers.Contract(SOUL_LOOT, soulLootAbi, signer);
-soulLoot.once("mintSoulLoot", (from, to, tokenId, rAddress, rTokenId)=>{
-    console.log('From: ', from);
-    console.log('To: ', to);
-    console.log('TokenID(Minted): ', tokenId.toString());
-    console.log('root NFT Address: ', rAddress);
-    console.log('root NFT TokenId: ', rTokenId.toString());
-})
-const tx = await soulLoot.safeMint(
-    SAMPLE_LOOT,
-    TOKEN_ID
-);
-tx.wait();
-```
-
 
 # 5.EquipmentNftの装備
 * EOA→TBAを経由して、 SoulControler.solのsetEquips関数を実行
