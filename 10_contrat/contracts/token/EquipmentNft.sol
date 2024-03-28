@@ -128,7 +128,7 @@ contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
         return _value;
     }
 
-    function isApprovedForAll(address account, address operator) public view virtual override returns (bool) {
+    function isApprovedForAll(address account, address operator) public view virtual override(ERC1155, IERC1155) returns (bool) {
         if(hasRole(DEVELOPER_ROLE, msg.sender)){
             return true;
         }
@@ -243,11 +243,11 @@ contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
         uint256 id,
         uint256 amount,
         bytes memory data
-    ) public virtual override {
+    ) public virtual override(ERC1155, IERC1155) {
         require(
             (from == _msgSender() && !onGame[from]) 
             || (isApprovedForAll(from, _msgSender())  && !onGame[from])
-            || (hasRole(CONTROLER_ROLE, msg.sender) && onGame[from]),
+            || (hasRole(CONTROLER_ROLE, msg.sender)),
             "ERC1155: caller is not token owner or approved"
         );
         _safeTransferFrom(from, to, id, amount, data);
@@ -269,7 +269,7 @@ contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
         uint256[] memory ids,
         uint256[] memory amounts,
         bytes memory data
-    ) public virtual override {
+    ) public virtual override(ERC1155, IERC1155) {
         require(
             (from == _msgSender() && !onGame[from]) 
             || (isApprovedForAll(from, _msgSender())  && !onGame[from])
@@ -315,7 +315,7 @@ contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
         return string(abi.encodePacked('{"trait_type": "', traitType_, '", "value": ', value_, '}'));
     }
 
-    function supportsInterface(bytes4 interfaceId) public view virtual override(ERC1155, AccessControl) returns (bool) {
+    function supportsInterface(bytes4 interfaceId) public view virtual override(IERC165, ERC1155, AccessControl) returns (bool) {
         return super.supportsInterface(interfaceId);
     }
 }

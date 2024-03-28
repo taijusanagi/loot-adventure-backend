@@ -28,13 +28,4 @@ interface ISoulLoot is IERC721{
     function getAttack(uint256 tokenId_) external view returns (uint16);
     function getDefence(uint256 tokenId_) external view returns (uint16);
     function getRecovery(uint256 tokenId_) external view returns (uint16);
-
-    function getWeapon(uint256 tokenId) external view returns (string memory);
-    function getChest(uint256 tokenId) external view returns (string memory);
-    function getHead(uint256 tokenId) external view returns (string memory);
-    function getWaist(uint256 tokenId) external view returns (string memory);
-    function getFoot(uint256 tokenId) external view returns (string memory);
-    function getHand(uint256 tokenId) external view returns (string memory);
-    function getNeck(uint256 tokenId) external view returns (string memory);
-    function getRing(uint256 tokenId) external view returns (string memory);
 }

@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
-interface IEquipmentNft {
+import "@openzeppelin/contracts/token/ERC1155/IERC1155.sol";
+
+interface IEquipmentNft is IERC1155{
     struct Equipment {
         uint256 seed;
         string name;
@@ -21,4 +23,7 @@ interface IEquipmentNft {
     function setOffGame (address) external;
 
     function mint(address, address, uint256, uint256, string memory, uint256, uint256, uint256) external;
+
+    //Getter
+    function getEquipmentType(uint256 tokenId_) external view returns(uint256);
 }

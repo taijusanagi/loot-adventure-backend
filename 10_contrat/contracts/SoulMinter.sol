@@ -186,6 +186,9 @@ contract SoulMinter is AccessControl {
                 _equipmentRarities[i]
             );
         }
+
+        // setEquips on soulControler
+        
     }
 
     function _mintJobNft(address nft_, uint256 tokenId_, address recipient_, bytes memory seedData_) internal virtual {

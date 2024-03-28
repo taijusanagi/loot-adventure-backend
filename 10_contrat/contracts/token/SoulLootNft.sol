@@ -77,53 +77,9 @@ contract SoulLootNft is ERC721, AccessControl, ISoulLoot {
     function getRecovery(uint256 tokenId_) public view returns (uint16) {
         return record[tokenId_].recovery;
     }
-    function getWeapon(uint256 tokenId_) public view returns (string memory) {
-        uint256 _tokenId = rTokenId[tokenId_];
-        address _nft = rAddress[tokenId_];
-        ILootByRogueV2 _loot = ILootByRogueV2(_nft);
-        return _loot.getWeapon(_tokenId);
-    }
-    function getChest(uint256 tokenId_) public view returns (string memory) {
-        uint256 _tokenId = rTokenId[tokenId_];
-        address _nft = rAddress[tokenId_];
-        ILootByRogueV2 _loot = ILootByRogueV2(_nft);
-        return _loot.getChest(_tokenId);
-    }
-    function getHead(uint256 tokenId_) public view returns (string memory) {
-        uint256 _tokenId = rTokenId[tokenId_];
-        address _nft = rAddress[tokenId_];
-        ILootByRogueV2 _loot = ILootByRogueV2(_nft);
-        return _loot.getHead(_tokenId);
-    }
-    function getWaist(uint256 tokenId_) public view returns (string memory) {
-        uint256 _tokenId = rTokenId[tokenId_];
-        address _nft = rAddress[tokenId_];
-        ILootByRogueV2 _loot = ILootByRogueV2(_nft);
-        return _loot.getWaist(_tokenId);
-    }
-    function getFoot(uint256 tokenId_) public view returns (string memory) {
-        uint256 _tokenId = rTokenId[tokenId_];
-        address _nft = rAddress[tokenId_];
-        ILootByRogueV2 _loot = ILootByRogueV2(_nft);
-        return _loot.getFoot(_tokenId);
-    }
-    function getHand(uint256 tokenId_) public view returns (string memory) {
-        uint256 _tokenId = rTokenId[tokenId_];
-        address _nft = rAddress[tokenId_];
-        ILootByRogueV2 _loot = ILootByRogueV2(_nft);
-        return _loot.getHand(_tokenId);
-    }
-    function getNeck(uint256 tokenId_) public view returns (string memory) {
-        uint256 _tokenId = rTokenId[tokenId_];
-        address _nft = rAddress[tokenId_];
-        ILootByRogueV2 _loot = ILootByRogueV2(_nft);
-        return _loot.getNeck(_tokenId);
-    }
-    function getRing(uint256 tokenId_) public view returns (string memory) {
-        uint256 _tokenId = rTokenId[tokenId_];
-        address _nft = rAddress[tokenId_];
-        ILootByRogueV2 _loot = ILootByRogueV2(_nft);
-        return _loot.getRing(_tokenId);
+    function getTokenId(uint256 tokenId_, address nft_) public view returns (uint256) {
+        uint256 _tokenId = nftId[nft_] * NFT_ID_PREFIC + tokenId_;
+        return _tokenId;
     }
 
     function tokenURI(uint256 tokenId_) public view override returns (string memory) {
