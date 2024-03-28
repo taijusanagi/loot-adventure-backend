@@ -11,6 +11,7 @@ import { Runtime } from 'aws-cdk-lib/aws-lambda';
 import * as lambda from 'aws-cdk-lib/aws-lambda-nodejs';
 import { NodejsFunctionProps } from 'aws-cdk-lib/aws-lambda-nodejs';
 import * as secretsmanager from 'aws-cdk-lib/aws-secretsmanager';
+import * as Iam from 'aws-cdk-lib/aws-iam';
 import { SecretValue } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import * as dotenv from 'dotenv';
@@ -140,19 +141,6 @@ export class LootAdventureStack extends Stack {
       }),
     );
     
-    const lambdaWriteDungeon = new lambda.NodejsFunction(
-      this,
-      'writeRanking',
-      getLambdaOptions({
-        entry: 'src/outgame-dungeon-result-write.ts',
-        environment: {
-          LOG_LEVEL: 'DEBUG',
-          tableRanking: dynamoDbStaus.tableName,
-        },
-        iamRole: iam_role_lambda_connectDb,
-      }),
-    );
-    
     /* eslint-disable no-unused-vars */
     const lambdaAuthPreSignup = new lambda.NodejsFunction(this, 'preSignup', {
         entry: 'src/auth-signup-confirm.ts',
@@ -244,11 +232,45 @@ export class LootAdventureStack extends Stack {
           timeout: cdk.Duration.seconds(10),
           environment: {
             LOG_LEVEL: 'DEBUG',
-            SSM_NAME: prv00.secretName
+            SSM_NAME: prv00.secretName,
+            ADDRESS_XP_TOKEN: process.env.XP_FT as string,
+            ADDRESS_SOUL_MINTER: process.env.SOUL_MINTER as string
           },
         },
       );
 
+      const lambdaBinTransferfromEquip = new lambda.NodejsFunction(
+        this,
+        'transferFromEquipment',
+        {
+          entry: 'src/bin-transferfrom-equipment.ts',
+          depsLockFilePath: PACKAGE_LOCK_JSON,
+          handler: 'handler',
+          runtime: Runtime.NODEJS_18_X,
+          memorySize: 512,
+          timeout: cdk.Duration.seconds(10),
+          environment: {
+            LOG_LEVEL: 'DEBUG',
+            SSM_NAME: prv00.secretName,
+            ADDRESS_SOUL_CONTROLER: process.env.SOUL_CONTROLER as string
+          },
+        },
+      );
+    
+      const lambdaWriteDungeon = new lambda.NodejsFunction(
+        this,
+        'writeDungeon',
+        getLambdaOptions({
+          entry: 'src/outgame-dungeon-result-write.ts',
+          environment: {
+            LOG_LEVEL: 'DEBUG',
+            TABLE_STATUS: dynamoDbStaus.tableName,
+            FUNCTION_MINT_XP: lambdaBinMintXpToken.functionName,
+            FUNCTION_TRANSFERFROM_EQUIP: lambdaBinTransferfromEquip.functionName
+          },
+          iamRole: iam_role_lambda_connectDb,
+        }),
+      );
 
     // const lambdaAuthorizerFunction = new lambda.NodejsFunction(
     //   this,
@@ -279,6 +301,15 @@ export class LootAdventureStack extends Stack {
     // ---------------------------------------------------------------------------------
     prv00.grantRead(lambdaBinCreateCustody);
     prv00.grantRead(lambdaBinMintXpToken);
+
+    // ---------------------------------------------------------------------------------
+    // Config for connecting resources (Lambda<>Lambda)
+    // ---------------------------------------------------------------------------------
+    lambdaWriteDungeon.addToRolePolicy(new Iam.PolicyStatement({
+      effect: Iam.Effect.ALLOW,
+      actions: ['lambda:InvokeFunction'],
+      resources: [lambdaBinMintXpToken.functionArn]
+    }))
 
     // ---------------------------------------------------------------------------------
     // Config for connecting resources (Lambda<>API Gateway)
