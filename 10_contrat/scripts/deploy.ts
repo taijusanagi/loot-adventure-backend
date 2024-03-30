@@ -73,10 +73,12 @@ async function main() {
 
   // Set Minter-Role on NFTs&SoulMinter
   await soulLootNft.setMinterRole(soulMinter.address);
-  await equipmentNft.setMinterRole(soulMinter.address);
+  await equipmentNft.setSoulMinter(soulMinter.address);
+  await equipmentNft.setSoulMinter(soulControler.address);
   await jobNft.setMinterRole(soulMinter.address);
   await artifactNft.setMinterRole(soulMinter.address);
   await laCoin.setMinterRole(soulMinter.address);
+  await soulControler.setMinterRole(soulMinter.address);
   console.log('Minter is set on NFTs |', soulMinter.address);
   
   // Set ERC6551Registry on SoulLootNft
@@ -101,6 +103,7 @@ async function main() {
   await soulMinter.setJobNft(jobNft.address);
   await soulMinter.setArtifactNft(artifactNft.address);
   await soulMinter.setCoin(laCoin.address);
+  await soulMinter.setSoulControler(soulControler.address);
   console.log('NFTs is set on Minter | ', soulMinter.address);
   
   // Set NFTs on Controler

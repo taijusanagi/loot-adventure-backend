@@ -1,7 +1,7 @@
 import { ethers } from 'hardhat';
-import { erc20laxpAbi } from './abi/erc20-laxp-abi';
+import { erc20lacoinAbi } from './abi/erc20-lacoin-abi';
 import { erc6551AccountAbi } from './abi/erc6551-account-abi';
-import { XP_FT, EQUIPMENT_NFT } from './config';
+import { COIN_FT, EQUIPMENT_NFT } from './config';
 import { parseEther } from 'ethers/lib/utils';
 
 const tba = "0xc3F17f4eDe40b31cA43E7DF7a05C311CC48AaB09";
@@ -11,7 +11,7 @@ async function main() {
   console.log('Signer is ... ', signer.address);
 
   // Set Contract
-  const laXp = new ethers.Contract(XP_FT, erc20laxpAbi, signer);
+  const laXp = new ethers.Contract(COIN_FT, erc20lacoinAbi, signer);
   const tbaContract = new ethers.Contract(tba, erc6551AccountAbi, signer);
 
   laXp.once('Approval', (owner, to, amount) => {
@@ -24,7 +24,7 @@ async function main() {
     EQUIPMENT_NFT, 
     parseEther("100")
   ]);
-  const tx = await tbaContract.executeCall(XP_FT, 0, txData);
+  const tx = await tbaContract.executeCall(COIN_FT, 0, txData);
   tx.wait();
 
   const tx02 = await laXp.balanceOf(tba);

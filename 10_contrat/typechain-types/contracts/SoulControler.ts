@@ -27,11 +27,49 @@ import type {
   PromiseOrValue,
 } from "../common";
 
+export declare namespace SoulControler {
+  export type EquipsStruct = {
+    weapon: PromiseOrValue<BigNumberish>;
+    cheastArmor: PromiseOrValue<BigNumberish>;
+    headArmor: PromiseOrValue<BigNumberish>;
+    waistArmor: PromiseOrValue<BigNumberish>;
+    footArmor: PromiseOrValue<BigNumberish>;
+    handArmor: PromiseOrValue<BigNumberish>;
+    necklace: PromiseOrValue<BigNumberish>;
+    ring: PromiseOrValue<BigNumberish>;
+  };
+
+  export type EquipsStructOutput = [
+    BigNumber,
+    BigNumber,
+    BigNumber,
+    BigNumber,
+    BigNumber,
+    BigNumber,
+    BigNumber,
+    BigNumber
+  ] & {
+    weapon: BigNumber;
+    cheastArmor: BigNumber;
+    headArmor: BigNumber;
+    waistArmor: BigNumber;
+    footArmor: BigNumber;
+    handArmor: BigNumber;
+    necklace: BigNumber;
+    ring: BigNumber;
+  };
+}
+
 export interface SoulControlerInterface extends utils.Interface {
   functions: {
     "ADMIN_ROLE()": FunctionFragment;
     "DEFAULT_ADMIN_ROLE()": FunctionFragment;
     "DEVELOPER_ROLE()": FunctionFragment;
+    "MINTER_ROLE()": FunctionFragment;
+    "attachEquip(address,uint256,address)": FunctionFragment;
+    "attachEquipInit(uint256,address,uint256)": FunctionFragment;
+    "attachEquips(address,uint256[],address)": FunctionFragment;
+    "attachEquipsInit(uint256[],address,uint256[])": FunctionFragment;
     "getArtifactNft()": FunctionFragment;
     "getCoin()": FunctionFragment;
     "getEquipmentNft()": FunctionFragment;
@@ -44,30 +82,20 @@ export interface SoulControlerInterface extends utils.Interface {
     "hasRole(bytes32,address)": FunctionFragment;
     "renounceRole(bytes32,address)": FunctionFragment;
     "revokeRole(bytes32,address)": FunctionFragment;
+    "seizureEquipment(address)": FunctionFragment;
     "setAdminRole(address)": FunctionFragment;
     "setArtifactNft(address)": FunctionFragment;
-    "setChestArmor(uint256)": FunctionFragment;
     "setCoin(address)": FunctionFragment;
     "setDeveloperRole(address)": FunctionFragment;
     "setEquipmentNft(address)": FunctionFragment;
-    "setEquips(uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256)": FunctionFragment;
-    "setEquipsOff()": FunctionFragment;
-    "setFootArmor(uint256)": FunctionFragment;
-    "setHandArmor(uint256)": FunctionFragment;
-    "setHeadArmor(uint256)": FunctionFragment;
     "setJobNft(address)": FunctionFragment;
-    "setNecklace(uint256)": FunctionFragment;
+    "setMinterRole(address)": FunctionFragment;
     "setNftsOffGame()": FunctionFragment;
     "setNftsOnGame()": FunctionFragment;
-    "setRing(uint256)": FunctionFragment;
     "setSoulLoot(address)": FunctionFragment;
     "setTreasury(address)": FunctionFragment;
-    "setWaistArmor(uint256)": FunctionFragment;
-    "setWeapon(uint256)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
-    "transferArtifact(address,uint256)": FunctionFragment;
-    "transferEquipment(address)": FunctionFragment;
-    "transferNfts(address,uint256,uint256)": FunctionFragment;
+    "withdawEquip(address,uint256)": FunctionFragment;
   };
 
   getFunction(
@@ -75,6 +103,11 @@ export interface SoulControlerInterface extends utils.Interface {
       | "ADMIN_ROLE"
       | "DEFAULT_ADMIN_ROLE"
       | "DEVELOPER_ROLE"
+      | "MINTER_ROLE"
+      | "attachEquip"
+      | "attachEquipInit"
+      | "attachEquips"
+      | "attachEquipsInit"
       | "getArtifactNft"
       | "getCoin"
       | "getEquipmentNft"
@@ -87,30 +120,20 @@ export interface SoulControlerInterface extends utils.Interface {
       | "hasRole"
       | "renounceRole"
       | "revokeRole"
+      | "seizureEquipment"
       | "setAdminRole"
       | "setArtifactNft"
-      | "setChestArmor"
       | "setCoin"
       | "setDeveloperRole"
       | "setEquipmentNft"
-      | "setEquips"
-      | "setEquipsOff"
-      | "setFootArmor"
-      | "setHandArmor"
-      | "setHeadArmor"
       | "setJobNft"
-      | "setNecklace"
+      | "setMinterRole"
       | "setNftsOffGame"
       | "setNftsOnGame"
-      | "setRing"
       | "setSoulLoot"
       | "setTreasury"
-      | "setWaistArmor"
-      | "setWeapon"
       | "supportsInterface"
-      | "transferArtifact"
-      | "transferEquipment"
-      | "transferNfts"
+      | "withdawEquip"
   ): FunctionFragment;
 
   encodeFunctionData(
@@ -124,6 +147,42 @@ export interface SoulControlerInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "DEVELOPER_ROLE",
     values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "MINTER_ROLE",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "attachEquip",
+    values: [
+      PromiseOrValue<string>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<string>
+    ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "attachEquipInit",
+    values: [
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<string>,
+      PromiseOrValue<BigNumberish>
+    ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "attachEquips",
+    values: [
+      PromiseOrValue<string>,
+      PromiseOrValue<BigNumberish>[],
+      PromiseOrValue<string>
+    ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "attachEquipsInit",
+    values: [
+      PromiseOrValue<BigNumberish>[],
+      PromiseOrValue<string>,
+      PromiseOrValue<BigNumberish>[]
+    ]
   ): string;
   encodeFunctionData(
     functionFragment: "getArtifactNft",
@@ -168,16 +227,16 @@ export interface SoulControlerInterface extends utils.Interface {
     values: [PromiseOrValue<BytesLike>, PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
+    functionFragment: "seizureEquipment",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "setAdminRole",
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "setArtifactNft",
     values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setChestArmor",
-    values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "setCoin",
@@ -192,41 +251,12 @@ export interface SoulControlerInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
-    functionFragment: "setEquips",
-    values: [
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BigNumberish>
-    ]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setEquipsOff",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setFootArmor",
-    values: [PromiseOrValue<BigNumberish>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setHandArmor",
-    values: [PromiseOrValue<BigNumberish>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setHeadArmor",
-    values: [PromiseOrValue<BigNumberish>]
-  ): string;
-  encodeFunctionData(
     functionFragment: "setJobNft",
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
-    functionFragment: "setNecklace",
-    values: [PromiseOrValue<BigNumberish>]
+    functionFragment: "setMinterRole",
+    values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "setNftsOffGame",
@@ -237,10 +267,6 @@ export interface SoulControlerInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "setRing",
-    values: [PromiseOrValue<BigNumberish>]
-  ): string;
-  encodeFunctionData(
     functionFragment: "setSoulLoot",
     values: [PromiseOrValue<string>]
   ): string;
@@ -249,32 +275,12 @@ export interface SoulControlerInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
-    functionFragment: "setWaistArmor",
-    values: [PromiseOrValue<BigNumberish>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setWeapon",
-    values: [PromiseOrValue<BigNumberish>]
-  ): string;
-  encodeFunctionData(
     functionFragment: "supportsInterface",
     values: [PromiseOrValue<BytesLike>]
   ): string;
   encodeFunctionData(
-    functionFragment: "transferArtifact",
+    functionFragment: "withdawEquip",
     values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "transferEquipment",
-    values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "transferNfts",
-    values: [
-      PromiseOrValue<string>,
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BigNumberish>
-    ]
   ): string;
 
   decodeFunctionResult(functionFragment: "ADMIN_ROLE", data: BytesLike): Result;
@@ -284,6 +290,26 @@ export interface SoulControlerInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "DEVELOPER_ROLE",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "MINTER_ROLE",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "attachEquip",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "attachEquipInit",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "attachEquips",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "attachEquipsInit",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -317,15 +343,15 @@ export interface SoulControlerInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "revokeRole", data: BytesLike): Result;
   decodeFunctionResult(
+    functionFragment: "seizureEquipment",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "setAdminRole",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
     functionFragment: "setArtifactNft",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "setChestArmor",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "setCoin", data: BytesLike): Result;
@@ -337,26 +363,9 @@ export interface SoulControlerInterface extends utils.Interface {
     functionFragment: "setEquipmentNft",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "setEquips", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "setEquipsOff",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "setFootArmor",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "setHandArmor",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "setHeadArmor",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "setJobNft", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "setNecklace",
+    functionFragment: "setMinterRole",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -367,7 +376,6 @@ export interface SoulControlerInterface extends utils.Interface {
     functionFragment: "setNftsOnGame",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "setRing", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "setSoulLoot",
     data: BytesLike
@@ -377,24 +385,11 @@ export interface SoulControlerInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setWaistArmor",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "setWeapon", data: BytesLike): Result;
-  decodeFunctionResult(
     functionFragment: "supportsInterface",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "transferArtifact",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "transferEquipment",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "transferNfts",
+    functionFragment: "withdawEquip",
     data: BytesLike
   ): Result;
 
@@ -402,7 +397,7 @@ export interface SoulControlerInterface extends utils.Interface {
     "RoleAdminChanged(bytes32,bytes32,bytes32)": EventFragment;
     "RoleGranted(bytes32,address,address)": EventFragment;
     "RoleRevoked(bytes32,address,address)": EventFragment;
-    "UpdateEquips(address,uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256)": EventFragment;
+    "UpdateEquips(address,tuple)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "RoleAdminChanged"): EventFragment;
@@ -449,28 +444,11 @@ export type RoleRevokedEvent = TypedEvent<
 export type RoleRevokedEventFilter = TypedEventFilter<RoleRevokedEvent>;
 
 export interface UpdateEquipsEventObject {
-  onwer_: string;
-  weapon: BigNumber;
-  cheastArmor: BigNumber;
-  headArmor: BigNumber;
-  waistArmor: BigNumber;
-  footArmor: BigNumber;
-  handArmor: BigNumber;
-  necklace: BigNumber;
-  ring: BigNumber;
+  owner: string;
+  equips: SoulControler.EquipsStructOutput;
 }
 export type UpdateEquipsEvent = TypedEvent<
-  [
-    string,
-    BigNumber,
-    BigNumber,
-    BigNumber,
-    BigNumber,
-    BigNumber,
-    BigNumber,
-    BigNumber,
-    BigNumber
-  ],
+  [string, SoulControler.EquipsStructOutput],
   UpdateEquipsEventObject
 >;
 
@@ -508,6 +486,36 @@ export interface SoulControler extends BaseContract {
     DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<[string]>;
 
     DEVELOPER_ROLE(overrides?: CallOverrides): Promise<[string]>;
+
+    MINTER_ROLE(overrides?: CallOverrides): Promise<[string]>;
+
+    attachEquip(
+      eoa_: PromiseOrValue<string>,
+      tokenId_: PromiseOrValue<BigNumberish>,
+      tba_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    attachEquipInit(
+      tokenId_: PromiseOrValue<BigNumberish>,
+      tba_: PromiseOrValue<string>,
+      type_: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    attachEquips(
+      eoa_: PromiseOrValue<string>,
+      tokenIds_: PromiseOrValue<BigNumberish>[],
+      tba_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    attachEquipsInit(
+      tokenIds_: PromiseOrValue<BigNumberish>[],
+      tba_: PromiseOrValue<string>,
+      types_: PromiseOrValue<BigNumberish>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
 
     getArtifactNft(overrides?: CallOverrides): Promise<[string]>;
 
@@ -575,6 +583,11 @@ export interface SoulControler extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    seizureEquipment(
+      from_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     setAdminRole(
       granted_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -582,11 +595,6 @@ export interface SoulControler extends BaseContract {
 
     setArtifactNft(
       nft_: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    setChestArmor(
-      tokenId_: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -605,44 +613,13 @@ export interface SoulControler extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    setEquips(
-      weapon_: PromiseOrValue<BigNumberish>,
-      chestArmor_: PromiseOrValue<BigNumberish>,
-      headArmor_: PromiseOrValue<BigNumberish>,
-      waistArmor_: PromiseOrValue<BigNumberish>,
-      footArmor_: PromiseOrValue<BigNumberish>,
-      handArmor_: PromiseOrValue<BigNumberish>,
-      necklace_: PromiseOrValue<BigNumberish>,
-      ring_: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    setEquipsOff(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    setFootArmor(
-      tokenId_: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    setHandArmor(
-      tokenId_: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    setHeadArmor(
-      tokenId_: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
     setJobNft(
       nft_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    setNecklace(
-      tokenId_: PromiseOrValue<BigNumberish>,
+    setMinterRole(
+      granted_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -651,11 +628,6 @@ export interface SoulControler extends BaseContract {
     ): Promise<ContractTransaction>;
 
     setNftsOnGame(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    setRing(
-      tokenId_: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -669,36 +641,14 @@ export interface SoulControler extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    setWaistArmor(
-      tokenId_: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    setWeapon(
-      tokenId_: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
     supportsInterface(
       interfaceId: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
-    transferArtifact(
-      from_: PromiseOrValue<string>,
-      tokenIdArtifact_: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    transferEquipment(
-      from_: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    transferNfts(
-      from_: PromiseOrValue<string>,
-      tokenIdEquipment_: PromiseOrValue<BigNumberish>,
-      tokenIdArtifact_: PromiseOrValue<BigNumberish>,
+    withdawEquip(
+      eoa_: PromiseOrValue<string>,
+      tokenId_: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
   };
@@ -708,6 +658,36 @@ export interface SoulControler extends BaseContract {
   DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
 
   DEVELOPER_ROLE(overrides?: CallOverrides): Promise<string>;
+
+  MINTER_ROLE(overrides?: CallOverrides): Promise<string>;
+
+  attachEquip(
+    eoa_: PromiseOrValue<string>,
+    tokenId_: PromiseOrValue<BigNumberish>,
+    tba_: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  attachEquipInit(
+    tokenId_: PromiseOrValue<BigNumberish>,
+    tba_: PromiseOrValue<string>,
+    type_: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  attachEquips(
+    eoa_: PromiseOrValue<string>,
+    tokenIds_: PromiseOrValue<BigNumberish>[],
+    tba_: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  attachEquipsInit(
+    tokenIds_: PromiseOrValue<BigNumberish>[],
+    tba_: PromiseOrValue<string>,
+    types_: PromiseOrValue<BigNumberish>[],
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
 
   getArtifactNft(overrides?: CallOverrides): Promise<string>;
 
@@ -775,6 +755,11 @@ export interface SoulControler extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  seizureEquipment(
+    from_: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   setAdminRole(
     granted_: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -782,11 +767,6 @@ export interface SoulControler extends BaseContract {
 
   setArtifactNft(
     nft_: PromiseOrValue<string>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  setChestArmor(
-    tokenId_: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -805,44 +785,13 @@ export interface SoulControler extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  setEquips(
-    weapon_: PromiseOrValue<BigNumberish>,
-    chestArmor_: PromiseOrValue<BigNumberish>,
-    headArmor_: PromiseOrValue<BigNumberish>,
-    waistArmor_: PromiseOrValue<BigNumberish>,
-    footArmor_: PromiseOrValue<BigNumberish>,
-    handArmor_: PromiseOrValue<BigNumberish>,
-    necklace_: PromiseOrValue<BigNumberish>,
-    ring_: PromiseOrValue<BigNumberish>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  setEquipsOff(
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  setFootArmor(
-    tokenId_: PromiseOrValue<BigNumberish>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  setHandArmor(
-    tokenId_: PromiseOrValue<BigNumberish>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  setHeadArmor(
-    tokenId_: PromiseOrValue<BigNumberish>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
   setJobNft(
     nft_: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  setNecklace(
-    tokenId_: PromiseOrValue<BigNumberish>,
+  setMinterRole(
+    granted_: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -851,11 +800,6 @@ export interface SoulControler extends BaseContract {
   ): Promise<ContractTransaction>;
 
   setNftsOnGame(
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  setRing(
-    tokenId_: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -869,36 +813,14 @@ export interface SoulControler extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  setWaistArmor(
-    tokenId_: PromiseOrValue<BigNumberish>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  setWeapon(
-    tokenId_: PromiseOrValue<BigNumberish>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
   supportsInterface(
     interfaceId: PromiseOrValue<BytesLike>,
     overrides?: CallOverrides
   ): Promise<boolean>;
 
-  transferArtifact(
-    from_: PromiseOrValue<string>,
-    tokenIdArtifact_: PromiseOrValue<BigNumberish>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  transferEquipment(
-    from_: PromiseOrValue<string>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  transferNfts(
-    from_: PromiseOrValue<string>,
-    tokenIdEquipment_: PromiseOrValue<BigNumberish>,
-    tokenIdArtifact_: PromiseOrValue<BigNumberish>,
+  withdawEquip(
+    eoa_: PromiseOrValue<string>,
+    tokenId_: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -908,6 +830,36 @@ export interface SoulControler extends BaseContract {
     DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
 
     DEVELOPER_ROLE(overrides?: CallOverrides): Promise<string>;
+
+    MINTER_ROLE(overrides?: CallOverrides): Promise<string>;
+
+    attachEquip(
+      eoa_: PromiseOrValue<string>,
+      tokenId_: PromiseOrValue<BigNumberish>,
+      tba_: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    attachEquipInit(
+      tokenId_: PromiseOrValue<BigNumberish>,
+      tba_: PromiseOrValue<string>,
+      type_: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    attachEquips(
+      eoa_: PromiseOrValue<string>,
+      tokenIds_: PromiseOrValue<BigNumberish>[],
+      tba_: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    attachEquipsInit(
+      tokenIds_: PromiseOrValue<BigNumberish>[],
+      tba_: PromiseOrValue<string>,
+      types_: PromiseOrValue<BigNumberish>[],
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     getArtifactNft(overrides?: CallOverrides): Promise<string>;
 
@@ -975,6 +927,11 @@ export interface SoulControler extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    seizureEquipment(
+      from_: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     setAdminRole(
       granted_: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -982,11 +939,6 @@ export interface SoulControler extends BaseContract {
 
     setArtifactNft(
       nft_: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    setChestArmor(
-      tokenId_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1005,53 +957,19 @@ export interface SoulControler extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setEquips(
-      weapon_: PromiseOrValue<BigNumberish>,
-      chestArmor_: PromiseOrValue<BigNumberish>,
-      headArmor_: PromiseOrValue<BigNumberish>,
-      waistArmor_: PromiseOrValue<BigNumberish>,
-      footArmor_: PromiseOrValue<BigNumberish>,
-      handArmor_: PromiseOrValue<BigNumberish>,
-      necklace_: PromiseOrValue<BigNumberish>,
-      ring_: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    setEquipsOff(overrides?: CallOverrides): Promise<void>;
-
-    setFootArmor(
-      tokenId_: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    setHandArmor(
-      tokenId_: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    setHeadArmor(
-      tokenId_: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
     setJobNft(
       nft_: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setNecklace(
-      tokenId_: PromiseOrValue<BigNumberish>,
+    setMinterRole(
+      granted_: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
     setNftsOffGame(overrides?: CallOverrides): Promise<void>;
 
     setNftsOnGame(overrides?: CallOverrides): Promise<void>;
-
-    setRing(
-      tokenId_: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<void>;
 
     setSoulLoot(
       nft_: PromiseOrValue<string>,
@@ -1063,36 +981,14 @@ export interface SoulControler extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setWaistArmor(
-      tokenId_: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    setWeapon(
-      tokenId_: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
     supportsInterface(
       interfaceId: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<boolean>;
 
-    transferArtifact(
-      from_: PromiseOrValue<string>,
-      tokenIdArtifact_: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    transferEquipment(
-      from_: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    transferNfts(
-      from_: PromiseOrValue<string>,
-      tokenIdEquipment_: PromiseOrValue<BigNumberish>,
-      tokenIdArtifact_: PromiseOrValue<BigNumberish>,
+    withdawEquip(
+      eoa_: PromiseOrValue<string>,
+      tokenId_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
   };
@@ -1131,28 +1027,11 @@ export interface SoulControler extends BaseContract {
       sender?: PromiseOrValue<string> | null
     ): RoleRevokedEventFilter;
 
-    "UpdateEquips(address,uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256)"(
-      onwer_?: null,
-      weapon?: null,
-      cheastArmor?: null,
-      headArmor?: null,
-      waistArmor?: null,
-      footArmor?: null,
-      handArmor?: null,
-      necklace?: null,
-      ring?: null
+    "UpdateEquips(address,tuple)"(
+      owner?: null,
+      equips?: null
     ): UpdateEquipsEventFilter;
-    UpdateEquips(
-      onwer_?: null,
-      weapon?: null,
-      cheastArmor?: null,
-      headArmor?: null,
-      waistArmor?: null,
-      footArmor?: null,
-      handArmor?: null,
-      necklace?: null,
-      ring?: null
-    ): UpdateEquipsEventFilter;
+    UpdateEquips(owner?: null, equips?: null): UpdateEquipsEventFilter;
   };
 
   estimateGas: {
@@ -1161,6 +1040,36 @@ export interface SoulControler extends BaseContract {
     DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
 
     DEVELOPER_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
+
+    MINTER_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
+
+    attachEquip(
+      eoa_: PromiseOrValue<string>,
+      tokenId_: PromiseOrValue<BigNumberish>,
+      tba_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    attachEquipInit(
+      tokenId_: PromiseOrValue<BigNumberish>,
+      tba_: PromiseOrValue<string>,
+      type_: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    attachEquips(
+      eoa_: PromiseOrValue<string>,
+      tokenIds_: PromiseOrValue<BigNumberish>[],
+      tba_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    attachEquipsInit(
+      tokenIds_: PromiseOrValue<BigNumberish>[],
+      tba_: PromiseOrValue<string>,
+      types_: PromiseOrValue<BigNumberish>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
 
     getArtifactNft(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1208,6 +1117,11 @@ export interface SoulControler extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    seizureEquipment(
+      from_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     setAdminRole(
       granted_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -1215,11 +1129,6 @@ export interface SoulControler extends BaseContract {
 
     setArtifactNft(
       nft_: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    setChestArmor(
-      tokenId_: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -1238,44 +1147,13 @@ export interface SoulControler extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    setEquips(
-      weapon_: PromiseOrValue<BigNumberish>,
-      chestArmor_: PromiseOrValue<BigNumberish>,
-      headArmor_: PromiseOrValue<BigNumberish>,
-      waistArmor_: PromiseOrValue<BigNumberish>,
-      footArmor_: PromiseOrValue<BigNumberish>,
-      handArmor_: PromiseOrValue<BigNumberish>,
-      necklace_: PromiseOrValue<BigNumberish>,
-      ring_: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    setEquipsOff(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    setFootArmor(
-      tokenId_: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    setHandArmor(
-      tokenId_: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    setHeadArmor(
-      tokenId_: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
     setJobNft(
       nft_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    setNecklace(
-      tokenId_: PromiseOrValue<BigNumberish>,
+    setMinterRole(
+      granted_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -1284,11 +1162,6 @@ export interface SoulControler extends BaseContract {
     ): Promise<BigNumber>;
 
     setNftsOnGame(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    setRing(
-      tokenId_: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -1302,36 +1175,14 @@ export interface SoulControler extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    setWaistArmor(
-      tokenId_: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    setWeapon(
-      tokenId_: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
     supportsInterface(
       interfaceId: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    transferArtifact(
-      from_: PromiseOrValue<string>,
-      tokenIdArtifact_: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    transferEquipment(
-      from_: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    transferNfts(
-      from_: PromiseOrValue<string>,
-      tokenIdEquipment_: PromiseOrValue<BigNumberish>,
-      tokenIdArtifact_: PromiseOrValue<BigNumberish>,
+    withdawEquip(
+      eoa_: PromiseOrValue<string>,
+      tokenId_: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
   };
@@ -1344,6 +1195,36 @@ export interface SoulControler extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     DEVELOPER_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    MINTER_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    attachEquip(
+      eoa_: PromiseOrValue<string>,
+      tokenId_: PromiseOrValue<BigNumberish>,
+      tba_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    attachEquipInit(
+      tokenId_: PromiseOrValue<BigNumberish>,
+      tba_: PromiseOrValue<string>,
+      type_: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    attachEquips(
+      eoa_: PromiseOrValue<string>,
+      tokenIds_: PromiseOrValue<BigNumberish>[],
+      tba_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    attachEquipsInit(
+      tokenIds_: PromiseOrValue<BigNumberish>[],
+      tba_: PromiseOrValue<string>,
+      types_: PromiseOrValue<BigNumberish>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
 
     getArtifactNft(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
@@ -1391,6 +1272,11 @@ export interface SoulControler extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
+    seizureEquipment(
+      from_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
     setAdminRole(
       granted_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -1398,11 +1284,6 @@ export interface SoulControler extends BaseContract {
 
     setArtifactNft(
       nft_: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    setChestArmor(
-      tokenId_: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1421,44 +1302,13 @@ export interface SoulControler extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    setEquips(
-      weapon_: PromiseOrValue<BigNumberish>,
-      chestArmor_: PromiseOrValue<BigNumberish>,
-      headArmor_: PromiseOrValue<BigNumberish>,
-      waistArmor_: PromiseOrValue<BigNumberish>,
-      footArmor_: PromiseOrValue<BigNumberish>,
-      handArmor_: PromiseOrValue<BigNumberish>,
-      necklace_: PromiseOrValue<BigNumberish>,
-      ring_: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    setEquipsOff(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    setFootArmor(
-      tokenId_: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    setHandArmor(
-      tokenId_: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    setHeadArmor(
-      tokenId_: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
     setJobNft(
       nft_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    setNecklace(
-      tokenId_: PromiseOrValue<BigNumberish>,
+    setMinterRole(
+      granted_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1467,11 +1317,6 @@ export interface SoulControler extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     setNftsOnGame(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    setRing(
-      tokenId_: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1485,36 +1330,14 @@ export interface SoulControler extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    setWaistArmor(
-      tokenId_: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    setWeapon(
-      tokenId_: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
     supportsInterface(
       interfaceId: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    transferArtifact(
-      from_: PromiseOrValue<string>,
-      tokenIdArtifact_: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    transferEquipment(
-      from_: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    transferNfts(
-      from_: PromiseOrValue<string>,
-      tokenIdEquipment_: PromiseOrValue<BigNumberish>,
-      tokenIdArtifact_: PromiseOrValue<BigNumberish>,
+    withdawEquip(
+      eoa_: PromiseOrValue<string>,
+      tokenId_: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
   };

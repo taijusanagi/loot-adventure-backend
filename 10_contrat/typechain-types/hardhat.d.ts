@@ -89,10 +89,6 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.LootByRogueV2__factory>;
     getContractFactory(
-      name: "SoulLoot",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.SoulLoot__factory>;
-    getContractFactory(
       name: "ERC6551Account",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ERC6551Account__factory>;
@@ -128,6 +124,10 @@ declare module "hardhat/types/runtime" {
       name: "ISoulCalculator",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ISoulCalculator__factory>;
+    getContractFactory(
+      name: "ISoulControler",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ISoulControler__factory>;
     getContractFactory(
       name: "ISoulMinter",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -281,11 +281,6 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.LootByRogueV2>;
     getContractAt(
-      name: "SoulLoot",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.SoulLoot>;
-    getContractAt(
       name: "ERC6551Account",
       address: string,
       signer?: ethers.Signer
@@ -330,6 +325,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.ISoulCalculator>;
+    getContractAt(
+      name: "ISoulControler",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ISoulControler>;
     getContractAt(
       name: "ISoulMinter",
       address: string,

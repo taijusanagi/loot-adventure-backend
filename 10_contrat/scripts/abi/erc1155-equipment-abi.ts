@@ -439,6 +439,19 @@ export const erc1155Equipment = [
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "getCoin",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "uint256",
@@ -548,7 +561,7 @@ export const erc1155Equipment = [
   },
   {
     "inputs": [],
-    "name": "getTreasury",
+    "name": "getSoulMinter",
     "outputs": [
       {
         "internalType": "address",
@@ -561,7 +574,7 @@ export const erc1155Equipment = [
   },
   {
     "inputs": [],
-    "name": "getXp",
+    "name": "getTreasury",
     "outputs": [
       {
         "internalType": "address",
@@ -890,6 +903,19 @@ export const erc1155Equipment = [
     "inputs": [
       {
         "internalType": "address",
+        "name": "ft_",
+        "type": "address"
+      }
+    ],
+    "name": "setCoin",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
         "name": "granted_",
         "type": "address"
       }
@@ -981,11 +1007,11 @@ export const erc1155Equipment = [
     "inputs": [
       {
         "internalType": "address",
-        "name": "treasury_",
+        "name": "granted_",
         "type": "address"
       }
     ],
-    "name": "setTreasury",
+    "name": "setSoulMinter",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -994,11 +1020,11 @@ export const erc1155Equipment = [
     "inputs": [
       {
         "internalType": "address",
-        "name": "ft_",
+        "name": "treasury_",
         "type": "address"
       }
     ],
-    "name": "setXp",
+    "name": "setTreasury",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

@@ -25,6 +25,8 @@ contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
     address private coin;
     uint256 private kValLevelUp;
     address private treasury;
+    address private soulMinter;
+    address private soulControler;
 
     mapping (address => uint256) private nftId; // NFT Address => NFT ID
     mapping (uint256 => Equipment) private equipment; // tokenId => Equipment Status
@@ -56,33 +58,32 @@ contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
     function getEquipmentSeed(uint256 tokenId_) public view returns(uint256){
         return equipment[tokenId_].seed;
     }
-
     function getEquipmentName(uint256 tokenId_) public view returns(string memory){
         return equipment[tokenId_].name;
     }
-
     function getEquipmentType(uint256 tokenId_) public view returns(uint256){
         return equipment[tokenId_].equipmentType;
     }
-
     function getBaseValRarity(uint256 rarity_) public view returns (uint256 _value) {
         return baseValRarity[rarity_];
     }
-
     function getBaseValLevel(uint256 level_) public view returns (uint256 _value) {
         return baseValLevel[level_];
     }
-
     function getCoin() public view returns(address){
         return coin;
     }
-
     function getTreasury() public view returns(address){
         return treasury;
     }
-
     function getKValLevelup() public view returns(uint256){
         return kValLevelUp;
+    }
+    function getSoulMinter() public view returns(address){
+        return soulMinter;
+    }
+    function getSoulControler() public view returns(address){
+        return soulControler;
     }
     
     function uri(uint256 tokenId_) public view override returns (string memory) {
@@ -115,7 +116,7 @@ contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
         return _output;
     }
 
-    function name() public view returns (string memory){
+    function name() public pure returns (string memory){
         return 'LootAdventure EquipmentNft';
     }
 
@@ -142,22 +143,25 @@ contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
         baseMetadataURIPrefix = uriPrefix_;
         baseMetadataURISuffix = uriSuffix_;
     }
-
     function setMinterRole(address granted_) public onlyRole(DEVELOPER_ROLE){
         _grantRole(MINTER_ROLE, granted_);
     }
-
     function setDeveloperRole(address granted_) public onlyRole(DEVELOPER_ROLE){
         _grantRole(DEVELOPER_ROLE, granted_);
     }
-
     function setControlerRole(address granted_) public onlyRole(DEVELOPER_ROLE){
         _grantRole(CONTROLER_ROLE, granted_);
     }
-
     function setNftId (address nft_) public onlyRole(DEVELOPER_ROLE) {
         nftId[nft_] = currentNftId;
         currentNftId++;
+    }
+    function setSoulMinter(address granted_) public onlyRole(DEVELOPER_ROLE){
+        soulMinter = granted_;
+        _grantRole(MINTER_ROLE, granted_);
+    }
+    function setSoulControler(address granted_) public onlyRole(DEVELOPER_ROLE){
+        soulControler = granted_;
     }
 
     function setOnGame (address owner_) public {
@@ -167,7 +171,6 @@ contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
         );
         onGame[owner_] = true;
     }
-
     function setOffGame (address owner_) public {
         require(
             hasRole(CONTROLER_ROLE, msg.sender) || hasRole(DEVELOPER_ROLE, msg.sender),
@@ -222,6 +225,7 @@ contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
 
         onGame[to_] = false;
         _mint(to_, _tokenId, 1, "");
+        _setApprovalForAll(to_, soulControler, true);
 
         uint256 _value = getEquipmentVal(tokenId_);
         emit mintEquipment(to_, _tokenId, type_, name_, _value);

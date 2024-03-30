@@ -44,6 +44,8 @@ export interface EquipmentNftInterface extends utils.Interface {
     "getEquipmentVal(uint256)": FunctionFragment;
     "getKValLevelup()": FunctionFragment;
     "getRoleAdmin(bytes32)": FunctionFragment;
+    "getSoulControler()": FunctionFragment;
+    "getSoulMinter()": FunctionFragment;
     "getTreasury()": FunctionFragment;
     "grantRole(bytes32,address)": FunctionFragment;
     "hasRole(bytes32,address)": FunctionFragment;
@@ -67,6 +69,8 @@ export interface EquipmentNftInterface extends utils.Interface {
     "setNftId(address)": FunctionFragment;
     "setOffGame(address)": FunctionFragment;
     "setOnGame(address)": FunctionFragment;
+    "setSoulControler(address)": FunctionFragment;
+    "setSoulMinter(address)": FunctionFragment;
     "setTreasury(address)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "uri(uint256)": FunctionFragment;
@@ -89,6 +93,8 @@ export interface EquipmentNftInterface extends utils.Interface {
       | "getEquipmentVal"
       | "getKValLevelup"
       | "getRoleAdmin"
+      | "getSoulControler"
+      | "getSoulMinter"
       | "getTreasury"
       | "grantRole"
       | "hasRole"
@@ -112,6 +118,8 @@ export interface EquipmentNftInterface extends utils.Interface {
       | "setNftId"
       | "setOffGame"
       | "setOnGame"
+      | "setSoulControler"
+      | "setSoulMinter"
       | "setTreasury"
       | "supportsInterface"
       | "uri"
@@ -173,6 +181,14 @@ export interface EquipmentNftInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "getRoleAdmin",
     values: [PromiseOrValue<BytesLike>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getSoulControler",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getSoulMinter",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "getTreasury",
@@ -285,6 +301,14 @@ export interface EquipmentNftInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
+    functionFragment: "setSoulControler",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setSoulMinter",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "setTreasury",
     values: [PromiseOrValue<string>]
   ): string;
@@ -352,6 +376,14 @@ export interface EquipmentNftInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "getSoulControler",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getSoulMinter",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "getTreasury",
     data: BytesLike
   ): Result;
@@ -413,6 +445,14 @@ export interface EquipmentNftInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "setNftId", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "setOffGame", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "setOnGame", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "setSoulControler",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setSoulMinter",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "setTreasury",
     data: BytesLike
@@ -657,6 +697,10 @@ export interface EquipmentNft extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string]>;
 
+    getSoulControler(overrides?: CallOverrides): Promise<[string]>;
+
+    getSoulMinter(overrides?: CallOverrides): Promise<[string]>;
+
     getTreasury(overrides?: CallOverrides): Promise<[string]>;
 
     grantRole(
@@ -790,6 +834,16 @@ export interface EquipmentNft extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    setSoulControler(
+      granted_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    setSoulMinter(
+      granted_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     setTreasury(
       treasury_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -864,6 +918,10 @@ export interface EquipmentNft extends BaseContract {
     role: PromiseOrValue<BytesLike>,
     overrides?: CallOverrides
   ): Promise<string>;
+
+  getSoulControler(overrides?: CallOverrides): Promise<string>;
+
+  getSoulMinter(overrides?: CallOverrides): Promise<string>;
 
   getTreasury(overrides?: CallOverrides): Promise<string>;
 
@@ -998,6 +1056,16 @@ export interface EquipmentNft extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  setSoulControler(
+    granted_: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  setSoulMinter(
+    granted_: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   setTreasury(
     treasury_: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -1072,6 +1140,10 @@ export interface EquipmentNft extends BaseContract {
       role: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<string>;
+
+    getSoulControler(overrides?: CallOverrides): Promise<string>;
+
+    getSoulMinter(overrides?: CallOverrides): Promise<string>;
 
     getTreasury(overrides?: CallOverrides): Promise<string>;
 
@@ -1203,6 +1275,16 @@ export interface EquipmentNft extends BaseContract {
 
     setOnGame(
       owner_: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setSoulControler(
+      granted_: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setSoulMinter(
+      granted_: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1400,6 +1482,10 @@ export interface EquipmentNft extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    getSoulControler(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getSoulMinter(overrides?: CallOverrides): Promise<BigNumber>;
+
     getTreasury(overrides?: CallOverrides): Promise<BigNumber>;
 
     grantRole(
@@ -1533,6 +1619,16 @@ export interface EquipmentNft extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    setSoulControler(
+      granted_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    setSoulMinter(
+      granted_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     setTreasury(
       treasury_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -1610,6 +1706,10 @@ export interface EquipmentNft extends BaseContract {
       role: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
+
+    getSoulControler(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    getSoulMinter(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getTreasury(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
@@ -1741,6 +1841,16 @@ export interface EquipmentNft extends BaseContract {
 
     setOnGame(
       owner_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setSoulControler(
+      granted_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setSoulMinter(
+      granted_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

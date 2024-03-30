@@ -188,6 +188,12 @@ export const soulLootAbi = [
       },
       {
         "indexed": false,
+        "internalType": "uint256",
+        "name": "rChainId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
         "internalType": "address",
         "name": "rAddress",
         "type": "address"
@@ -452,25 +458,6 @@ export const soulLootAbi = [
         "type": "uint256"
       }
     ],
-    "name": "getChest",
-    "outputs": [
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "tokenId_",
-        "type": "uint256"
-      }
-    ],
     "name": "getCurrentHp",
     "outputs": [
       {
@@ -509,88 +496,12 @@ export const soulLootAbi = [
         "type": "uint256"
       }
     ],
-    "name": "getFoot",
-    "outputs": [
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "tokenId_",
-        "type": "uint256"
-      }
-    ],
-    "name": "getHand",
-    "outputs": [
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "tokenId_",
-        "type": "uint256"
-      }
-    ],
-    "name": "getHead",
-    "outputs": [
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "tokenId_",
-        "type": "uint256"
-      }
-    ],
     "name": "getMaxHp",
     "outputs": [
       {
         "internalType": "uint16",
         "name": "",
         "type": "uint16"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "tokenId_",
-        "type": "uint256"
-      }
-    ],
-    "name": "getNeck",
-    "outputs": [
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
       }
     ],
     "stateMutability": "view",
@@ -694,25 +605,6 @@ export const soulLootAbi = [
   {
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "tokenId_",
-        "type": "uint256"
-      }
-    ],
-    "name": "getRing",
-    "outputs": [
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
         "internalType": "bytes32",
         "name": "role",
         "type": "bytes32"
@@ -754,6 +646,30 @@ export const soulLootAbi = [
         "internalType": "uint256",
         "name": "tokenId_",
         "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "nft_",
+        "type": "address"
+      }
+    ],
+    "name": "getTokenId",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "tokenId_",
+        "type": "uint256"
       }
     ],
     "name": "getTurn",
@@ -762,44 +678,6 @@ export const soulLootAbi = [
         "internalType": "uint16",
         "name": "",
         "type": "uint16"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "tokenId_",
-        "type": "uint256"
-      }
-    ],
-    "name": "getWaist",
-    "outputs": [
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "tokenId_",
-        "type": "uint256"
-      }
-    ],
-    "name": "getWeapon",
-    "outputs": [
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
       }
     ],
     "stateMutability": "view",
@@ -1033,6 +911,120 @@ export const soulLootAbi = [
         "internalType": "uint256",
         "name": "tokenId_",
         "type": "uint256"
+      },
+      {
+        "components": [
+          {
+            "components": [
+              {
+                "internalType": "uint256",
+                "name": "seed",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint8[]",
+                "name": "directions",
+                "type": "uint8[]"
+              },
+              {
+                "internalType": "uint8[]",
+                "name": "useItems",
+                "type": "uint8[]"
+              }
+            ],
+            "internalType": "struct ILootByRogueV2.InputData",
+            "name": "inputData",
+            "type": "tuple"
+          },
+          {
+            "internalType": "uint16",
+            "name": "turn",
+            "type": "uint16"
+          },
+          {
+            "internalType": "uint16",
+            "name": "maxHp",
+            "type": "uint16"
+          },
+          {
+            "internalType": "uint16",
+            "name": "currentHp",
+            "type": "uint16"
+          },
+          {
+            "internalType": "uint16",
+            "name": "attack",
+            "type": "uint16"
+          },
+          {
+            "internalType": "uint16",
+            "name": "defence",
+            "type": "uint16"
+          },
+          {
+            "internalType": "uint16",
+            "name": "recovery",
+            "type": "uint16"
+          },
+          {
+            "internalType": "uint16[6]",
+            "name": "stats",
+            "type": "uint16[6]"
+          },
+          {
+            "internalType": "uint8[4]",
+            "name": "unique",
+            "type": "uint8[4]"
+          },
+          {
+            "internalType": "uint256",
+            "name": "weapon",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "chestArmor",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "headArmor",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "waistArmor",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "footArmor",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "handArmor",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "necklace",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "ring",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256[]",
+            "name": "relics",
+            "type": "uint256[]"
+          }
+        ],
+        "internalType": "struct ILootByRogueV2.AdventureRecord",
+        "name": "record_",
+        "type": "tuple"
       }
     ],
     "name": "safeMint",

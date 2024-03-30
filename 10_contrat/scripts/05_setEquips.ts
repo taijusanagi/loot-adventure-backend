@@ -3,22 +3,23 @@ import { ContractInterface } from 'ethers';
 import { parseEther } from 'ethers/lib/utils';
 
 import { SOUL_CONTROLER, EQUIPMENT_NFT, ERC6551_REGISTRY, COIN_FT } from './config';
+import { erc1155Equipment } from './abi/erc1155-equipment-abi';
 import { soulControlerAbi } from './abi/soul-controler-abi';
 import { erc6551AccountAbi } from './abi/erc6551-account-abi';
 import { erc20lacoinAbi } from './abi/erc20-lacoin-abi';
-import { soulLootAbi } from './abi/erc721-soul-loot-abi';
 
-const tba = "0x91662e8DBc048333dAA3e2746518091011aD1c67";
+const tba = "0xC53235E5646bC4fc6A8CE365934940dcb8c2c7FF";
 
 async function main() {
   const [signer] = await ethers.getSigners();
   console.log('Signer is ... ', signer.address);
+  const equipmentNft = new ethers.Contract(EQUIPMENT_NFT, erc1155Equipment, signer);
   const soulControler = new ethers.Contract(SOUL_CONTROLER, soulControlerAbi, signer);
   const tbaContract = new ethers.Contract(tba, erc6551AccountAbi, signer);
   
-  soulControler.once('UpdateEquips', (owner, weapon, chestArmor)=> {
+  soulControler.once('UpdateEquips', (owner, equip)=> {
     console.log('Owner is :', owner);
-    console.log('Weapon is set:', weapon.toString());
+    console.log('Equips update=>', equip);
   })
   const coin = new ethers.Contract(COIN_FT, erc20lacoinAbi, signer);
   coin.once("Transfer", (from, to, value)=>{
@@ -28,17 +29,17 @@ async function main() {
   })
 
   // create tx data
-  const txData = soulControler.interface.encodeFunctionData("setEquips", [
+  // const txData00 = equipmentNft.interface.encodeFunctionData("setApprovalForAll", [
+  //   SOUL_CONTROLER,
+  //   true
+  // ]);
+  const txData = soulControler.interface.encodeFunctionData("attachWeapon", [
     20000000001,
-    20000010001,
-    20000020001,
-    20000030001,
-    20000040001,
-    20000050001,
-    20000060001,
-    20000070001
+    tba
   ]);
   // Set Contract
+  // const tx00 = await tbaContract.executeCall(EQUIPMENT_NFT, 0, txData00);
+  // tx00.wait();
   const tx = await tbaContract.executeCall(SOUL_CONTROLER, 0, txData);
   tx.wait();
 

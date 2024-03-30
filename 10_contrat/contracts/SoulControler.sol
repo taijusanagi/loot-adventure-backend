@@ -31,6 +31,7 @@ contract SoulControler is AccessControl {
     }
     bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
     bytes32 public constant DEVELOPER_ROLE = keccak256("DEVELOPER_ROLE");
+    bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     
     // NFT Contract (ERC721)
     address private soulLoot;
@@ -108,9 +109,11 @@ contract SoulControler is AccessControl {
     function setAdminRole(address granted_) public onlyRole(ADMIN_ROLE){
         _grantRole(ADMIN_ROLE, granted_);
     }
-
     function setDeveloperRole(address granted_) public onlyRole(DEVELOPER_ROLE){
         _grantRole(DEVELOPER_ROLE, granted_);
+    }
+    function setMinterRole(address granted_) public onlyRole(DEVELOPER_ROLE){
+        _grantRole(MINTER_ROLE, granted_);
     }
 
     function setSoulLoot(address nft_) public onlyRole(DEVELOPER_ROLE) {
@@ -137,6 +140,16 @@ contract SoulControler is AccessControl {
         treasury = treasury_;
     }
 
+    function setNftsOnGame() public {
+        IEquipmentNft _equipmentNft = IEquipmentNft(equipmentNft);
+        _equipmentNft.setOnGame(msg.sender);
+    }
+
+    function setNftsOffGame() public onlyRole(DEVELOPER_ROLE) {
+        IEquipmentNft _equipmentNft = IEquipmentNft(equipmentNft);
+        _equipmentNft.setOffGame(msg.sender);
+    }
+
     //*********************************************
     //Logic
     //*********************************************
@@ -149,20 +162,28 @@ contract SoulControler is AccessControl {
         uint256 _tokenId;
         if(_index==0){
             _tokenId = _equips.weapon;
+            equips[from_].weapon = 0;
         } else if(_index==1){
             _tokenId = _equips.cheastArmor;
+            equips[from_].cheastArmor = 0;
         } else if(_index==2){
             _tokenId = _equips.headArmor;
+            equips[from_].headArmor = 0;
         } else if(_index==3){
             _tokenId = _equips.waistArmor;
+            equips[from_].waistArmor = 0;
         } else if(_index==4){
             _tokenId = _equips.footArmor;
+            equips[from_].footArmor = 0;
         } else if(_index==5){
             _tokenId = _equips.handArmor;
+            equips[from_].handArmor = 0;
         } else if(_index==6){
             _tokenId = _equips.necklace;
+            equips[from_].necklace = 0;
         } else if(_index==7){
             _tokenId = _equips.ring;
+            equips[from_].ring = 0;
         }
 
         if(_tokenId > 0){
@@ -171,158 +192,141 @@ contract SoulControler is AccessControl {
         }
     }
 
-    function attachWeapon(
+    function _attachEquip(
+        uint256 tokenId_,
+        address tba_,
+        uint256 type_
+    ) private {
+        if(type_==0){
+          equips[tba_].weapon = tokenId_;
+        } else if(type_==1){
+          equips[tba_].cheastArmor = tokenId_;
+        } else if(type_==2){
+          equips[tba_].headArmor = tokenId_;
+        } else if(type_==3){
+          equips[tba_].footArmor = tokenId_;
+        } else if(type_==4){
+          equips[tba_].handArmor = tokenId_;
+        } else if(type_==5){
+          equips[tba_].necklace = tokenId_;
+        } else if(type_==6){
+          equips[tba_].ring = tokenId_;
+        }
+    }
+
+    function attachEquip(
+        address eoa_,
         uint256 tokenId_,
         address tba_
     ) public {
-        IEquipmentNft _equipmentNft = IEquipmentNft(equipmentNft);
-        require(_equipmentNft.balanceOf(msg.sender, tokenId_)>0, 'You are not owner of EquipmentNFT');
-        //Check EauipmentType
-        uint256 _type = _equipmentNft.getEquipmentType(tokenId_);
-
-        require(_type==0, 'This EquipmentNFT is not weapon(type: 0)');
-        if(equips[tba_].weapon!=0){
-            uint256 _tokenId=equips[tba_].weapon;
-            _equipmentNft.safeTransferFrom(tba_, msg.sender, _tokenId, 1, '0x00');
-        }
-        _equipmentNft.safeTransferFrom(msg.sender, tba_, tokenId_, 1, '0x00');
-        equips[tba_].weapon = tokenId_;
-        emit UpdateEquips(msg.sender, equips[tba_]);
+        IEquipmentNft _equipment = IEquipmentNft(equipmentNft);
+        require(
+            hasRole(MINTER_ROLE, msg.sender) || _equipment.balanceOf(msg.sender, tokenId_)>0,
+            'SoulControler | You are not token owner or SoulMinter'
+        );
+        uint256 _type = _equipment.getEquipmentType(tokenId_);
+        _withdawEquip(eoa_, tokenId_, tba_, _type);
+        _attachEquip(tokenId_, tba_, _type);
+        emit UpdateEquips(tba_, equips[tba_]);
     }
 
-    function attachCheastArmor(
+    function attachEquipInit(
         uint256 tokenId_,
-        address tba_
-    ) public {
-        IEquipmentNft _equipmentNft = IEquipmentNft(equipmentNft);
-        require(_equipmentNft.balanceOf(msg.sender, tokenId_)>0, 'You are not owner of EquipmentNFT');
-        //Check EauipmentType
-        uint256 _type = _equipmentNft.getEquipmentType(tokenId_);
-
-        require(_type==1, 'This EquipmentNFT is not cheastArmor(type: 1)');
-        if(equips[tba_].cheastArmor!=0){
-            uint256 _tokenId=equips[tba_].cheastArmor;
-            _equipmentNft.safeTransferFrom(tba_, msg.sender, _tokenId, 1, '0x00');
-        }
-        _equipmentNft.safeTransferFrom(msg.sender, tba_, tokenId_, 1, '0x00');
-        equips[tba_].cheastArmor = tokenId_;
-        emit UpdateEquips(msg.sender, equips[tba_]);
+        address tba_,
+        uint256 type_
+    ) public onlyRole(MINTER_ROLE){
+        _attachEquip(tokenId_, tba_, type_);
+        emit UpdateEquips(tba_, equips[tba_]);
     }
 
-    function attachHeadArmor(
+    function attachEquips(
+        address eoa_,
+        uint256[] memory tokenIds_,
+        address tba_
+    ) public onlyRole(MINTER_ROLE){
+        IEquipmentNft _equipment = IEquipmentNft(equipmentNft);
+        for (uint256 i=0; i<tokenIds_.length; i++){
+            require(
+                hasRole(MINTER_ROLE, msg.sender) || _equipment.balanceOf(msg.sender, tokenIds_[i])>0,
+                'SoulControler | You are not token owner or SoulMinter'
+            );
+            uint256 _type = _equipment.getEquipmentType(tokenIds_[i]);
+            _withdawEquip(eoa_, tokenIds_[i], tba_, _type);
+            _attachEquip(tokenIds_[i], tba_, _type);
+            emit UpdateEquips(tba_, equips[tba_]);
+        }
+    }
+
+    function attachEquipsInit(
+        uint256[] memory tokenIds_,
+        address tba_,
+        uint256[] memory types_
+    ) public onlyRole(MINTER_ROLE){
+        for (uint256 i=0; i<tokenIds_.length; i++){
+            _attachEquip(tokenIds_[i], tba_, types_[i]);
+            emit UpdateEquips(tba_, equips[tba_]);
+        }
+    }
+    
+    // Withdraw
+    function _withdawEquip(
+        address eoa_,
         uint256 tokenId_,
-        address tba_
-    ) public {
+        address tba_,
+        uint256 type_
+    ) private {
         IEquipmentNft _equipmentNft = IEquipmentNft(equipmentNft);
+        uint256 _tokenId = 0;
         require(_equipmentNft.balanceOf(msg.sender, tokenId_)>0, 'You are not owner of EquipmentNFT');
-        //Check EauipmentType
-        uint256 _type = _equipmentNft.getEquipmentType(tokenId_);
-
-        require(_type==2, 'This EquipmentNFT is not headArmor(type: 2)');
-        if(equips[tba_].headArmor!=0){
-            uint256 _tokenId=equips[tba_].headArmor;
-            _equipmentNft.safeTransferFrom(tba_, msg.sender, _tokenId, 1, '0x00');
+        if(type_==0){
+            if(equips[tba_].weapon!=0){
+                _tokenId = equips[tba_].weapon;
+            }
+            equips[tba_].weapon = tokenId_;
+        } else if(type_==1){
+            if(equips[tba_].cheastArmor!=0){
+                _tokenId = equips[tba_].cheastArmor;
+            }
+            equips[tba_].cheastArmor = 0;
+        } else if(type_==2){
+            if(equips[tba_].headArmor!=0){
+                _tokenId = equips[tba_].headArmor;
+            }
+            equips[tba_].headArmor = 0;
+        } else if(type_==3){
+            if(equips[tba_].footArmor!=0){
+                _tokenId = equips[tba_].footArmor;
+            }
+            equips[tba_].footArmor = 0;
+        } else if(type_==4){
+            if(equips[tba_].handArmor!=0){
+                _tokenId = equips[tba_].handArmor;
+            }
+            equips[tba_].handArmor = 0;
+        } else if(type_==5){
+            if(equips[tba_].necklace!=0){
+                _tokenId = equips[tba_].necklace;
+            }
+            equips[tba_].necklace = 0;
+        } else if(type_==6){
+            if(equips[tba_].ring!=0){
+                _tokenId = equips[tba_].ring;
+            }
+            equips[tba_].ring = 0;
         }
-        _equipmentNft.safeTransferFrom(msg.sender, tba_, tokenId_, 1, '0x00');
-        equips[tba_].headArmor = tokenId_;
-        emit UpdateEquips(msg.sender, equips[tba_]);
+        
+        if(_tokenId!=0){
+            _equipmentNft.safeTransferFrom(tba_, eoa_, _tokenId, 1, '0x00');
+        }
     }
 
-    function attachWaistArmor(
-        uint256 tokenId_,
-        address tba_
+    function withdawEquip(
+        address eoa_,
+        uint256 tokenId_
     ) public {
-        IEquipmentNft _equipmentNft = IEquipmentNft(equipmentNft);
-        require(_equipmentNft.balanceOf(msg.sender, tokenId_)>0, 'You are not owner of EquipmentNFT');
-        //Check EauipmentType
-        uint256 _type = _equipmentNft.getEquipmentType(tokenId_);
-
-        require(_type==3, 'This EquipmentNFT is not waistArmor(type: 3)');
-        if(equips[tba_].waistArmor!=0){
-            uint256 _tokenId=equips[tba_].waistArmor;
-            _equipmentNft.safeTransferFrom(tba_, msg.sender, _tokenId, 1, '0x00');
-        }
-        _equipmentNft.safeTransferFrom(msg.sender, tba_, tokenId_, 1, '0x00');
-        equips[tba_].waistArmor = tokenId_;
-        emit UpdateEquips(msg.sender, equips[tba_]);
+        IEquipmentNft _equipment = IEquipmentNft(equipmentNft);
+        require(_equipment.balanceOf(msg.sender, tokenId_)>0, 'You are not EquipmentNft owner');
+        uint256 _type = _equipment.getEquipmentType(tokenId_);
+        _withdawEquip(eoa_, tokenId_, msg.sender, _type);
     }
-
-    function attachFootArmor(
-        uint256 tokenId_,
-        address tba_
-    ) public {
-        IEquipmentNft _equipmentNft = IEquipmentNft(equipmentNft);
-        require(_equipmentNft.balanceOf(msg.sender, tokenId_)>0, 'You are not owner of EquipmentNFT');
-        //Check EauipmentType
-        uint256 _type = _equipmentNft.getEquipmentType(tokenId_);
-
-        require(_type==4, 'This EquipmentNFT is not waistArmor(type: 4)');
-        if(equips[tba_].footArmor!=0){
-            uint256 _tokenId=equips[tba_].footArmor;
-            _equipmentNft.safeTransferFrom(tba_, msg.sender, _tokenId, 1, '0x00');
-        }
-        _equipmentNft.safeTransferFrom(msg.sender, tba_, tokenId_, 1, '0x00');
-        equips[tba_].footArmor = tokenId_;
-        emit UpdateEquips(msg.sender, equips[tba_]);
-    }
-
-    function attachHandArmor(
-        uint256 tokenId_,
-        address tba_
-    ) public {
-        IEquipmentNft _equipmentNft = IEquipmentNft(equipmentNft);
-        require(_equipmentNft.balanceOf(msg.sender, tokenId_)>0, 'You are not owner of EquipmentNFT');
-        //Check EauipmentType
-        uint256 _type = _equipmentNft.getEquipmentType(tokenId_);
-
-        require(_type==5, 'This EquipmentNFT is not waistArmor(type: 5)');
-        if(equips[tba_].handArmor!=0){
-            uint256 _tokenId=equips[tba_].handArmor;
-            _equipmentNft.safeTransferFrom(tba_, msg.sender, _tokenId, 1, '0x00');
-        }
-        _equipmentNft.safeTransferFrom(msg.sender, tba_, tokenId_, 1, '0x00');
-        equips[tba_].handArmor = tokenId_;
-        emit UpdateEquips(msg.sender, equips[tba_]);
-    }
-
-    function attachNecklace(
-        uint256 tokenId_,
-        address tba_
-    ) public {
-        IEquipmentNft _equipmentNft = IEquipmentNft(equipmentNft);
-        require(_equipmentNft.balanceOf(msg.sender, tokenId_)>0, 'You are not owner of EquipmentNFT');
-        //Check EauipmentType
-        uint256 _type = _equipmentNft.getEquipmentType(tokenId_);
-
-        require(_type==6, 'This EquipmentNFT is not waistArmor(type: 6)');
-        if(equips[tba_].necklace!=0){
-            uint256 _tokenId=equips[tba_].necklace;
-            _equipmentNft.safeTransferFrom(tba_, msg.sender, _tokenId, 1, '0x00');
-        }
-        _equipmentNft.safeTransferFrom(msg.sender, tba_, tokenId_, 1, '0x00');
-        equips[tba_].necklace = tokenId_;
-        emit UpdateEquips(msg.sender, equips[tba_]);
-    }
-
-    function attachRing(
-        uint256 tokenId_,
-        address tba_
-    ) public {
-        IEquipmentNft _equipmentNft = IEquipmentNft(equipmentNft);
-        require(_equipmentNft.balanceOf(msg.sender, tokenId_)>0, 'You are not owner of EquipmentNFT');
-        //Check EauipmentType
-        uint256 _type = _equipmentNft.getEquipmentType(tokenId_);
-
-        require(_type==7, 'This EquipmentNFT is not waistArmor(type: 7)');
-        if(equips[tba_].ring!=0){
-            uint256 _tokenId=equips[tba_].ring;
-            _equipmentNft.safeTransferFrom(tba_, msg.sender, _tokenId, 1, '0x00');
-        }
-        _equipmentNft.safeTransferFrom(msg.sender, tba_, tokenId_, 1, '0x00');
-        equips[tba_].ring = tokenId_;
-        emit UpdateEquips(msg.sender, equips[tba_]);
-    }
-
-    // setEquipments
-    // 
 }

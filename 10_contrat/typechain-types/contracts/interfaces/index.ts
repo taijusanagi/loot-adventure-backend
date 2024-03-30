@@ -9,4 +9,5 @@ export type { ICoin } from "./ICoin";
 export type { IERC6551Account } from "./IERC6551Account";
 export type { IERC6551Registry } from "./IERC6551Registry";
 export type { ISoulCalculator } from "./ISoulCalculator";
+export type { ISoulControler } from "./ISoulControler";
 export type { ISoulMinter } from "./ISoulMinter";

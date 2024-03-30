@@ -249,6 +249,19 @@ export const soulMinterAbi = [
   },
   {
     "inputs": [],
+    "name": "getSoulControler",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "getSoulLoot",
     "outputs": [
       {
@@ -544,6 +557,19 @@ export const soulMinterAbi = [
       }
     ],
     "name": "setJobNft",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "granted_",
+        "type": "address"
+      }
+    ],
+    "name": "setSoulControler",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

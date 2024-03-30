@@ -28,4 +28,5 @@ interface ISoulLoot is IERC721{
     function getAttack(uint256 tokenId_) external view returns (uint16);
     function getDefence(uint256 tokenId_) external view returns (uint16);
     function getRecovery(uint256 tokenId_) external view returns (uint16);
+    function getTokenId(uint256 tokenId_, address nft_) external view returns (uint256);
 }

@@ -44,8 +44,6 @@ export type { IERC165 } from "./@openzeppelin/contracts/utils/introspection/IERC
 export { IERC165__factory } from "./factories/@openzeppelin/contracts/utils/introspection/IERC165__factory";
 export type { LootByRogueV2 } from "./contracts/calculator/LootByRogueV2";
 export { LootByRogueV2__factory } from "./factories/contracts/calculator/LootByRogueV2__factory";
-export type { SoulLoot } from "./contracts/calculator/SoulLoot";
-export { SoulLoot__factory } from "./factories/contracts/calculator/SoulLoot__factory";
 export type { ERC6551Account } from "./contracts/erc6551/ERC6551Account";
 export { ERC6551Account__factory } from "./factories/contracts/erc6551/ERC6551Account__factory";
 export type { ERC6551Registry } from "./contracts/erc6551/ERC6551Registry";
@@ -64,6 +62,8 @@ export type { IERC6551Registry } from "./contracts/interfaces/IERC6551Registry";
 export { IERC6551Registry__factory } from "./factories/contracts/interfaces/IERC6551Registry__factory";
 export type { ISoulCalculator } from "./contracts/interfaces/ISoulCalculator";
 export { ISoulCalculator__factory } from "./factories/contracts/interfaces/ISoulCalculator__factory";
+export type { ISoulControler } from "./contracts/interfaces/ISoulControler";
+export { ISoulControler__factory } from "./factories/contracts/interfaces/ISoulControler__factory";
 export type { ISoulMinter } from "./contracts/interfaces/ISoulMinter";
 export { ISoulMinter__factory } from "./factories/contracts/interfaces/ISoulMinter__factory";
 export type { ILoot } from "./contracts/interfaces/lootNfts/ILoot";

@@ -1,8 +1,8 @@
 import { ethers } from 'hardhat';
-import { erc20laxpAbi } from './abi/erc20-laxp-abi';
+import { erc20lacoinAbi } from './abi/erc20-lacoin-abi';
 import { erc1155Equipment } from './abi/erc1155-equipment-abi';
 import { erc6551AccountAbi } from './abi/erc6551-account-abi';
-import { EQUIPMENT_NFT, XP_FT } from './config';
+import { EQUIPMENT_NFT, COIN_FT } from './config';
 
 const tba = "0xc3F17f4eDe40b31cA43E7DF7a05C311CC48AaB09";
 
@@ -11,7 +11,7 @@ async function main() {
   console.log('Signer is ... ', signer.address);
 
   // Set Contract
-  const laXp = new ethers.Contract(XP_FT, erc20laxpAbi, signer);
+  const laXp = new ethers.Contract(COIN_FT, erc20lacoinAbi, signer);
   const tbaContract = new ethers.Contract(tba, erc6551AccountAbi, signer);
   const equipment = new ethers.Contract(EQUIPMENT_NFT, erc1155Equipment, signer);
 

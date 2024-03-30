@@ -114,20 +114,13 @@ export interface ISoulLootInterface extends utils.Interface {
     "getAdventureRecord(uint256)": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
     "getAttack(uint256)": FunctionFragment;
-    "getChest(uint256)": FunctionFragment;
     "getCurrentHp(uint256)": FunctionFragment;
     "getDefence(uint256)": FunctionFragment;
-    "getFoot(uint256)": FunctionFragment;
-    "getHand(uint256)": FunctionFragment;
-    "getHead(uint256)": FunctionFragment;
     "getMaxHp(uint256)": FunctionFragment;
-    "getNeck(uint256)": FunctionFragment;
     "getRecovery(uint256)": FunctionFragment;
-    "getRing(uint256)": FunctionFragment;
     "getSeed(uint256)": FunctionFragment;
+    "getTokenId(uint256,address)": FunctionFragment;
     "getTurn(uint256)": FunctionFragment;
-    "getWaist(uint256)": FunctionFragment;
-    "getWeapon(uint256)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
     "safeMint(address,uint256,address,uint256,((uint256,uint8[],uint8[]),uint16,uint16,uint16,uint16,uint16,uint16,uint16[6],uint8[4],uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256[]))": FunctionFragment;
@@ -145,20 +138,13 @@ export interface ISoulLootInterface extends utils.Interface {
       | "getAdventureRecord"
       | "getApproved"
       | "getAttack"
-      | "getChest"
       | "getCurrentHp"
       | "getDefence"
-      | "getFoot"
-      | "getHand"
-      | "getHead"
       | "getMaxHp"
-      | "getNeck"
       | "getRecovery"
-      | "getRing"
       | "getSeed"
+      | "getTokenId"
       | "getTurn"
-      | "getWaist"
-      | "getWeapon"
       | "isApprovedForAll"
       | "ownerOf"
       | "safeMint"
@@ -190,10 +176,6 @@ export interface ISoulLootInterface extends utils.Interface {
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
-    functionFragment: "getChest",
-    values: [PromiseOrValue<BigNumberish>]
-  ): string;
-  encodeFunctionData(
     functionFragment: "getCurrentHp",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
@@ -202,23 +184,7 @@ export interface ISoulLootInterface extends utils.Interface {
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
-    functionFragment: "getFoot",
-    values: [PromiseOrValue<BigNumberish>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getHand",
-    values: [PromiseOrValue<BigNumberish>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getHead",
-    values: [PromiseOrValue<BigNumberish>]
-  ): string;
-  encodeFunctionData(
     functionFragment: "getMaxHp",
-    values: [PromiseOrValue<BigNumberish>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getNeck",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
@@ -226,23 +192,15 @@ export interface ISoulLootInterface extends utils.Interface {
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
-    functionFragment: "getRing",
-    values: [PromiseOrValue<BigNumberish>]
-  ): string;
-  encodeFunctionData(
     functionFragment: "getSeed",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
+    functionFragment: "getTokenId",
+    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "getTurn",
-    values: [PromiseOrValue<BigNumberish>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getWaist",
-    values: [PromiseOrValue<BigNumberish>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getWeapon",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
@@ -308,26 +266,19 @@ export interface ISoulLootInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "getAttack", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "getChest", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getCurrentHp",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "getDefence", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "getFoot", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "getHand", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "getHead", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getMaxHp", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "getNeck", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getRecovery",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "getRing", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getSeed", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "getTokenId", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getTurn", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "getWaist", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "getWeapon", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "isApprovedForAll",
     data: BytesLike
@@ -455,11 +406,6 @@ export interface ISoulLoot extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[number]>;
 
-    getChest(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
-
     getCurrentHp(
       tokenId_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -470,43 +416,24 @@ export interface ISoulLoot extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[number]>;
 
-    getFoot(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
-
-    getHand(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
-
-    getHead(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
-
     getMaxHp(
       tokenId_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[number]>;
-
-    getNeck(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
 
     getRecovery(
       tokenId_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[number]>;
 
-    getRing(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
-
     getSeed(
       tokenId_: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
+    getTokenId(
+      tokenId_: PromiseOrValue<BigNumberish>,
+      nft_: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
@@ -514,16 +441,6 @@ export interface ISoulLoot extends BaseContract {
       tokenId_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[number]>;
-
-    getWaist(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
-
-    getWeapon(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
 
     isApprovedForAll(
       owner: PromiseOrValue<string>,
@@ -605,11 +522,6 @@ export interface ISoulLoot extends BaseContract {
     overrides?: CallOverrides
   ): Promise<number>;
 
-  getChest(
-    tokenId: PromiseOrValue<BigNumberish>,
-    overrides?: CallOverrides
-  ): Promise<string>;
-
   getCurrentHp(
     tokenId_: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
@@ -620,43 +532,24 @@ export interface ISoulLoot extends BaseContract {
     overrides?: CallOverrides
   ): Promise<number>;
 
-  getFoot(
-    tokenId: PromiseOrValue<BigNumberish>,
-    overrides?: CallOverrides
-  ): Promise<string>;
-
-  getHand(
-    tokenId: PromiseOrValue<BigNumberish>,
-    overrides?: CallOverrides
-  ): Promise<string>;
-
-  getHead(
-    tokenId: PromiseOrValue<BigNumberish>,
-    overrides?: CallOverrides
-  ): Promise<string>;
-
   getMaxHp(
     tokenId_: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<number>;
-
-  getNeck(
-    tokenId: PromiseOrValue<BigNumberish>,
-    overrides?: CallOverrides
-  ): Promise<string>;
 
   getRecovery(
     tokenId_: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<number>;
 
-  getRing(
-    tokenId: PromiseOrValue<BigNumberish>,
-    overrides?: CallOverrides
-  ): Promise<string>;
-
   getSeed(
     tokenId_: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
+  getTokenId(
+    tokenId_: PromiseOrValue<BigNumberish>,
+    nft_: PromiseOrValue<string>,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
@@ -664,16 +557,6 @@ export interface ISoulLoot extends BaseContract {
     tokenId_: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<number>;
-
-  getWaist(
-    tokenId: PromiseOrValue<BigNumberish>,
-    overrides?: CallOverrides
-  ): Promise<string>;
-
-  getWeapon(
-    tokenId: PromiseOrValue<BigNumberish>,
-    overrides?: CallOverrides
-  ): Promise<string>;
 
   isApprovedForAll(
     owner: PromiseOrValue<string>,
@@ -755,11 +638,6 @@ export interface ISoulLoot extends BaseContract {
       overrides?: CallOverrides
     ): Promise<number>;
 
-    getChest(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<string>;
-
     getCurrentHp(
       tokenId_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -770,43 +648,24 @@ export interface ISoulLoot extends BaseContract {
       overrides?: CallOverrides
     ): Promise<number>;
 
-    getFoot(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<string>;
-
-    getHand(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<string>;
-
-    getHead(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<string>;
-
     getMaxHp(
       tokenId_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<number>;
-
-    getNeck(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<string>;
 
     getRecovery(
       tokenId_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<number>;
 
-    getRing(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<string>;
-
     getSeed(
       tokenId_: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getTokenId(
+      tokenId_: PromiseOrValue<BigNumberish>,
+      nft_: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -814,16 +673,6 @@ export interface ISoulLoot extends BaseContract {
       tokenId_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<number>;
-
-    getWaist(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<string>;
-
-    getWeapon(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<string>;
 
     isApprovedForAll(
       owner: PromiseOrValue<string>,
@@ -941,11 +790,6 @@ export interface ISoulLoot extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    getChest(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     getCurrentHp(
       tokenId_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -956,28 +800,8 @@ export interface ISoulLoot extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    getFoot(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    getHand(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    getHead(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     getMaxHp(
       tokenId_: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    getNeck(
-      tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -986,28 +810,19 @@ export interface ISoulLoot extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    getRing(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     getSeed(
       tokenId_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    getTokenId(
+      tokenId_: PromiseOrValue<BigNumberish>,
+      nft_: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     getTurn(
       tokenId_: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    getWaist(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    getWeapon(
-      tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -1092,11 +907,6 @@ export interface ISoulLoot extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    getChest(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     getCurrentHp(
       tokenId_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -1107,28 +917,8 @@ export interface ISoulLoot extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    getFoot(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    getHand(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    getHead(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     getMaxHp(
       tokenId_: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    getNeck(
-      tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -1137,28 +927,19 @@ export interface ISoulLoot extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    getRing(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     getSeed(
       tokenId_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    getTokenId(
+      tokenId_: PromiseOrValue<BigNumberish>,
+      nft_: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     getTurn(
       tokenId_: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    getWaist(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    getWeapon(
-      tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

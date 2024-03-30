@@ -2,11 +2,12 @@ import { ethers } from 'hardhat';
 
 import { soulLootAbi } from './abi/erc721-soul-loot-abi';
 import { soulMinterAbi } from './abi/soul-minter-abi';
-import { SAMPLE_LOOT, SOUL_LOOT, SOUL_MINTER, ERC6551_REGISTRY, EQUIPMENT_NFT, CHAIN_ID } from './config';
+import { SAMPLE_LOOT, SOUL_LOOT, SOUL_MINTER, SOUL_CONTROLER, ERC6551_REGISTRY, EQUIPMENT_NFT, CHAIN_ID } from './config';
 import { erc6551RegistryAbi } from './abi/erc6551-registry-abi';
 import { erc1155Equipment } from './abi/erc1155-equipment-abi'; 
+import { soulControlerAbi } from './abi/soul-controler-abi';
 
-const TOKEN_ID = 9;
+const TOKEN_ID = 18;
 
 async function main() {
   const [signer] = await ethers.getSigners();
@@ -45,6 +46,14 @@ async function main() {
     '0x0000000000000000000000000000000000000000'
   );
   tx.wait();
+
+  // const soulControler = new ethers.Contract(SOUL_CONTROLER, soulControlerAbi, signer);
+  // const tx = await soulControler.getEquips(signer.address);
+  // console.log(tx);
+  // const tx02 = await soulLoot.getTokenId(TOKEN_ID, SAMPLE_LOOT);
+  // console.log(tx02);
+  // const tx03 = await soulMinter.getSoulControler();
+  // console.log(tx03);
 }
 
 // We recommend this pattern to be able to use async/await everywhere

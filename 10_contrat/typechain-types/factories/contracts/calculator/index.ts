@@ -2,4 +2,3 @@
 /* tslint:disable */
 /* eslint-disable */
 export { LootByRogueV2__factory } from "./LootByRogueV2__factory";
-export { SoulLoot__factory } from "./SoulLoot__factory";

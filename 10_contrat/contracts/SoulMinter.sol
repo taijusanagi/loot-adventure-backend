@@ -14,6 +14,7 @@ import "./interfaces/gameNfts/IArtifactNft.sol";
 import "./interfaces/ISoulCalculator.sol";
 import "./interfaces/ICoin.sol";
 import "./interfaces/IERC6551Registry.sol";
+import "./interfaces/ISoulControler.sol";
 
 contract SoulMinter is AccessControl {
     bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
@@ -44,6 +45,8 @@ contract SoulMinter is AccessControl {
     // ERC6551Account(Registry&Account)
     address private erc6551Registry;
     address private implementation;
+    // SoulControler
+    address private soulControler;
 
     mapping (address => address) calcContract;
 
@@ -81,6 +84,9 @@ contract SoulMinter is AccessControl {
     }
     function getImplementation() public view returns(address){
         return implementation;    
+    }
+    function getSoulControler() public view returns(address){
+        return soulControler;
     }
 
     //*********************************************
@@ -122,6 +128,9 @@ contract SoulMinter is AccessControl {
     function setImplementation(address contract_) public onlyRole(DEVELOPER_ROLE){
         implementation = contract_;
     }
+    function setSoulControler(address granted_) public onlyRole(DEVELOPER_ROLE){
+        soulControler = granted_;
+    }
 
     //*********************************************
     //Logic
@@ -144,17 +153,19 @@ contract SoulMinter is AccessControl {
         // Mint SoulLoot to EOA
         _soulLoot.safeMint(msg.sender, chainId_, nft_, tokenId_, _record);
         _loot.safeTransferFrom(msg.sender, ZERO_ADDRESS, tokenId_);
+
         // Create TBA
-        _registry.createAccount(implementation, chainId_, nft_, tokenId_, 1, '0x0000000000000000000000000000000000000000');
+        uint256 _tokenId = _soulLoot.getTokenId(tokenId_, nft_);
+        _registry.createAccount(implementation, chainId_, soulLoot, _tokenId, 1, '0x0000000000000000000000000000000000000000');
         address _tba = _registry.account(
             implementation, 
             chainId_, 
-            nft_, 
-            tokenId_, 
+            soulLoot, 
+            _tokenId,
             1
         );
         // Mint Equipmnt&Job&Artifact to TBA
-        _mintEquipmentNft(nft_, tokenId_, _tba, seedData_);
+        // _mintEquipmentNft(nft_, tokenId_, _tba, seedData_);
         _mintJobNft(nft_, tokenId_, _tba, seedData_);
         _mintArtifactNft(nft_, tokenId_, _tba, seedData_);
     }
@@ -165,6 +176,7 @@ contract SoulMinter is AccessControl {
 
     function _mintEquipmentNft(address nft_, uint256 tokenId_, address recipient_, bytes memory seedData_) internal virtual {
         IEquipmentNft _equipmentNft = IEquipmentNft(equipmentNft);
+        ISoulControler _soulControler = ISoulControler(soulControler);
         // get parameter via calurator contract by NFT(Address & tokenID)
         ISoulCalculator _calc = ISoulCalculator(calcContract[nft_]);
         (
@@ -174,6 +186,8 @@ contract SoulMinter is AccessControl {
             uint256[8] memory _equipmentRarities
         ) = _calc.calcEquipment(nft_, tokenId_, seedData_);
 
+        uint256[] memory _equipmentIds02;
+        uint256[] memory _equipmentTypes02;
         for(uint i=0; i<8; i++){
             _equipmentNft.mint(
                 recipient_, 
@@ -185,10 +199,12 @@ contract SoulMinter is AccessControl {
                 i,
                 _equipmentRarities[i]
             );
+            _equipmentIds02[i] = _equipmentIds[i];
+            _equipmentTypes02[i] = i;
         }
 
         // setEquips on soulControler
-        
+        // _soulControler.attachEquipsInit(_equipmentIds02, recipient_, _equipmentTypes02);
     }
 
     function _mintJobNft(address nft_, uint256 tokenId_, address recipient_, bytes memory seedData_) internal virtual {
