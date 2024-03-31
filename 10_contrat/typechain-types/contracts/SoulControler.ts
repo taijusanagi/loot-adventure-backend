@@ -74,6 +74,7 @@ export interface SoulControlerInterface extends utils.Interface {
     "getCoin()": FunctionFragment;
     "getEquipmentNft()": FunctionFragment;
     "getEquips(address)": FunctionFragment;
+    "getIsEquip(address,uint256)": FunctionFragment;
     "getJobNft()": FunctionFragment;
     "getRoleAdmin(bytes32)": FunctionFragment;
     "getSoulLoot()": FunctionFragment;
@@ -112,6 +113,7 @@ export interface SoulControlerInterface extends utils.Interface {
       | "getCoin"
       | "getEquipmentNft"
       | "getEquips"
+      | "getIsEquip"
       | "getJobNft"
       | "getRoleAdmin"
       | "getSoulLoot"
@@ -196,6 +198,10 @@ export interface SoulControlerInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "getEquips",
     values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getIsEquip",
+    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(functionFragment: "getJobNft", values?: undefined): string;
   encodeFunctionData(
@@ -322,6 +328,7 @@ export interface SoulControlerInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "getEquips", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "getIsEquip", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getJobNft", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getRoleAdmin",
@@ -548,6 +555,12 @@ export interface SoulControler extends BaseContract {
       }
     >;
 
+    getIsEquip(
+      tba_: PromiseOrValue<string>,
+      type_: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
+
     getJobNft(overrides?: CallOverrides): Promise<[string]>;
 
     getRoleAdmin(
@@ -720,6 +733,12 @@ export interface SoulControler extends BaseContract {
     }
   >;
 
+  getIsEquip(
+    tba_: PromiseOrValue<string>,
+    type_: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
+
   getJobNft(overrides?: CallOverrides): Promise<string>;
 
   getRoleAdmin(
@@ -891,6 +910,12 @@ export interface SoulControler extends BaseContract {
         ring: BigNumber;
       }
     >;
+
+    getIsEquip(
+      tba_: PromiseOrValue<string>,
+      type_: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
 
     getJobNft(overrides?: CallOverrides): Promise<string>;
 
@@ -1082,6 +1107,12 @@ export interface SoulControler extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    getIsEquip(
+      tba_: PromiseOrValue<string>,
+      type_: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     getJobNft(overrides?: CallOverrides): Promise<BigNumber>;
 
     getRoleAdmin(
@@ -1234,6 +1265,12 @@ export interface SoulControler extends BaseContract {
 
     getEquips(
       owner_: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getIsEquip(
+      tba_: PromiseOrValue<string>,
+      type_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

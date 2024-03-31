@@ -60,26 +60,42 @@ contract SoulControler is AccessControl {
     function getSoulLoot() public view returns(address){
         return soulLoot;
     }
-
     function getEquipmentNft() public view returns(address){
         return equipmentNft;
     }
-
     function getArtifactNft() public view returns(address){
         return artifactNft;
     }
-
     function getJobNft() public view returns(address){
         return jobNft;
     }
-
     function getCoin() public view returns(address){
         return coin;
     }
-
     function getTreasury() public view returns(address){
         return treasury;
     }
+    function getIsEquip(address tba_, uint256 type_) public view returns(bool){
+        if(type_==0 && equips[tba_].weapon!=0){
+            return true;
+        } else if(type_==1 && equips[tba_].cheastArmor!=0){
+            return true;
+        } else if(type_==2 && equips[tba_].headArmor!=0){
+            return true;
+        } else if(type_==3 && equips[tba_].waistArmor!=0){
+            return true;
+        } else if(type_==4 && equips[tba_].footArmor!=0){
+           return true;
+        } else if(type_==5 && equips[tba_].handArmor!=0){
+            return true;
+        } else if(type_==6 && equips[tba_].necklace!=0){
+            return true;
+        } else if(type_==7 && equips[tba_].ring!=0){
+            return true;
+        }
+        return false;
+    }
+
 
     function getEquips(address owner_) public view returns(
         uint256 weapon,
@@ -224,7 +240,9 @@ contract SoulControler is AccessControl {
         IEquipmentNft _equipment = IEquipmentNft(equipmentNft);
         require(_equipment.balanceOf(msg.sender, tokenId_)>0, 'SoulControler | You are not EquipmentNft owner');
         uint256 _type = _equipment.getEquipmentType(tokenId_);
-        _withdrawEquip(eoa_, tba_, _type);
+        if(getIsEquip(tba_, _type)){
+            _withdrawEquip(eoa_, tba_, _type);
+        }
         _attachEquip(tokenId_, tba_, _type);
         emit UpdateEquips(tba_, equips[tba_]);
     }
@@ -244,39 +262,15 @@ contract SoulControler is AccessControl {
         address tba_
     ) public onlyRole(MINTER_ROLE){
         IEquipmentNft _equipment = IEquipmentNft(equipmentNft);
-        Equips memory _equips = equips[tba_];
         for (uint256 i=0; i<tokenIds_.length; i++){
             require(
                 hasRole(MINTER_ROLE, msg.sender) || _equipment.balanceOf(msg.sender, tokenIds_[i])>0,
                 'SoulControler | You are not token owner or SoulMinter'
             );
             uint256 _type = _equipment.getEquipmentType(tokenIds_[i]);
-            
-            if(_type==0 && equip[tba_]!=0){
+            if(getIsEquip(tba_, _type)){
                 _withdrawEquip(eoa_, tba_, _type);
-            } else if(type_==1){
-                _tokenId = _equip.cheastArmor;
-                equips[tba_].cheastArmor = 0;
-            } else if(type_==2){
-                _tokenId = equips[tba_].headArmor;
-                _equip.headArmor = 0;
-            } else if(type_==3){
-                _tokenId = equips[tba_].waistArmor;
-                _equip.waistArmor = 0;
-            } else if(type_==4){
-                _tokenId = equips[tba_].footArmor;
-                _equip.footArmor = 0;
-            } else if(type_==5){
-                _tokenId = equips[tba_].handArmor;
-                _equip.handArmor = 0;
-            } else if(type_==6){
-                _tokenId = equips[tba_].necklace;
-                _equip.necklace = 0;
-            } else if(type_==7){
-                _tokenId = equips[tba_].ring;
-                _equip.ring = 0;
             }
-            
             _attachEquip(tokenIds_[i], tba_, _type);
             emit UpdateEquips(tba_, equips[tba_]);
         }
