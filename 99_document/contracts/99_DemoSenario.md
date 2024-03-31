@@ -10,18 +10,15 @@ sequenceDiagram
 ## サンプルコード
 [01_mint_sample_loot.ts](../10_contract/scripts/01_mint_sample_loot.ts)
 ```typescript
-const [signer] = await ethers.getSigners();
-console.log('Signer is ... ', signer.address);
-const TOKEN_ID = 5;
-
 const sampleLoot = new ethers.Contract(SAMPLE_LOOT, sampleLootAbi, signer);
-const tx = await sampleLoot.approve(SOUL_LOOT, TOKEN_ID);
-sampleLoot.once('Approval', (owner, to, tokenId) => {
+  const tx = await sampleLoot.approve(SOUL_MINTER, TOKEN_ID);
+  sampleLoot.once('Approval', (owner, to, tokenId) => {
     console.log('Approve from ', owner);
     console.log('To: ', to);
     console.log('Tokenid: ', tokenId.toString());
-})
-tx.wait();
+  })
+
+  tx.wait();
 ```
 
 # 2~3.SoulLootのmint
@@ -76,26 +73,16 @@ sequenceDiagram
 
 ## サンプルコード
 ```typescript
-const soulLoot = new ethers.Contract(SOUL_LOOT, soulLootAbi, signer);
-soulLoot.once("mintSoulLoot", (from, to, tokenId, rAddress, rTokenId)=>{
-    console.log('From: ', from);
-    console.log('To: ', to);
-    console.log('TokenID(Minted): ', tokenId.toString());
-    console.log('root NFT Address: ', rAddress);
-    console.log('root NFT TokenId: ', rTokenId.toString());
-})
-const tx = await soulLoot.safeMint(
+const soulMinter = new ethers.Contract(SOUL_MINTER, soulMinterAbi, signer);
+const tx = await soulMinter.mintSoul(
+    420,
     SAMPLE_LOOT,
-    TOKEN_ID
-);
-tx.wait();
+    TOKEN_ID,
+    '0x0000000000000000000000000000000000000000'
+  );
+  tx.wait();
 ```
 
-
-# 4.TBAの作成
-* ユーザー（EOA）がERC6551Registryの実行
-* TBAが作成される（ERC6551）
-* 同時にEquipment, JOB, ArtifactのNFTがmintされ、TBAに付与される
 
 # 5.EquipmentNftの装備
 * EOA→TBAを経由して、 SoulControler.solのsetEquips関数を実行
