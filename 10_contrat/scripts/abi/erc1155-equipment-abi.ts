@@ -561,6 +561,19 @@ export const erc1155Equipment = [
   },
   {
     "inputs": [],
+    "name": "getSoulControler",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "getSoulMinter",
     "outputs": [
       {
@@ -722,7 +735,7 @@ export const erc1155Equipment = [
         "type": "string"
       }
     ],
-    "stateMutability": "view",
+    "stateMutability": "pure",
     "type": "function"
   },
   {
@@ -999,6 +1012,19 @@ export const erc1155Equipment = [
       }
     ],
     "name": "setOnGame",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "granted_",
+        "type": "address"
+      }
+    ],
+    "name": "setSoulControler",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

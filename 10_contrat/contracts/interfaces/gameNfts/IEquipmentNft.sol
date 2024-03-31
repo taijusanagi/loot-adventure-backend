@@ -26,4 +26,5 @@ interface IEquipmentNft is IERC1155{
 
     //Getter
     function getEquipmentType(uint256 tokenId_) external view returns(uint256);
+    function getTokenId(address nft_, uint256 id_, uint256 type_) external view returns(uint256 _tokenId);
 }

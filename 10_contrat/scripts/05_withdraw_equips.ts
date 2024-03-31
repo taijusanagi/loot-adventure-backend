@@ -8,7 +8,7 @@ import { soulControlerAbi } from './abi/soul-controler-abi';
 import { erc6551AccountAbi } from './abi/erc6551-account-abi';
 import { erc20lacoinAbi } from './abi/erc20-lacoin-abi';
 
-const tba = "0xC53235E5646bC4fc6A8CE365934940dcb8c2c7FF";
+const tba = "0xc8BFD2F376f16C273463480283744819C84a95c3";
 
 async function main() {
   const [signer] = await ethers.getSigners();
@@ -29,13 +29,9 @@ async function main() {
   })
 
   // create tx data
-  // const txData00 = equipmentNft.interface.encodeFunctionData("setApprovalForAll", [
-  //   SOUL_CONTROLER,
-  //   true
-  // ]);
-  const txData = soulControler.interface.encodeFunctionData("attachWeapon", [
-    20000000001,
-    tba
+  const txData = soulControler.interface.encodeFunctionData("withdawEquip", [
+    signer.address,
+    20000000001
   ]);
   // Set Contract
   // const tx00 = await tbaContract.executeCall(EQUIPMENT_NFT, 0, txData00);

@@ -32,6 +32,7 @@ export interface IEquipmentNftInterface extends utils.Interface {
     "balanceOf(address,uint256)": FunctionFragment;
     "balanceOfBatch(address[],uint256[])": FunctionFragment;
     "getEquipmentType(uint256)": FunctionFragment;
+    "getTokenId(address,uint256,uint256)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
     "mint(address,address,uint256,uint256,string,uint256,uint256,uint256)": FunctionFragment;
     "safeBatchTransferFrom(address,address,uint256[],uint256[],bytes)": FunctionFragment;
@@ -51,6 +52,7 @@ export interface IEquipmentNftInterface extends utils.Interface {
       | "balanceOf"
       | "balanceOfBatch"
       | "getEquipmentType"
+      | "getTokenId"
       | "isApprovedForAll"
       | "mint"
       | "safeBatchTransferFrom"
@@ -76,6 +78,14 @@ export interface IEquipmentNftInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "getEquipmentType",
     values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getTokenId",
+    values: [
+      PromiseOrValue<string>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>
+    ]
   ): string;
   encodeFunctionData(
     functionFragment: "isApprovedForAll",
@@ -156,6 +166,7 @@ export interface IEquipmentNftInterface extends utils.Interface {
     functionFragment: "getEquipmentType",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "getTokenId", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "isApprovedForAll",
     data: BytesLike
@@ -298,6 +309,13 @@ export interface IEquipmentNft extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
+    getTokenId(
+      nft_: PromiseOrValue<string>,
+      id_: PromiseOrValue<BigNumberish>,
+      type_: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber] & { _tokenId: BigNumber }>;
+
     isApprovedForAll(
       account: PromiseOrValue<string>,
       operator: PromiseOrValue<string>,
@@ -394,6 +412,13 @@ export interface IEquipmentNft extends BaseContract {
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
+  getTokenId(
+    nft_: PromiseOrValue<string>,
+    id_: PromiseOrValue<BigNumberish>,
+    type_: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
   isApprovedForAll(
     account: PromiseOrValue<string>,
     operator: PromiseOrValue<string>,
@@ -487,6 +512,13 @@ export interface IEquipmentNft extends BaseContract {
 
     getEquipmentType(
       tokenId_: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getTokenId(
+      nft_: PromiseOrValue<string>,
+      id_: PromiseOrValue<BigNumberish>,
+      type_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -636,6 +668,13 @@ export interface IEquipmentNft extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    getTokenId(
+      nft_: PromiseOrValue<string>,
+      id_: PromiseOrValue<BigNumberish>,
+      type_: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     isApprovedForAll(
       account: PromiseOrValue<string>,
       operator: PromiseOrValue<string>,
@@ -730,6 +769,13 @@ export interface IEquipmentNft extends BaseContract {
 
     getEquipmentType(
       tokenId_: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getTokenId(
+      nft_: PromiseOrValue<string>,
+      id_: PromiseOrValue<BigNumberish>,
+      type_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

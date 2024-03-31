@@ -95,7 +95,7 @@ export interface SoulControlerInterface extends utils.Interface {
     "setSoulLoot(address)": FunctionFragment;
     "setTreasury(address)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
-    "withdawEquip(address,uint256)": FunctionFragment;
+    "withdrawEquip(address,uint256)": FunctionFragment;
   };
 
   getFunction(
@@ -133,7 +133,7 @@ export interface SoulControlerInterface extends utils.Interface {
       | "setSoulLoot"
       | "setTreasury"
       | "supportsInterface"
-      | "withdawEquip"
+      | "withdrawEquip"
   ): FunctionFragment;
 
   encodeFunctionData(
@@ -279,7 +279,7 @@ export interface SoulControlerInterface extends utils.Interface {
     values: [PromiseOrValue<BytesLike>]
   ): string;
   encodeFunctionData(
-    functionFragment: "withdawEquip",
+    functionFragment: "withdrawEquip",
     values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
   ): string;
 
@@ -389,7 +389,7 @@ export interface SoulControlerInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "withdawEquip",
+    functionFragment: "withdrawEquip",
     data: BytesLike
   ): Result;
 
@@ -646,7 +646,7 @@ export interface SoulControler extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
-    withdawEquip(
+    withdrawEquip(
       eoa_: PromiseOrValue<string>,
       tokenId_: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -818,7 +818,7 @@ export interface SoulControler extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
-  withdawEquip(
+  withdrawEquip(
     eoa_: PromiseOrValue<string>,
     tokenId_: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -986,7 +986,7 @@ export interface SoulControler extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
-    withdawEquip(
+    withdrawEquip(
       eoa_: PromiseOrValue<string>,
       tokenId_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -1180,7 +1180,7 @@ export interface SoulControler extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    withdawEquip(
+    withdrawEquip(
       eoa_: PromiseOrValue<string>,
       tokenId_: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -1335,7 +1335,7 @@ export interface SoulControler extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    withdawEquip(
+    withdrawEquip(
       eoa_: PromiseOrValue<string>,
       tokenId_: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }

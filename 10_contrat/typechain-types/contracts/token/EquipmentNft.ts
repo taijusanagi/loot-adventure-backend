@@ -46,6 +46,7 @@ export interface EquipmentNftInterface extends utils.Interface {
     "getRoleAdmin(bytes32)": FunctionFragment;
     "getSoulControler()": FunctionFragment;
     "getSoulMinter()": FunctionFragment;
+    "getTokenId(address,uint256,uint256)": FunctionFragment;
     "getTreasury()": FunctionFragment;
     "grantRole(bytes32,address)": FunctionFragment;
     "hasRole(bytes32,address)": FunctionFragment;
@@ -95,6 +96,7 @@ export interface EquipmentNftInterface extends utils.Interface {
       | "getRoleAdmin"
       | "getSoulControler"
       | "getSoulMinter"
+      | "getTokenId"
       | "getTreasury"
       | "grantRole"
       | "hasRole"
@@ -189,6 +191,14 @@ export interface EquipmentNftInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "getSoulMinter",
     values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getTokenId",
+    values: [
+      PromiseOrValue<string>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>
+    ]
   ): string;
   encodeFunctionData(
     functionFragment: "getTreasury",
@@ -383,6 +393,7 @@ export interface EquipmentNftInterface extends utils.Interface {
     functionFragment: "getSoulMinter",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "getTokenId", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getTreasury",
     data: BytesLike
@@ -701,6 +712,13 @@ export interface EquipmentNft extends BaseContract {
 
     getSoulMinter(overrides?: CallOverrides): Promise<[string]>;
 
+    getTokenId(
+      nft_: PromiseOrValue<string>,
+      id_: PromiseOrValue<BigNumberish>,
+      type_: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber] & { _tokenId: BigNumber }>;
+
     getTreasury(overrides?: CallOverrides): Promise<[string]>;
 
     grantRole(
@@ -923,6 +941,13 @@ export interface EquipmentNft extends BaseContract {
 
   getSoulMinter(overrides?: CallOverrides): Promise<string>;
 
+  getTokenId(
+    nft_: PromiseOrValue<string>,
+    id_: PromiseOrValue<BigNumberish>,
+    type_: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
   getTreasury(overrides?: CallOverrides): Promise<string>;
 
   grantRole(
@@ -1144,6 +1169,13 @@ export interface EquipmentNft extends BaseContract {
     getSoulControler(overrides?: CallOverrides): Promise<string>;
 
     getSoulMinter(overrides?: CallOverrides): Promise<string>;
+
+    getTokenId(
+      nft_: PromiseOrValue<string>,
+      id_: PromiseOrValue<BigNumberish>,
+      type_: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     getTreasury(overrides?: CallOverrides): Promise<string>;
 
@@ -1486,6 +1518,13 @@ export interface EquipmentNft extends BaseContract {
 
     getSoulMinter(overrides?: CallOverrides): Promise<BigNumber>;
 
+    getTokenId(
+      nft_: PromiseOrValue<string>,
+      id_: PromiseOrValue<BigNumberish>,
+      type_: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     getTreasury(overrides?: CallOverrides): Promise<BigNumber>;
 
     grantRole(
@@ -1710,6 +1749,13 @@ export interface EquipmentNft extends BaseContract {
     getSoulControler(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getSoulMinter(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    getTokenId(
+      nft_: PromiseOrValue<string>,
+      id_: PromiseOrValue<BigNumberish>,
+      type_: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
 
     getTreasury(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 

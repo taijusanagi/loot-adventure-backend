@@ -74,7 +74,7 @@ async function main() {
   // Set Minter-Role on NFTs&SoulMinter
   await soulLootNft.setMinterRole(soulMinter.address);
   await equipmentNft.setSoulMinter(soulMinter.address);
-  await equipmentNft.setSoulMinter(soulControler.address);
+  await equipmentNft.setSoulControler(soulControler.address);
   await jobNft.setMinterRole(soulMinter.address);
   await artifactNft.setMinterRole(soulMinter.address);
   await laCoin.setMinterRole(soulMinter.address);

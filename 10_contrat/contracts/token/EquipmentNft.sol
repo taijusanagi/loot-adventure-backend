@@ -123,19 +123,13 @@ contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
     function getEquipmentVal(uint256 tokenId_) public view returns (uint256 _value) {
         Equipment memory _equipment = equipment[tokenId_];
         _value = _equipment.seed % 5 + baseValLevel[_equipment.level] + baseValRarity[_equipment.rarity];
-        if(_equipment.equipmentType == 1){
-            _equipment.seed % 5 + baseValLevel[_equipment.level] + baseValRarity[_equipment.rarity];
-        }
         return _value;
     }
 
-    function isApprovedForAll(address account, address operator) public view virtual override(ERC1155, IERC1155) returns (bool) {
-        if(hasRole(DEVELOPER_ROLE, msg.sender)){
-            return true;
-        }
-        return super.isApprovedForAll(account, operator);
+    function getTokenId(address nft_, uint256 id_, uint256 type_) public view returns(uint256 _tokenId) {
+        _tokenId = (nftId[nft_] * NFT_ID_PREFIX) + (type_ * TYPE_PREFIX) + id_;
+        return _tokenId;
     }
-
     //*********************************************
     //Setter
     //*********************************************
@@ -213,7 +207,8 @@ contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
         uint256 rarity_
     ) public onlyRole(MINTER_ROLE) {
         Equipment memory _equipment;
-        uint256 _tokenId = (nftId[nft_] * NFT_ID_PREFIX) + (type_ * TYPE_PREFIX) + id_;
+        //uint256 _tokenId = (nftId[nft_] * NFT_ID_PREFIX) + (type_ * TYPE_PREFIX) + id_;
+        uint256 _tokenId = getTokenId(nft_, id_, type_);
         _equipment.seed = seed_;
         _equipment.name = name_;
         _equipment.equipmentType = type_;
@@ -228,7 +223,6 @@ contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
         _setApprovalForAll(to_, soulControler, true);
 
         uint256 _value = getEquipmentVal(tokenId_);
-        emit mintEquipment(to_, _tokenId, type_, name_, _value);
         emit updateEquipment(
             _tokenId, 
             _equipment.seed,
@@ -239,6 +233,7 @@ contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
             _equipment.rarity,
             _equipment.level
         );
+        emit mintEquipment(to_, _tokenId, type_, name_, _value);
     }
 
     function safeTransferFrom(
@@ -289,7 +284,7 @@ contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
         IERC20 _coin = IERC20(coin);
         Equipment memory _equipment = equipment[tokenId_];
         uint256 _level = _equipment.level;
-        uint256 _amount = (100 + _level ** kValLevelUp) * (10 ** 15);
+        uint256 _amount = (100 + kValLevelUp) ** _level * (10 ** 15);
         (bool _success) = _coin.transferFrom(msg.sender, treasury, _amount);
         require(_success, 'EquipmentNFT error: Your XP Token is insufficient');
 
@@ -306,6 +301,13 @@ contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
             _equipment.level
         );
     } 
+
+    function isApprovedForAll(address account, address operator) public view virtual override(ERC1155, IERC1155) returns (bool) {
+        if(hasRole(DEVELOPER_ROLE, msg.sender)){
+            return true;
+        }
+        return super.isApprovedForAll(account, operator);
+    }
 
     function _attribute(string memory traitType_, string memory value_) internal pure returns (string memory) {
         return string(abi.encodePacked('{"trait_type": "', traitType_, '", "value": "', value_, '"}'));

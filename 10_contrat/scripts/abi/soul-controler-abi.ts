@@ -180,7 +180,25 @@ export const soulControlerAbi = [
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "MINTER_ROLE",
+    "outputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
+      {
+        "internalType": "address",
+        "name": "eoa_",
+        "type": "address"
+      },
       {
         "internalType": "uint256",
         "name": "tokenId_",
@@ -192,7 +210,7 @@ export const soulControlerAbi = [
         "type": "address"
       }
     ],
-    "name": "attachCheastArmor",
+    "name": "attachEquip",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -208,9 +226,14 @@ export const soulControlerAbi = [
         "internalType": "address",
         "name": "tba_",
         "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "type_",
+        "type": "uint256"
       }
     ],
-    "name": "attachFootArmor",
+    "name": "attachEquipInit",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -218,9 +241,14 @@ export const soulControlerAbi = [
   {
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "tokenId_",
-        "type": "uint256"
+        "internalType": "address",
+        "name": "eoa_",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "tokenIds_",
+        "type": "uint256[]"
       },
       {
         "internalType": "address",
@@ -228,7 +256,7 @@ export const soulControlerAbi = [
         "type": "address"
       }
     ],
-    "name": "attachHandArmor",
+    "name": "attachEquips",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -236,89 +264,22 @@ export const soulControlerAbi = [
   {
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "tokenId_",
-        "type": "uint256"
+        "internalType": "uint256[]",
+        "name": "tokenIds_",
+        "type": "uint256[]"
       },
       {
         "internalType": "address",
         "name": "tba_",
         "type": "address"
-      }
-    ],
-    "name": "attachHeadArmor",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "tokenId_",
-        "type": "uint256"
       },
       {
-        "internalType": "address",
-        "name": "tba_",
-        "type": "address"
+        "internalType": "uint256[]",
+        "name": "types_",
+        "type": "uint256[]"
       }
     ],
-    "name": "attachNecklace",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "tokenId_",
-        "type": "uint256"
-      },
-      {
-        "internalType": "address",
-        "name": "tba_",
-        "type": "address"
-      }
-    ],
-    "name": "attachRing",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "tokenId_",
-        "type": "uint256"
-      },
-      {
-        "internalType": "address",
-        "name": "tba_",
-        "type": "address"
-      }
-    ],
-    "name": "attachWaistArmor",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "tokenId_",
-        "type": "uint256"
-      },
-      {
-        "internalType": "address",
-        "name": "tba_",
-        "type": "address"
-      }
-    ],
-    "name": "attachWeapon",
+    "name": "attachEquipsInit",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -644,6 +605,19 @@ export const soulControlerAbi = [
     "type": "function"
   },
   {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "granted_",
+        "type": "address"
+      }
+    ],
+    "name": "setMinterRole",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "inputs": [],
     "name": "setNftsOffGame",
     "outputs": [],
@@ -705,17 +679,17 @@ export const soulControlerAbi = [
   {
     "inputs": [
       {
+        "internalType": "address",
+        "name": "eoa_",
+        "type": "address"
+      },
+      {
         "internalType": "uint256",
         "name": "tokenId_",
         "type": "uint256"
-      },
-      {
-        "internalType": "address",
-        "name": "tba_",
-        "type": "address"
       }
     ],
-    "name": "withdrawWeapon",
+    "name": "withdrawEquip",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

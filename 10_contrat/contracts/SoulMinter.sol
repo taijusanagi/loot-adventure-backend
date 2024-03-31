@@ -165,7 +165,7 @@ contract SoulMinter is AccessControl {
             1
         );
         // Mint Equipmnt&Job&Artifact to TBA
-        // _mintEquipmentNft(nft_, tokenId_, _tba, seedData_);
+        _mintEquipmentNft(nft_, tokenId_, _tba, seedData_);
         _mintJobNft(nft_, tokenId_, _tba, seedData_);
         _mintArtifactNft(nft_, tokenId_, _tba, seedData_);
     }
@@ -186,8 +186,6 @@ contract SoulMinter is AccessControl {
             uint256[8] memory _equipmentRarities
         ) = _calc.calcEquipment(nft_, tokenId_, seedData_);
 
-        uint256[] memory _equipmentIds02;
-        uint256[] memory _equipmentTypes02;
         for(uint i=0; i<8; i++){
             _equipmentNft.mint(
                 recipient_, 
@@ -199,12 +197,9 @@ contract SoulMinter is AccessControl {
                 i,
                 _equipmentRarities[i]
             );
-            _equipmentIds02[i] = _equipmentIds[i];
-            _equipmentTypes02[i] = i;
+            uint256 _tokenId = _equipmentNft.getTokenId(nft_, _equipmentIds[i], i);
+            _soulControler.attachEquipInit(_tokenId, recipient_, i);
         }
-
-        // setEquips on soulControler
-        // _soulControler.attachEquipsInit(_equipmentIds02, recipient_, _equipmentTypes02);
     }
 
     function _mintJobNft(address nft_, uint256 tokenId_, address recipient_, bytes memory seedData_) internal virtual {
