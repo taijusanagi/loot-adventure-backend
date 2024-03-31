@@ -538,7 +538,7 @@ export interface IEquipmentNft extends BaseContract {
       arg6: PromiseOrValue<BigNumberish>,
       arg7: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<void>;
+    ): Promise<BigNumber>;
 
     safeBatchTransferFrom(
       from: PromiseOrValue<string>,

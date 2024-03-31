@@ -66,9 +66,9 @@ export interface SoulControlerInterface extends utils.Interface {
     "DEFAULT_ADMIN_ROLE()": FunctionFragment;
     "DEVELOPER_ROLE()": FunctionFragment;
     "MINTER_ROLE()": FunctionFragment;
-    "attachEquip(address,uint256,address)": FunctionFragment;
+    "attachEquip(uint256,address)": FunctionFragment;
     "attachEquipInit(uint256,address,uint256)": FunctionFragment;
-    "attachEquips(address,uint256[],address)": FunctionFragment;
+    "attachEquips(uint256[],address)": FunctionFragment;
     "attachEquipsInit(uint256[],address,uint256[])": FunctionFragment;
     "getArtifactNft()": FunctionFragment;
     "getCoin()": FunctionFragment;
@@ -156,11 +156,7 @@ export interface SoulControlerInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "attachEquip",
-    values: [
-      PromiseOrValue<string>,
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<string>
-    ]
+    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "attachEquipInit",
@@ -172,11 +168,7 @@ export interface SoulControlerInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "attachEquips",
-    values: [
-      PromiseOrValue<string>,
-      PromiseOrValue<BigNumberish>[],
-      PromiseOrValue<string>
-    ]
+    values: [PromiseOrValue<BigNumberish>[], PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "attachEquipsInit",
@@ -497,7 +489,6 @@ export interface SoulControler extends BaseContract {
     MINTER_ROLE(overrides?: CallOverrides): Promise<[string]>;
 
     attachEquip(
-      eoa_: PromiseOrValue<string>,
       tokenId_: PromiseOrValue<BigNumberish>,
       tba_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -511,7 +502,6 @@ export interface SoulControler extends BaseContract {
     ): Promise<ContractTransaction>;
 
     attachEquips(
-      eoa_: PromiseOrValue<string>,
       tokenIds_: PromiseOrValue<BigNumberish>[],
       tba_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -597,7 +587,7 @@ export interface SoulControler extends BaseContract {
     ): Promise<ContractTransaction>;
 
     seizureEquipment(
-      from_: PromiseOrValue<string>,
+      tba_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -675,7 +665,6 @@ export interface SoulControler extends BaseContract {
   MINTER_ROLE(overrides?: CallOverrides): Promise<string>;
 
   attachEquip(
-    eoa_: PromiseOrValue<string>,
     tokenId_: PromiseOrValue<BigNumberish>,
     tba_: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -689,7 +678,6 @@ export interface SoulControler extends BaseContract {
   ): Promise<ContractTransaction>;
 
   attachEquips(
-    eoa_: PromiseOrValue<string>,
     tokenIds_: PromiseOrValue<BigNumberish>[],
     tba_: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -775,7 +763,7 @@ export interface SoulControler extends BaseContract {
   ): Promise<ContractTransaction>;
 
   seizureEquipment(
-    from_: PromiseOrValue<string>,
+    tba_: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -853,7 +841,6 @@ export interface SoulControler extends BaseContract {
     MINTER_ROLE(overrides?: CallOverrides): Promise<string>;
 
     attachEquip(
-      eoa_: PromiseOrValue<string>,
       tokenId_: PromiseOrValue<BigNumberish>,
       tba_: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -867,7 +854,6 @@ export interface SoulControler extends BaseContract {
     ): Promise<void>;
 
     attachEquips(
-      eoa_: PromiseOrValue<string>,
       tokenIds_: PromiseOrValue<BigNumberish>[],
       tba_: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -953,7 +939,7 @@ export interface SoulControler extends BaseContract {
     ): Promise<void>;
 
     seizureEquipment(
-      from_: PromiseOrValue<string>,
+      tba_: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1069,7 +1055,6 @@ export interface SoulControler extends BaseContract {
     MINTER_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
 
     attachEquip(
-      eoa_: PromiseOrValue<string>,
       tokenId_: PromiseOrValue<BigNumberish>,
       tba_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -1083,7 +1068,6 @@ export interface SoulControler extends BaseContract {
     ): Promise<BigNumber>;
 
     attachEquips(
-      eoa_: PromiseOrValue<string>,
       tokenIds_: PromiseOrValue<BigNumberish>[],
       tba_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -1149,7 +1133,7 @@ export interface SoulControler extends BaseContract {
     ): Promise<BigNumber>;
 
     seizureEquipment(
-      from_: PromiseOrValue<string>,
+      tba_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -1230,7 +1214,6 @@ export interface SoulControler extends BaseContract {
     MINTER_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     attachEquip(
-      eoa_: PromiseOrValue<string>,
       tokenId_: PromiseOrValue<BigNumberish>,
       tba_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -1244,7 +1227,6 @@ export interface SoulControler extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     attachEquips(
-      eoa_: PromiseOrValue<string>,
       tokenIds_: PromiseOrValue<BigNumberish>[],
       tba_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -1310,7 +1292,7 @@ export interface SoulControler extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     seizureEquipment(
-      from_: PromiseOrValue<string>,
+      tba_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

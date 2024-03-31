@@ -171,40 +171,41 @@ contract SoulControler is AccessControl {
     //*********************************************
 
     function seizureEquipment(
-        address from_
+        address tba_
     ) public onlyRole(DEVELOPER_ROLE){
-        Equips memory _equips = equips[from_];
         uint256 _index = block.timestamp % 10;
         uint256 _tokenId;
+        Equips memory _equip = equips[tba_];
         if(_index==0){
-            _tokenId = _equips.weapon;
-            equips[from_].weapon = 0;
+            _tokenId = _equip.weapon;
+            _equip.weapon = 0;
         } else if(_index==1){
-            _tokenId = _equips.cheastArmor;
-            equips[from_].cheastArmor = 0;
+            _tokenId = _equip.cheastArmor;
+            _equip.cheastArmor = 0;
         } else if(_index==2){
-            _tokenId = _equips.headArmor;
-            equips[from_].headArmor = 0;
+            _tokenId = equips[tba_].headArmor;
+            _equip.headArmor = 0;
         } else if(_index==3){
-            _tokenId = _equips.waistArmor;
-            equips[from_].waistArmor = 0;
+            _tokenId = equips[tba_].waistArmor;
+            _equip.waistArmor = 0;
         } else if(_index==4){
-            _tokenId = _equips.footArmor;
-            equips[from_].footArmor = 0;
+            _tokenId = equips[tba_].footArmor;
+            _equip.footArmor = 0;
         } else if(_index==5){
-            _tokenId = _equips.handArmor;
-            equips[from_].handArmor = 0;
+            _tokenId = equips[tba_].handArmor;
+            _equip.handArmor = 0;
         } else if(_index==6){
-            _tokenId = _equips.necklace;
-            equips[from_].necklace = 0;
+            _tokenId = equips[tba_].necklace;
+            _equip.necklace = 0;
         } else if(_index==7){
-            _tokenId = _equips.ring;
-            equips[from_].ring = 0;
+            _tokenId = equips[tba_].ring;
+            _equip.ring = 0;
         }
 
         if(_tokenId > 0){
             IERC1155 _equipmentNft = IERC1155(equipmentNft);
-            _equipmentNft.safeTransferFrom(from_, treasury, _tokenId, 1, '0x00');
+            _equipmentNft.safeTransferFrom(tba_, treasury, _tokenId, 1, '0x00');
+            equips[tba_] = _equip;
         }
     }
 
@@ -233,7 +234,6 @@ contract SoulControler is AccessControl {
     }
 
     function attachEquip(
-        address eoa_,
         uint256 tokenId_,
         address tba_
     ) public {
@@ -241,8 +241,9 @@ contract SoulControler is AccessControl {
         require(_equipment.balanceOf(msg.sender, tokenId_)>0, 'SoulControler | You are not EquipmentNft owner');
         uint256 _type = _equipment.getEquipmentType(tokenId_);
         if(getIsEquip(tba_, _type)){
-            _withdrawEquip(eoa_, tba_, _type);
+            _withdrawEquip(msg.sender, tba_, _type);
         }
+        _equipment.safeTransferFrom(msg.sender, tba_, tokenId_, 1, '0x00');
         _attachEquip(tokenId_, tba_, _type);
         emit UpdateEquips(tba_, equips[tba_]);
     }
@@ -257,20 +258,17 @@ contract SoulControler is AccessControl {
     }
 
     function attachEquips(
-        address eoa_,
         uint256[] memory tokenIds_,
         address tba_
     ) public onlyRole(MINTER_ROLE){
         IEquipmentNft _equipment = IEquipmentNft(equipmentNft);
         for (uint256 i=0; i<tokenIds_.length; i++){
-            require(
-                hasRole(MINTER_ROLE, msg.sender) || _equipment.balanceOf(msg.sender, tokenIds_[i])>0,
-                'SoulControler | You are not token owner or SoulMinter'
-            );
+            require(_equipment.balanceOf(msg.sender, tokenIds_[i])>0,'SoulControler | You are not token owner or SoulMinter');
             uint256 _type = _equipment.getEquipmentType(tokenIds_[i]);
             if(getIsEquip(tba_, _type)){
-                _withdrawEquip(eoa_, tba_, _type);
+                _withdrawEquip(msg.sender, tba_, _type);
             }
+            _equipment.safeTransferFrom(msg.sender, tba_, tokenIds_[i], 1, '0x00');
             _attachEquip(tokenIds_[i], tba_, _type);
             emit UpdateEquips(tba_, equips[tba_]);
         }
@@ -301,7 +299,7 @@ contract SoulControler is AccessControl {
             _equip.weapon = 0;
         } else if(type_==1){
             _tokenId = _equip.cheastArmor;
-            equips[tba_].cheastArmor = 0;
+            _equip.cheastArmor = 0;
         } else if(type_==2){
             _tokenId = equips[tba_].headArmor;
             _equip.headArmor = 0;

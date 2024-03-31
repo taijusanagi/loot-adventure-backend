@@ -38,6 +38,7 @@ export interface EquipmentNftInterface extends utils.Interface {
     "getBaseValLevel(uint256)": FunctionFragment;
     "getBaseValRarity(uint256)": FunctionFragment;
     "getCoin()": FunctionFragment;
+    "getCounter(uint256)": FunctionFragment;
     "getEquipmentName(uint256)": FunctionFragment;
     "getEquipmentSeed(uint256)": FunctionFragment;
     "getEquipmentType(uint256)": FunctionFragment;
@@ -88,6 +89,7 @@ export interface EquipmentNftInterface extends utils.Interface {
       | "getBaseValLevel"
       | "getBaseValRarity"
       | "getCoin"
+      | "getCounter"
       | "getEquipmentName"
       | "getEquipmentSeed"
       | "getEquipmentType"
@@ -160,6 +162,10 @@ export interface EquipmentNftInterface extends utils.Interface {
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(functionFragment: "getCoin", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "getCounter",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
   encodeFunctionData(
     functionFragment: "getEquipmentName",
     values: [PromiseOrValue<BigNumberish>]
@@ -361,6 +367,7 @@ export interface EquipmentNftInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "getCoin", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "getCounter", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getEquipmentName",
     data: BytesLike
@@ -681,6 +688,11 @@ export interface EquipmentNft extends BaseContract {
 
     getCoin(overrides?: CallOverrides): Promise<[string]>;
 
+    getCounter(
+      tokenIdPre_: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber] & { _counter: BigNumber }>;
+
     getEquipmentName(
       tokenId_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -909,6 +921,11 @@ export interface EquipmentNft extends BaseContract {
   ): Promise<BigNumber>;
 
   getCoin(overrides?: CallOverrides): Promise<string>;
+
+  getCounter(
+    tokenIdPre_: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
 
   getEquipmentName(
     tokenId_: PromiseOrValue<BigNumberish>,
@@ -1139,6 +1156,11 @@ export interface EquipmentNft extends BaseContract {
 
     getCoin(overrides?: CallOverrides): Promise<string>;
 
+    getCounter(
+      tokenIdPre_: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     getEquipmentName(
       tokenId_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -1212,7 +1234,7 @@ export interface EquipmentNft extends BaseContract {
       type_: PromiseOrValue<BigNumberish>,
       rarity_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<void>;
+    ): Promise<BigNumber>;
 
     name(overrides?: CallOverrides): Promise<string>;
 
@@ -1487,6 +1509,11 @@ export interface EquipmentNft extends BaseContract {
 
     getCoin(overrides?: CallOverrides): Promise<BigNumber>;
 
+    getCounter(
+      tokenIdPre_: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     getEquipmentName(
       tokenId_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -1718,6 +1745,11 @@ export interface EquipmentNft extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     getCoin(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    getCounter(
+      tokenIdPre_: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
 
     getEquipmentName(
       tokenId_: PromiseOrValue<BigNumberish>,

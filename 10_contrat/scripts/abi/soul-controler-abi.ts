@@ -195,11 +195,6 @@ export const soulControlerAbi = [
   {
     "inputs": [
       {
-        "internalType": "address",
-        "name": "eoa_",
-        "type": "address"
-      },
-      {
         "internalType": "uint256",
         "name": "tokenId_",
         "type": "uint256"
@@ -240,11 +235,6 @@ export const soulControlerAbi = [
   },
   {
     "inputs": [
-      {
-        "internalType": "address",
-        "name": "eoa_",
-        "type": "address"
-      },
       {
         "internalType": "uint256[]",
         "name": "tokenIds_",
@@ -372,6 +362,30 @@ export const soulControlerAbi = [
         "internalType": "uint256",
         "name": "ring",
         "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "tba_",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "type_",
+        "type": "uint256"
+      }
+    ],
+    "name": "getIsEquip",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
       }
     ],
     "stateMutability": "view",

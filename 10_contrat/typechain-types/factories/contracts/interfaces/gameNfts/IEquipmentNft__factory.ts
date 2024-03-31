@@ -292,7 +292,13 @@ const _abi = [
       },
     ],
     name: "mint",
-    outputs: [],
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "_tokenId",
+        type: "uint256",
+      },
+    ],
     stateMutability: "nonpayable",
     type: "function",
   },

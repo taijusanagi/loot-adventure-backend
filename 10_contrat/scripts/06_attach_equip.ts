@@ -6,9 +6,9 @@ import { SOUL_CONTROLER, EQUIPMENT_NFT, ERC6551_REGISTRY, COIN_FT } from './conf
 import { erc1155Equipment } from './abi/erc1155-equipment-abi';
 import { soulControlerAbi } from './abi/soul-controler-abi';
 import { erc6551AccountAbi } from './abi/erc6551-account-abi';
-import { erc20lacoinAbi } from './abi/erc20-lacoin-abi';
+// import { erc20lacoinAbi } from './abi/erc20-lacoin-abi';
 
-const tba = "0x22aAA7b2183162A23Eb7470De47749010560eA59";
+const tba = "0x8b8AE55D1A6112bc940E09DB19Aa295B7F8eD71A";
 
 async function main() {
   const [signer] = await ethers.getSigners();
@@ -29,14 +29,16 @@ async function main() {
     console.log("To: ", to)
   })
 
-  // Set Contract
   const tx = await soulControler.attachEquip(
-    signer.address,
-    20000000001,
+    20000020001000,
     tba
   );
   tx.wait();
+  // const tx = await equipmentNft.balanceOf(signer.address, 20000010001000);
+  // console.log(tx);
 
+  // const tx01 = await soulControler.getEquips(tba);
+  // console.log(tx01);
 }
 
 // We recommend this pattern to be able to use async/await everywhere

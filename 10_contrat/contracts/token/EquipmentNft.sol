@@ -15,6 +15,7 @@ contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
     event updateEquipment(uint256 _tokenId, uint256 _seed, string _name, uint256 _equipmentType, address _rAddress, uint256 _rTokenId, uint256 _rarity, uint256 _level);
     uint256 NFT_ID_PREFIX = 10**7;
     uint256 TYPE_PREFIX = 10**4;
+    uint256 TOKEN_ID_PREFIX = 10**3;
 
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     bytes32 public constant DEVELOPER_ROLE = keccak256("DEVELOPER_ROLE");
@@ -30,6 +31,8 @@ contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
     address private soulControler;
 
     mapping (address => uint256) private nftId; // NFT Address => NFT ID
+    mapping (uint256 => uint256) private counter; // TokenIdPre => Counter
+
     mapping (uint256 => Equipment) private equipment; // tokenId => Equipment Status
     mapping (address => bool) private onGame; // Owner => On Game Status
     mapping (uint256 => uint256) private baseValRarity; // Rarity => Base value
@@ -50,7 +53,7 @@ contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
         baseValRarity[2] = 6;
         baseValRarity[3] = 9;
 
-        kValLevelUp = 11;
+        kValLevelUp = 10;
     }
 
     //*********************************************
@@ -128,8 +131,14 @@ contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
     }
 
     function getTokenId(address nft_, uint256 id_, uint256 type_) public view returns(uint256 _tokenId) {
-        _tokenId = (nftId[nft_] * NFT_ID_PREFIX) + (type_ * TYPE_PREFIX) + id_;
+        uint256 _tokenIdPre = (nftId[nft_] * NFT_ID_PREFIX) + (type_ * TYPE_PREFIX) + id_;
+        uint256 _counter = counter[_tokenIdPre];
+
+        _tokenId = _tokenIdPre * TOKEN_ID_PREFIX + _counter;
         return _tokenId;
+    }
+    function getCounter(uint256 tokenIdPre_) public view returns(uint256 _counter) {
+        return counter[tokenIdPre_];
     }
     //*********************************************
     //Setter
@@ -206,10 +215,12 @@ contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
         uint256 id_,
         uint256 type_,
         uint256 rarity_
-    ) public onlyRole(MINTER_ROLE) {
+    ) public onlyRole(MINTER_ROLE) returns(uint256 _tokenId){
         Equipment memory _equipment;
-        //uint256 _tokenId = (nftId[nft_] * NFT_ID_PREFIX) + (type_ * TYPE_PREFIX) + id_;
-        uint256 _tokenId = getTokenId(nft_, id_, type_);
+        _tokenId = getTokenId(nft_, id_, type_);
+        uint256 _tokenIdPre = _tokenId / TOKEN_ID_PREFIX;
+        counter[_tokenIdPre]++;
+
         _equipment.seed = seed_;
         _equipment.name = name_;
         _equipment.equipmentType = type_;
@@ -235,6 +246,7 @@ contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
             _equipment.level
         );
         emit mintEquipment(to_, _tokenId, type_, name_, _value);
+        return _tokenId;
     }
 
     function safeTransferFrom(
@@ -285,10 +297,8 @@ contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
         ICoin _coin = ICoin(coin);
         Equipment memory _equipment = equipment[tokenId_];
         uint256 _level = _equipment.level;
-        uint256 _amount = (100 + kValLevelUp) ** _level * (10 ** 15);
-        // (bool _success) = _coin.transferFrom(msg.sender, treasury, _amount);
+        uint256 _amount = (100 + kValLevelUp) ** (_level - 1) * (10 ** 15);
         _coin.burn(msg.sender, _amount, 'Level Up');
-        // require(_success, 'EquipmentNFT error: Your XP Token is insufficient');
 
         _equipment.level = _level + 1;
         equipment[tokenId_] = _equipment;
