@@ -8,6 +8,7 @@ import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/utils/Base64.sol";
 
 import "../interfaces/gameNfts/IEquipmentNft.sol";
+import "../interfaces/ICoin.sol";
 
 contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
     event mintEquipment(address _to, uint256 _tokenId, uint256 _type, string _name, uint256 _val);
@@ -281,12 +282,13 @@ contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
     function levelUp(
         uint256 tokenId_
     ) public {
-        IERC20 _coin = IERC20(coin);
+        ICoin _coin = ICoin(coin);
         Equipment memory _equipment = equipment[tokenId_];
         uint256 _level = _equipment.level;
         uint256 _amount = (100 + kValLevelUp) ** _level * (10 ** 15);
-        (bool _success) = _coin.transferFrom(msg.sender, treasury, _amount);
-        require(_success, 'EquipmentNFT error: Your XP Token is insufficient');
+        // (bool _success) = _coin.transferFrom(msg.sender, treasury, _amount);
+        _coin.burn(msg.sender, _amount, 'Level Up');
+        // require(_success, 'EquipmentNFT error: Your XP Token is insufficient');
 
         _equipment.level = _level + 1;
         equipment[tokenId_] = _equipment;
