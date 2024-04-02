@@ -9,7 +9,8 @@ interface ISoulCalculator {
         uint256 tokenId_, 
         bytes memory seedData_
     ) external view returns (
-        ILootByRogueV2.AdventureRecord memory _record
+        ILootByRogueV2.AdventureRecord memory _record,
+        uint256 _tokenId
     );
 
     function calcEquipment(

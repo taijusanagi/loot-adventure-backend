@@ -174,7 +174,7 @@ contract SoulControler is AccessControl {
         address tba_
     ) public onlyRole(DEVELOPER_ROLE){
         uint256 _index = block.timestamp % 10;
-        uint256 _tokenId;
+        uint256 _tokenId = 0;
         Equips memory _equip = equips[tba_];
         if(_index==0){
             _tokenId = _equip.weapon;

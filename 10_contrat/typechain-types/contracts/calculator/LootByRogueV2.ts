@@ -388,8 +388,9 @@ export interface LootByRogueV2 extends BaseContract {
       data_: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<
-      [ILootByRogueV2.AdventureRecordStructOutput] & {
+      [ILootByRogueV2.AdventureRecordStructOutput, BigNumber] & {
         record_: ILootByRogueV2.AdventureRecordStructOutput;
+        _tokenId: BigNumber;
       }
     >;
 
@@ -485,7 +486,12 @@ export interface LootByRogueV2 extends BaseContract {
     tokenId_: PromiseOrValue<BigNumberish>,
     data_: PromiseOrValue<BytesLike>,
     overrides?: CallOverrides
-  ): Promise<ILootByRogueV2.AdventureRecordStructOutput>;
+  ): Promise<
+    [ILootByRogueV2.AdventureRecordStructOutput, BigNumber] & {
+      record_: ILootByRogueV2.AdventureRecordStructOutput;
+      _tokenId: BigNumber;
+    }
+  >;
 
   getRoleAdmin(
     role: PromiseOrValue<BytesLike>,
@@ -579,7 +585,12 @@ export interface LootByRogueV2 extends BaseContract {
       tokenId_: PromiseOrValue<BigNumberish>,
       data_: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
-    ): Promise<ILootByRogueV2.AdventureRecordStructOutput>;
+    ): Promise<
+      [ILootByRogueV2.AdventureRecordStructOutput, BigNumber] & {
+        record_: ILootByRogueV2.AdventureRecordStructOutput;
+        _tokenId: BigNumber;
+      }
+    >;
 
     getRoleAdmin(
       role: PromiseOrValue<BytesLike>,

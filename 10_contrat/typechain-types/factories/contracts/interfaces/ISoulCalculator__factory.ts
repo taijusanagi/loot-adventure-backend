@@ -261,6 +261,11 @@ const _abi = [
         name: "_record",
         type: "tuple",
       },
+      {
+        internalType: "uint256",
+        name: "_tokenId",
+        type: "uint256",
+      },
     ],
     stateMutability: "view",
     type: "function",

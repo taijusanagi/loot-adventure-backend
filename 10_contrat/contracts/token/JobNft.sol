@@ -10,8 +10,7 @@ import "@openzeppelin/contracts/utils/Base64.sol";
 import "../interfaces/gameNfts/IJobNft.sol";
 
 contract JobNft is ERC1155, AccessControl, IJobNft {
-    uint256 NFT_ID_PREFIX = 10**7;
-    uint256 TYPE_PREFIX = 10**4;
+    uint256 NFT_ID_PREFIX = 10**4;
 
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     bytes32 public constant DEVELOPER_ROLE = keccak256("DEVELOPER_ROLE");
@@ -110,7 +109,7 @@ contract JobNft is ERC1155, AccessControl, IJobNft {
         uint256 type_
     ) public onlyRole(MINTER_ROLE) {
         Job memory _job;
-        uint256 _tokenId = (nftId[nft_] * NFT_ID_PREFIX) + (type_ * TYPE_PREFIX);
+        uint256 _tokenId = (nftId[nft_] * NFT_ID_PREFIX) + type_;
         _job.seed = seed_;
         _job.name = name_;
         _job.jobType = type_;

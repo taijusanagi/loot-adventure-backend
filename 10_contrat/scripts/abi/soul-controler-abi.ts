@@ -531,7 +531,7 @@ export const soulControlerAbi = [
     "inputs": [
       {
         "internalType": "address",
-        "name": "from_",
+        "name": "tba_",
         "type": "address"
       }
     ],

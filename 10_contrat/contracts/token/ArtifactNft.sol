@@ -12,8 +12,7 @@ import "../interfaces/gameNfts/IArtifactNft.sol";
 contract ArtifactNft is ERC1155, AccessControl, IArtifactNft {
     event mitArtifact(address _to, uint256 _tokenId, uint256 _type, string _name, uint256 _val);
 
-    uint256 NFT_ID_PREFIX = 10**7;
-    uint256 TYPE_PREFIX = 10**4;
+    uint256 NFT_ID_PREFIX = 10**4;
 
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     bytes32 public constant DEVELOPER_ROLE = keccak256("DEVELOPER_ROLE");
@@ -161,7 +160,7 @@ contract ArtifactNft is ERC1155, AccessControl, IArtifactNft {
         uint256 rarity_
     ) public onlyRole(MINTER_ROLE) {
         Artifact memory _Artifact;
-        uint256 _tokenId = (nftId[nft_] * NFT_ID_PREFIX) + (type_ * TYPE_PREFIX);
+        uint256 _tokenId = (nftId[nft_] * NFT_ID_PREFIX) + type_;
         _Artifact.seed = seed_;
         _Artifact.name = name_;
         _Artifact.artifactType = type_;

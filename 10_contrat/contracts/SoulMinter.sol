@@ -148,20 +148,20 @@ contract SoulMinter is AccessControl {
         ILootByRogueV2 _loot = ILootByRogueV2(nft_);
         
         ISoulCalculator _calc = ISoulCalculator(calcContract[nft_]);
-        (ILootByRogueV2.AdventureRecord memory _record) = _calc.calcSoul(nft_, tokenId_, seedData_);
+        (ILootByRogueV2.AdventureRecord memory _record, uint256 _tokenId) = _calc.calcSoul(nft_, tokenId_, seedData_);
 
         // Mint SoulLoot to EOA
-        _soulLoot.safeMint(msg.sender, chainId_, nft_, tokenId_, _record);
+        _soulLoot.safeMint(msg.sender, chainId_, nft_, _tokenId, _record);
         _loot.safeTransferFrom(msg.sender, ZERO_ADDRESS, tokenId_);
 
         // Create TBA
-        uint256 _tokenId = _soulLoot.getTokenId(tokenId_, nft_);
+        uint256 __tokenId = _soulLoot.getTokenId(tokenId_, nft_);
         _registry.createAccount(implementation, chainId_, soulLoot, _tokenId, 1, '0x0000000000000000000000000000000000000000');
         address _tba = _registry.account(
             implementation, 
             chainId_, 
-            soulLoot, 
-            _tokenId,
+            soulLoot,
+            __tokenId,
             1
         );
         // Mint Equipmnt&Job&Artifact to TBA

@@ -8,16 +8,17 @@ async function main() {
   console.log('Signer is ... ', signer.address);
 
   // Test Prameter
-  const TOKEN_ID = 38;
+  const TOKEN_ID = 42;
 
   // Set Contract
   const sampleLoot = new ethers.Contract(SAMPLE_LOOT, sampleLootAbi, signer);
-  const tx = await sampleLoot.approve(SOUL_MINTER, TOKEN_ID);
   sampleLoot.once('Approval', (owner, to, tokenId) => {
     console.log('Approve from ', owner);
     console.log('To: ', to);
     console.log('Tokenid: ', tokenId.toString());
   })
+  const tx = await sampleLoot.approve(SOUL_MINTER, TOKEN_ID);
+  
 
   tx.wait();
 }

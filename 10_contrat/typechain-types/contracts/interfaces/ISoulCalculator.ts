@@ -233,8 +233,9 @@ export interface ISoulCalculator extends BaseContract {
       seedData_: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<
-      [ILootByRogueV2.AdventureRecordStructOutput] & {
+      [ILootByRogueV2.AdventureRecordStructOutput, BigNumber] & {
         _record: ILootByRogueV2.AdventureRecordStructOutput;
+        _tokenId: BigNumber;
       }
     >;
   };
@@ -280,7 +281,12 @@ export interface ISoulCalculator extends BaseContract {
     tokenId_: PromiseOrValue<BigNumberish>,
     seedData_: PromiseOrValue<BytesLike>,
     overrides?: CallOverrides
-  ): Promise<ILootByRogueV2.AdventureRecordStructOutput>;
+  ): Promise<
+    [ILootByRogueV2.AdventureRecordStructOutput, BigNumber] & {
+      _record: ILootByRogueV2.AdventureRecordStructOutput;
+      _tokenId: BigNumber;
+    }
+  >;
 
   callStatic: {
     calcArtifact(
@@ -324,7 +330,12 @@ export interface ISoulCalculator extends BaseContract {
       tokenId_: PromiseOrValue<BigNumberish>,
       seedData_: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
-    ): Promise<ILootByRogueV2.AdventureRecordStructOutput>;
+    ): Promise<
+      [ILootByRogueV2.AdventureRecordStructOutput, BigNumber] & {
+        _record: ILootByRogueV2.AdventureRecordStructOutput;
+        _tokenId: BigNumber;
+      }
+    >;
   };
 
   filters: {};

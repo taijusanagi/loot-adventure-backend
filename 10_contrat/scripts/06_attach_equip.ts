@@ -8,7 +8,7 @@ import { soulControlerAbi } from './abi/soul-controler-abi';
 import { erc6551AccountAbi } from './abi/erc6551-account-abi';
 // import { erc20lacoinAbi } from './abi/erc20-lacoin-abi';
 
-const tba = "0x8b8AE55D1A6112bc940E09DB19Aa295B7F8eD71A";
+const tba = "0x08Dbd188761E7FD47b8c674289B7ED55B7ea49a2";
 
 async function main() {
   const [signer] = await ethers.getSigners();
@@ -30,7 +30,7 @@ async function main() {
   })
 
   const tx = await soulControler.attachEquip(
-    20000020001000,
+    20000000001000,
     tba
   );
   tx.wait();
