@@ -8,7 +8,7 @@ import { soulControlerAbi } from './abi/soul-controler-abi';
 import { erc6551AccountAbi } from './abi/erc6551-account-abi';
 import { erc20lacoinAbi } from './abi/erc20-lacoin-abi';
 
-const tba = "0xa0be16321B3125eeb78E910614449B0C270FCA45";
+const tba = "0x1f03aE8DCC76d2E5dD4bf4Bcef872f9cDF017626";
 
 async function main() {
   const [signer] = await ethers.getSigners();
@@ -38,7 +38,7 @@ async function main() {
   // create tx data
   const txData = soulControler.interface.encodeFunctionData("withdrawEquip", [
     signer.address,
-    20000030001001
+    20000030001000
   ]);
   // Set Contract
   const tx = await tbaContract.executeCall(SOUL_CONTROLER, 0, txData);

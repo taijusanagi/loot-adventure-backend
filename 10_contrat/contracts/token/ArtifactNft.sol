@@ -69,7 +69,6 @@ contract ArtifactNft is ERC1155, AccessControl, IArtifactNft {
             _attribute("Seed", artifact[tokenId_].seed), _c, 
             _attribute("Name", artifact[tokenId_].name), _c,
             _attribute("Type", artifact[tokenId_].artifactType), _c,
-            _attribute("Rarity", artifact[tokenId_].rarity), _c,
             _attribute("Loot NFT Token ID", artifact[tokenId_].rTokenId),
             ']'
         ));
@@ -92,13 +91,13 @@ contract ArtifactNft is ERC1155, AccessControl, IArtifactNft {
         return _output;
     }
 
-    function name() public view returns (string memory){
+    function name() public pure returns (string memory){
         return 'LootAdventure ArtifactNft';
     }
 
     function getArtifactVal(uint256 tokenId_) public view returns (uint256 _value) {
         Artifact memory _artifact = artifact[tokenId_];
-        _value = _artifact.seed % 5 + baseValRarity[_artifact.rarity];
+        _value = _artifact.seed % 5;
         return _value;
     }
 
@@ -156,8 +155,7 @@ contract ArtifactNft is ERC1155, AccessControl, IArtifactNft {
         uint256 tokenId_, 
         uint256 seed_,
         string memory name_,
-        uint256 type_,
-        uint256 rarity_
+        uint256 type_
     ) public onlyRole(MINTER_ROLE) {
         Artifact memory _Artifact;
         uint256 _tokenId = (nftId[nft_] * NFT_ID_PREFIX) + type_;
@@ -165,7 +163,6 @@ contract ArtifactNft is ERC1155, AccessControl, IArtifactNft {
         _Artifact.name = name_;
         _Artifact.artifactType = type_;
         _Artifact.rAddress = nft_;
-        _Artifact.rarity = rarity_;
         _Artifact.rTokenId = tokenId_;
 
         artifact[_tokenId] = _Artifact;

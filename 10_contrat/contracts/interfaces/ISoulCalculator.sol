@@ -39,7 +39,6 @@ interface ISoulCalculator {
         bytes memory seedData_
     ) external view returns (
         uint256 _seed,
-        uint256 _artifactType,
-        uint256 _rarity
+        uint256[] memory _artifactType
     );
 }

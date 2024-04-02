@@ -152,16 +152,17 @@ contract SoulMinter is AccessControl {
 
         // Mint SoulLoot to EOA
         _soulLoot.safeMint(msg.sender, chainId_, nft_, _tokenId, _record);
+        // uint256 _tokenId2 = _soulLoot.safeMint(msg.sender, chainId_, nft_, _tokenId, _record);
         _loot.safeTransferFrom(msg.sender, ZERO_ADDRESS, tokenId_);
 
         // Create TBA
-        uint256 __tokenId = _soulLoot.getTokenId(tokenId_, nft_);
-        _registry.createAccount(implementation, chainId_, soulLoot, _tokenId, 1, '0x0000000000000000000000000000000000000000');
+        uint256 _tokenId2 = _soulLoot.getTokenId(tokenId_, nft_);
+        _registry.createAccount(implementation, chainId_, soulLoot, _tokenId2, 1, '0x0000000000000000000000000000000000000000');
         address _tba = _registry.account(
             implementation, 
             chainId_, 
             soulLoot,
-            __tokenId,
+            _tokenId2,
             1
         );
         // Mint Equipmnt&Job&Artifact to TBA
@@ -224,18 +225,20 @@ contract SoulMinter is AccessControl {
         ISoulCalculator _calc = ISoulCalculator(calcContract[nft_]);
         (
             uint256 _seed,
-            uint256 _artifactType,
-            uint256 _rarity
+            uint256[] memory _artifactType
         ) = _calc.calcArtifact(nft_, tokenId_, seedData_);
-        _artifactNft.mint(
-            recipient_, 
-            nft_, 
-            tokenId_,
-            _seed,
-            ARTIFACT_TYPE[_artifactType],
-            _artifactType,
-            _rarity
-        );
+        if(_artifactType.length>0){
+            for(uint i=0; i<_artifactType.length; i++){
+                _artifactNft.mint(
+                    recipient_, 
+                    nft_, 
+                    tokenId_,
+                    _seed,
+                    ARTIFACT_TYPE[_artifactType[i]],
+                    _artifactType[i]
+                );
+            }
+        }
     }
 
     function _mintCoin(address recipient_, uint256 amount_, string memory source_) internal virtual {

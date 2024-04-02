@@ -42,11 +42,6 @@ const _abi = [
         name: "type_",
         type: "uint256",
       },
-      {
-        internalType: "uint256",
-        name: "rarity_",
-        type: "uint256",
-      },
     ],
     name: "mint",
     outputs: [],

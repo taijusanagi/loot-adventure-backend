@@ -6,7 +6,6 @@ interface IArtifactNft {
         uint256 seed;
         uint256 artifactType;
         string name;
-        uint256 rarity;
         address rAddress;
         uint256 rTokenId;
     }
@@ -24,7 +23,6 @@ interface IArtifactNft {
         uint256 tokenId_, 
         uint256 seed_,
         string memory name_,
-        uint256 type_,
-        uint256 rarity_
+        uint256 type_
     ) external;
 }

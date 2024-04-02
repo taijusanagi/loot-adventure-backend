@@ -44,7 +44,7 @@ export interface ArtifactNftInterface extends utils.Interface {
     "grantRole(bytes32,address)": FunctionFragment;
     "hasRole(bytes32,address)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
-    "mint(address,address,uint256,uint256,string,uint256,uint256)": FunctionFragment;
+    "mint(address,address,uint256,uint256,string,uint256)": FunctionFragment;
     "name()": FunctionFragment;
     "renounceRole(bytes32,address)": FunctionFragment;
     "revokeRole(bytes32,address)": FunctionFragment;
@@ -167,7 +167,6 @@ export interface ArtifactNftInterface extends utils.Interface {
       PromiseOrValue<BigNumberish>,
       PromiseOrValue<BigNumberish>,
       PromiseOrValue<string>,
-      PromiseOrValue<BigNumberish>,
       PromiseOrValue<BigNumberish>
     ]
   ): string;
@@ -566,7 +565,6 @@ export interface ArtifactNft extends BaseContract {
       seed_: PromiseOrValue<BigNumberish>,
       name_: PromiseOrValue<string>,
       type_: PromiseOrValue<BigNumberish>,
-      rarity_: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -736,7 +734,6 @@ export interface ArtifactNft extends BaseContract {
     seed_: PromiseOrValue<BigNumberish>,
     name_: PromiseOrValue<string>,
     type_: PromiseOrValue<BigNumberish>,
-    rarity_: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -906,7 +903,6 @@ export interface ArtifactNft extends BaseContract {
       seed_: PromiseOrValue<BigNumberish>,
       name_: PromiseOrValue<string>,
       type_: PromiseOrValue<BigNumberish>,
-      rarity_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1174,7 +1170,6 @@ export interface ArtifactNft extends BaseContract {
       seed_: PromiseOrValue<BigNumberish>,
       name_: PromiseOrValue<string>,
       type_: PromiseOrValue<BigNumberish>,
-      rarity_: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -1347,7 +1342,6 @@ export interface ArtifactNft extends BaseContract {
       seed_: PromiseOrValue<BigNumberish>,
       name_: PromiseOrValue<string>,
       type_: PromiseOrValue<BigNumberish>,
-      rarity_: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

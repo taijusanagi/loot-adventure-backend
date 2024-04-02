@@ -197,10 +197,9 @@ export interface ISoulCalculator extends BaseContract {
       seedData_: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<
-      [BigNumber, BigNumber, BigNumber] & {
+      [BigNumber, BigNumber[]] & {
         _seed: BigNumber;
-        _artifactType: BigNumber;
-        _rarity: BigNumber;
+        _artifactType: BigNumber[];
       }
     >;
 
@@ -246,11 +245,7 @@ export interface ISoulCalculator extends BaseContract {
     seedData_: PromiseOrValue<BytesLike>,
     overrides?: CallOverrides
   ): Promise<
-    [BigNumber, BigNumber, BigNumber] & {
-      _seed: BigNumber;
-      _artifactType: BigNumber;
-      _rarity: BigNumber;
-    }
+    [BigNumber, BigNumber[]] & { _seed: BigNumber; _artifactType: BigNumber[] }
   >;
 
   calcEquipment(
@@ -295,10 +290,9 @@ export interface ISoulCalculator extends BaseContract {
       seedData_: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<
-      [BigNumber, BigNumber, BigNumber] & {
+      [BigNumber, BigNumber[]] & {
         _seed: BigNumber;
-        _artifactType: BigNumber;
-        _rarity: BigNumber;
+        _artifactType: BigNumber[];
       }
     >;
 

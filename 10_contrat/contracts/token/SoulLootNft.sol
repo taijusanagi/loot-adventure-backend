@@ -157,7 +157,6 @@ contract SoulLootNft is ERC721, AccessControl, ISoulLoot {
 
         // Mint SoulLootNft
         _mint(to_, _tokenId);
-
         emit mintSoulLoot(address(0), to_, _tokenId, chainId_, nft_, tokenId_);
     }
 

@@ -25,7 +25,7 @@ import type {
 
 export interface IArtifactNftInterface extends utils.Interface {
   functions: {
-    "mint(address,address,uint256,uint256,string,uint256,uint256)": FunctionFragment;
+    "mint(address,address,uint256,uint256,string,uint256)": FunctionFragment;
     "setBaseMetadataURI(string,string)": FunctionFragment;
     "setDeveloperRole(address)": FunctionFragment;
     "setMinterRole(address)": FunctionFragment;
@@ -51,7 +51,6 @@ export interface IArtifactNftInterface extends utils.Interface {
       PromiseOrValue<BigNumberish>,
       PromiseOrValue<BigNumberish>,
       PromiseOrValue<string>,
-      PromiseOrValue<BigNumberish>,
       PromiseOrValue<BigNumberish>
     ]
   ): string;
@@ -129,7 +128,6 @@ export interface IArtifactNft extends BaseContract {
       seed_: PromiseOrValue<BigNumberish>,
       name_: PromiseOrValue<string>,
       type_: PromiseOrValue<BigNumberish>,
-      rarity_: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -167,7 +165,6 @@ export interface IArtifactNft extends BaseContract {
     seed_: PromiseOrValue<BigNumberish>,
     name_: PromiseOrValue<string>,
     type_: PromiseOrValue<BigNumberish>,
-    rarity_: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -205,7 +202,6 @@ export interface IArtifactNft extends BaseContract {
       seed_: PromiseOrValue<BigNumberish>,
       name_: PromiseOrValue<string>,
       type_: PromiseOrValue<BigNumberish>,
-      rarity_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -246,7 +242,6 @@ export interface IArtifactNft extends BaseContract {
       seed_: PromiseOrValue<BigNumberish>,
       name_: PromiseOrValue<string>,
       type_: PromiseOrValue<BigNumberish>,
-      rarity_: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -285,7 +280,6 @@ export interface IArtifactNft extends BaseContract {
       seed_: PromiseOrValue<BigNumberish>,
       name_: PromiseOrValue<string>,
       type_: PromiseOrValue<BigNumberish>,
-      rarity_: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
