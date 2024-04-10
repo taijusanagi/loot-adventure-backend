@@ -89,6 +89,73 @@ export const soulControlerAbi = [
         "type": "address"
       },
       {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      },
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "weapon",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "cheastArmor",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "headArmor",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "waistArmor",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "footArmor",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "handArmor",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "necklace",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "ring",
+            "type": "uint256"
+          }
+        ],
+        "indexed": false,
+        "internalType": "struct SoulControler.Equips",
+        "name": "equips",
+        "type": "tuple"
+      }
+    ],
+    "name": "SeizureEquipment",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "owner",
+        "type": "address"
+      },
+      {
         "components": [
           {
             "internalType": "uint256",
@@ -272,6 +339,44 @@ export const soulControlerAbi = [
     "name": "attachEquipsInit",
     "outputs": [],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "level_",
+        "type": "uint256"
+      }
+    ],
+    "name": "getAmountByLevel",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "_amount",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "tokenId_",
+        "type": "uint256"
+      }
+    ],
+    "name": "getAmountByToken",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "_amount",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -536,7 +641,13 @@ export const soulControlerAbi = [
       }
     ],
     "name": "seizureEquipment",
-    "outputs": [],
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "_tokenId",
+        "type": "uint256"
+      }
+    ],
     "stateMutability": "nonpayable",
     "type": "function"
   },

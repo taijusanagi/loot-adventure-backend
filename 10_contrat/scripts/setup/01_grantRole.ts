@@ -14,46 +14,46 @@ async function main() {
 
   let tx;
   tx = await soulMinter.setDeveloperRole(process.env.dev00);
-  tx.wait();
+  await tx.wait();
   console.log('set:', tx);
   tx = await soulMinter.setDeveloperRole(process.env.dev01);
-  tx.wait();
+  await tx.wait();
   console.log('set:', tx);
   tx = await soulMinter.setDeveloperRole(process.env.dev02);
-  tx.wait();
+  await tx.wait();
   console.log('set:', tx);
   tx = await soulMinter.setDeveloperRole(process.env.dev03);
-  tx.wait();
+  await tx.wait();
   console.log('set:', tx);
   tx = await soulMinter.setDeveloperRole(process.env.dev04);
-  tx.wait();
+  await tx.wait();
   console.log('set:', tx);
   tx = await soulMinter.setDeveloperRole(process.env.dev05);
-  tx.wait();
+  await tx.wait();
   tx = await soulMinter.setDeveloperRole(process.env.dev06);
-  tx.wait();
+  await tx.wait();
   console.log('set:', tx);
   tx = await soulMinter.setDeveloperRole(process.env.dev07);
-  tx.wait();
+  await tx.wait();
   console.log('set:', tx);
   tx = await soulMinter.setDeveloperRole(process.env.dev08);
-  tx.wait();
+  await tx.wait();
   console.log('set:', tx);
   tx = await soulMinter.setDeveloperRole(process.env.dev09);
-  tx.wait();
+  await tx.wait();
   console.log('set:', tx);
   tx = await soulMinter.setDeveloperRole(process.env.dev01);
-  tx.wait();
+  await tx.wait();
   console.log('set:', tx);
   tx = await soulMinter.setDeveloperRole(process.env.dev01);
-  tx.wait();
+  await tx.wait();
   console.log('set:', tx);
 
   tx = await soulControler.setDeveloperRole(process.env.dev00);
-  tx.wait();
+  await tx.wait();
   console.log('set:', tx);
   tx = await soulControler.setDeveloperRole(process.env.dev01);
-  tx.wait();
+  await tx.wait();
 }
 
 // We recommend this pattern to be able to use async/await everywhere

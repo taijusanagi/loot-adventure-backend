@@ -291,26 +291,42 @@ contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
         _safeBatchTransferFrom(from, to, ids, amounts, data);
     }
 
+    function getAmountByLevel(uint256 level_) public view returns(uint256 _amount){
+        if(level_>2){
+            _amount = (10 ** 20) * ((100 + kValLevelUp) ** (level_ - 2)) / (100 ** (level_ - 2));
+        } else {
+            _amount = 10 ** 20;
+        }
+        return _amount;
+    }
+
+    function getAmountByToken(uint256 tokenId_) public view returns(uint256 _amount){
+        Equipment memory _equipment = equipment[tokenId_];
+        uint256 _level = _equipment.level;
+        _amount = getAmountByLevel(_level + 1);
+        return _amount;
+    }
+
     function levelUp(
         uint256 tokenId_
     ) public {
         ICoin _coin = ICoin(coin);
         Equipment memory _equipment = equipment[tokenId_];
         uint256 _level = _equipment.level;
-        uint256 _amount = (100 + kValLevelUp) ** (_level - 1) * (10 ** 15);
+        uint256 _amount = getAmountByLevel(_level + 1);
         _coin.burn(msg.sender, _amount, 'Level Up');
 
         _equipment.level = _level + 1;
         equipment[tokenId_] = _equipment;
         emit updateEquipment(
             tokenId_, 
-            _equipment.seed,
-            _equipment.name,
-            _equipment.equipmentType,
-            _equipment.rAddress,
-            _equipment.rTokenId,
-            _equipment.rarity,
-            _equipment.level
+            equipment[tokenId_].seed,
+            equipment[tokenId_].name,
+            equipment[tokenId_].equipmentType,
+            equipment[tokenId_].rAddress,
+            equipment[tokenId_].rTokenId,
+            equipment[tokenId_].rarity,
+            equipment[tokenId_].level
         );
     } 
 

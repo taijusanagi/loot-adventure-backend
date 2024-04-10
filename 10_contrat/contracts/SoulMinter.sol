@@ -21,7 +21,7 @@ contract SoulMinter is AccessControl {
     bytes32 public constant DEVELOPER_ROLE = keccak256("DEVELOPER_ROLE");
     address public constant ZERO_ADDRESS = 0x0000000000000000000000000000000000000001;
 
-    string[4] private JOB_TYPE = ['Warrior','Guardian','Clown','Tank'];
+    string[4] private JOB_TYPE = ['Warrior', 'Guardian', 'Bard', 'Fighter'];
     string[10] private ARTIFACT_TYPE = [
         'Blank',
         'Naked King', 
@@ -158,13 +158,8 @@ contract SoulMinter is AccessControl {
         // Create TBA
         uint256 _tokenId2 = _soulLoot.getTokenId(tokenId_, nft_);
         _registry.createAccount(implementation, chainId_, soulLoot, _tokenId2, 1, '0x0000000000000000000000000000000000000000');
-        address _tba = _registry.account(
-            implementation, 
-            chainId_, 
-            soulLoot,
-            _tokenId2,
-            1
-        );
+        address _tba = _registry.account(implementation, chainId_, soulLoot, _tokenId2, 1);
+        
         // Mint Equipmnt&Job&Artifact to TBA
         _mintEquipmentNft(nft_, tokenId_, _tba, seedData_);
         _mintJobNft(nft_, tokenId_, _tba, seedData_);
@@ -225,17 +220,18 @@ contract SoulMinter is AccessControl {
         ISoulCalculator _calc = ISoulCalculator(calcContract[nft_]);
         (
             uint256 _seed,
-            uint256[] memory _artifactType
+            uint256[3] memory _artifactType
         ) = _calc.calcArtifact(nft_, tokenId_, seedData_);
-        if(_artifactType.length>0){
-            for(uint i=0; i<_artifactType.length; i++){
+        for(uint256 i=0; i<3; i++){
+            uint256 _type = _artifactType[i];
+            if(_type>0){
                 _artifactNft.mint(
                     recipient_, 
                     nft_, 
                     tokenId_,
                     _seed,
-                    ARTIFACT_TYPE[_artifactType[i]],
-                    _artifactType[i]
+                    ARTIFACT_TYPE[_type],
+                    _type
                 );
             }
         }

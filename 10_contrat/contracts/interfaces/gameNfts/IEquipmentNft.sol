@@ -22,9 +22,13 @@ interface IEquipmentNft is IERC1155{
     function setOnGame (address) external;
     function setOffGame (address) external;
 
-    function mint(address, address, uint256, uint256, string memory, uint256, uint256, uint256) external returns (uint256 _tokenId);
-
     //Getter
     function getEquipmentType(uint256 tokenId_) external view returns(uint256);
     function getTokenId(address nft_, uint256 id_, uint256 type_) external view returns(uint256 _tokenId);
+    function getAmountByLevel(uint256 level_) external view returns(uint256 _amount);
+    function getAmountByToken(uint256 tokenId_) external view returns(uint256 _amount);
+
+    // Logic
+    function mint(address, address, uint256, uint256, string memory, uint256, uint256, uint256) external returns (uint256 _tokenId);
+    function levelUp(uint256 tokenId_) external;
 }

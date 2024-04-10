@@ -36,7 +36,7 @@ export interface ICoinInterface extends utils.Interface {
     "mint(address,uint256,string)": FunctionFragment;
     "setDeveloperRole(address)": FunctionFragment;
     "setMinterRole(address)": FunctionFragment;
-    "setTransferRockFalce()": FunctionFragment;
+    "setTransferRockFalse()": FunctionFragment;
     "setTransferRockTrue()": FunctionFragment;
     "totalSupply()": FunctionFragment;
     "transfer(address,uint256)": FunctionFragment;
@@ -52,7 +52,7 @@ export interface ICoinInterface extends utils.Interface {
       | "mint"
       | "setDeveloperRole"
       | "setMinterRole"
-      | "setTransferRockFalce"
+      | "setTransferRockFalse"
       | "setTransferRockTrue"
       | "totalSupply"
       | "transfer"
@@ -96,7 +96,7 @@ export interface ICoinInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
-    functionFragment: "setTransferRockFalce",
+    functionFragment: "setTransferRockFalse",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -134,7 +134,7 @@ export interface ICoinInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setTransferRockFalce",
+    functionFragment: "setTransferRockFalse",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -252,7 +252,7 @@ export interface ICoin extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    setTransferRockFalce(
+    setTransferRockFalse(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -317,7 +317,7 @@ export interface ICoin extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  setTransferRockFalce(
+  setTransferRockFalse(
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -382,7 +382,7 @@ export interface ICoin extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setTransferRockFalce(overrides?: CallOverrides): Promise<void>;
+    setTransferRockFalse(overrides?: CallOverrides): Promise<void>;
 
     setTransferRockTrue(overrides?: CallOverrides): Promise<void>;
 
@@ -468,7 +468,7 @@ export interface ICoin extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    setTransferRockFalce(
+    setTransferRockFalse(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -534,7 +534,7 @@ export interface ICoin extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    setTransferRockFalce(
+    setTransferRockFalse(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

@@ -4,7 +4,7 @@ import { erc6551AccountAbi } from './abi/erc6551-account-abi';
 import { COIN_FT, EQUIPMENT_NFT } from './config';
 import { parseEther } from 'ethers/lib/utils';
 
-const tba = "0xc3F17f4eDe40b31cA43E7DF7a05C311CC48AaB09";
+const tba = "0x144f1af22202Fd8901ca50Bd05e27F85867a5D87";
 
 async function main() {
   const [signer] = await ethers.getSigners();
@@ -22,7 +22,7 @@ async function main() {
 
   const txData = laXp.interface.encodeFunctionData('approve', [
     EQUIPMENT_NFT, 
-    parseEther("100")
+    parseEther("1000")
   ]);
   const tx = await tbaContract.executeCall(COIN_FT, 0, txData);
   tx.wait();

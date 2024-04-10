@@ -220,11 +220,11 @@ export class LootAdventureStack extends Stack {
         },
       );
 
-      const lambdaBinMintXpToken = new lambda.NodejsFunction(
+      const lambdaBinMintCoinToken = new lambda.NodejsFunction(
         this,
-        'mintXpToken',
+        'mintCoinToken',
         {
-          entry: 'src/bin-mint-xptoken.ts',
+          entry: 'src/bin-mint-cointoken.ts',
           depsLockFilePath: PACKAGE_LOCK_JSON,
           handler: 'handler',
           runtime: Runtime.NODEJS_18_X,
@@ -233,17 +233,17 @@ export class LootAdventureStack extends Stack {
           environment: {
             LOG_LEVEL: 'DEBUG',
             SSM_NAME: prv00.secretName,
-            ADDRESS_XP_TOKEN: process.env.XP_FT as string,
+            ADDRESS_COIN_TOKEN: process.env.COIN_FT as string,
             ADDRESS_SOUL_MINTER: process.env.SOUL_MINTER as string
           },
         },
       );
 
-      const lambdaBinTransferfromEquip = new lambda.NodejsFunction(
+      const lambdaBinSeizureEquip = new lambda.NodejsFunction(
         this,
-        'transferFromEquipment',
+        'seizureEquipment',
         {
-          entry: 'src/bin-transferfrom-equipment.ts',
+          entry: 'src/bin-seizure-equipment.ts',
           depsLockFilePath: PACKAGE_LOCK_JSON,
           handler: 'handler',
           runtime: Runtime.NODEJS_18_X,
@@ -265,8 +265,8 @@ export class LootAdventureStack extends Stack {
           environment: {
             LOG_LEVEL: 'DEBUG',
             TABLE_STATUS: dynamoDbStaus.tableName,
-            FUNCTION_MINT_XP: lambdaBinMintXpToken.functionName,
-            FUNCTION_TRANSFERFROM_EQUIP: lambdaBinTransferfromEquip.functionName
+            FUNCTION_MINT_COIN: lambdaBinMintCoinToken.functionName,
+            FUNCTION_SEIZURE_EQUIP: lambdaBinSeizureEquip.functionName
           },
           iamRole: iam_role_lambda_connectDb,
         }),
@@ -290,7 +290,7 @@ export class LootAdventureStack extends Stack {
     // Resources | API Gateway
     // --------------------------------------------------
     const restApi = new aws_apigateway.RestApi(this, 'RestAPI', {
-      restApiName: `restApi`,
+      restApiName: `LootAdventureApi`,
       deployOptions: {
         stageName: 'v1',
       },
@@ -300,7 +300,8 @@ export class LootAdventureStack extends Stack {
     // Config for connecting resources (Lambda<>Secrets Manager)
     // ---------------------------------------------------------------------------------
     prv00.grantRead(lambdaBinCreateCustody);
-    prv00.grantRead(lambdaBinMintXpToken);
+    prv00.grantRead(lambdaBinMintCoinToken);
+    prv00.grantRead(lambdaBinSeizureEquip);
 
     // ---------------------------------------------------------------------------------
     // Config for connecting resources (Lambda<>Lambda)
@@ -308,7 +309,13 @@ export class LootAdventureStack extends Stack {
     lambdaWriteDungeon.addToRolePolicy(new Iam.PolicyStatement({
       effect: Iam.Effect.ALLOW,
       actions: ['lambda:InvokeFunction'],
-      resources: [lambdaBinMintXpToken.functionArn]
+      resources: [lambdaBinMintCoinToken.functionArn]
+    }))
+    
+    lambdaWriteDungeon.addToRolePolicy(new Iam.PolicyStatement({
+      effect: Iam.Effect.ALLOW,
+      actions: ['lambda:InvokeFunction'],
+      resources: [lambdaBinSeizureEquip.functionArn]
     }))
 
     // ---------------------------------------------------------------------------------

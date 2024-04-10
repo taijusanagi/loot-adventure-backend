@@ -36,9 +36,9 @@ const _abi = [
         type: "uint256",
       },
       {
-        internalType: "uint256[]",
+        internalType: "uint256[3]",
         name: "_artifactType",
-        type: "uint256[]",
+        type: "uint256[3]",
       },
     ],
     stateMutability: "view",

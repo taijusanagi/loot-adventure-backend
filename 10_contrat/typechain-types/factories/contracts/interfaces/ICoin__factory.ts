@@ -201,7 +201,7 @@ const _abi = [
   },
   {
     inputs: [],
-    name: "setTransferRockFalce",
+    name: "setTransferRockFalse",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",

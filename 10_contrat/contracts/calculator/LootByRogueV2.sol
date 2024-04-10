@@ -87,45 +87,38 @@ contract LootByRogueV2 is AccessControl, ISoulCalculator {
         bytes memory data_
     ) public view returns(
         uint256 _seed,
-        uint256[] memory _artifactType
+        uint256[3] memory _artifactType
     ){
         ILootByRogueV2 _loot = ILootByRogueV2(nft_);
         ILootByRogueV2.AdventureRecord memory _record = _loot.getAdventureRecord(tokenId_);
-        uint16 _stats = _record.stats[0] + _record.stats[1] + _record.stats[2] + _record.stats[3] + _record.stats[4] + _record.stats[5];
         uint8 _unique = _record.unique[0] + _record.unique[1] + _record.unique[2] + _record.unique[3];
-        uint256 i =0;
         // Calculate type
         // Dragon Slayer(type: 2)
         if(_unique==0){
-            _artifactType[i]=2; 
-            i++;
-        } 
-        // Dragon Slayer+(type: 3)
-        if(_unique==1){
-            _artifactType[i]=3; 
-            i++;
-        } 
-        // Dragon Slayer++(type: 4)
-        if(_unique==2){
-            _artifactType[i]=4; 
-            i++;
+            _artifactType[0]=2; 
+        } else if(_unique==1){
+            // Dragon Slayer+(type: 3)
+            _artifactType[0]=3; 
+        } else if(_unique==2){
+            // Dragon Slayer++(type: 4)
+            _artifactType[0]=4; 
+        } else if(_unique > 3){
+            // Dragon Slayer+++(type: 5)
+            _artifactType[0]=5; 
         }
-        // Dragon Slayer+++(type: 5)
-        if(_unique==4){
-            _artifactType[i]=5; 
-            i++;
-        }
+
         // Ruins Hunter(type: 6)
         if(_record.relics.length > 10) {
-            _artifactType[i]=6; 
-            i++;
+            _artifactType[1]=6;
         }
+
+        // Naked King(type: 1)
         if(
             _record.weapon==0 && _record.chestArmor==0 && _record.headArmor==0
             && _record.waistArmor==0 && _record.footArmor==0 && _record.handArmor==0
             && _record.necklace==0 && _record.ring==0
         ){
-            _artifactType[i] = 1; // Naked King(type: 1)
+            _artifactType[2] = 1; 
         }
 
         return (_record.inputData.seed, _artifactType);
@@ -145,7 +138,7 @@ contract LootByRogueV2 is AccessControl, ISoulCalculator {
     //*********************************************
     //Logic
     //*********************************************
-    function _calcRarity(uint256 pt_) private view returns(uint256 rarity_){
+    function _calcRarity(uint256 pt_) private  pure returns(uint256 rarity_){
         rarity_=0;
         if(pt_ > 0){
             rarity_=1;

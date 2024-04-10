@@ -35,6 +35,8 @@ export interface EquipmentNftInterface extends utils.Interface {
     "MINTER_ROLE()": FunctionFragment;
     "balanceOf(address,uint256)": FunctionFragment;
     "balanceOfBatch(address[],uint256[])": FunctionFragment;
+    "getAmountByLevel(uint256)": FunctionFragment;
+    "getAmountByToken(uint256)": FunctionFragment;
     "getBaseValLevel(uint256)": FunctionFragment;
     "getBaseValRarity(uint256)": FunctionFragment;
     "getCoin()": FunctionFragment;
@@ -86,6 +88,8 @@ export interface EquipmentNftInterface extends utils.Interface {
       | "MINTER_ROLE"
       | "balanceOf"
       | "balanceOfBatch"
+      | "getAmountByLevel"
+      | "getAmountByToken"
       | "getBaseValLevel"
       | "getBaseValRarity"
       | "getCoin"
@@ -152,6 +156,14 @@ export interface EquipmentNftInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "balanceOfBatch",
     values: [PromiseOrValue<string>[], PromiseOrValue<BigNumberish>[]]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getAmountByLevel",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getAmountByToken",
+    values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "getBaseValLevel",
@@ -356,6 +368,14 @@ export interface EquipmentNftInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "balanceOfBatch",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getAmountByLevel",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getAmountByToken",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -676,6 +696,16 @@ export interface EquipmentNft extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber[]]>;
 
+    getAmountByLevel(
+      level_: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber] & { _amount: BigNumber }>;
+
+    getAmountByToken(
+      tokenId_: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber] & { _amount: BigNumber }>;
+
     getBaseValLevel(
       level_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -910,6 +940,16 @@ export interface EquipmentNft extends BaseContract {
     overrides?: CallOverrides
   ): Promise<BigNumber[]>;
 
+  getAmountByLevel(
+    level_: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
+  getAmountByToken(
+    tokenId_: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
   getBaseValLevel(
     level_: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
@@ -1143,6 +1183,16 @@ export interface EquipmentNft extends BaseContract {
       ids: PromiseOrValue<BigNumberish>[],
       overrides?: CallOverrides
     ): Promise<BigNumber[]>;
+
+    getAmountByLevel(
+      level_: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getAmountByToken(
+      tokenId_: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     getBaseValLevel(
       level_: PromiseOrValue<BigNumberish>,
@@ -1497,6 +1547,16 @@ export interface EquipmentNft extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    getAmountByLevel(
+      level_: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getAmountByToken(
+      tokenId_: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     getBaseValLevel(
       level_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -1731,6 +1791,16 @@ export interface EquipmentNft extends BaseContract {
     balanceOfBatch(
       accounts: PromiseOrValue<string>[],
       ids: PromiseOrValue<BigNumberish>[],
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getAmountByLevel(
+      level_: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getAmountByToken(
+      tokenId_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

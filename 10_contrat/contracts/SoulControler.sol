@@ -14,10 +14,8 @@ import "./interfaces/ISoulCalculator.sol";
 import "./interfaces/ICoin.sol";
 
 contract SoulControler is AccessControl {
-    event UpdateEquips(
-        address owner,
-        Equips equips
-    );
+    event UpdateEquips(address owner,Equips equips);
+    event SeizureEquipment(address owner, uint256 tokenId, Equips equips);
     // tokenId in equipmentNft(ERC1155)
     struct Equips {
         uint256 weapon;
@@ -75,6 +73,15 @@ contract SoulControler is AccessControl {
     function getTreasury() public view returns(address){
         return treasury;
     }
+    function getAmountByLevel(uint256 level_) external view returns(uint256 _amount){
+        IEquipmentNft _equipment = IEquipmentNft(equipmentNft);
+        _amount = _equipment.getAmountByLevel(level_);
+    }
+    function getAmountByToken(uint256 tokenId_) external view returns(uint256 _amount){
+        IEquipmentNft _equipment = IEquipmentNft(equipmentNft);
+        _amount = _equipment.getAmountByToken(tokenId_);
+    }
+
     function getIsEquip(address tba_, uint256 type_) public view returns(bool){
         if(type_==0 && equips[tba_].weapon!=0){
             return true;
@@ -95,7 +102,6 @@ contract SoulControler is AccessControl {
         }
         return false;
     }
-
 
     function getEquips(address owner_) public view returns(
         uint256 weapon,
@@ -131,27 +137,21 @@ contract SoulControler is AccessControl {
     function setMinterRole(address granted_) public onlyRole(DEVELOPER_ROLE){
         _grantRole(MINTER_ROLE, granted_);
     }
-
     function setSoulLoot(address nft_) public onlyRole(DEVELOPER_ROLE) {
         soulLoot = nft_;
     }
-
     function setEquipmentNft(address nft_) public onlyRole(DEVELOPER_ROLE) {
         equipmentNft = nft_;
     }
-    
     function setArtifactNft(address nft_) public onlyRole(DEVELOPER_ROLE) {
         artifactNft = nft_;
     }
-
     function setJobNft(address nft_) public onlyRole(DEVELOPER_ROLE) {
         jobNft = nft_;
     }
-
     function setCoin(address ft_) public onlyRole(DEVELOPER_ROLE) {
         coin = ft_;
     }
-
     function setTreasury(address treasury_) public onlyRole(DEVELOPER_ROLE) {
         treasury = treasury_;
     }
@@ -169,43 +169,59 @@ contract SoulControler is AccessControl {
     //*********************************************
     //Logic
     //*********************************************
-
     function seizureEquipment(
         address tba_
-    ) public onlyRole(DEVELOPER_ROLE){
+    ) public onlyRole(DEVELOPER_ROLE) returns (uint256 _tokenId){
         uint256 _index = block.timestamp % 10;
-        uint256 _tokenId = 0;
-        Equips memory _equip = equips[tba_];
-        if(_index==0){
-            _tokenId = _equip.weapon;
-            _equip.weapon = 0;
-        } else if(_index==1){
-            _tokenId = _equip.cheastArmor;
-            _equip.cheastArmor = 0;
-        } else if(_index==2){
-            _tokenId = equips[tba_].headArmor;
-            _equip.headArmor = 0;
-        } else if(_index==3){
-            _tokenId = equips[tba_].waistArmor;
-            _equip.waistArmor = 0;
-        } else if(_index==4){
-            _tokenId = equips[tba_].footArmor;
-            _equip.footArmor = 0;
-        } else if(_index==5){
-            _tokenId = equips[tba_].handArmor;
-            _equip.handArmor = 0;
-        } else if(_index==6){
-            _tokenId = equips[tba_].necklace;
-            _equip.necklace = 0;
-        } else if(_index==7){
-            _tokenId = equips[tba_].ring;
-            _equip.ring = 0;
+        if(_index == 0){
+            return 0;
         }
 
-        if(_tokenId > 0){
+        Equips memory _equip = equips[tba_];
+        uint256[4] memory _tokenIds;
+        uint256[4] memory _tokenTypes;
+        uint256 _counter = 0;
+        if(_equip.weapon!=0){
+            _tokenIds[_counter] = _equip.weapon;
+            _tokenTypes[_counter] = 0;
+            _counter++;
+        } 
+        if(_equip.cheastArmor!=0){
+            _tokenIds[_counter] = _equip.cheastArmor;
+            _tokenTypes[_counter] = 1;
+            _counter++;
+        }
+        if(_equip.headArmor!=0){
+            _tokenIds[_counter] = _equip.headArmor;
+            _tokenTypes[_counter] = 2;
+            _counter++;
+        }
+        if(_equip.footArmor!=0){
+            _tokenIds[_counter] = _equip.footArmor;
+            _tokenTypes[_counter] = 4;
+            _counter++;
+        }
+
+        if(_counter > 0){
+            uint256 _index2 = block.timestamp % _counter;
             IERC1155 _equipmentNft = IERC1155(equipmentNft);
-            _equipmentNft.safeTransferFrom(tba_, treasury, _tokenId, 1, '0x00');
+            
+            if(_tokenTypes[_index2]==0){
+                _equip.weapon=0;
+            } else if(_tokenTypes[_index2]==1) {
+                _equip.cheastArmor=0;
+            } else if(_tokenTypes[_index2]==2) {
+                _equip.headArmor=0;
+            } else if(_tokenTypes[_index2]==4) {
+                _equip.footArmor=0;
+            } 
             equips[tba_] = _equip;
+            _tokenId = _tokenIds[_index2];
+            require(_tokenId!=0, 'TBA do not have this Equipment');
+            _equipmentNft.safeTransferFrom(tba_, treasury, _tokenId, 1, '0x00');
+            emit SeizureEquipment(tba_, _tokenId, _equip);
+        } else {
+            return 0;
         }
     }
 

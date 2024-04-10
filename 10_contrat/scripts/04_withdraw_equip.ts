@@ -8,7 +8,7 @@ import { soulControlerAbi } from './abi/soul-controler-abi';
 import { erc6551AccountAbi } from './abi/erc6551-account-abi';
 import { erc20lacoinAbi } from './abi/erc20-lacoin-abi';
 
-const tba = "0x1f03aE8DCC76d2E5dD4bf4Bcef872f9cDF017626";
+const tba = "0x6F15161247859AA0bfCE7F0887ED09A2a71A6628";
 
 async function main() {
   const [signer] = await ethers.getSigners();
@@ -21,12 +21,12 @@ async function main() {
     console.log('Owner is :', owner);
     console.log('Equips update=>', equip);
   })
-  // const coin = new ethers.Contract(COIN_FT, erc20lacoinAbi, signer);
-  // coin.once("Transfer", (from, to, value)=>{
-  //   console.log('From: ', from);
-  //   console.log('To: ', to);
-  //   console.log('Amount: ', value.toString());
-  // })
+  const coin = new ethers.Contract(COIN_FT, erc20lacoinAbi, signer);
+  coin.once("Transfer", (from, to, value)=>{
+    console.log('From: ', from);
+    console.log('To: ', to);
+    console.log('Amount: ', value.toString());
+  })
 
   equipmentNft.on("TransferSingle", (operator, from, to, tokenId)=>{
     console.log("EquipmentNft is Transfered Id=>:", tokenId.toString());
@@ -38,7 +38,7 @@ async function main() {
   // create tx data
   const txData = soulControler.interface.encodeFunctionData("withdrawEquip", [
     signer.address,
-    20000030001000
+    20000060001000
   ]);
   // Set Contract
   const tx = await tbaContract.executeCall(SOUL_CONTROLER, 0, txData);
@@ -47,8 +47,8 @@ async function main() {
   // const tx = await soulControler.getEquips(tba);
   // console.log(tba);
 
-  // const tx2 = await coin.mint(tba, parseEther('100'), 'FirstMint');
-  // tx2.wait();
+  const tx2 = await coin.mint(tba, parseEther('100000'), 'FirstMint');
+  tx2.wait();
 }
 
 // We recommend this pattern to be able to use async/await everywhere

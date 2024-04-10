@@ -76,6 +76,10 @@ contract JobNft is ERC1155, AccessControl, IJobNft {
         return _output;
     }
 
+    function name() public pure returns (string memory){
+        return 'LootAdventure JobNft';
+    }
+
     //*********************************************
     //Setter
     //*********************************************

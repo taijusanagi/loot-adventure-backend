@@ -76,11 +76,9 @@ class TheGraphCluster extends Construct {
     // Map from chainId to networkName
     const networkNames = new Map([
       [1, 'mainnet'],
-      [3, 'ropsten'],
-      [4, 'rinkeby'],
-      [5, 'goerli'],
       [137, 'matic'],
-      [420, 'mchverce'],
+      [420, 'oasys_mchverce_testnet'],
+      [29548, 'oasys_mchverce'],
       [80001, 'mumbai'],
       [11155111, 'sepolia'],
     ])

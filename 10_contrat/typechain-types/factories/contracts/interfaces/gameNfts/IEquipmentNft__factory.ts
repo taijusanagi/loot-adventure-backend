@@ -180,6 +180,44 @@ const _abi = [
     inputs: [
       {
         internalType: "uint256",
+        name: "level_",
+        type: "uint256",
+      },
+    ],
+    name: "getAmountByLevel",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "_amount",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId_",
+        type: "uint256",
+      },
+    ],
+    name: "getAmountByToken",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "_amount",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
         name: "tokenId_",
         type: "uint256",
       },
@@ -246,6 +284,19 @@ const _abi = [
       },
     ],
     stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId_",
+        type: "uint256",
+      },
+    ],
+    name: "levelUp",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {

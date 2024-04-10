@@ -70,6 +70,8 @@ export interface SoulControlerInterface extends utils.Interface {
     "attachEquipInit(uint256,address,uint256)": FunctionFragment;
     "attachEquips(uint256[],address)": FunctionFragment;
     "attachEquipsInit(uint256[],address,uint256[])": FunctionFragment;
+    "getAmountByLevel(uint256)": FunctionFragment;
+    "getAmountByToken(uint256)": FunctionFragment;
     "getArtifactNft()": FunctionFragment;
     "getCoin()": FunctionFragment;
     "getEquipmentNft()": FunctionFragment;
@@ -109,6 +111,8 @@ export interface SoulControlerInterface extends utils.Interface {
       | "attachEquipInit"
       | "attachEquips"
       | "attachEquipsInit"
+      | "getAmountByLevel"
+      | "getAmountByToken"
       | "getArtifactNft"
       | "getCoin"
       | "getEquipmentNft"
@@ -177,6 +181,14 @@ export interface SoulControlerInterface extends utils.Interface {
       PromiseOrValue<string>,
       PromiseOrValue<BigNumberish>[]
     ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getAmountByLevel",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getAmountByToken",
+    values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "getArtifactNft",
@@ -311,6 +323,14 @@ export interface SoulControlerInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "getAmountByLevel",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getAmountByToken",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "getArtifactNft",
     data: BytesLike
   ): Result;
@@ -396,12 +416,14 @@ export interface SoulControlerInterface extends utils.Interface {
     "RoleAdminChanged(bytes32,bytes32,bytes32)": EventFragment;
     "RoleGranted(bytes32,address,address)": EventFragment;
     "RoleRevoked(bytes32,address,address)": EventFragment;
+    "SeizureEquipment(address,uint256,tuple)": EventFragment;
     "UpdateEquips(address,tuple)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "RoleAdminChanged"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "RoleGranted"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "RoleRevoked"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "SeizureEquipment"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "UpdateEquips"): EventFragment;
 }
 
@@ -441,6 +463,19 @@ export type RoleRevokedEvent = TypedEvent<
 >;
 
 export type RoleRevokedEventFilter = TypedEventFilter<RoleRevokedEvent>;
+
+export interface SeizureEquipmentEventObject {
+  owner: string;
+  tokenId: BigNumber;
+  equips: SoulControler.EquipsStructOutput;
+}
+export type SeizureEquipmentEvent = TypedEvent<
+  [string, BigNumber, SoulControler.EquipsStructOutput],
+  SeizureEquipmentEventObject
+>;
+
+export type SeizureEquipmentEventFilter =
+  TypedEventFilter<SeizureEquipmentEvent>;
 
 export interface UpdateEquipsEventObject {
   owner: string;
@@ -513,6 +548,16 @@ export interface SoulControler extends BaseContract {
       types_: PromiseOrValue<BigNumberish>[],
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
+
+    getAmountByLevel(
+      level_: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber] & { _amount: BigNumber }>;
+
+    getAmountByToken(
+      tokenId_: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber] & { _amount: BigNumber }>;
 
     getArtifactNft(overrides?: CallOverrides): Promise<[string]>;
 
@@ -690,6 +735,16 @@ export interface SoulControler extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  getAmountByLevel(
+    level_: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
+  getAmountByToken(
+    tokenId_: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
   getArtifactNft(overrides?: CallOverrides): Promise<string>;
 
   getCoin(overrides?: CallOverrides): Promise<string>;
@@ -866,6 +921,16 @@ export interface SoulControler extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    getAmountByLevel(
+      level_: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getAmountByToken(
+      tokenId_: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     getArtifactNft(overrides?: CallOverrides): Promise<string>;
 
     getCoin(overrides?: CallOverrides): Promise<string>;
@@ -941,7 +1006,7 @@ export interface SoulControler extends BaseContract {
     seizureEquipment(
       tba_: PromiseOrValue<string>,
       overrides?: CallOverrides
-    ): Promise<void>;
+    ): Promise<BigNumber>;
 
     setAdminRole(
       granted_: PromiseOrValue<string>,
@@ -1038,6 +1103,17 @@ export interface SoulControler extends BaseContract {
       sender?: PromiseOrValue<string> | null
     ): RoleRevokedEventFilter;
 
+    "SeizureEquipment(address,uint256,tuple)"(
+      owner?: null,
+      tokenId?: null,
+      equips?: null
+    ): SeizureEquipmentEventFilter;
+    SeizureEquipment(
+      owner?: null,
+      tokenId?: null,
+      equips?: null
+    ): SeizureEquipmentEventFilter;
+
     "UpdateEquips(address,tuple)"(
       owner?: null,
       equips?: null
@@ -1078,6 +1154,16 @@ export interface SoulControler extends BaseContract {
       tba_: PromiseOrValue<string>,
       types_: PromiseOrValue<BigNumberish>[],
       overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    getAmountByLevel(
+      level_: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getAmountByToken(
+      tokenId_: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     getArtifactNft(overrides?: CallOverrides): Promise<BigNumber>;
@@ -1237,6 +1323,16 @@ export interface SoulControler extends BaseContract {
       tba_: PromiseOrValue<string>,
       types_: PromiseOrValue<BigNumberish>[],
       overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    getAmountByLevel(
+      level_: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getAmountByToken(
+      tokenId_: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     getArtifactNft(overrides?: CallOverrides): Promise<PopulatedTransaction>;

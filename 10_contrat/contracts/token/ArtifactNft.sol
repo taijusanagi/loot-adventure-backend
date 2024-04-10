@@ -157,15 +157,15 @@ contract ArtifactNft is ERC1155, AccessControl, IArtifactNft {
         string memory name_,
         uint256 type_
     ) public onlyRole(MINTER_ROLE) {
-        Artifact memory _Artifact;
+        Artifact memory _artifact;
         uint256 _tokenId = (nftId[nft_] * NFT_ID_PREFIX) + type_;
-        _Artifact.seed = seed_;
-        _Artifact.name = name_;
-        _Artifact.artifactType = type_;
-        _Artifact.rAddress = nft_;
-        _Artifact.rTokenId = tokenId_;
+        _artifact.seed = seed_;
+        _artifact.name = name_;
+        _artifact.artifactType = type_;
+        _artifact.rAddress = nft_;
+        _artifact.rTokenId = tokenId_;
 
-        artifact[_tokenId] = _Artifact;
+        artifact[_tokenId] = _artifact;
         _mint(to_, _tokenId, 1, "");
     }
 

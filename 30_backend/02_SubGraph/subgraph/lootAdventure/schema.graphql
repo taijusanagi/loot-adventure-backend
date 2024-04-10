@@ -1,0 +1,53 @@
+type SoulLootNftAccount @entity {
+  id: ID!
+  equipped: Equipped
+  job: BigInt
+  artifacts: [ArtifactNftMinted!]! @derivedFrom(field: "owner")
+}
+
+type Equipment @entity {
+  id: ID!
+  rarity: BigInt
+  level: BigInt
+}
+
+type Equipped @entity {
+  id: Bytes!
+  weapon: Equipment
+  cheastArmor: Equipment
+  headArmor: Equipment
+  waistArmor: Equipment
+  footArmor: Equipment
+  handArmor: Equipment
+  necklace: Equipment
+  ring: Equipment
+}
+
+type ArtifactNftMinted @entity {
+  id: Bytes!
+  tokenId: BigInt
+  owner: SoulLootNftAccount
+}
+
+type SoulLootNft @entity {
+  id: ID!
+  owner: User
+  account: SoulLootNftAccount
+  hp: Int
+  atk: Int
+  def: Int
+  turn: Int
+  rec: Int
+}
+
+type User @entity {
+  id: ID!
+  rLootNfts: [RLootNft!]! @derivedFrom(field: "owner")
+  soulLootNfts: [SoulLootNft!]! @derivedFrom(field: "owner")
+}
+
+type RLootNft @entity {
+  id: ID!
+  tokenURI: String
+  owner: User
+}

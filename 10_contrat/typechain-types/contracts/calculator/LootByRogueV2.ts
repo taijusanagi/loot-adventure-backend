@@ -352,9 +352,9 @@ export interface LootByRogueV2 extends BaseContract {
       data_: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<
-      [BigNumber, BigNumber[]] & {
+      [BigNumber, [BigNumber, BigNumber, BigNumber]] & {
         _seed: BigNumber;
-        _artifactType: BigNumber[];
+        _artifactType: [BigNumber, BigNumber, BigNumber];
       }
     >;
 
@@ -450,7 +450,10 @@ export interface LootByRogueV2 extends BaseContract {
     data_: PromiseOrValue<BytesLike>,
     overrides?: CallOverrides
   ): Promise<
-    [BigNumber, BigNumber[]] & { _seed: BigNumber; _artifactType: BigNumber[] }
+    [BigNumber, [BigNumber, BigNumber, BigNumber]] & {
+      _seed: BigNumber;
+      _artifactType: [BigNumber, BigNumber, BigNumber];
+    }
   >;
 
   calcEquipment(
@@ -545,9 +548,9 @@ export interface LootByRogueV2 extends BaseContract {
       data_: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<
-      [BigNumber, BigNumber[]] & {
+      [BigNumber, [BigNumber, BigNumber, BigNumber]] & {
         _seed: BigNumber;
-        _artifactType: BigNumber[];
+        _artifactType: [BigNumber, BigNumber, BigNumber];
       }
     >;
 
