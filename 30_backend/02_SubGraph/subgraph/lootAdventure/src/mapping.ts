@@ -79,6 +79,8 @@ export function handleTransferSoulLootNft(event: TransferSoulLootNftEvent): void
   soulLootNft.turn = soulLootNftContract.getTurn(event.params.tokenId);
   soulLootNft.rec = soulLootNftContract.getRecovery(event.params.tokenId);
   soulLootNft.owner = event.params.to.toHexString();
+  soulLootNft.seed = soulLootNftContract.getSeed(event.params.tokenId);
+  soulLootNft.rTokenId = soulLootNftContract.getRTokenId(event.params.tokenId);
   soulLootNft.save();
 }
 
