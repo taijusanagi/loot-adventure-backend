@@ -95,6 +95,19 @@ export function handleTransferRLootNft(event: TransferRlootNftEvent): void {
   }
   let rLootNftContract = RLootNftContract.bind(event.address);
   let tokenURI = rLootNftContract.tokenURI(event.params.tokenId);
+  rLootNft.hp = rLootNftContract.getMaxHp(event.params.tokenId);
+  rLootNft.atk = rLootNftContract.getAttack(event.params.tokenId);
+  rLootNft.def = rLootNftContract.getDefence(event.params.tokenId);
+  rLootNft.turn = rLootNftContract.getTurn(event.params.tokenId);
+  rLootNft.rec = rLootNftContract.getRecovery(event.params.tokenId);
+  rLootNft.weapon = rLootNftContract.getWeapon(event.params.tokenId);
+  rLootNft.chest = rLootNftContract.getChest(event.params.tokenId);
+  rLootNft.head = rLootNftContract.getHead(event.params.tokenId);
+  rLootNft.waist = rLootNftContract.getWaist(event.params.tokenId);
+  rLootNft.foot = rLootNftContract.getFoot(event.params.tokenId);
+  rLootNft.hand = rLootNftContract.getHand(event.params.tokenId);
+  rLootNft.neck = rLootNftContract.getNeck(event.params.tokenId);
+  rLootNft.ring = rLootNftContract.getRing(event.params.tokenId);
   rLootNft.tokenURI = tokenURI;
   rLootNft.owner = event.params.to.toHexString();
   rLootNft.save();
@@ -129,6 +142,7 @@ export function handleUpdateEquipment(event: UpdateEquipmentEvent): void {
   }
   equipment.level = event.params._level;
   equipment.rarity = event.params._rarity;
+  equipment.name = event.params._name;
   equipment.save();
 }
 

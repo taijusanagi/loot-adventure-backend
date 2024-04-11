@@ -9,6 +9,7 @@ type Equipment @entity {
   id: ID!
   rarity: BigInt
   level: BigInt
+  name: String
 }
 
 type Equipped @entity {
@@ -50,4 +51,17 @@ type RLootNft @entity {
   id: ID!
   tokenURI: String
   owner: User
+  hp: Int
+  atk: Int
+  def: Int
+  turn: Int
+  rec: Int
+  weapon: String
+  chest: String
+  head: String
+  waist: String
+  foot: String
+  hand: String
+  neck: String
+  ring: String
 }
