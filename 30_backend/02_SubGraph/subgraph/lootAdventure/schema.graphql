@@ -10,6 +10,7 @@ type Equipment @entity {
   rarity: BigInt
   level: BigInt
   name: String
+  owner: User
 }
 
 type Equipped @entity {
@@ -45,6 +46,7 @@ type User @entity {
   id: ID!
   rLootNfts: [RLootNft!]! @derivedFrom(field: "owner")
   soulLootNfts: [SoulLootNft!]! @derivedFrom(field: "owner")
+  equipments: [Equipment!]! @derivedFrom(field: "owner")
 }
 
 type RLootNft @entity {

@@ -102,6 +102,10 @@ dataSources:
       eventHandlers:
         - event: updateEquipment(uint256,uint256,string,uint256,address,uint256,uint256,uint256)
           handler: handleUpdateEquipment
+        - event: TransferSingle(indexed address,indexed address,indexed address,uint256,uint256)
+          handler: handleTransferSingleEquipment
+        - event: TransferBatch(indexed address,indexed address,indexed address,uint256[],uint256[])
+          handler: handleTransferBatchEquipment
       file: ./src/mapping.ts
   - kind: ethereum
     name: ArtifactNft

@@ -18,6 +18,9 @@ import {
 
 import { 
   updateEquipment as UpdateEquipmentEvent,
+  TransferSingle as TransferSingleEquipmentEvent,
+  TransferBatch as TransferBatchEquipmentEvent,
+  // EquipmentNft as EquipmentNftContract
 } from "../generated/EquipmentNft/EquipmentNft"
 
 import { 
@@ -139,11 +142,32 @@ export function handleUpdateEquipment(event: UpdateEquipmentEvent): void {
   let equipment = Equipment.load(event.params._tokenId.toString());
   if(!equipment) {
     equipment = new Equipment(event.params._tokenId.toString());
-  }
+  }  
   equipment.level = event.params._level;
   equipment.rarity = event.params._rarity;
   equipment.name = event.params._name;
   equipment.save();
+}
+
+export function handleTransferSingleEquipment(event: TransferSingleEquipmentEvent): void {
+  let equipment = Equipment.load(event.params.id.toString());
+  if(!equipment) {
+    equipment = new Equipment(event.params.id.toString());
+  } 
+  equipment.owner = event.params.to.toHexString();
+  equipment.save();
+}
+
+export function handleTransferBatchEquipment(event: TransferBatchEquipmentEvent): void {
+  for(var i = 0; i < event.params.ids.length; i++) {
+    let id = event.params.ids[i].toString();
+    let equipment = Equipment.load(id);
+    if(!equipment) {
+      equipment = new Equipment(id);
+    } 
+    equipment.owner = event.params.to.toHexString();
+    equipment.save();   
+  }
 }
 
 export function handleTransferArtifactNft(event: TransferArtifactNftEvent): void {
