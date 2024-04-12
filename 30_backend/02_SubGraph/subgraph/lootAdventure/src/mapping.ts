@@ -1,3 +1,5 @@
+import { BigInt } from "@graphprotocol/graph-ts";
+
 import {
   AccountCreated as AccountCreatedEvent,
 } from "../generated/ERC6551Registry/ERC6551Registry"
@@ -20,6 +22,7 @@ import {
   updateEquipment as UpdateEquipmentEvent,
   TransferSingle as TransferSingleEquipmentEvent,
   TransferBatch as TransferBatchEquipmentEvent,
+  EquipmentNft as EquipmentNftContract
   // EquipmentNft as EquipmentNftContract
 } from "../generated/EquipmentNft/EquipmentNft"
 
@@ -30,6 +33,10 @@ import {
 import { 
   TransferSingle as TransferJobNftEvent,
 } from "../generated/JobNft/JobNft"
+
+import { 
+  Transfer as TransferLaCoinEvent,
+} from "../generated/LaCoin/LaCoin"
 
 import {
   SoulLootNftAccount,
@@ -145,9 +152,14 @@ export function handleUpdateEquipment(event: UpdateEquipmentEvent): void {
   if(!equipment) {
     equipment = new Equipment(event.params._tokenId.toString());
   }  
+
+  let equipmentNftContract = EquipmentNftContract.bind(event.address);
+  equipment.coinToLevelUp = equipmentNftContract.getAmountByToken(event.params._tokenId);
+
   equipment.level = event.params._level;
   equipment.rarity = event.params._rarity;
   equipment.name = event.params._name;
+  equipment.type = event.params._equipmentType
   equipment.save();
 }
 
@@ -187,4 +199,25 @@ export function handleTransferJobNft(event: TransferJobNftEvent): void {
     soulLootNftAccount.job = event.params.id;
     soulLootNftAccount.save();
   }
+}
+
+export function handleTransferLaCoin(event: TransferLaCoinEvent): void {
+  let fromUser = User.load(event.params.from.toHexString());
+  if(!fromUser) {
+    fromUser = new User(event.params.from.toHexString());
+  }
+  let toUser = User.load(event.params.to.toHexString());
+  if(!toUser) {
+    toUser = new User(event.params.to.toHexString());
+  }
+  if(!fromUser.coin) {
+    fromUser.coin = BigInt.fromI32(0);
+  }
+  if(!toUser.coin) {
+    toUser.coin = BigInt.fromI32(0);
+  }
+  fromUser.coin = (fromUser.coin as BigInt).minus(event.params.value);
+  toUser.coin = (toUser.coin as BigInt).plus(event.params.value);
+  fromUser.save();
+  toUser.save();
 }
