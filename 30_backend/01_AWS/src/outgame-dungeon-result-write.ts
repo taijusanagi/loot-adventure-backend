@@ -1,12 +1,13 @@
 import { APIGatewayEvent, APIGatewayProxyResult, Context } from 'aws-lambda';
 import { DynamoDBClient, QueryCommand } from "@aws-sdk/client-dynamodb";
-import { PutCommand } from "@aws-sdk/lib-dynamodb";
+import { PutCommand, GetCommand } from "@aws-sdk/lib-dynamodb";
 import { LambdaClient, InvokeCommand } from '@aws-sdk/client-lambda';
 
 const dynamo = new DynamoDBClient({ region: process.env.AWS_REGION });
 const tableName = process.env.TABLE_STATUS;
 const functionMintCoin = process.env.FUNCTION_MINT_COIN;
 const functionSeizureEquip = process.env.FUNCTION_SEIZURE_EQUIP;
+const functionSetNftOffGame = process.env.FUNCTION_SETNFT_OFFGAME;
 let resMintCoin;
 
 export const handler = async (
@@ -15,23 +16,48 @@ export const handler = async (
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   context: Context,
 ): Promise<APIGatewayProxyResult> => {
-  console.log(event);
+  console.log('event is :', event.body);
   const _body = JSON.parse(event.body as string);
-  if(_body?.tba == 'undefined' || _body?.isClear == 'undefined' || _body?.amount == 'undefined'){
+  if(
+    _body?.tba == 'undefined' 
+    || _body?.isClear == 'undefined'
+    || _body?.amount == 'undefined'
+    || _body?.turn == 'undefined'
+  ){
     return {
       statusCode: 502,
       body: JSON.stringify('Error:invalid parameter'),
     };
   }
-  const nowDateIso: string = new Date().toISOString();
+  
+  // Read a item from DynamoDB
+  const commandRead = new GetCommand({
+    TableName: tableName,
+    Key: {
+      "userId": _body.tba
+    },
+  });
+  const readResult = await dynamo.send(commandRead);
+  console.log(readResult);
+
+  // Get&Update total turns
+  let turns;
+  if(typeof(readResult.Item?.totalTurns)!='undefined'){
+    turns = readResult.Item?.totalTurns;
+    turns = turns + _body.turn;
+  } else {
+    turns = 0;
+  }
 
   // Write a item to DynamoDB
+  const nowDateIso: string = new Date().toISOString();
   const commandWrite = new PutCommand({
     TableName: tableName,
     Item: {
-        "userId": _body.tba,
-        "status": _body.status,
-        "updatedAt": nowDateIso
+      "userId": _body.tba,
+      "status": _body.status,
+      "updatedAt": nowDateIso,
+      "totalTurns": turns
     }
   });
   const putResult = await dynamo.send(commandWrite);
@@ -53,6 +79,16 @@ export const handler = async (
       }),
     });
     resMintCoin = await client.send(command);
+
+    const res = {
+      "isClear": true,
+      "txIsSuccess": true,
+      "seizureId": 0
+    }
+    return {
+      statusCode: 200,
+      body: JSON.stringify(res),
+    };
   } else {
     // False: zero coin & transferFrom Equipment 
     const command = new InvokeCommand({
@@ -75,11 +111,25 @@ export const handler = async (
     })
     const resSeizure = await client.send(command2);
     console.log(resSeizure);
-  }
 
-  // 処理待ちして、トランザクションの結果を返す（最低限なくなった装備nftのトークンID,Equipmentの分類、名前）
-  return {
-    statusCode: 200,
-    body: JSON.stringify(putResult),
-  };
+    const command3 = new InvokeCommand({
+      FunctionName: functionSetNftOffGame,
+      InvocationType: 'RequestResponse',
+      Payload: JSON.stringify({
+        "userId": _body.tba
+      })
+    })
+    const resSetNftOffGame = await client.send(command3);
+    console.log(resSetNftOffGame);
+
+    const res = {
+      "isClear": false,
+      "txIsSuccess": true,
+      "seizureId": 1000
+    }
+    return {
+      statusCode: 200,
+      body: JSON.stringify(res),
+    };
+  }
 };

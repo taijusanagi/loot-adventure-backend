@@ -49,20 +49,16 @@ export class LootAdventureStack extends Stack {
     // --------------------------------------------------
     // Resources | DynamoDB
     // --------------------------------------------------
-    const dynamoDbCustody = new aws_dynamodb.TableV2(
-      this,
-      'custodyViaEoa',
-      {
-        partitionKey: {
-          name: 'EOA',
-          type: aws_dynamodb.AttributeType.STRING,
-        },
-      },
-    );
-
     const dynamoDbStaus = new aws_dynamodb.TableV2(this, 'ranking', {
       partitionKey: {
         name: 'userId',
+        type: aws_dynamodb.AttributeType.STRING,
+      },
+    });
+
+    const dynamoDbRanking = new aws_dynamodb.TableV2(this, 'game-ranking', {
+      partitionKey: {
+        name: 'rank',
         type: aws_dynamodb.AttributeType.STRING,
       },
     });
@@ -256,6 +252,24 @@ export class LootAdventureStack extends Stack {
           },
         },
       );
+
+      const lambdaBinSetNftOffGame = new lambda.NodejsFunction(
+        this,
+        'setNftOffGame',
+        {
+          entry: 'src/bin-setnft-offgame.ts',
+          depsLockFilePath: PACKAGE_LOCK_JSON,
+          handler: 'handler',
+          runtime: Runtime.NODEJS_18_X,
+          memorySize: 512,
+          timeout: cdk.Duration.seconds(10),
+          environment: {
+            LOG_LEVEL: 'DEBUG',
+            SSM_NAME: prv00.secretName,
+            ADDRESS_EQUIPMENT_NFT: process.env.EQUIPMENT_NFT as string
+          },
+        },
+      );
     
       const lambdaWriteDungeon = new lambda.NodejsFunction(
         this,
@@ -266,7 +280,8 @@ export class LootAdventureStack extends Stack {
             LOG_LEVEL: 'DEBUG',
             TABLE_STATUS: dynamoDbStaus.tableName,
             FUNCTION_MINT_COIN: lambdaBinMintCoinToken.functionName,
-            FUNCTION_SEIZURE_EQUIP: lambdaBinSeizureEquip.functionName
+            FUNCTION_SEIZURE_EQUIP: lambdaBinSeizureEquip.functionName,
+            FUNCTION_SETNFT_OFFGAME: lambdaBinSetNftOffGame.functionName
           },
           iamRole: iam_role_lambda_connectDb,
         }),
@@ -302,6 +317,7 @@ export class LootAdventureStack extends Stack {
     prv00.grantRead(lambdaBinCreateCustody);
     prv00.grantRead(lambdaBinMintCoinToken);
     prv00.grantRead(lambdaBinSeizureEquip);
+    prv00.grantRead(lambdaBinSetNftOffGame);
 
     // ---------------------------------------------------------------------------------
     // Config for connecting resources (Lambda<>Lambda)
@@ -316,6 +332,12 @@ export class LootAdventureStack extends Stack {
       effect: Iam.Effect.ALLOW,
       actions: ['lambda:InvokeFunction'],
       resources: [lambdaBinSeizureEquip.functionArn]
+    }))
+
+    lambdaWriteDungeon.addToRolePolicy(new Iam.PolicyStatement({
+      effect: Iam.Effect.ALLOW,
+      actions: ['lambda:InvokeFunction'],
+      resources: [lambdaBinSetNftOffGame.functionArn]
     }))
 
     // ---------------------------------------------------------------------------------

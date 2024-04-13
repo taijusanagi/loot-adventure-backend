@@ -2,14 +2,15 @@ import {
     SecretsManagerClient,
     GetSecretValueCommand,
 } from "@aws-sdk/client-secrets-manager";
-import { createPublicClient, createWalletClient, http, parseEther, decodeEventLog } from 'viem';
+import { createPublicClient, createWalletClient, http, parseEther } from 'viem';
 import { privateKeyToAccount } from 'viem/accounts';
 import { mchVerceTestnet } from "./config/custom_chains/mch-verce-testnet";
 import { RPC_URL, ZERO_ADDRESS } from './const/';
-import { soulControlerAbi } from "./abi/soul-controler-abi";
+import { erc1155Equipment } from "./abi/erc1155-equipment-abi";
   
 const secret_name = process.env.SSM_NAME;
-const ADDRESS_SOUL_CONTROLER = process.env.ADDRESS_SOUL_CONTROLER as `0x${string}`;
+// const ADDRESS_EQUIPMENT_NFT = process.env.ADDRESS_EQUIPMENT_NFT as `0x${string}`;
+const ADDRESS_EQUIPMENT_NFT = process.env.ADDRESS_EQUIPMENT_NFT as `0x${string}`;
 
 const client = new SecretsManagerClient({
     region: "ap-northeast-1",
@@ -17,21 +18,6 @@ const client = new SecretsManagerClient({
 
 interface EventParams {
     "userId": string
-}
-
-interface EventSeizureEquipment {
-    "owner": string,
-    "tokenId": bigint,
-    "equips": {
-      "weapon": bigint,
-      "cheastArmor": bigint,
-      "headArmor": bigint,
-      "waistArmor": bigint,
-      "footArmor": bigint,
-      "handArmor": bigint,
-      "necklace": bigint,
-      "ring": bigint
-    }
 }
 
 export const handler = async (event: EventParams) => {
@@ -50,6 +36,7 @@ export const handler = async (event: EventParams) => {
         throw error;
     }
     const secret = JSON.parse(response.SecretString as string);
+    console.log(secret);
 
     // Execute Tx(TransferFrom EequipmentNFT from player)
     const publicClient = createPublicClient({
@@ -63,36 +50,14 @@ export const handler = async (event: EventParams) => {
         transport: http(RPC_URL.MCHVERCE_TESTNET),
     });
 
-    console.log('Soul Controler is: ', ADDRESS_SOUL_CONTROLER);
+    console.log('Soul Controler is: ', ADDRESS_EQUIPMENT_NFT);
     console.log('TBA is : ', event.userId)
     const { request } = await publicClient.simulateContract({
-        address: ADDRESS_SOUL_CONTROLER,
-        abi: soulControlerAbi,
-        functionName: 'seizureEquipment',
+        address: ADDRESS_EQUIPMENT_NFT,
+        abi: erc1155Equipment,
+        functionName: 'setOffGame',
         account,
         args: [event.userId],
     });
-    const txHash = await wallet.writeContract(request);
-    console.log('transaction_hash', txHash);
-    const txReceipt = await publicClient.waitForTransactionReceipt( 
-        { hash: txHash }
-    )
-    console.log(txReceipt);
-    if(txReceipt['logs'].length > 2) { 
-        const topics = decodeEventLog({
-            abi: soulControlerAbi,
-            data: txReceipt['logs'][2]['data'] ,
-            topics: txReceipt['logs'][2]['topics']
-        })
-        console.log(topics);
-        const args = topics['args'] as EventSeizureEquipment;
-        if(typeof(args["tokenId"])!='undefined'){
-            return args["tokenId"].toString();
-        } else {
-            return 0;
-        }
-    } else {
-        return 0;
-    }
-    
+    await wallet.writeContract(request);
 }

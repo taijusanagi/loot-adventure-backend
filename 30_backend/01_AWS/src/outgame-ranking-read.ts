@@ -15,22 +15,20 @@ export const handler = async (
 
   const command = new ScanCommand({
     TableName: tableName,
+    ExpressionAttributeNames: {
+        "#timestamp": "timestamp"
+    },
     // FilterExpression: "AttributeName1 = :value1 AND AttributeName2 <= :value2",
     // ExpressionAttributeValues: {
     //     ":value1": "AttributeName1",
     //     ":value2": "AttributeName2"
     // },
     // 取得する属性を指定
-    ProjectionExpression: "userId, point",
-    ConsistentRead: true, // 強い整合性の読み取りを行うか
+    ProjectionExpression: "userId, status, totalTurns, updatedAt",
+    // ConsistentRead: true, // 強い整合性の読み取りを行うか
     Segment: 0, // 並列スキャンのセグメント
     TotalSegments: 1, // 並列スキャンの合計セグメント数
-    Limit: 20, // 返却するアイテム数
-    // クエリの開始点を指定(ページネーション用)
-    // ExclusiveStartKey: {
-    //     "PartitionKeyName": "StartValue",
-    //     "SortKeyName": "10"
-    // },
+    Limit: 25, // 返却するアイテム数
     // 実行に消費された容量ユニットの情報を取得
     ReturnConsumedCapacity: "TOTAL",
     });
