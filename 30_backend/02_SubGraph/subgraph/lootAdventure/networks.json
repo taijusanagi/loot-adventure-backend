@@ -1,25 +1,25 @@
 {
   "oasys_mchverce_testnet": {
     "SoulLootNft": {
-      "address": "0x6442efeFD21e4882c89b39584E699966eC2B2FeE"
+      "address": "0xeE0eD5775f25FbD5342C585125491a75d4FA98c4"
     },
     "ERC6551Registry": {
-      "address": "0xC572C4Ba0430B5ffa19905595729d57367C2ADB0"
+      "address": "0xd83755AA61EFbe4EAE57058F73e2e7b6FB5a434a"
     },
     "RLootNft": {
       "address": "0xD3483ff3c36b410b55E2Ecdeb59bF37505f995E1"
     },
     "SoulControler": {
-      "address": "0x000025F50509C89D239ED5C5dc46b134E21Fec2f"
+      "address": "0x016b3B7bbf3607E98CB6e65a43E275F152A5E900"
     },
     "EquipmentNft": {
-      "address": "0xaF20afeeDB84feC3D574baE73Ed0eC2DF13576B0"
+      "address": "0x2e5a2bf9be55f00AE9c429fAd0D14afd509889Cf"
     },
     "ArtifactNft": {
-      "address": "0x1677e0EAD67175a21bB3ECBeAf833DE77F8c0693"
+      "address": "0xF899795EcFE75e45064F8699F4207F5cE6bAAC7F"
     },
     "JobNft": {
-      "address": "0x24110550258DEE8E3352BC3D21FC00e3f1d02F05"
+      "address": "0x498a2845D3b3294e72cdD6174BD1F6Cca84FCD40"
     }
   }
 }
