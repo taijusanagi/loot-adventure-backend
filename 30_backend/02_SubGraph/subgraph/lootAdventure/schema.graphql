@@ -7,9 +7,12 @@ type SoulLootNftAccount @entity {
 
 type Equipment @entity {
   id: ID!
+  type: BigInt
   rarity: BigInt
   level: BigInt
   name: String
+  owner: User
+  coinToLevelUp: BigInt
 }
 
 type Equipped @entity {
@@ -39,12 +42,16 @@ type SoulLootNft @entity {
   def: Int
   turn: Int
   rec: Int
+  seed: BigInt
+  rTokenId: BigInt
 }
 
 type User @entity {
   id: ID!
   rLootNfts: [RLootNft!]! @derivedFrom(field: "owner")
   soulLootNfts: [SoulLootNft!]! @derivedFrom(field: "owner")
+  equipments: [Equipment!]! @derivedFrom(field: "owner")
+  coin: BigInt
 }
 
 type RLootNft @entity {

@@ -20,6 +20,9 @@
     },
     "JobNft": {
       "address": "0x498a2845D3b3294e72cdD6174BD1F6Cca84FCD40"
+    },
+    "LaCoint": {
+      "address": "0x9E90ea59b8b010c87cF86d579728E6D0A514A0Ab"
     }
   }
 }
