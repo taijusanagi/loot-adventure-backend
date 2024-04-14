@@ -56,7 +56,9 @@ export const handler = async (event: EventParams) => {
         chain: mchVerceTestnet,
         transport: http(RPC_URL.MCHVERCE_TESTNET),
     });
-    const account = privateKeyToAccount(secret['0']);
+    // const keyIndex = Math.floor(Math.random() * (11))
+    // const account = privateKeyToAccount(secret[keyIndex]);
+    const account = privateKeyToAccount(secret[0]);
     const wallet = createWalletClient({
         account,
         chain: mchVerceTestnet,
@@ -87,12 +89,13 @@ export const handler = async (event: EventParams) => {
         console.log(topics);
         const args = topics['args'] as EventSeizureEquipment;
         if(typeof(args["tokenId"])!='undefined'){
-            return args["tokenId"].toString();
+            console.log('tokenId; ', args["tokenId"].toString());
+            console.log(parseInt(args["tokenId"].toString()));
+            return parseInt(args["tokenId"].toString());
         } else {
-            return 0;
+            return 0
         }
     } else {
-        return 0;
+        return 0
     }
-    
 }

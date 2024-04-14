@@ -2,6 +2,7 @@ import { APIGatewayEvent, APIGatewayProxyResult, Context } from 'aws-lambda';
 import { DynamoDBClient, QueryCommand } from "@aws-sdk/client-dynamodb";
 import { PutCommand, GetCommand } from "@aws-sdk/lib-dynamodb";
 import { LambdaClient, InvokeCommand } from '@aws-sdk/client-lambda';
+import { Uint8ArrayBlobAdapter } from "@aws-sdk/util-stream";
 
 const dynamo = new DynamoDBClient({ region: process.env.AWS_REGION });
 const tableName = process.env.TABLE_STATUS;
@@ -34,7 +35,7 @@ export const handler = async (
   const commandRead = new GetCommand({
     TableName: tableName,
     Key: {
-      "userId": _body.tba
+      'userId': _body.tba,
     },
   });
   const readResult = await dynamo.send(commandRead);
@@ -50,14 +51,17 @@ export const handler = async (
   }
 
   // Write a item to DynamoDB
+  const totalPt = _body.status * 1000000 + (999999 - turns);
   const nowDateIso: string = new Date().toISOString();
   const commandWrite = new PutCommand({
     TableName: tableName,
     Item: {
+      "isActive": "01_active",
       "userId": _body.tba,
       "status": _body.status,
-      "updatedAt": nowDateIso,
-      "totalTurns": turns
+      "totalPt": totalPt,
+      "totalTurns": turns,
+      "updatedAt": nowDateIso
     }
   });
   const putResult = await dynamo.send(commandWrite);
@@ -109,8 +113,11 @@ export const handler = async (
         "userId": _body.tba
       })
     })
-    const resSeizure = await client.send(command2);
-    console.log(resSeizure);
+    const resSeizureEquipment = await client.send(command2);
+    console.log(resSeizureEquipment);
+    console.log(resSeizureEquipment?.Payload);
+    const tokenIdPayload: Uint8ArrayBlobAdapter = resSeizureEquipment?.Payload as Uint8ArrayBlobAdapter;
+    console.log('seizure tokenId: ',JSON.parse(tokenIdPayload?.transformToString() ?? "{}"));
 
     const command3 = new InvokeCommand({
       FunctionName: functionSetNftOffGame,
@@ -125,7 +132,7 @@ export const handler = async (
     const res = {
       "isClear": false,
       "txIsSuccess": true,
-      "seizureId": 1000
+      "seizureId": JSON.parse(tokenIdPayload?.transformToString() ?? "{}")
     }
     return {
       statusCode: 200,
