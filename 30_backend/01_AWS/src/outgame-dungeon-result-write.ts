@@ -137,6 +137,12 @@ export const handler = async (
     return {
       statusCode: 200,
       body: JSON.stringify(res),
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token",
+        "Content-Type": 'application/json',
+        "Access-Control-Allow-Methods": "POST,GET,OPTIONS",
+      },
     };
   }
 };

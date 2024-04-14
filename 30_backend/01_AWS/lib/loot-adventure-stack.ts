@@ -15,6 +15,7 @@ import * as Iam from 'aws-cdk-lib/aws-iam';
 import { SecretValue } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import * as dotenv from 'dotenv';
+import { Cors } from 'aws-cdk-lib/aws-apigateway';
 
 dotenv.config();
 const PACKAGE_LOCK_JSON = 'src/package-lock.json';
@@ -306,6 +307,12 @@ export class LootAdventureStack extends Stack {
       restApiName: `LootAdventureApi`,
       deployOptions: {
         stageName: 'v1',
+      },
+      defaultCorsPreflightOptions: {
+        allowOrigins: aws_apigateway.Cors.ALL_ORIGINS,
+        allowMethods: aws_apigateway.Cors.ALL_METHODS,
+        allowHeaders: aws_apigateway.Cors.DEFAULT_HEADERS,
+        statusCode: 200,
       },
     });
 
