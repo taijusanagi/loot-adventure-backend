@@ -108,7 +108,7 @@ contract LootByRogueV2 is AccessControl, ISoulCalculator {
         }
 
         // Ruins Hunter(type: 6)
-        if(_record.relics.length > 10) {
+        if(_record.relics.length > 2) {
             _artifactType[1]=6;
         }
 

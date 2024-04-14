@@ -4,7 +4,7 @@ import { soulControlerAbi } from './abi/soul-controler-abi';
 import { SOUL_CONTROLER } from './config';
 import { erc6551AccountAbi } from './abi/erc6551-account-abi';
 
-const tba = "0x6F15161247859AA0bfCE7F0887ED09A2a71A6628";
+const tba = "0xD3926327f56EAAf7342046CcB9394E73Be9E892c";
 
 async function main() {
   const [signer] = await ethers.getSigners();

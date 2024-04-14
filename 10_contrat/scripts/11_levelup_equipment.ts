@@ -4,7 +4,7 @@ import { erc1155Equipment } from './abi/erc1155-equipment-abi';
 import { erc6551AccountAbi } from './abi/erc6551-account-abi';
 import { EQUIPMENT_NFT, COIN_FT } from './config';
 
-const tba = "0x6F15161247859AA0bfCE7F0887ED09A2a71A6628";
+const tba = "0x42813C08c80DAB322022691c4928472842496B7A";
 
 async function main() {
   const [signer] = await ethers.getSigners();
@@ -24,11 +24,11 @@ async function main() {
     console.log('level: ', level.toString());
   })
 
-  const tx00 = await equipment.getAmountByToken(20000010001000);
+  const tx00 = await equipment.getAmountByToken(20000010001016);
   console.log(tx00.toString());
 
   const txData = equipment.interface.encodeFunctionData('levelUp', [
-    20000010001000
+    20000010001016
   ]);
   const tx = await tbaContract.executeCall(EQUIPMENT_NFT, 0, txData);
   tx.wait();
