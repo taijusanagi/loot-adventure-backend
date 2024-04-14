@@ -95,6 +95,12 @@ export const soulControlerAbi = [
         "type": "uint256"
       },
       {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "tokenType",
+        "type": "uint256"
+      },
+      {
         "components": [
           {
             "internalType": "uint256",
@@ -743,7 +749,13 @@ export const soulControlerAbi = [
     "type": "function"
   },
   {
-    "inputs": [],
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "tba_",
+        "type": "address"
+      }
+    ],
     "name": "setNftsOffGame",
     "outputs": [],
     "stateMutability": "nonpayable",

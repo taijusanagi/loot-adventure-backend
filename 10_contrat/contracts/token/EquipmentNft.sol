@@ -258,9 +258,9 @@ contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
     ) public virtual override(ERC1155, IERC1155) {
         require(
             (from == _msgSender() && !onGame[from]) 
-            || (isApprovedForAll(from, _msgSender())  && !onGame[from])
-            || (hasRole(CONTROLER_ROLE, msg.sender)),
-            "ERC1155: caller is not token owner or approved"
+            || (isApprovedForAll(from, _msgSender()) && !onGame[from])
+            || (msg.sender==soulControler),
+            "ERC1155: caller is not token owner or approved OR not on-game"
         );
         _safeTransferFrom(from, to, id, amount, data);
         emit updateEquipment(
@@ -285,7 +285,7 @@ contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
         require(
             (from == _msgSender() && !onGame[from]) 
             || (isApprovedForAll(from, _msgSender())  && !onGame[from])
-            || (hasRole(CONTROLER_ROLE, msg.sender) && onGame[from]),
+            || (msg.sender==soulControler),
             "ERC1155: caller is not token owner or approved"
         );
         _safeBatchTransferFrom(from, to, ids, amounts, data);

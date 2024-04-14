@@ -22,6 +22,7 @@ interface EventParams {
 interface EventSeizureEquipment {
     "owner": string,
     "tokenId": bigint,
+    "tokenType": bigint,
     "equips": {
       "weapon": bigint,
       "cheastArmor": bigint,
@@ -90,12 +91,21 @@ export const handler = async (event: EventParams) => {
         const args = topics['args'] as EventSeizureEquipment;
         if(typeof(args["tokenId"])!='undefined'){
             console.log('tokenId; ', args["tokenId"].toString());
-            console.log(parseInt(args["tokenId"].toString()));
-            return parseInt(args["tokenId"].toString());
+            console.log('tokenType; ', args["tokenType"].toString());
+            return JSON.stringify({
+                "tokenId": parseInt(args["tokenId"].toString()),
+                "type": parseInt(args["tokenType"].toString())
+            })
         } else {
-            return 0
+            return JSON.stringify({
+                "tokenId": 0,
+                "type": 99
+            })
         }
     } else {
-        return 0
+        return JSON.stringify({
+            "tokenId": 0,
+            "type": 99
+        })
     }
 }

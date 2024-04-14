@@ -42,17 +42,27 @@ async function main() {
   tx = await soulMinter.setDeveloperRole(process.env.dev09);
   await tx.wait();
   console.log('set:', tx);
-  tx = await soulMinter.setDeveloperRole(process.env.dev01);
-  await tx.wait();
-  console.log('set:', tx);
-  tx = await soulMinter.setDeveloperRole(process.env.dev01);
-  await tx.wait();
-  console.log('set:', tx);
 
   tx = await soulControler.setDeveloperRole(process.env.dev00);
   await tx.wait();
   console.log('set:', tx);
   tx = await soulControler.setDeveloperRole(process.env.dev01);
+  await tx.wait();
+  tx = await soulControler.setDeveloperRole(process.env.dev02);
+  await tx.wait();
+  tx = await soulControler.setDeveloperRole(process.env.dev03);
+  await tx.wait();
+  tx = await soulControler.setDeveloperRole(process.env.dev04);
+  await tx.wait();
+  tx = await soulControler.setDeveloperRole(process.env.dev05);
+  await tx.wait();
+  tx = await soulControler.setDeveloperRole(process.env.dev06);
+  await tx.wait();
+  tx = await soulControler.setDeveloperRole(process.env.dev07);
+  await tx.wait();
+  tx = await soulControler.setDeveloperRole(process.env.dev08);
+  await tx.wait();
+  tx = await soulControler.setDeveloperRole(process.env.dev09);
   await tx.wait();
 }
 

@@ -198,23 +198,6 @@ export class LootAdventureStack extends Stack {
         },
       );
 
-      const lambdaBinCreateCustody = new lambda.NodejsFunction(
-        this,
-        'createCustody',
-        {
-          entry: 'src/bin-create-custody.ts',
-          depsLockFilePath: PACKAGE_LOCK_JSON,
-          handler: 'handler',
-          runtime: Runtime.NODEJS_18_X,
-          memorySize: 512,
-          timeout: cdk.Duration.seconds(10),
-          environment: {
-            LOG_LEVEL: 'DEBUG',
-            SSM_NAME: prv00.secretName
-          },
-        },
-      );
-
       const lambdaBinMintCoinToken = new lambda.NodejsFunction(
         this,
         'mintCoinToken',
@@ -265,7 +248,8 @@ export class LootAdventureStack extends Stack {
           environment: {
             LOG_LEVEL: 'DEBUG',
             SSM_NAME: prv00.secretName,
-            ADDRESS_EQUIPMENT_NFT: process.env.EQUIPMENT_NFT as string
+            ADDRESS_EQUIPMENT_NFT: process.env.EQUIPMENT_NFT as string,
+            ADDRESS_SOUL_CONTROLER: process.env.SOUL_CONTROLER as string
           },
         },
       );
@@ -319,7 +303,6 @@ export class LootAdventureStack extends Stack {
     // ---------------------------------------------------------------------------------
     // Config for connecting resources (Lambda<>Secrets Manager)
     // ---------------------------------------------------------------------------------
-    prv00.grantRead(lambdaBinCreateCustody);
     prv00.grantRead(lambdaBinMintCoinToken);
     prv00.grantRead(lambdaBinSeizureEquip);
     prv00.grantRead(lambdaBinSetNftOffGame);

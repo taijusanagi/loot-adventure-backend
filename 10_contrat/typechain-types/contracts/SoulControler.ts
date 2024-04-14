@@ -93,7 +93,7 @@ export interface SoulControlerInterface extends utils.Interface {
     "setEquipmentNft(address)": FunctionFragment;
     "setJobNft(address)": FunctionFragment;
     "setMinterRole(address)": FunctionFragment;
-    "setNftsOffGame()": FunctionFragment;
+    "setNftsOffGame(address)": FunctionFragment;
     "setNftsOnGame()": FunctionFragment;
     "setSoulLoot(address)": FunctionFragment;
     "setTreasury(address)": FunctionFragment;
@@ -270,7 +270,7 @@ export interface SoulControlerInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "setNftsOffGame",
-    values?: undefined
+    values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "setNftsOnGame",
@@ -416,7 +416,7 @@ export interface SoulControlerInterface extends utils.Interface {
     "RoleAdminChanged(bytes32,bytes32,bytes32)": EventFragment;
     "RoleGranted(bytes32,address,address)": EventFragment;
     "RoleRevoked(bytes32,address,address)": EventFragment;
-    "SeizureEquipment(address,uint256,tuple)": EventFragment;
+    "SeizureEquipment(address,uint256,uint256,tuple)": EventFragment;
     "UpdateEquips(address,tuple)": EventFragment;
   };
 
@@ -467,10 +467,11 @@ export type RoleRevokedEventFilter = TypedEventFilter<RoleRevokedEvent>;
 export interface SeizureEquipmentEventObject {
   owner: string;
   tokenId: BigNumber;
+  tokenType: BigNumber;
   equips: SoulControler.EquipsStructOutput;
 }
 export type SeizureEquipmentEvent = TypedEvent<
-  [string, BigNumber, SoulControler.EquipsStructOutput],
+  [string, BigNumber, BigNumber, SoulControler.EquipsStructOutput],
   SeizureEquipmentEventObject
 >;
 
@@ -672,6 +673,7 @@ export interface SoulControler extends BaseContract {
     ): Promise<ContractTransaction>;
 
     setNftsOffGame(
+      tba_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -858,6 +860,7 @@ export interface SoulControler extends BaseContract {
   ): Promise<ContractTransaction>;
 
   setNftsOffGame(
+    tba_: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -1043,7 +1046,10 @@ export interface SoulControler extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setNftsOffGame(overrides?: CallOverrides): Promise<void>;
+    setNftsOffGame(
+      tba_: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     setNftsOnGame(overrides?: CallOverrides): Promise<void>;
 
@@ -1103,14 +1109,16 @@ export interface SoulControler extends BaseContract {
       sender?: PromiseOrValue<string> | null
     ): RoleRevokedEventFilter;
 
-    "SeizureEquipment(address,uint256,tuple)"(
+    "SeizureEquipment(address,uint256,uint256,tuple)"(
       owner?: null,
       tokenId?: null,
+      tokenType?: null,
       equips?: null
     ): SeizureEquipmentEventFilter;
     SeizureEquipment(
       owner?: null,
       tokenId?: null,
+      tokenType?: null,
       equips?: null
     ): SeizureEquipmentEventFilter;
 
@@ -1259,6 +1267,7 @@ export interface SoulControler extends BaseContract {
     ): Promise<BigNumber>;
 
     setNftsOffGame(
+      tba_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -1428,6 +1437,7 @@ export interface SoulControler extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     setNftsOffGame(
+      tba_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

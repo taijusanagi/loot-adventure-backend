@@ -87,7 +87,8 @@ export const handler = async (
     const res = {
       "isClear": true,
       "txIsSuccess": true,
-      "seizureId": 0
+      "seizureId": 0,
+      "seizureType": 99
     }
     return {
       statusCode: 200,
@@ -117,7 +118,9 @@ export const handler = async (
     console.log(resSeizureEquipment);
     console.log(resSeizureEquipment?.Payload);
     const tokenIdPayload: Uint8ArrayBlobAdapter = resSeizureEquipment?.Payload as Uint8ArrayBlobAdapter;
-    console.log('seizure tokenId: ',JSON.parse(tokenIdPayload?.transformToString() ?? "{}"));
+    const strSeizureResult = JSON.parse(tokenIdPayload?.transformToString() ?? "{}");
+
+    console.log('seizure_tx result: ',strSeizureResult, ' type: ', typeof(strSeizureResult));
 
     const command3 = new InvokeCommand({
       FunctionName: functionSetNftOffGame,
@@ -126,13 +129,15 @@ export const handler = async (
         "userId": _body.tba
       })
     })
+    
     const resSetNftOffGame = await client.send(command3);
     console.log(resSetNftOffGame);
 
     const res = {
       "isClear": false,
       "txIsSuccess": true,
-      "seizureId": JSON.parse(tokenIdPayload?.transformToString() ?? "{}")
+      "seizureTokenId": JSON.parse(strSeizureResult).tokenId,
+      "seizureType": JSON.parse(strSeizureResult).type
     }
     return {
       statusCode: 200,

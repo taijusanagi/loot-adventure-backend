@@ -15,7 +15,7 @@ import "./interfaces/ICoin.sol";
 
 contract SoulControler is AccessControl {
     event UpdateEquips(address owner,Equips equips);
-    event SeizureEquipment(address owner, uint256 tokenId, Equips equips);
+    event SeizureEquipment(address owner, uint256 tokenId, uint256 tokenType, Equips equips);
     // tokenId in equipmentNft(ERC1155)
     struct Equips {
         uint256 weapon;
@@ -161,9 +161,9 @@ contract SoulControler is AccessControl {
         _equipmentNft.setOnGame(msg.sender);
     }
 
-    function setNftsOffGame() public onlyRole(DEVELOPER_ROLE) {
+    function setNftsOffGame(address tba_) public onlyRole(DEVELOPER_ROLE) {
         IEquipmentNft _equipmentNft = IEquipmentNft(equipmentNft);
-        _equipmentNft.setOffGame(msg.sender);
+        _equipmentNft.setOffGame(tba_);
     }
 
     //*********************************************
@@ -219,7 +219,8 @@ contract SoulControler is AccessControl {
             _tokenId = _tokenIds[_index2];
             require(_tokenId!=0, 'TBA do not have this Equipment');
             _equipmentNft.safeTransferFrom(tba_, treasury, _tokenId, 1, '0x00');
-            emit SeizureEquipment(tba_, _tokenId, _equip);
+            emit SeizureEquipment(tba_, _tokenId, _tokenTypes[_index2], _equip);
+            emit UpdateEquips(tba_, _equip);
         } else {
             return 0;
         }

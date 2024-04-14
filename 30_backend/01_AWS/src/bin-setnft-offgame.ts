@@ -6,11 +6,11 @@ import { createPublicClient, createWalletClient, http, parseEther } from 'viem';
 import { privateKeyToAccount } from 'viem/accounts';
 import { mchVerceTestnet } from "./config/custom_chains/mch-verce-testnet";
 import { RPC_URL, ZERO_ADDRESS } from './const/';
-import { erc1155Equipment } from "./abi/erc1155-equipment-abi";
+import { soulControlerAbi } from "./abi/soul-controler-abi";
   
 const secret_name = process.env.SSM_NAME;
 // const ADDRESS_EQUIPMENT_NFT = process.env.ADDRESS_EQUIPMENT_NFT as `0x${string}`;
-const ADDRESS_EQUIPMENT_NFT = process.env.ADDRESS_EQUIPMENT_NFT as `0x${string}`;
+const ADDRESS_SOUL_CONTROLER = process.env.ADDRESS_SOUL_CONTROLER as `0x${string}`;
 
 const client = new SecretsManagerClient({
     region: "ap-northeast-1",
@@ -50,12 +50,12 @@ export const handler = async (event: EventParams) => {
         transport: http(RPC_URL.MCHVERCE_TESTNET),
     });
 
-    console.log('Soul Controler is: ', ADDRESS_EQUIPMENT_NFT);
+    console.log('Soul Controler is: ', ADDRESS_SOUL_CONTROLER);
     console.log('TBA is : ', event.userId)
     const { request } = await publicClient.simulateContract({
-        address: ADDRESS_EQUIPMENT_NFT,
-        abi: erc1155Equipment,
-        functionName: 'setOffGame',
+        address: ADDRESS_SOUL_CONTROLER,
+        abi: soulControlerAbi,
+        functionName: 'seizureEquipment',
         account,
         args: [event.userId],
     });
