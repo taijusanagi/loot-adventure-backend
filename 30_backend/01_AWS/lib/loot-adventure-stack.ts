@@ -131,6 +131,7 @@ export class LootAdventureStack extends Stack {
         environment: {
           LOG_LEVEL: 'DEBUG',
           tableRanking: dynamoDbRanking.tableName,
+          tableGSI: 'gsiRanking'
         },
         iamRole: iam_role_lambda_connectDb,
       }),
@@ -348,6 +349,17 @@ export class LootAdventureStack extends Stack {
       'POST',
       new aws_apigateway.LambdaIntegration(
         lambdaWriteDungeon
+      ),
+      // {
+      //   authorizer: lambdaAuth, // 定義したLambdaAuthorizerを指定
+      // },
+    );
+
+    const restApiDungeonRanking = restApiDungeon.addResource('ranking');
+    restApiDungeonRanking.addMethod(
+      'GET',
+      new aws_apigateway.LambdaIntegration(
+        lambdaReadRanking
       ),
       // {
       //   authorizer: lambdaAuth, // 定義したLambdaAuthorizerを指定
