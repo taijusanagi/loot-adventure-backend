@@ -8,7 +8,7 @@ dataSources:
     name: ERC6551Registry
     network: oasys_mchverce_testnet
     source:
-      address: "0xd83755AA61EFbe4EAE57058F73e2e7b6FB5a434a"
+      address: "0xC572C4Ba0430B5ffa19905595729d57367C2ADB0"
       abi: ERC6551Registry
     mapping:
       kind: ethereum/events
@@ -28,7 +28,7 @@ dataSources:
     name: SoulLootNft
     network: oasys_mchverce_testnet
     source:
-      address: "0xeE0eD5775f25FbD5342C585125491a75d4FA98c4"
+      address: "0x6442efeFD21e4882c89b39584E699966eC2B2FeE"
       abi: SoulLootNft
     mapping:
       kind: ethereum/events
@@ -68,7 +68,7 @@ dataSources:
     name: SoulControler
     network: oasys_mchverce_testnet
     source:
-      address: "0x016b3B7bbf3607E98CB6e65a43E275F152A5E900"
+      address: "0x000025F50509C89D239ED5C5dc46b134E21Fec2f"
       abi: SoulControler
     mapping:
       kind: ethereum/events
@@ -88,7 +88,7 @@ dataSources:
     name: EquipmentNft
     network: oasys_mchverce_testnet
     source:
-      address: "0x2e5a2bf9be55f00AE9c429fAd0D14afd509889Cf"
+      address: "0xaF20afeeDB84feC3D574baE73Ed0eC2DF13576B0"
       abi: EquipmentNft
     mapping:
       kind: ethereum/events
@@ -111,7 +111,7 @@ dataSources:
     name: ArtifactNft
     network: oasys_mchverce_testnet
     source:
-      address: "0xF899795EcFE75e45064F8699F4207F5cE6bAAC7F"
+      address: "0x1677e0EAD67175a21bB3ECBeAf833DE77F8c0693"
       abi: ArtifactNft
     mapping:
       kind: ethereum/events
@@ -131,7 +131,7 @@ dataSources:
     name: JobNft
     network: oasys_mchverce_testnet
     source:
-      address: "0x498a2845D3b3294e72cdD6174BD1F6Cca84FCD40"
+      address: "0x24110550258DEE8E3352BC3D21FC00e3f1d02F05"
       abi: JobNft
     mapping:
       kind: ethereum/events
@@ -150,7 +150,7 @@ dataSources:
     name: LaCoin
     network: oasys_mchverce_testnet
     source:
-      address: "0x9E90ea59b8b010c87cF86d579728E6D0A514A0Ab"
+      address: "0x6F3DfBeCf1769E3003D62A189Ce32A9A70160baB"
       abi: LaCoin
     mapping:
       kind: ethereum/events
