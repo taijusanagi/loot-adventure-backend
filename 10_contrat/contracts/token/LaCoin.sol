@@ -68,6 +68,7 @@ contract LaCoin is ERC20, AccessControl, ICoin {
     }
 
     function burn(address from_, uint256 amount_, string memory source_) public {
+        require(msg.sender == from_);
         _burn(from_, amount_);
         emit burnCoin(from_, amount_, source_);
     }

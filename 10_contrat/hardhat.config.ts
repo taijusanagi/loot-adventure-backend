@@ -11,6 +11,7 @@ dotenv.config();
 
 const PRIVATE_KEY = process.env.PRIVATE_KEY;
 const API_URL_MCH = process.env.API_URL_MCH;
+const API_URL_MCH_TEST = process.env.API_URL_MCH_TEST;
 const API_URL_ZKKATANA = process.env.API_URL_ZKKATANA;
 const API_URL_MUMBAI = process.env.API_URL_MUMBAI;
 const API_KEY = process.env.API_KEY;
@@ -50,8 +51,13 @@ const config: HardhatUserConfig = {
       chainId: 31337,
       accounts: PRIVATE_KEY ? [PRIVATE_KEY] : []
     },
-    mchTest: {
+    mch: {
       url: API_URL_MCH,
+      chainId: 29548,
+      accounts: PRIVATE_KEY ? [PRIVATE_KEY] : [],
+    },
+    mchTest: {
+      url: API_URL_MCH_TEST,
       chainId: 420,
       accounts: PRIVATE_KEY ? [PRIVATE_KEY] : [],
     },
