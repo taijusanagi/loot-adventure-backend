@@ -40,6 +40,7 @@ contract SoulControler is AccessControl {
     // FT Contract (ERC20)
     address private coin;
     address private treasury;
+    uint256 nullCounter = 0;
 
     mapping (address => Equips) equips; // NFT onwer => Equips   
 
@@ -174,6 +175,7 @@ contract SoulControler is AccessControl {
     ) public onlyRole(DEVELOPER_ROLE) returns (uint256 _tokenId){
         uint256 _index = block.timestamp % 10;
         if(_index == 0){
+            nullCounter++;
             return 0;
         }
 
@@ -221,7 +223,9 @@ contract SoulControler is AccessControl {
             _equipmentNft.safeTransferFrom(tba_, treasury, _tokenId, 1, '0x00');
             emit SeizureEquipment(tba_, _tokenId, _tokenTypes[_index2], _equip);
             emit UpdateEquips(tba_, _equip);
+            return _tokenId;
         } else {
+            nullCounter++;
             return 0;
         }
     }

@@ -10,5 +10,5 @@ interface ICoin is IERC20 {
     function setTransferRockFalse()external;
 
     function mint(address to_, uint256 amount_, string memory source_) external;
-    function burn(address from_, uint256 amount_, string memory source_) external;
+    function burnFrom(address from_, uint256 amount_) external;
 }

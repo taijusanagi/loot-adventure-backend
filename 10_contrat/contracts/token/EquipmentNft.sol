@@ -314,7 +314,7 @@ contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
         Equipment memory _equipment = equipment[tokenId_];
         uint256 _level = _equipment.level;
         uint256 _amount = getAmountByLevel(_level + 1);
-        _coin.burn(msg.sender, _amount, 'Level Up');
+        _coin.burnFrom(msg.sender, _amount);
 
         _equipment.level = _level + 1;
         equipment[tokenId_] = _equipment;

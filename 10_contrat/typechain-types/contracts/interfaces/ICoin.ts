@@ -32,7 +32,7 @@ export interface ICoinInterface extends utils.Interface {
     "allowance(address,address)": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
-    "burn(address,uint256,string)": FunctionFragment;
+    "burnFrom(address,uint256)": FunctionFragment;
     "mint(address,uint256,string)": FunctionFragment;
     "setDeveloperRole(address)": FunctionFragment;
     "setMinterRole(address)": FunctionFragment;
@@ -48,7 +48,7 @@ export interface ICoinInterface extends utils.Interface {
       | "allowance"
       | "approve"
       | "balanceOf"
-      | "burn"
+      | "burnFrom"
       | "mint"
       | "setDeveloperRole"
       | "setMinterRole"
@@ -72,12 +72,8 @@ export interface ICoinInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
-    functionFragment: "burn",
-    values: [
-      PromiseOrValue<string>,
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<string>
-    ]
+    functionFragment: "burnFrom",
+    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "mint",
@@ -123,7 +119,7 @@ export interface ICoinInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "allowance", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "burn", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "burnFrom", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "setDeveloperRole",
@@ -228,10 +224,9 @@ export interface ICoin extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
-    burn(
+    burnFrom(
       from_: PromiseOrValue<string>,
       amount_: PromiseOrValue<BigNumberish>,
-      source_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -293,10 +288,9 @@ export interface ICoin extends BaseContract {
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
-  burn(
+  burnFrom(
     from_: PromiseOrValue<string>,
     amount_: PromiseOrValue<BigNumberish>,
-    source_: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -358,10 +352,9 @@ export interface ICoin extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    burn(
+    burnFrom(
       from_: PromiseOrValue<string>,
       amount_: PromiseOrValue<BigNumberish>,
-      source_: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -444,10 +437,9 @@ export interface ICoin extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    burn(
+    burnFrom(
       from_: PromiseOrValue<string>,
       amount_: PromiseOrValue<BigNumberish>,
-      source_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -510,10 +502,9 @@ export interface ICoin extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    burn(
+    burnFrom(
       from_: PromiseOrValue<string>,
       amount_: PromiseOrValue<BigNumberish>,
-      source_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

@@ -36,7 +36,8 @@ export interface LaCoinInterface extends utils.Interface {
     "allowance(address,address)": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
-    "burn(address,uint256,string)": FunctionFragment;
+    "burn(uint256)": FunctionFragment;
+    "burnFrom(address,uint256)": FunctionFragment;
     "decimals()": FunctionFragment;
     "decreaseAllowance(address,uint256)": FunctionFragment;
     "getRoleAdmin(bytes32)": FunctionFragment;
@@ -71,6 +72,7 @@ export interface LaCoinInterface extends utils.Interface {
       | "approve"
       | "balanceOf"
       | "burn"
+      | "burnFrom"
       | "decimals"
       | "decreaseAllowance"
       | "getRoleAdmin"
@@ -125,11 +127,11 @@ export interface LaCoinInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "burn",
-    values: [
-      PromiseOrValue<string>,
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<string>
-    ]
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "burnFrom",
+    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(functionFragment: "decimals", values?: undefined): string;
   encodeFunctionData(
@@ -236,6 +238,7 @@ export interface LaCoinInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "burn", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "burnFrom", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "decimals", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "decreaseAllowance",
@@ -458,9 +461,13 @@ export interface LaCoin extends BaseContract {
     ): Promise<[BigNumber]>;
 
     burn(
+      amount_: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    burnFrom(
       from_: PromiseOrValue<string>,
       amount_: PromiseOrValue<BigNumberish>,
-      source_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -596,9 +603,13 @@ export interface LaCoin extends BaseContract {
   ): Promise<BigNumber>;
 
   burn(
+    amount_: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  burnFrom(
     from_: PromiseOrValue<string>,
     amount_: PromiseOrValue<BigNumberish>,
-    source_: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -734,9 +745,13 @@ export interface LaCoin extends BaseContract {
     ): Promise<BigNumber>;
 
     burn(
+      amount_: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    burnFrom(
       from_: PromiseOrValue<string>,
       amount_: PromiseOrValue<BigNumberish>,
-      source_: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -936,9 +951,13 @@ export interface LaCoin extends BaseContract {
     ): Promise<BigNumber>;
 
     burn(
+      amount_: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    burnFrom(
       from_: PromiseOrValue<string>,
       amount_: PromiseOrValue<BigNumberish>,
-      source_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -1077,9 +1096,13 @@ export interface LaCoin extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     burn(
+      amount_: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    burnFrom(
       from_: PromiseOrValue<string>,
       amount_: PromiseOrValue<BigNumberish>,
-      source_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

@@ -4,7 +4,7 @@ import { erc1155Equipment } from './abi/erc1155-equipment-abi';
 import { erc6551AccountAbi } from './abi/erc6551-account-abi';
 import { EQUIPMENT_NFT, COIN_FT } from './config';
 
-const tba = "0x21A383B2a1ca590256e362Ade586b6c4cE8F2e7F";
+const tba = "0x8992A721b3Aa632cAcC16Fe3e40508965a9CF5Ca";
 
 async function main() {
   const [signer] = await ethers.getSigners();

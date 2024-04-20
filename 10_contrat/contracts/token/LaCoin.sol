@@ -63,13 +63,18 @@ contract LaCoin is ERC20, AccessControl, ICoin {
     //*********************************************
     function mint(address to_, uint256 amount_, string memory source_) public onlyRole(MINTER_ROLE) {
         _mint(to_, amount_);
-        _approve(to_, soulControler, 10*24);
+        _approve(to_, soulControler, 10**24);
         emit getCoin(to_, amount_, source_);
     }
 
-    function burn(address from_, uint256 amount_, string memory source_) public {
-        require(msg.sender == from_);
+    function burn(uint256 amount_) public {
+        _burn(msg.sender, amount_);
+        emit burnCoin(msg.sender, amount_, 'burn my conin');
+    }
+
+    function burnFrom(address from_, uint256 amount_) public virtual {
+        _spendAllowance(from_, _msgSender(), amount_);
         _burn(from_, amount_);
-        emit burnCoin(from_, amount_, source_);
+        emit burnCoin(msg.sender, amount_, 'burn by other EOA or Contract');
     }
 }
