@@ -50,9 +50,21 @@ export class LootAdventureStack extends Stack {
     // --------------------------------------------------
     // Resources | DynamoDB
     // --------------------------------------------------
-    const dynamoDbRanking = new aws_dynamodb.TableV2(this, 'la-ranking', {
+    const dynamoDbStatus = new aws_dynamodb.TableV2(this, 'La-Tba-Status', {
       partitionKey: {
         name: 'userId',
+        type: aws_dynamodb.AttributeType.STRING,
+      },
+    });
+    dynamoDbStatus.addGlobalSecondaryIndex({
+      indexName: 'gsiRanking',
+      partitionKey: { name: 'isActive', type: aws_dynamodb.AttributeType.STRING },
+      sortKey: {name: 'totalPt', type: aws_dynamodb.AttributeType.NUMBER}
+    })
+
+    const dynamoDbRanking = new aws_dynamodb.TableV2(this, 'La-Eoa-Ranking', {
+      partitionKey: {
+        name: 'eoa',
         type: aws_dynamodb.AttributeType.STRING,
       },
     });
@@ -130,7 +142,8 @@ export class LootAdventureStack extends Stack {
         entry: 'src/outgame-ranking-read.ts',
         environment: {
           LOG_LEVEL: 'DEBUG',
-          tableRanking: dynamoDbRanking.tableName,
+          TABLE_STATUS: dynamoDbStatus.tableName,
+          TABLE_RANKING: dynamoDbRanking.tableName,
           tableGSI: 'gsiRanking'
         },
         iamRole: iam_role_lambda_connectDb,
@@ -262,7 +275,8 @@ export class LootAdventureStack extends Stack {
           entry: 'src/outgame-dungeon-result-write.ts',
           environment: {
             LOG_LEVEL: 'DEBUG',
-            TABLE_STATUS: dynamoDbRanking.tableName,
+            TABLE_STATUS: dynamoDbStatus.tableName,
+            TABLE_RANKING: dynamoDbRanking.tableName,
             FUNCTION_MINT_COIN: lambdaBinMintCoinToken.functionName,
             FUNCTION_SEIZURE_EQUIP: lambdaBinSeizureEquip.functionName,
             FUNCTION_SETNFT_OFFGAME: lambdaBinSetNftOffGame.functionName

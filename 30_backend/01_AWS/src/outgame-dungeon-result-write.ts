@@ -5,7 +5,8 @@ import { LambdaClient, InvokeCommand } from '@aws-sdk/client-lambda';
 import { Uint8ArrayBlobAdapter } from "@aws-sdk/util-stream";
 
 const dynamo = new DynamoDBClient({ region: process.env.AWS_REGION });
-const tableName = process.env.TABLE_STATUS;
+const TABLE_STATUS = process.env.TABLE_STATUS;
+const TABLE_RANKING = process.env.TABLE_RANKING;
 const functionMintCoin = process.env.FUNCTION_MINT_COIN;
 const functionSeizureEquip = process.env.FUNCTION_SEIZURE_EQUIP;
 const functionSetNftOffGame = process.env.FUNCTION_SETNFT_OFFGAME;
@@ -20,7 +21,8 @@ export const handler = async (
   console.log('event is :', event.body);
   const _body = JSON.parse(event.body as string);
   if(
-    _body?.tba == 'undefined' 
+    _body?.tba == 'undefined'
+    || _body?.eoa == 'undefined'
     || _body?.isClear == 'undefined'
     || _body?.amount == 'undefined'
     || _body?.turn == 'undefined'
@@ -30,59 +32,45 @@ export const handler = async (
       body: JSON.stringify('Error:invalid parameter'),
     };
   }
-  
-  // Read a item from DynamoDB
-  const commandRead = new GetCommand({
-    TableName: tableName,
-    Key: {
-      'userId': _body.tba,
-    },
-  });
-  const readResult = await dynamo.send(commandRead);
-  console.log(readResult);
-
-  // Get&Update total turns
-  let turns;
-  if(typeof(readResult.Item?.totalTurns)!='undefined'){
-    turns = readResult.Item?.totalTurns;
-    turns = turns + _body.turn;
-  } else {
-    turns = 0;
-  }
-
-  // Write a item to DynamoDB
-  const totalPt = _body.status * 1000000 + (999999 - turns);
-  const nowDateIso: string = new Date().toISOString();
-  const commandWrite = new PutCommand({
-    TableName: tableName,
-    Item: {
-      "isActive": "01_active",
-      "userId": _body.tba,
-      "status": _body.status,
-      "totalPt": totalPt,
-      "totalTurns": turns,
-      "updatedAt": nowDateIso
-    }
-  });
-  const putResult = await dynamo.send(commandWrite);
-  console.log('DynamoDB Update!!');
-
-  // Invoke function (Mint COIN-Token)
   const client = new LambdaClient();
-  console.log(functionMintCoin);
 
+  /*****************************************
+  True: zero coin & transferFrom Equipment  
+  ******************************************/
   if(_body.isClear) {
-    // True: zero coin & transferFrom Equipment 
     const command = new InvokeCommand({
       FunctionName: functionMintCoin,
       InvocationType: 'RequestResponse',
       Payload: JSON.stringify({
-        "userId": _body.tba,
+        "userId": _body.eoa,
         "amount": _body.amount,
         "detail": "Dungeon clear at:" + _body.status.toString()
       }),
     });
     resMintCoin = await client.send(command);
+
+    const command2 = new InvokeCommand({
+      FunctionName: functionSetNftOffGame,
+      InvocationType: 'RequestResponse',
+      Payload: JSON.stringify({
+        "userId": _body.tba
+      })
+    })
+    
+    const resSetNftOffGame = await client.send(command2);
+    console.log(resSetNftOffGame);
+
+    /* 
+    Update DyanamoDb
+    */
+    const nowDateIso: string = new Date().toISOString();
+    // Update StatusDb
+    const totalPt = await updateStatus(_body.tba, _body.eoa, _body.turn, _body.status, nowDateIso);
+    console.log('Update DbStatus is done!!')
+    console.log('totalPt=>', totalPt);
+
+    // Write a item to DynamoDB02(Ranking)
+    await updateRanking(totalPt, _body.tba, _body.eoa, _body.turn, _body.status, nowDateIso)
 
     const res = {
       "isClear": true,
@@ -94,19 +82,11 @@ export const handler = async (
       statusCode: 200,
       body: JSON.stringify(res),
     };
-  } else {
-    // False: zero coin & transferFrom Equipment 
-    const command = new InvokeCommand({
-      FunctionName: functionMintCoin,
-      InvocationType: 'RequestResponse',
-      Payload: JSON.stringify({
-        "userId": _body.tba,
-        "amount": _body.amount,
-        "detail": "Dungeon clear at:" + _body.status.toString()
-      }),
-    });
-    resMintCoin = await client.send(command);
 
+  /*****************************************
+  False: zero coin & transferFrom Equipment 
+  ******************************************/
+  } else {
     const command2 = new InvokeCommand({
       FunctionName: functionSeizureEquip,
       InvocationType: 'RequestResponse',
@@ -133,6 +113,7 @@ export const handler = async (
     const resSetNftOffGame = await client.send(command3);
     console.log(resSetNftOffGame);
 
+
     const res = {
       "isClear": false,
       "txIsSuccess": true,
@@ -151,3 +132,105 @@ export const handler = async (
     };
   }
 };
+
+const updateStatus = async(
+  tba_: string,
+  eoa_: string,
+  turns_: number,
+  status_: number,
+  nowDateIso_: string
+): Promise<number> =>  {
+  const userId = eoa_ + tba_;
+  const commandRead = new GetCommand({
+    TableName: TABLE_STATUS,
+    Key: {
+      'userId': eoa_ + tba_
+    },
+  });
+  const readResult = await dynamo.send(commandRead);
+  console.log(readResult);
+  console.log('Typeof...', typeof(readResult.Item?.totalTurns))
+  // Get&Update total turns & Pt
+  let turns;
+  if(typeof(readResult.Item?.totalTurns)!='undefined'){
+    turns = readResult.Item?.totalTurns;
+    turns = turns + turns_;
+  } else {
+    turns = turns_;
+  }
+  const totalPt = status_ * 1000000 + (999999 - turns);
+
+  let _totalPt;
+  if(typeof(readResult.Item?.totalPt)!='undefined'){
+    _totalPt = readResult.Item?.totalPt;
+  } else {
+    _totalPt = 0;
+  }
+
+  if(_totalPt <= totalPt) {
+    const commandWrite = new PutCommand({
+      TableName: TABLE_STATUS,
+      Item: {
+        "isActive": "01_active",
+        "userId": userId,
+        "status": status_,
+        "totalPt": totalPt,
+        "totalTurns": turns,
+        "tba": tba_,
+        "eoa": eoa_,
+        "updatedAt": nowDateIso_
+      }
+    });
+    const putResult = await dynamo.send(commandWrite);
+    console.log('Update DB_STATUS: ', putResult);
+
+    return totalPt;
+  } else {
+    return _totalPt;
+  }
+}
+
+const updateRanking = async(
+  totalPt_: number,
+  tba_: string,
+  eoa_: string,
+  turns_: number,
+  status_: number,
+  nowDateIso_: string
+): Promise<boolean> =>  {
+  const commandRead = new GetCommand({
+    TableName: TABLE_RANKING,
+    Key: {
+      'eoa': eoa_,
+    },
+  });
+  const readResult = await dynamo.send(commandRead);
+
+  // Get&Update total turns & Pt
+  let totalPt;
+  if(typeof(readResult.Item?.totalPt)!='undefined'){
+    totalPt = readResult.Item?.totalPt;
+  } else {
+    totalPt = 0;
+  }
+
+  if(totalPt <= totalPt_) {
+    const commandWrite = new PutCommand({
+      TableName: TABLE_RANKING,
+      Item: {
+        "isActive": "01_active",
+        "eoa": eoa_,
+        "tba": tba_,
+        "status": status_,
+        "totalPt": totalPt_,
+        "totalTurns": turns_,
+        "updatedAt": nowDateIso_
+      }
+    });
+    const putResult = await dynamo.send(commandWrite);
+    console.log('Update DB_RANKING: ', putResult);
+    return true;
+  } else {
+    return false;
+  }
+}

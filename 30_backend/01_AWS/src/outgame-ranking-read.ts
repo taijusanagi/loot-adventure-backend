@@ -4,7 +4,8 @@ import { ScanCommand } from "@aws-sdk/lib-dynamodb";
 import { marshall, unmarshall } from '@aws-sdk/util-dynamodb';
 
 const dynamo = new DynamoDBClient({ region: process.env.AWS_REGION });
-const tableName = process.env.tableRanking;
+const TABLE_STATUS = process.env.TABLE_STATUS;
+const TABLE_RANKING = process.env.TABLE_RANKING;
 const tableGSI = process.env.tableGSI;
 
 export const handler = async (
@@ -17,7 +18,7 @@ export const handler = async (
 
   const command = new QueryCommand(
     {
-      TableName: tableName,
+      TableName: TABLE_RANKING,
       IndexName: tableGSI,
       KeyConditionExpression: '#Pk = :PkValue', // 条件を指定
       ExpressionAttributeNames : {
@@ -50,5 +51,11 @@ export const handler = async (
   return {
     statusCode: 200,
     body: JSON.stringify(items),
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Headers": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token",
+      "Content-Type": 'application/json',
+      "Access-Control-Allow-Methods": "POST,GET,OPTIONS",
+    },
   };
 };

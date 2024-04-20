@@ -57,9 +57,10 @@ export const handler = async (event: EventParams) => {
         chain: mchVerceTestnet,
         transport: http(RPC_URL.MCHVERCE_TESTNET),
     });
-    // const keyIndex = Math.floor(Math.random() * (11))
-    // const account = privateKeyToAccount(secret[keyIndex]);
-    const account = privateKeyToAccount(secret[0]);
+    
+    const keyIndex = Math.floor(Math.random() * (11))
+    const account = privateKeyToAccount(secret[keyIndex]);
+    // const account = privateKeyToAccount(secret[0]);
     const wallet = createWalletClient({
         account,
         chain: mchVerceTestnet,

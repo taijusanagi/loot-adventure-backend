@@ -43,7 +43,10 @@ export const handler = async (event: EventParams) => {
         chain: mchVerceTestnet,
         transport: http(RPC_URL.MCHVERCE_TESTNET),
     });
-    const account = privateKeyToAccount(secret['0']);
+
+    const keyIndex = Math.floor(Math.random() * (11))
+    const account = privateKeyToAccount(secret[keyIndex]);
+    // const account = privateKeyToAccount(secret[0]);
     const wallet = createWalletClient({
         account,
         chain: mchVerceTestnet,
@@ -55,7 +58,7 @@ export const handler = async (event: EventParams) => {
     const { request } = await publicClient.simulateContract({
         address: ADDRESS_SOUL_CONTROLER,
         abi: soulControlerAbi,
-        functionName: 'seizureEquipment',
+        functionName: 'setNftsOffGame',
         account,
         args: [event.userId],
     });
