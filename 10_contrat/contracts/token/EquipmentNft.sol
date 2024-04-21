@@ -303,7 +303,12 @@ contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
     function getAmountByToken(uint256 tokenId_) public view returns(uint256 _amount){
         Equipment memory _equipment = equipment[tokenId_];
         uint256 _level = _equipment.level;
-        _amount = getAmountByLevel(_level + 1);
+        uint256 _rarity = _equipment.rarity;
+        if(_rarity > 1) {
+            _amount = getAmountByLevel(_level + 1) * (120 ** (_rarity - 1 )) / (100 ** (_rarity - 1 ));
+        } else {
+            _amount = getAmountByLevel(_level + 1);
+        }
         return _amount;
     }
 
@@ -313,7 +318,7 @@ contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
         ICoin _coin = ICoin(coin);
         Equipment memory _equipment = equipment[tokenId_];
         uint256 _level = _equipment.level;
-        uint256 _amount = getAmountByLevel(_level + 1);
+        uint256 _amount = getAmountByToken(tokenId_);
         _coin.burnFrom(msg.sender, _amount);
 
         _equipment.level = _level + 1;

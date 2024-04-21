@@ -14,3 +14,4 @@ export const ERC6551_ACCOUNT=process.env.ERC6551_ACCOUNT as string;
 
 export const TREASURY=process.env.TREASURY as string;
 export const SAMPLE_LOOT=process.env.SAMPLE_LOOT as string;
+export const CALC_LOOTBYROGUE=process.env.CALC_LOOTBYROGUE as string;

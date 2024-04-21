@@ -4,7 +4,10 @@ import { erc1155Equipment } from './abi/erc1155-equipment-abi';
 import { erc6551AccountAbi } from './abi/erc6551-account-abi';
 import { EQUIPMENT_NFT, COIN_FT } from './config';
 
-const tba = "0x8992A721b3Aa632cAcC16Fe3e40508965a9CF5Ca";
+// const tokenId = 20000010001000; // rarity=1
+// const tokenId = 20000050015000; // rairty=2
+const tokenId = 20000010019000; // rarity=3
+// const tokenId = 20000020020001; // rarity=4
 
 async function main() {
   const [signer] = await ethers.getSigners();
@@ -12,7 +15,6 @@ async function main() {
 
   // Set Contract
   const laXp = new ethers.Contract(COIN_FT, erc20lacoinAbi, signer);
-  const tbaContract = new ethers.Contract(tba, erc6551AccountAbi, signer);
   const equipment = new ethers.Contract(EQUIPMENT_NFT, erc1155Equipment, signer);
 
   equipment.once('updateEquipment', (tokenId, seed, name, type, rAddress, rTokenId, rarity, level) => {
@@ -24,16 +26,16 @@ async function main() {
     console.log('level: ', level.toString());
   })
 
-  const tx00 = await equipment.getAmountByToken(20000000001000);
+  const tx00 = await equipment.getAmountByToken(tokenId);
   console.log(tx00.toString());
 
-  const txData = equipment.interface.encodeFunctionData('levelUp', [
-    20000000001000
-  ]);
-  const tx = await tbaContract.executeCall(EQUIPMENT_NFT, 0, txData);
+  // const txData = equipment.interface.encodeFunctionData('levelUp', [
+  //   20000000002000
+  // ]);
+  const tx = await equipment.levelUp(tokenId);
   tx.wait();
 
-  const tx02 = await laXp.balanceOf(tba);
+  const tx02 = await laXp.balanceOf(signer.address);
   console.log('Balance is :', tx02.toString());
 }
 

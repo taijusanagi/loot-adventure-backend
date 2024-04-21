@@ -40,8 +40,8 @@ export interface LaCoinInterface extends utils.Interface {
     "burnFrom(address,uint256)": FunctionFragment;
     "decimals()": FunctionFragment;
     "decreaseAllowance(address,uint256)": FunctionFragment;
+    "getEquipment()": FunctionFragment;
     "getRoleAdmin(bytes32)": FunctionFragment;
-    "getSoulControler()": FunctionFragment;
     "getTransferRock()": FunctionFragment;
     "grantRole(bytes32,address)": FunctionFragment;
     "hasRole(bytes32,address)": FunctionFragment;
@@ -51,8 +51,8 @@ export interface LaCoinInterface extends utils.Interface {
     "renounceRole(bytes32,address)": FunctionFragment;
     "revokeRole(bytes32,address)": FunctionFragment;
     "setDeveloperRole(address)": FunctionFragment;
+    "setEquipment(address)": FunctionFragment;
     "setMinterRole(address)": FunctionFragment;
-    "setSoulControler(address)": FunctionFragment;
     "setTransferRockFalse()": FunctionFragment;
     "setTransferRockTrue()": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
@@ -75,8 +75,8 @@ export interface LaCoinInterface extends utils.Interface {
       | "burnFrom"
       | "decimals"
       | "decreaseAllowance"
+      | "getEquipment"
       | "getRoleAdmin"
-      | "getSoulControler"
       | "getTransferRock"
       | "grantRole"
       | "hasRole"
@@ -86,8 +86,8 @@ export interface LaCoinInterface extends utils.Interface {
       | "renounceRole"
       | "revokeRole"
       | "setDeveloperRole"
+      | "setEquipment"
       | "setMinterRole"
-      | "setSoulControler"
       | "setTransferRockFalse"
       | "setTransferRockTrue"
       | "supportsInterface"
@@ -139,12 +139,12 @@ export interface LaCoinInterface extends utils.Interface {
     values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
-    functionFragment: "getRoleAdmin",
-    values: [PromiseOrValue<BytesLike>]
+    functionFragment: "getEquipment",
+    values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "getSoulControler",
-    values?: undefined
+    functionFragment: "getRoleAdmin",
+    values: [PromiseOrValue<BytesLike>]
   ): string;
   encodeFunctionData(
     functionFragment: "getTransferRock",
@@ -184,11 +184,11 @@ export interface LaCoinInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
-    functionFragment: "setMinterRole",
+    functionFragment: "setEquipment",
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
-    functionFragment: "setSoulControler",
+    functionFragment: "setMinterRole",
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
@@ -245,11 +245,11 @@ export interface LaCoinInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "getRoleAdmin",
+    functionFragment: "getEquipment",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "getSoulControler",
+    functionFragment: "getRoleAdmin",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -274,11 +274,11 @@ export interface LaCoinInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setMinterRole",
+    functionFragment: "setEquipment",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setSoulControler",
+    functionFragment: "setMinterRole",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -479,18 +479,14 @@ export interface LaCoin extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    getEquipment(overrides?: CallOverrides): Promise<[string]>;
+
     getRoleAdmin(
       role: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<[string]>;
 
-    getSoulControler(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    getTransferRock(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
+    getTransferRock(overrides?: CallOverrides): Promise<[boolean]>;
 
     grantRole(
       role: PromiseOrValue<BytesLike>,
@@ -536,13 +532,13 @@ export interface LaCoin extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    setMinterRole(
-      granted_: PromiseOrValue<string>,
+    setEquipment(
+      equipment_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    setSoulControler(
-      soulControler_: PromiseOrValue<string>,
+    setMinterRole(
+      granted_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -621,18 +617,14 @@ export interface LaCoin extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  getEquipment(overrides?: CallOverrides): Promise<string>;
+
   getRoleAdmin(
     role: PromiseOrValue<BytesLike>,
     overrides?: CallOverrides
   ): Promise<string>;
 
-  getSoulControler(
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  getTransferRock(
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
+  getTransferRock(overrides?: CallOverrides): Promise<boolean>;
 
   grantRole(
     role: PromiseOrValue<BytesLike>,
@@ -678,13 +670,13 @@ export interface LaCoin extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  setMinterRole(
-    granted_: PromiseOrValue<string>,
+  setEquipment(
+    equipment_: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  setSoulControler(
-    soulControler_: PromiseOrValue<string>,
+  setMinterRole(
+    granted_: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -763,12 +755,12 @@ export interface LaCoin extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
+    getEquipment(overrides?: CallOverrides): Promise<string>;
+
     getRoleAdmin(
       role: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<string>;
-
-    getSoulControler(overrides?: CallOverrides): Promise<string>;
 
     getTransferRock(overrides?: CallOverrides): Promise<boolean>;
 
@@ -816,13 +808,13 @@ export interface LaCoin extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setMinterRole(
-      granted_: PromiseOrValue<string>,
+    setEquipment(
+      equipment_: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setSoulControler(
-      soulControler_: PromiseOrValue<string>,
+    setMinterRole(
+      granted_: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -969,18 +961,14 @@ export interface LaCoin extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    getEquipment(overrides?: CallOverrides): Promise<BigNumber>;
+
     getRoleAdmin(
       role: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    getSoulControler(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    getTransferRock(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
+    getTransferRock(overrides?: CallOverrides): Promise<BigNumber>;
 
     grantRole(
       role: PromiseOrValue<BytesLike>,
@@ -1026,13 +1014,13 @@ export interface LaCoin extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    setMinterRole(
-      granted_: PromiseOrValue<string>,
+    setEquipment(
+      equipment_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    setSoulControler(
-      soulControler_: PromiseOrValue<string>,
+    setMinterRole(
+      granted_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -1114,18 +1102,14 @@ export interface LaCoin extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
+    getEquipment(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     getRoleAdmin(
       role: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    getSoulControler(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    getTransferRock(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
+    getTransferRock(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     grantRole(
       role: PromiseOrValue<BytesLike>,
@@ -1171,13 +1155,13 @@ export interface LaCoin extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    setMinterRole(
-      granted_: PromiseOrValue<string>,
+    setEquipment(
+      equipment_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    setSoulControler(
-      soulControler_: PromiseOrValue<string>,
+    setMinterRole(
+      granted_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

@@ -14,7 +14,7 @@ contract LaCoin is ERC20, AccessControl, ICoin {
     bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
 
     bool transferLock;
-    address soulControler;
+    address equipment;
 
     event getCoin(address to_, uint256 amount_, string source_);
     event burnCoin(address to_, uint256 amount_, string source_);
@@ -32,11 +32,11 @@ contract LaCoin is ERC20, AccessControl, ICoin {
     //*********************************************
     //Getter
     //*********************************************
-    function getTransferRock() public returns(bool) {
+    function getTransferRock() public view returns(bool) {
         return transferLock;
     }
-    function getSoulControler() public returns(address) {
-        return soulControler;
+    function getEquipment() public view returns(address) {
+        return equipment;
     }
 
     //*********************************************
@@ -54,8 +54,8 @@ contract LaCoin is ERC20, AccessControl, ICoin {
     function setTransferRockFalse() public onlyRole(DEVELOPER_ROLE) {
         transferLock = false;
     }
-    function setSoulControler(address soulControler_) public onlyRole(DEVELOPER_ROLE) {
-        soulControler = soulControler_;
+    function setEquipment(address equipment_) public onlyRole(DEVELOPER_ROLE) {
+        equipment = equipment_;
     }
 
     //*********************************************
@@ -63,7 +63,7 @@ contract LaCoin is ERC20, AccessControl, ICoin {
     //*********************************************
     function mint(address to_, uint256 amount_, string memory source_) public onlyRole(MINTER_ROLE) {
         _mint(to_, amount_);
-        _approve(to_, soulControler, 10**24);
+        _approve(to_, equipment, 10**32);
         emit getCoin(to_, amount_, source_);
     }
 

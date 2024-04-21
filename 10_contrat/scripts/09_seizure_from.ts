@@ -4,7 +4,7 @@ import { erc1155Equipment } from './abi/erc1155-equipment-abi';
 import { soulControlerAbi } from './abi/soul-controler-abi';
 import { SOUL_CONTROLER, EQUIPMENT_NFT, ARTIFACT_NFT } from './config';
 
-const tba = "0x8992A721b3Aa632cAcC16Fe3e40508965a9CF5Ca";
+const tba = "0x367432581aA22Bf2571D42Df5Fb1F5350Ba98147";
 
 async function main() {
   const [signer] = await ethers.getSigners();

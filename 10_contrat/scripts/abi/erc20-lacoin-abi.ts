@@ -301,6 +301,19 @@ export const erc20lacoinAbi = [
   {
     "inputs": [
       {
+        "internalType": "uint256",
+        "name": "amount_",
+        "type": "uint256"
+      }
+    ],
+    "name": "burn",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "address",
         "name": "from_",
         "type": "address"
@@ -309,14 +322,9 @@ export const erc20lacoinAbi = [
         "internalType": "uint256",
         "name": "amount_",
         "type": "uint256"
-      },
-      {
-        "internalType": "string",
-        "name": "source_",
-        "type": "string"
       }
     ],
-    "name": "burn",
+    "name": "burnFrom",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -359,6 +367,19 @@ export const erc20lacoinAbi = [
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "getEquipment",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "bytes32",
@@ -379,19 +400,6 @@ export const erc20lacoinAbi = [
   },
   {
     "inputs": [],
-    "name": "getSoulControler",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
     "name": "getTransferRock",
     "outputs": [
       {
@@ -400,7 +408,7 @@ export const erc20lacoinAbi = [
         "type": "bool"
       }
     ],
-    "stateMutability": "nonpayable",
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -558,11 +566,11 @@ export const erc20lacoinAbi = [
     "inputs": [
       {
         "internalType": "address",
-        "name": "granted_",
+        "name": "equipment_",
         "type": "address"
       }
     ],
-    "name": "setMinterRole",
+    "name": "setEquipment",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -571,11 +579,11 @@ export const erc20lacoinAbi = [
     "inputs": [
       {
         "internalType": "address",
-        "name": "soulControler_",
+        "name": "granted_",
         "type": "address"
       }
     ],
-    "name": "setSoulControler",
+    "name": "setMinterRole",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
