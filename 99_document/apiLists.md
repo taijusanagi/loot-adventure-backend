@@ -18,7 +18,7 @@ RLoot=>SoulLoot変換|write|on-chain|XXXX|[XXX]()
 ### MCH Verce Mainnet (Chain ID: 29548)
 Contract | Address | Abstarct 
 ----|-----|-----
-SoulMinter.sol     |0x672B0a1fB9e068661D0a1fa95Ee34afE173BfAeC|sLoot, Coin(ERC20), 各NFTのmintを行う
+SoulMinter.sol     |0x7fA91196a558A49041d252e0ce1b5D9DBe18C87e|sLoot, Coin(ERC20), 各NFTのmintを行う
 SoulControler.sol  |0xa449777bc26BBe6Ffa37Bd9b3aecB671215590D1|Equipmentの着脱を行う
 ERC6551Registry.sol|0x4B486e325b6DB3a54315c2DBe95Ac712bAAc2188|XXX
 ERC6551Account.sol |0x175886D7f6aCEEfEE52566445b0c4A8578D1DB80|XXX
