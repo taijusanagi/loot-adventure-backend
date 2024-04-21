@@ -32,7 +32,6 @@ export interface SoulMinterInterface extends utils.Interface {
     "ADMIN_ROLE()": FunctionFragment;
     "DEFAULT_ADMIN_ROLE()": FunctionFragment;
     "DEVELOPER_ROLE()": FunctionFragment;
-    "ZERO_ADDRESS()": FunctionFragment;
     "getArtifactNft()": FunctionFragment;
     "getCalcContract(address)": FunctionFragment;
     "getCoin()": FunctionFragment;
@@ -43,6 +42,7 @@ export interface SoulMinterInterface extends utils.Interface {
     "getRoleAdmin(bytes32)": FunctionFragment;
     "getSoulControler()": FunctionFragment;
     "getSoulLoot()": FunctionFragment;
+    "getTreasury()": FunctionFragment;
     "grantRole(bytes32,address)": FunctionFragment;
     "hasRole(bytes32,address)": FunctionFragment;
     "mintCoin(address,uint256,string)": FunctionFragment;
@@ -62,6 +62,7 @@ export interface SoulMinterInterface extends utils.Interface {
     "setJobNft(address)": FunctionFragment;
     "setSoulControler(address)": FunctionFragment;
     "setSoulLoot(address)": FunctionFragment;
+    "setTreasury(address)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
   };
 
@@ -70,7 +71,6 @@ export interface SoulMinterInterface extends utils.Interface {
       | "ADMIN_ROLE"
       | "DEFAULT_ADMIN_ROLE"
       | "DEVELOPER_ROLE"
-      | "ZERO_ADDRESS"
       | "getArtifactNft"
       | "getCalcContract"
       | "getCoin"
@@ -81,6 +81,7 @@ export interface SoulMinterInterface extends utils.Interface {
       | "getRoleAdmin"
       | "getSoulControler"
       | "getSoulLoot"
+      | "getTreasury"
       | "grantRole"
       | "hasRole"
       | "mintCoin"
@@ -100,6 +101,7 @@ export interface SoulMinterInterface extends utils.Interface {
       | "setJobNft"
       | "setSoulControler"
       | "setSoulLoot"
+      | "setTreasury"
       | "supportsInterface"
   ): FunctionFragment;
 
@@ -113,10 +115,6 @@ export interface SoulMinterInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "DEVELOPER_ROLE",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "ZERO_ADDRESS",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -151,6 +149,10 @@ export interface SoulMinterInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "getSoulLoot",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getTreasury",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -239,6 +241,10 @@ export interface SoulMinterInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
+    functionFragment: "setTreasury",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "supportsInterface",
     values: [PromiseOrValue<BytesLike>]
   ): string;
@@ -250,10 +256,6 @@ export interface SoulMinterInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "DEVELOPER_ROLE",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "ZERO_ADDRESS",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -288,6 +290,10 @@ export interface SoulMinterInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "getSoulLoot",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getTreasury",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "grantRole", data: BytesLike): Result;
@@ -340,6 +346,10 @@ export interface SoulMinterInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "setSoulLoot",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setTreasury",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -428,8 +438,6 @@ export interface SoulMinter extends BaseContract {
 
     DEVELOPER_ROLE(overrides?: CallOverrides): Promise<[string]>;
 
-    ZERO_ADDRESS(overrides?: CallOverrides): Promise<[string]>;
-
     getArtifactNft(overrides?: CallOverrides): Promise<[string]>;
 
     getCalcContract(
@@ -455,6 +463,8 @@ export interface SoulMinter extends BaseContract {
     getSoulControler(overrides?: CallOverrides): Promise<[string]>;
 
     getSoulLoot(overrides?: CallOverrides): Promise<[string]>;
+
+    getTreasury(overrides?: CallOverrides): Promise<[string]>;
 
     grantRole(
       role: PromiseOrValue<BytesLike>,
@@ -562,6 +572,11 @@ export interface SoulMinter extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    setTreasury(
+      treasury_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     supportsInterface(
       interfaceId: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
@@ -573,8 +588,6 @@ export interface SoulMinter extends BaseContract {
   DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
 
   DEVELOPER_ROLE(overrides?: CallOverrides): Promise<string>;
-
-  ZERO_ADDRESS(overrides?: CallOverrides): Promise<string>;
 
   getArtifactNft(overrides?: CallOverrides): Promise<string>;
 
@@ -601,6 +614,8 @@ export interface SoulMinter extends BaseContract {
   getSoulControler(overrides?: CallOverrides): Promise<string>;
 
   getSoulLoot(overrides?: CallOverrides): Promise<string>;
+
+  getTreasury(overrides?: CallOverrides): Promise<string>;
 
   grantRole(
     role: PromiseOrValue<BytesLike>,
@@ -708,6 +723,11 @@ export interface SoulMinter extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  setTreasury(
+    treasury_: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   supportsInterface(
     interfaceId: PromiseOrValue<BytesLike>,
     overrides?: CallOverrides
@@ -719,8 +739,6 @@ export interface SoulMinter extends BaseContract {
     DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
 
     DEVELOPER_ROLE(overrides?: CallOverrides): Promise<string>;
-
-    ZERO_ADDRESS(overrides?: CallOverrides): Promise<string>;
 
     getArtifactNft(overrides?: CallOverrides): Promise<string>;
 
@@ -747,6 +765,8 @@ export interface SoulMinter extends BaseContract {
     getSoulControler(overrides?: CallOverrides): Promise<string>;
 
     getSoulLoot(overrides?: CallOverrides): Promise<string>;
+
+    getTreasury(overrides?: CallOverrides): Promise<string>;
 
     grantRole(
       role: PromiseOrValue<BytesLike>,
@@ -851,6 +871,11 @@ export interface SoulMinter extends BaseContract {
 
     setSoulLoot(
       nft_: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setTreasury(
+      treasury_: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -902,8 +927,6 @@ export interface SoulMinter extends BaseContract {
 
     DEVELOPER_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
 
-    ZERO_ADDRESS(overrides?: CallOverrides): Promise<BigNumber>;
-
     getArtifactNft(overrides?: CallOverrides): Promise<BigNumber>;
 
     getCalcContract(
@@ -929,6 +952,8 @@ export interface SoulMinter extends BaseContract {
     getSoulControler(overrides?: CallOverrides): Promise<BigNumber>;
 
     getSoulLoot(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getTreasury(overrides?: CallOverrides): Promise<BigNumber>;
 
     grantRole(
       role: PromiseOrValue<BytesLike>,
@@ -1036,6 +1061,11 @@ export interface SoulMinter extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    setTreasury(
+      treasury_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     supportsInterface(
       interfaceId: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
@@ -1050,8 +1080,6 @@ export interface SoulMinter extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     DEVELOPER_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    ZERO_ADDRESS(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getArtifactNft(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
@@ -1081,6 +1109,8 @@ export interface SoulMinter extends BaseContract {
 
     getSoulLoot(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    getTreasury(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     grantRole(
       role: PromiseOrValue<BytesLike>,
       account: PromiseOrValue<string>,
@@ -1184,6 +1214,11 @@ export interface SoulMinter extends BaseContract {
 
     setSoulLoot(
       nft_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setTreasury(
+      treasury_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

@@ -6,8 +6,8 @@ import { SAMPLE_LOOT } from './config';
 async function main() {
   const [signer] = await ethers.getSigners();
   console.log('Signer is ... ', signer.address);
-  const to = signer.address
-  // const to = '0x4C7B3407Ff32FadB69ADB21598300826aCFe4B98'
+  // const to = signer.address
+  const to = '0x4C7B3407Ff32FadB69ADB21598300826aCFe4B98' // yammer
 
   // Set Contract
   const sampleLoot = new ethers.Contract(SAMPLE_LOOT, sampleLootAbi, signer);
