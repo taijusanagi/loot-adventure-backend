@@ -19,7 +19,7 @@ import "./interfaces/ISoulControler.sol";
 contract SoulMinter is AccessControl {
     bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
     bytes32 public constant DEVELOPER_ROLE = keccak256("DEVELOPER_ROLE");
-    address private treasury;
+    address public constant ZERO_ADDRESS = 0x0000000000000000000000000000000000000001;
 
     string[4] private JOB_TYPE = ['Warrior', 'Guardian', 'Bard', 'Fighter'];
     string[10] private ARTIFACT_TYPE = [
@@ -56,7 +56,6 @@ contract SoulMinter is AccessControl {
     constructor() {
         _grantRole(ADMIN_ROLE, msg.sender);
         _grantRole(DEVELOPER_ROLE, msg.sender);
-        treasury=0x0000000000000000000000000000000000000001;
     }
 
     //*********************************************
@@ -88,9 +87,6 @@ contract SoulMinter is AccessControl {
     }
     function getSoulControler() public view returns(address){
         return soulControler;
-    }
-    function getTreasury() public view returns(address){
-        return treasury;
     }
 
     //*********************************************
@@ -135,9 +131,6 @@ contract SoulMinter is AccessControl {
     function setSoulControler(address granted_) public onlyRole(DEVELOPER_ROLE){
         soulControler = granted_;
     }
-    function setTreasury(address treasury_) public onlyRole(DEVELOPER_ROLE) {
-        treasury = treasury_;
-    }
 
     //*********************************************
     //Logic
@@ -160,7 +153,7 @@ contract SoulMinter is AccessControl {
         // Mint SoulLoot to EOA
         _soulLoot.safeMint(msg.sender, chainId_, nft_, _tokenId, _record);
         // uint256 _tokenId2 = _soulLoot.safeMint(msg.sender, chainId_, nft_, _tokenId, _record);
-        _loot.safeTransferFrom(msg.sender, treasury, tokenId_);
+        _loot.safeTransferFrom(msg.sender, ZERO_ADDRESS, tokenId_);
 
         // Create TBA
         uint256 _tokenId2 = _soulLoot.getTokenId(tokenId_, nft_);

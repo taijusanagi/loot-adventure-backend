@@ -152,8 +152,6 @@ async function main() {
   await tx.wait();
   tx = await soulControler.setDeveloperRole(process.env.dev09);
   await tx.wait();
-
-  tx = await soulMinter.setTreasury("0xab95e42096Ef6C18eD278f4FcA25754c96E60aae");
 }
 
 // We recommend this pattern to be able to use async/await everywhere

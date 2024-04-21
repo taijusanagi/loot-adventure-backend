@@ -120,6 +120,19 @@ export const soulMinterAbi = [
   },
   {
     "inputs": [],
+    "name": "ZERO_ADDRESS",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "getArtifactNft",
     "outputs": [
       {
@@ -250,19 +263,6 @@ export const soulMinterAbi = [
   {
     "inputs": [],
     "name": "getSoulLoot",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "getTreasury",
     "outputs": [
       {
         "internalType": "address",
@@ -583,19 +583,6 @@ export const soulMinterAbi = [
       }
     ],
     "name": "setSoulLoot",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "treasury_",
-        "type": "address"
-      }
-    ],
-    "name": "setTreasury",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
