@@ -6,7 +6,7 @@ import { EQUIPMENT_NFT, COIN_FT } from './config';
 
 // const tokenId = 20000010001000; // rarity=1
 // const tokenId = 20000050015000; // rairty=2
-const tokenId = 20000010019000; // rarity=3
+const tokenId = 20010010019000; // rarity=3
 // const tokenId = 20000020020001; // rarity=4
 
 async function main() {

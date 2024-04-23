@@ -52,7 +52,16 @@ contract LootByRogueV2 is AccessControl, ISoulCalculator {
 
         return (
             _record.inputData.seed,
-            [_record.weapon, _record.chestArmor, _record.headArmor, _record.waistArmor, _record.footArmor, _record.handArmor, _record.necklace, _record.ring],
+            [
+                _calcId(_record.weapon), 
+                _calcId(_record.chestArmor), 
+                _calcId(_record.headArmor), 
+                _calcId(_record.waistArmor), 
+                _calcId(_record.footArmor), 
+                _calcId(_record.handArmor), 
+                _calcId(_record.necklace), 
+                _calcId(_record.ring)
+            ],
             [_loot.getWeapon(tokenId_), _loot.getChest(tokenId_), _loot.getHead(tokenId_), _loot.getWaist(tokenId_), _loot.getFoot(tokenId_), _loot.getHand(tokenId_), _loot.getNeck(tokenId_), _loot.getRing(tokenId_)],
             [
                 _calcRarity(_record.weapon),
@@ -152,5 +161,10 @@ contract LootByRogueV2 is AccessControl, ISoulCalculator {
             }
         }
         return rarity_;
+    }
+
+    function _calcId(uint256 tokenId_) private  pure returns(uint256 tokenId2_){
+        tokenId2_ = tokenId_ % 9999;
+        return tokenId2_;
     }
 }
