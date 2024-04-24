@@ -81,6 +81,7 @@ export const handler = async (event: EventParams) => {
             functionName: 'seizureEquipment',
             account,
             args: [event.userId],
+            gas: 300000n,
         });
         const txHash = await wallet.writeContract(request);
         console.log('transaction_hash', txHash);
