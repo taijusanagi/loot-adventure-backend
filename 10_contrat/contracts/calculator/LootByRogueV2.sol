@@ -152,11 +152,13 @@ contract LootByRogueV2 is AccessControl, ISoulCalculator {
         if(pt_ > 0){
             rarity_=1;
             uint256 _greatness = pt_ % 21;
-            if(_greatness == 19) {
-                rarity_=3;
-            } else if(_greatness > 19) {
+            if(_greatness == 20) {
+                rarity_=5;
+            } else if(_greatness > 17) {
                 rarity_=4;
-            } else if(_greatness > 14) {
+            } else if(_greatness > 12) {
+                rarity_=3;
+            } else if(_greatness > 6) {
                 rarity_=2;
             }
         }
