@@ -16,8 +16,10 @@ import { SecretValue } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import * as dotenv from 'dotenv';
 import { Cors } from 'aws-cdk-lib/aws-apigateway';
+import * as logs from 'aws-cdk-lib/aws-logs';
 
 dotenv.config();
+const SUFFIX = process.env.STAGE;
 const PACKAGE_LOCK_JSON = 'src/package-lock.json';
 const getLambdaOptions = ({
   entry,
@@ -50,7 +52,7 @@ export class LootAdventureStack extends Stack {
     // --------------------------------------------------
     // Resources | DynamoDB
     // --------------------------------------------------
-    const dynamoDbStatus = new aws_dynamodb.TableV2(this, 'La-Tba-Status', {
+    const dynamoDbStatus = new aws_dynamodb.TableV2(this, 'La-Tba-Status' + SUFFIX, {
       partitionKey: {
         name: 'userId',
         type: aws_dynamodb.AttributeType.STRING,
@@ -62,7 +64,7 @@ export class LootAdventureStack extends Stack {
       sortKey: {name: 'totalPt', type: aws_dynamodb.AttributeType.NUMBER}
     })
 
-    const dynamoDbRanking = new aws_dynamodb.TableV2(this, 'La-Eoa-Ranking', {
+    const dynamoDbRanking = new aws_dynamodb.TableV2(this, 'La-Eoa-Ranking' + SUFFIX, {
       partitionKey: {
         name: 'eoa',
         type: aws_dynamodb.AttributeType.STRING,
@@ -77,7 +79,7 @@ export class LootAdventureStack extends Stack {
     // --------------------------------------------------
     // Resources | Secrets Manager(Private Key for On-Chain TXs)
     // --------------------------------------------------
-    const prv00 = new secretsmanager.Secret(this, 'PrivateKeyPool00', {
+    const prv00 = new secretsmanager.Secret(this, 'PrivateKeyPool00' + SUFFIX, {
       secretObjectValue: {
         0: SecretValue.unsafePlainText(process.env.key00 as string),
         1: SecretValue.unsafePlainText(process.env.key01 as string),
@@ -96,8 +98,8 @@ export class LootAdventureStack extends Stack {
     // Resources | IAM
     // --------------------------------------------------
     // For Lambda(Allow connect to DynamoDB)
-    const lambda_basic_policy = new iam.ManagedPolicy(this, 'Lambda_basic_policy', {
-      managedPolicyName: 'lambda_basic_policy',
+    const lambda_basic_policy = new iam.ManagedPolicy(this, 'Lambda_basic_policy' + SUFFIX, {
+      managedPolicyName: 'lambda_basic_policy' + SUFFIX,
       description: 'Lambda basic execution policy',
       statements: [
         new iam.PolicyStatement({
@@ -108,8 +110,8 @@ export class LootAdventureStack extends Stack {
       ],
     });
 
-    const iam_role_lambda_connectDb = new iam.Role(this, 'lambda_connectDb', {
-      roleName: 'iam_role_lambda_connectDb',
+    const iam_role_lambda_connectDb = new iam.Role(this, 'lambda_connectDb' + SUFFIX, {
+      roleName: 'iam_role_lambda_connectDb' + SUFFIX,
       assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
     });
     iam_role_lambda_connectDb.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonDynamoDBFullAccess'));
@@ -122,7 +124,7 @@ export class LootAdventureStack extends Stack {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const lambdaReadAccount = new lambda.NodejsFunction(
       this,
-      'readAccount',
+      'readAccount' + SUFFIX,
       getLambdaOptions({
         entry: 'src/outgame-tba-read.ts',
         environment: {
@@ -137,7 +139,7 @@ export class LootAdventureStack extends Stack {
 
     const lambdaReadRanking = new lambda.NodejsFunction(
       this,
-      'readRanking',
+      'readRanking' + SUFFIX,
       getLambdaOptions({
         entry: 'src/outgame-ranking-read.ts',
         environment: {
@@ -151,7 +153,7 @@ export class LootAdventureStack extends Stack {
     );
     
     /* eslint-disable no-unused-vars */
-    const lambdaAuthPreSignup = new lambda.NodejsFunction(this, 'preSignup', {
+    const lambdaAuthPreSignup = new lambda.NodejsFunction(this, 'preSignup' + SUFFIX, {
         entry: 'src/auth-signup-confirm.ts',
         depsLockFilePath: PACKAGE_LOCK_JSON,
         handler: 'handler',
@@ -165,7 +167,7 @@ export class LootAdventureStack extends Stack {
   
       const lambdaAuthCreateChallenge = new lambda.NodejsFunction(
         this,
-        'createChallenge',
+        'createChallenge' + SUFFIX,
         {
           entry: 'src/auth-challenge-create.ts',
           depsLockFilePath: PACKAGE_LOCK_JSON,
@@ -181,7 +183,7 @@ export class LootAdventureStack extends Stack {
   
       const lambdaAuthDefineChallenge = new lambda.NodejsFunction(
         this,
-        'defineChallenge',
+        'defineChallenge' + SUFFIX,
         {
           entry: 'src/auth-challenge-define.ts',
           depsLockFilePath: PACKAGE_LOCK_JSON,
@@ -197,7 +199,7 @@ export class LootAdventureStack extends Stack {
   
       const lambdaAuthVerifyChallenge = new lambda.NodejsFunction(
         this,
-        'verifyChallenge',
+        'verifyChallenge' + SUFFIX,
         {
           entry: 'src/auth-challenge-verify.ts',
           depsLockFilePath: PACKAGE_LOCK_JSON,
@@ -214,7 +216,7 @@ export class LootAdventureStack extends Stack {
 
       const lambdaBinMintCoinToken = new lambda.NodejsFunction(
         this,
-        'mintCoinToken',
+        'mintCoinToken' + SUFFIX,
         {
           entry: 'src/bin-mint-cointoken.ts',
           depsLockFilePath: PACKAGE_LOCK_JSON,
@@ -233,7 +235,7 @@ export class LootAdventureStack extends Stack {
 
       const lambdaBinSeizureEquip = new lambda.NodejsFunction(
         this,
-        'seizureEquipment',
+        'seizureEquipment' + SUFFIX,
         {
           entry: 'src/bin-seizure-equipment.ts',
           depsLockFilePath: PACKAGE_LOCK_JSON,
@@ -251,7 +253,7 @@ export class LootAdventureStack extends Stack {
 
       const lambdaBinSetNftOffGame = new lambda.NodejsFunction(
         this,
-        'setNftOffGame',
+        'setNftOffGame' + SUFFIX,
         {
           entry: 'src/bin-setnft-offgame.ts',
           depsLockFilePath: PACKAGE_LOCK_JSON,
@@ -270,7 +272,7 @@ export class LootAdventureStack extends Stack {
     
       const lambdaWriteDungeon = new lambda.NodejsFunction(
         this,
-        'writeDungeon',
+        'writeDungeon' + SUFFIX,
         getLambdaOptions({
           entry: 'src/outgame-dungeon-result-write.ts',
           environment: {
@@ -300,12 +302,20 @@ export class LootAdventureStack extends Stack {
     // );
 
     // --------------------------------------------------
+    // Resources | CloudWatchLogs
+    // --------------------------------------------------
+    const accessLogGroup = new logs.LogGroup(this, 'AccessLog' + SUFFIX);
+
+    // --------------------------------------------------
     // Resources | API Gateway
     // --------------------------------------------------
     const restApi = new aws_apigateway.RestApi(this, 'RestAPI', {
-      restApiName: `LootAdventureApi`,
+      restApiName: `LootAdventureApi` + SUFFIX,
       deployOptions: {
         stageName: 'v1',
+        dataTraceEnabled: true,
+        accessLogDestination: new aws_apigateway.LogGroupLogDestination(accessLogGroup),
+        accessLogFormat: aws_apigateway.AccessLogFormat.clf(),
       },
       defaultCorsPreflightOptions: {
         allowOrigins: aws_apigateway.Cors.ALL_ORIGINS,
@@ -313,6 +323,7 @@ export class LootAdventureStack extends Stack {
         allowHeaders: aws_apigateway.Cors.DEFAULT_HEADERS,
         statusCode: 200,
       },
+      cloudWatchRole: true
     });
 
     // ---------------------------------------------------------------------------------
