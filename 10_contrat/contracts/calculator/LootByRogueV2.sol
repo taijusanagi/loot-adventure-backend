@@ -103,12 +103,12 @@ contract LootByRogueV2 is AccessControl, ISoulCalculator {
         uint8 _unique = _record.unique[0] + _record.unique[1] + _record.unique[2] + _record.unique[3];
         // Calculate type
         // Dragon Slayer(type: 2)
-        if(_unique==0){
+        if(_unique==1){
             _artifactType[0]=2; 
-        } else if(_unique==1){
+        } else if(_unique==2){
             // Dragon Slayer+(type: 3)
             _artifactType[0]=3; 
-        } else if(_unique==2){
+        } else if(_unique==3){
             // Dragon Slayer++(type: 4)
             _artifactType[0]=4; 
         } else if(_unique > 3){
