@@ -20,23 +20,23 @@ async function main() {
   const tx = await sampleLoot.safeMintTemp(
     to,
     Math.floor(Math.random() * 99999999)*100, // seed
-    10, // turn
-    50, // maxHp
-    50, // currentHp
-    25, // attack 
-    25, // defence
-    15, // recovery
-    [1,2,3,4,5,6], // stats
+    9, // turn
+    59, // maxHp
+    34, // currentHp
+    10, // attack 
+    2, // defence
+    1, // recovery
+    [3,3,0,1,1,1], // stats
     [0,0,0,0], // unique(for Dragon Slyer)
-    1, // weapon
-    1, // chestArmor
-    1, // headArmor
-    1, // waistArmor
-    1, // footArmor
-    1, // handArmor
-    1, // necklace
-    1, // ring
-    [1,1,1] // relics
+    0, // weapon
+    0, // chestArmor
+    0, // headArmor
+    0, // waistArmor
+    0, // footArmor
+    0, // handArmor
+    0, // necklace
+    0, // ring
+    [0,0,0] // relics
   );
   tx.wait();
 
@@ -49,7 +49,7 @@ async function main() {
     50, // attack 
     50, // defence
     15, // recovery
-    [1,2,3,4,5,6], // stats
+    [0,0,0,0,0,0], // stats
     [1,0,0,0], // unique(for Dragon Slyer)
     2, // weapon
     2, // chestArmor

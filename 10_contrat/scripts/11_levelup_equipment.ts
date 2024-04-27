@@ -4,9 +4,9 @@ import { erc1155Equipment } from './abi/erc1155-equipment-abi';
 import { erc6551AccountAbi } from './abi/erc6551-account-abi';
 import { EQUIPMENT_NFT, COIN_FT } from './config';
 
-// const tokenId = 20000010001000; // rarity=1
-// const tokenId = 20000050015000; // rairty=2
-const tokenId = 20010010019000; // rarity=3
+const tokenId = 20000060001000; // rarity=1
+// const tokenId = 20000000008000; // rairty=2
+// const tokenId = 20010010019000; // rarity=3
 // const tokenId = 20000020020001; // rarity=4
 
 async function main() {
