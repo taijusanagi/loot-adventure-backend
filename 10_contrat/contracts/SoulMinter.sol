@@ -190,18 +190,20 @@ contract SoulMinter is AccessControl {
         ) = _calc.calcEquipment(nft_, tokenId_, seedData_);
 
         for(uint i=0; i<8; i++){
-            uint256 _tokenId = _equipmentNft.mint(
-                recipient_, 
-                nft_, 
-                tokenId_,
-                _seed,
-                _equipmentNames[i],
-                _equipmentIds[i],
-                i,
-                _equipmentRarities[i]
-            );
-            // uint256 _tokenId = _equipmentNft.getTokenId(nft_, _equipmentIds[i], i) - 1;
-            _soulControler.attachEquipInit(_tokenId, recipient_, i);
+            if(_equipmentRarities[i]>0) {
+                uint256 _tokenId = _equipmentNft.mint(
+                    recipient_, 
+                    nft_, 
+                    tokenId_,
+                    _seed,
+                    _equipmentNames[i],
+                    _equipmentIds[i],
+                    i,
+                    _equipmentRarities[i]
+                );
+                // uint256 _tokenId = _equipmentNft.getTokenId(nft_, _equipmentIds[i], i) - 1;
+                _soulControler.attachEquipInit(_tokenId, recipient_, i);
+            }
         }
     }
 
