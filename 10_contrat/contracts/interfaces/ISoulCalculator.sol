@@ -8,7 +8,7 @@ interface ISoulCalculator {
         address nft_, 
         uint256 tokenId_, 
         bytes memory seedData_
-    ) external returns (
+    ) external view returns (
         ILootByRogueV2.AdventureRecord memory _record,
         uint256 _tokenId
     );

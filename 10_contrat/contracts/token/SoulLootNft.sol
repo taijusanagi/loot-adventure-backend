@@ -97,15 +97,18 @@ contract SoulLootNft is ERC721, AccessControl, ISoulLoot {
             ']'
         ));
 
-        uint256 _nftId = tokenId_ / NFT_ID_PREFIC;
         string memory _image = string(abi.encodePacked(
             baseMetadataURIPrefix,
-            Strings.toString(_nftId),
+            'soulloot',
             baseMetadataURISuffix
         ));
 
         string memory _json = Base64.encode(bytes(string(abi.encodePacked(
-            '{"name": "Soul NFT #', Strings.toString(tokenId_), '", "description": "Minted by Loot NFT", "attributes": ', _attributes ,', "image": "', _image, '"}'
+            '{"name": "Soul NFT #', Strings.toString(tokenId_), 
+            '", "description": "Soul loot is a collection of characters for playing rogue games, stored securely on the blockchain. Feel free to use Soul Loot in any way you want.", "attributes": ', 
+            _attributes ,
+            ', "image": "', _image, 
+            '"}'
         ))));
         _output = string(abi.encodePacked('data:application/json;base64,', _json));
 
@@ -149,7 +152,7 @@ contract SoulLootNft is ERC721, AccessControl, ISoulLoot {
     ) public onlyRole(MINTER_ROLE){
         require(nftId[nft_]!=0, 'This nft is not registered');
 
-        uint256 _tokenId = nftId[nft_] * NFT_ID_PREFIC + tokenId_;
+        uint256 _tokenId = getTokenId(tokenId_, nft_);
         record[_tokenId] = record_;
         rChainId[_tokenId] = chainId_;
         rAddress[_tokenId] = nft_;
@@ -158,6 +161,20 @@ contract SoulLootNft is ERC721, AccessControl, ISoulLoot {
         // Mint SoulLootNft
         _mint(to_, _tokenId);
         emit mintSoulLoot(address(0), to_, _tokenId, chainId_, nft_, tokenId_);
+    }
+
+    function burn(
+        uint256 tokenId_
+    ) public {
+        _burn(tokenId_);
+    }
+
+    function burnBatch(
+        uint256[] memory tokenIds_
+    ) public {
+        for(uint i=0; i<tokenIds_.length; i++){
+            _burn(tokenIds_[i]);
+        }
     }
 
     function _attribute(string memory traitType_, string memory value_) internal pure returns (string memory) {

@@ -12,15 +12,12 @@ contract LootByRogueV2 is AccessControl, ISoulCalculator {
     bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
     bytes32 public constant DEVELOPER_ROLE = keccak256("DEVELOPER_ROLE");
 
-    uint256 private counter;
-
     //*********************************************
     //Initializer
     //*********************************************
     constructor() {
         _grantRole(ADMIN_ROLE, msg.sender);
         _grantRole(DEVELOPER_ROLE, msg.sender);
-        counter = 0;
     }
 
     //*********************************************
@@ -30,11 +27,10 @@ contract LootByRogueV2 is AccessControl, ISoulCalculator {
         address nft_, 
         uint256 tokenId_, 
         bytes memory data_
-    ) public returns (ILootByRogueV2.AdventureRecord memory record_, uint256 _tokenId){
+    ) public view returns (ILootByRogueV2.AdventureRecord memory record_, uint256 _tokenId){
         ILootByRogueV2 _loot = ILootByRogueV2(nft_);
         ILootByRogueV2.AdventureRecord memory _record = _loot.getAdventureRecord(tokenId_);
-        _tokenId = counter;
-        counter++;
+        _tokenId = tokenId_;
 
         return (
             _record,
