@@ -13,7 +13,7 @@ const PRIVATE_KEY = process.env.PRIVATE_KEY;
 const API_URL_MCH = process.env.API_URL_MCH;
 const API_URL_MCH_TEST = process.env.API_URL_MCH_TEST;
 const API_URL_ZKKATANA = process.env.API_URL_ZKKATANA;
-const API_URL_MUMBAI = process.env.API_URL_MUMBAI;
+const API_URL_SEPOILA = process.env.API_URL_SEPOLIA;
 const API_KEY = process.env.API_KEY;
 
 // This is a sample Hardhat task. To learn how to create your own go to
@@ -68,9 +68,9 @@ const config: HardhatUserConfig = {
       gasPrice: 80000000000,
       accounts: PRIVATE_KEY ? [PRIVATE_KEY] : [],
     },
-    mumbai: {
-      url: API_URL_MUMBAI,
-      chainId: 80001,
+    sepolia: {
+      url: API_URL_SEPOILA,
+      chainId: 11155111,
       accounts: PRIVATE_KEY ? [PRIVATE_KEY] : [],
     },
   },

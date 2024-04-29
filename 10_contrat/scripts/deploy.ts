@@ -34,7 +34,7 @@ async function main() {
 
   const f12 = await ethers.getContractFactory('JobNft', deployer);
   const jobNft = await f12.deploy(
-    'https://sample-image-la.s3.ap-northeast-1.amazonaws.com/',
+    'https://d1al00f365cuqf.cloudfront.net/equipments/',
     '.png'
   );
   await jobNft.deployed();
@@ -42,7 +42,7 @@ async function main() {
 
   const f13 = await ethers.getContractFactory('ArtifactNft', deployer);
   const artifactNft = await f13.deploy(
-    'https://sample-image-la.s3.ap-northeast-1.amazonaws.com/',
+    'https://d1al00f365cuqf.cloudfront.net/equipments/',
     '.png'
   );
   await artifactNft.deployed();
@@ -65,7 +65,7 @@ async function main() {
 
   const f5 = await ethers.getContractFactory('SoulLootNft', deployer);
   const soulLootNft = await f5.deploy(
-    'https://sample-image-la.s3.ap-northeast-1.amazonaws.com/',
+    'https://d1al00f365cuqf.cloudfront.net/equipments/',
     '.png'
   );
   await soulLootNft.deployed();

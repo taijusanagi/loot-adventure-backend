@@ -31,7 +31,7 @@ contract SoulLootNft is ERC721, AccessControl, ISoulLoot {
     //*********************************************
     //Initializer
     //*********************************************
-    constructor(string memory uriPrefic_, string memory uriSuffix_) ERC721("SoulLoot", "sLoot") {
+    constructor(string memory uriPrefic_, string memory uriSuffix_) ERC721("Loot Adventure SoulLoot", "sLoot") {
         _grantRole(DEVELOPER_ROLE, msg.sender);
         _grantRole(MINTER_ROLE, msg.sender);
         currentNftId = 2000;
@@ -104,7 +104,7 @@ contract SoulLootNft is ERC721, AccessControl, ISoulLoot {
         ));
 
         string memory _json = Base64.encode(bytes(string(abi.encodePacked(
-            '{"name": "Soul NFT #', Strings.toString(tokenId_), 
+            '{"name": "Soul Loot #', Strings.toString(tokenId_), 
             '", "description": "Soul loot is a collection of characters for playing rogue games, stored securely on the blockchain. Feel free to use Soul Loot in any way you want.", "attributes": ', 
             _attributes ,
             ', "image": "', _image, 

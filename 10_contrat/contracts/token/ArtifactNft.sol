@@ -69,6 +69,7 @@ contract ArtifactNft is ERC1155, AccessControl, IArtifactNft {
             _attribute("Seed", artifact[tokenId_].seed), _c, 
             _attribute("Name", artifact[tokenId_].name), _c,
             _attribute("Type", artifact[tokenId_].artifactType), _c,
+            _attribute("Loot NFT Token Address", _getAddressAsString(artifact[tokenId_].rAddress)), _c,
             _attribute("Loot NFT Token ID", artifact[tokenId_].rTokenId),
             ']'
         ));
@@ -211,6 +212,23 @@ contract ArtifactNft is ERC1155, AccessControl, IArtifactNft {
 
     function _attribute(string memory traitType_, address value_) internal pure returns (string memory) {
         return string(abi.encodePacked('{"trait_type": "', traitType_, '", "value": ', value_, '}'));
+    }
+
+    function _getAddressAsString(address address_) internal pure returns (string memory) {
+        bytes memory _address = abi.encodePacked(address_); // アドレスをバイト列に変換
+        bytes memory _hexChars = "0123456789abcdef"; // 16進数文字
+        bytes memory _str = new bytes(2 + _address.length * 2); // 文字列用のバイト列
+
+        _str[0] = "0";
+        _str[1] = "x";
+
+        // 16進数文字に変換
+        for (uint256 i = 0; i < _address.length; i++) {
+            _str[2 + i * 2] = _hexChars[uint8(_address[i] >> 4)];
+            _str[3 + i * 2] = _hexChars[uint8(_address[i] & 0x0f)];
+        }
+
+        return string(_str);
     }
 
     function supportsInterface(bytes4 interfaceId) public view virtual override(ERC1155, AccessControl) returns (bool) {

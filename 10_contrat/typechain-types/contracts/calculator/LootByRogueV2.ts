@@ -385,13 +385,8 @@ export interface LootByRogueV2 extends BaseContract {
       nft_: PromiseOrValue<string>,
       tokenId_: PromiseOrValue<BigNumberish>,
       data_: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<
-      [ILootByRogueV2.AdventureRecordStructOutput, BigNumber] & {
-        record_: ILootByRogueV2.AdventureRecordStructOutput;
-        _tokenId: BigNumber;
-      }
-    >;
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
 
     getRoleAdmin(
       role: PromiseOrValue<BytesLike>,
@@ -483,13 +478,8 @@ export interface LootByRogueV2 extends BaseContract {
     nft_: PromiseOrValue<string>,
     tokenId_: PromiseOrValue<BigNumberish>,
     data_: PromiseOrValue<BytesLike>,
-    overrides?: CallOverrides
-  ): Promise<
-    [ILootByRogueV2.AdventureRecordStructOutput, BigNumber] & {
-      record_: ILootByRogueV2.AdventureRecordStructOutput;
-      _tokenId: BigNumber;
-    }
-  >;
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
 
   getRoleAdmin(
     role: PromiseOrValue<BytesLike>,
@@ -701,7 +691,7 @@ export interface LootByRogueV2 extends BaseContract {
       nft_: PromiseOrValue<string>,
       tokenId_: PromiseOrValue<BigNumberish>,
       data_: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     getRoleAdmin(
@@ -783,7 +773,7 @@ export interface LootByRogueV2 extends BaseContract {
       nft_: PromiseOrValue<string>,
       tokenId_: PromiseOrValue<BigNumberish>,
       data_: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     getRoleAdmin(

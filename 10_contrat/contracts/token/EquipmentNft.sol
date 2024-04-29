@@ -93,22 +93,45 @@ contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
     function uri(uint256 tokenId_) public view override returns (string memory) {
         string memory _output;
         string memory _c = ', ';
+        string memory _type = 'None';
+        if(equipment[tokenId_].equipmentType==0) {
+            _type = 'Weapon';
+        } else if(equipment[tokenId_].equipmentType==1) {
+            _type = 'Chest Armor';
+        } else if(equipment[tokenId_].equipmentType==2) {
+            _type = 'Head Armor';
+        } else if(equipment[tokenId_].equipmentType==3) {
+            _type = 'Waist Armor';
+        } else if(equipment[tokenId_].equipmentType==4) {
+            _type = 'Foot Armor';
+        } else if(equipment[tokenId_].equipmentType==5) {
+            _type = 'Hand Armor';
+        } else if(equipment[tokenId_].equipmentType==6) {
+            _type = 'Necklace';
+        } else if(equipment[tokenId_].equipmentType==7) {
+            _type = 'Ring';
+        }
         string memory _attributes = string(abi.encodePacked(
             '[', 
             _attribute("Seed", equipment[tokenId_].seed), _c, 
             _attribute("Name", equipment[tokenId_].name), _c,
-            _attribute("Type", equipment[tokenId_].equipmentType), _c,
+            _attribute("Type", _type), _c,
+            _attribute("Level", equipment[tokenId_].level), _c,
+            _attribute("Rarity", equipment[tokenId_].rarity), _c,
+            _attribute("Loot NFT Token Address", _getAddressAsString(equipment[tokenId_].rAddress)), _c,
             _attribute("Loot NFT Token ID", equipment[tokenId_].rTokenId),
             ']'
         ));
         string memory _image = string(abi.encodePacked(
             baseMetadataURIPrefix,
             Strings.toString(equipment[tokenId_].equipmentType),
+            '_',
+            Strings.toString(equipment[tokenId_].level),
             baseMetadataURISuffix
         ));
         string memory _json = Base64.encode(bytes(string(abi.encodePacked(
-            '{"name": "Equipment NFT #', Strings.toString(tokenId_) ,
-            '", "description": "Minted by a Nft' ,
+            '{"name": "Equipments NFT #', Strings.toString(tokenId_) ,
+            '", "description": "Equipments are collections of weapons and armor to equip your character for playing rogue games.' ,
             '", "attributes": ', 
             _attributes ,
             ', "image": "', 
@@ -121,7 +144,7 @@ contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
     }
 
     function name() public pure returns (string memory){
-        return 'LootAdventure EquipmentNft';
+        return 'LootAdventure Equipments Nft';
     }
 
     function getEquipmentVal(uint256 tokenId_) public view returns (uint256 _value) {
@@ -352,6 +375,23 @@ contract EquipmentNft is ERC1155, AccessControl, IEquipmentNft {
 
     function _attribute(string memory traitType_, address value_) internal pure returns (string memory) {
         return string(abi.encodePacked('{"trait_type": "', traitType_, '", "value": ', value_, '}'));
+    }
+
+    function _getAddressAsString(address address_) internal pure returns (string memory) {
+        bytes memory _address = abi.encodePacked(address_); // アドレスをバイト列に変換
+        bytes memory _hexChars = "0123456789abcdef"; // 16進数文字
+        bytes memory _str = new bytes(2 + _address.length * 2); // 文字列用のバイト列
+
+        _str[0] = "0";
+        _str[1] = "x";
+
+        // 16進数文字に変換
+        for (uint256 i = 0; i < _address.length; i++) {
+            _str[2 + i * 2] = _hexChars[uint8(_address[i] >> 4)];
+            _str[3 + i * 2] = _hexChars[uint8(_address[i] & 0x0f)];
+        }
+
+        return string(_str);
     }
 
     function supportsInterface(bytes4 interfaceId) public view virtual override(IERC165, ERC1155, AccessControl) returns (bool) {

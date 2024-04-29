@@ -7,7 +7,7 @@ import { erc6551RegistryAbi } from './abi/erc6551-registry-abi';
 import { erc1155Equipment } from './abi/erc1155-equipment-abi'; 
 import { soulControlerAbi } from './abi/soul-controler-abi';
 
-const TOKEN_ID = 192;
+const TOKEN_ID = 197;
 
 async function main() {
   const [signer] = await ethers.getSigners();
