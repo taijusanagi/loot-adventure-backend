@@ -12,12 +12,15 @@ contract LootByRogueV2 is AccessControl, ISoulCalculator {
     bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
     bytes32 public constant DEVELOPER_ROLE = keccak256("DEVELOPER_ROLE");
 
+    uint256 private counter;
+
     //*********************************************
     //Initializer
     //*********************************************
     constructor() {
         _grantRole(ADMIN_ROLE, msg.sender);
         _grantRole(DEVELOPER_ROLE, msg.sender);
+        counter = 0;
     }
 
     //*********************************************
@@ -27,10 +30,12 @@ contract LootByRogueV2 is AccessControl, ISoulCalculator {
         address nft_, 
         uint256 tokenId_, 
         bytes memory data_
-    ) public view returns (ILootByRogueV2.AdventureRecord memory record_, uint256 _tokenId){
+    ) public returns (ILootByRogueV2.AdventureRecord memory record_, uint256 _tokenId){
         ILootByRogueV2 _loot = ILootByRogueV2(nft_);
         ILootByRogueV2.AdventureRecord memory _record = _loot.getAdventureRecord(tokenId_);
-        _tokenId = tokenId_;
+        _tokenId = counter;
+        counter++;
+
         return (
             _record,
             _tokenId
@@ -151,14 +156,14 @@ contract LootByRogueV2 is AccessControl, ISoulCalculator {
         rarity_=0;
         if(pt_ > 0){
             rarity_=1;
-            uint256 _greatness = pt_ % 21;
-            if(_greatness == 20) {
+            uint256 _greatness = pt_ % 20;
+            if(_greatness == 19) {
                 rarity_=5;
-            } else if(_greatness > 17) {
+            } else if(_greatness > 16) {
                 rarity_=4;
             } else if(_greatness > 12) {
                 rarity_=3;
-            } else if(_greatness > 6) {
+            } else if(_greatness > 7) {
                 rarity_=2;
             }
         }
