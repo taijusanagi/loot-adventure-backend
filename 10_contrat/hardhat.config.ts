@@ -80,7 +80,8 @@ const config: HardhatUserConfig = {
   },
   etherscan: {
     apiKey: {
-      mchTest: "aaa"
+      mchTest: "aaa",
+      sepolia: "FY98C3D36HGJDZFYAYFE2Q71YHGH3BKNPA"
     },
     customChains: [
       {

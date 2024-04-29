@@ -26,7 +26,7 @@ async function main() {
 
   const f11 = await ethers.getContractFactory('EquipmentNft', deployer);
   const equipmentNft = await f11.deploy(
-    'https://sample-image-la.s3.ap-northeast-1.amazonaws.com/',
+    'https://d1al00f365cuqf.cloudfront.net/equipments/',
     '.png'
   );
   await equipmentNft.deployed();
@@ -34,7 +34,7 @@ async function main() {
 
   const f12 = await ethers.getContractFactory('JobNft', deployer);
   const jobNft = await f12.deploy(
-    'https://d1al00f365cuqf.cloudfront.net/equipments/',
+    'https://d1al00f365cuqf.cloudfront.net/job/',
     '.png'
   );
   await jobNft.deployed();
@@ -42,7 +42,7 @@ async function main() {
 
   const f13 = await ethers.getContractFactory('ArtifactNft', deployer);
   const artifactNft = await f13.deploy(
-    'https://d1al00f365cuqf.cloudfront.net/equipments/',
+    'https://d1al00f365cuqf.cloudfront.net/artifact/',
     '.png'
   );
   await artifactNft.deployed();
@@ -56,7 +56,7 @@ async function main() {
   const f3 = await ethers.getContractFactory('ERC6551Account', deployer);
   const erc6551Account = await f3.deploy();
   await erc6551Account.deployed();
-  console.log('deployed erc6551Account to: ', erc6551Account.address);
+  console.log('deployed Erc6551Account to: ', erc6551Account.address);
 
   const f4 = await ethers.getContractFactory('ERC6551Registry', deployer);
   const erc6551Registry = await f4.deploy();
@@ -65,7 +65,7 @@ async function main() {
 
   const f5 = await ethers.getContractFactory('SoulLootNft', deployer);
   const soulLootNft = await f5.deploy(
-    'https://d1al00f365cuqf.cloudfront.net/equipments/',
+    'https://d1al00f365cuqf.cloudfront.net/',
     '.png'
   );
   await soulLootNft.deployed();

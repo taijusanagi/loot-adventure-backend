@@ -7,7 +7,7 @@ import { erc6551RegistryAbi } from './abi/erc6551-registry-abi';
 import { erc1155Equipment } from './abi/erc1155-equipment-abi'; 
 import { soulControlerAbi } from './abi/soul-controler-abi';
 
-const TOKEN_ID = 204;
+const TOKEN_ID = 6;
 
 async function main() {
   const [signer] = await ethers.getSigners();
@@ -46,7 +46,7 @@ async function main() {
   })
 
   const tx = await soulMinter.mintSoul(
-    420,
+    CHAIN_ID,
     SAMPLE_LOOT,
     TOKEN_ID,
     '0x0000000000000000000000000000000000000000'
