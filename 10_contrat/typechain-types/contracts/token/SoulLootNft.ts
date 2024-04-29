@@ -114,6 +114,8 @@ export interface SoulLootNftInterface extends utils.Interface {
     "MINTER_ROLE()": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
+    "burn(uint256)": FunctionFragment;
+    "burnBatch(uint256[])": FunctionFragment;
     "getAdventureRecord(uint256)": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
     "getAttack(uint256)": FunctionFragment;
@@ -160,6 +162,8 @@ export interface SoulLootNftInterface extends utils.Interface {
       | "MINTER_ROLE"
       | "approve"
       | "balanceOf"
+      | "burn"
+      | "burnBatch"
       | "getAdventureRecord"
       | "getApproved"
       | "getAttack"
@@ -218,6 +222,14 @@ export interface SoulLootNftInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "balanceOf",
     values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "burn",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "burnBatch",
+    values: [PromiseOrValue<BigNumberish>[]]
   ): string;
   encodeFunctionData(
     functionFragment: "getAdventureRecord",
@@ -406,6 +418,8 @@ export interface SoulLootNftInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "burn", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "burnBatch", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getAdventureRecord",
     data: BytesLike
@@ -658,6 +672,16 @@ export interface SoulLootNft extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
+    burn(
+      tokenId_: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    burnBatch(
+      tokenIds_: PromiseOrValue<BigNumberish>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     getAdventureRecord(
       tokenId_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -882,6 +906,16 @@ export interface SoulLootNft extends BaseContract {
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
+  burn(
+    tokenId_: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  burnBatch(
+    tokenIds_: PromiseOrValue<BigNumberish>[],
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   getAdventureRecord(
     tokenId_: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
@@ -1105,6 +1139,16 @@ export interface SoulLootNft extends BaseContract {
       owner: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    burn(
+      tokenId_: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    burnBatch(
+      tokenIds_: PromiseOrValue<BigNumberish>[],
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     getAdventureRecord(
       tokenId_: PromiseOrValue<BigNumberish>,
@@ -1416,6 +1460,16 @@ export interface SoulLootNft extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    burn(
+      tokenId_: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    burnBatch(
+      tokenIds_: PromiseOrValue<BigNumberish>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     getAdventureRecord(
       tokenId_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -1641,6 +1695,16 @@ export interface SoulLootNft extends BaseContract {
     balanceOf(
       owner: PromiseOrValue<string>,
       overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    burn(
+      tokenId_: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    burnBatch(
+      tokenIds_: PromiseOrValue<BigNumberish>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     getAdventureRecord(

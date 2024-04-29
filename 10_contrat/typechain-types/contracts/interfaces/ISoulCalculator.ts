@@ -7,8 +7,6 @@ import type {
   BigNumberish,
   BytesLike,
   CallOverrides,
-  ContractTransaction,
-  Overrides,
   PopulatedTransaction,
   Signer,
   utils,
@@ -232,8 +230,13 @@ export interface ISoulCalculator extends BaseContract {
       nft_: PromiseOrValue<string>,
       tokenId_: PromiseOrValue<BigNumberish>,
       seedData_: PromiseOrValue<BytesLike>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
+      overrides?: CallOverrides
+    ): Promise<
+      [ILootByRogueV2.AdventureRecordStructOutput, BigNumber] & {
+        _record: ILootByRogueV2.AdventureRecordStructOutput;
+        _tokenId: BigNumber;
+      }
+    >;
   };
 
   calcArtifact(
@@ -275,8 +278,13 @@ export interface ISoulCalculator extends BaseContract {
     nft_: PromiseOrValue<string>,
     tokenId_: PromiseOrValue<BigNumberish>,
     seedData_: PromiseOrValue<BytesLike>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
+    overrides?: CallOverrides
+  ): Promise<
+    [ILootByRogueV2.AdventureRecordStructOutput, BigNumber] & {
+      _record: ILootByRogueV2.AdventureRecordStructOutput;
+      _tokenId: BigNumber;
+    }
+  >;
 
   callStatic: {
     calcArtifact(
@@ -355,7 +363,7 @@ export interface ISoulCalculator extends BaseContract {
       nft_: PromiseOrValue<string>,
       tokenId_: PromiseOrValue<BigNumberish>,
       seedData_: PromiseOrValue<BytesLike>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+      overrides?: CallOverrides
     ): Promise<BigNumber>;
   };
 
@@ -385,7 +393,7 @@ export interface ISoulCalculator extends BaseContract {
       nft_: PromiseOrValue<string>,
       tokenId_: PromiseOrValue<BigNumberish>,
       seedData_: PromiseOrValue<BytesLike>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
   };
 }
