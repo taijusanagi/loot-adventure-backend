@@ -269,7 +269,27 @@ export class LootAdventureStack extends Stack {
           },
         },
       );
-    
+
+      const lambdaBinAuthorize = new lambda.NodejsFunction(
+        this,
+        'onChainAuthorize' + SUFFIX,
+        {
+          entry: 'src/bin-authorize-wallet.ts',
+          depsLockFilePath: PACKAGE_LOCK_JSON,
+          handler: 'handler',
+          runtime: Runtime.NODEJS_18_X,
+          memorySize: 512,
+          timeout: cdk.Duration.seconds(10),
+          environment: {
+            LOG_LEVEL: 'DEBUG',
+            ADDRESS_SOUL_LOOT: process.env.SOUL_LOOT as string,
+            ADDRESS_ERC6551_REGISTRY: process.env.ERC6551_REGISTRY as string,
+            ADDRESS_ERC6551_ACCOUNT: process.env.ERC6551_ACCOUNT as string,
+            CHAIN_ID: process.env.CHAIN_ID as string
+          },
+        },
+      );
+      
       const lambdaWriteDungeon = new lambda.NodejsFunction(
         this,
         'writeDungeon' + SUFFIX,
@@ -281,7 +301,8 @@ export class LootAdventureStack extends Stack {
             TABLE_RANKING: dynamoDbRanking.tableName,
             FUNCTION_MINT_COIN: lambdaBinMintCoinToken.functionName,
             FUNCTION_SEIZURE_EQUIP: lambdaBinSeizureEquip.functionName,
-            FUNCTION_SETNFT_OFFGAME: lambdaBinSetNftOffGame.functionName
+            FUNCTION_SETNFT_OFFGAME: lambdaBinSetNftOffGame.functionName,
+            FUNCTION_AUTHORIZE: lambdaBinAuthorize.functionName
           },
           iamRole: iam_role_lambda_connectDb,
         }),
@@ -352,6 +373,11 @@ export class LootAdventureStack extends Stack {
       effect: Iam.Effect.ALLOW,
       actions: ['lambda:InvokeFunction'],
       resources: [lambdaBinSetNftOffGame.functionArn]
+    }))
+    lambdaWriteDungeon.addToRolePolicy(new Iam.PolicyStatement({
+      effect: Iam.Effect.ALLOW,
+      actions: ['lambda:InvokeFunction'],
+      resources: [lambdaBinAuthorize.functionArn]
     }))
 
     // ---------------------------------------------------------------------------------

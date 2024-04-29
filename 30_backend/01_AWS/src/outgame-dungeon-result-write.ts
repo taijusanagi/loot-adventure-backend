@@ -9,7 +9,9 @@ const TABLE_STATUS = process.env.TABLE_STATUS;
 const TABLE_RANKING = process.env.TABLE_RANKING;
 const functionMintCoin = process.env.FUNCTION_MINT_COIN;
 const functionSeizureEquip = process.env.FUNCTION_SEIZURE_EQUIP;
-const functionSetNftOffGame = process.env.FUNCTION_SETNFT_OFFGAME;
+// const functionSetNftOffGame = process.env.FUNCTION_SETNFT_OFFGAME;
+const functionAuthorize = process.env.FUNCTION_AUTHORIZE;
+
 let resMintCoin;
 
 export const handler = async (
@@ -26,6 +28,8 @@ export const handler = async (
     || _body?.isClear == 'undefined'
     || _body?.amount == 'undefined'
     || _body?.turn == 'undefined'
+    || _body?.signature == 'undefined'
+    || _body?.tokenId == 'undefined'
   ){
     return {
       statusCode: 502,
@@ -33,6 +37,41 @@ export const handler = async (
     };
   }
   const client = new LambdaClient();
+
+  /*****************************************
+  Validate Player address & NFT owner  
+  ******************************************/
+  const commandValid = new InvokeCommand({
+    FunctionName: functionAuthorize,
+    InvocationType: 'RequestResponse',
+    Payload: JSON.stringify({
+      "userId": _body.tba,
+      "eoa": _body.eoa,
+      "signature": _body.signature,
+      "tokenId": _body.tokenId
+    }),
+  });
+  const valid = await client.send(commandValid);
+
+  if(!valid){
+    const res = {
+      "isClear": true,
+      "txIsSuccess": false,
+      "seizureId": 0,
+      "seizureType": 99,
+      "error message":"Error: Not Authorization"
+    }
+    return {
+      statusCode: 403,
+      body: JSON.stringify(res),
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token",
+        "Content-Type": 'application/json',
+        "Access-Control-Allow-Methods": "POST,GET,OPTIONS",
+      },
+    };
+  }
 
   /*****************************************
   True: zero coin & transferFrom Equipment  
@@ -49,16 +88,16 @@ export const handler = async (
     });
     resMintCoin = await client.send(command);
 
-    const command2 = new InvokeCommand({
-      FunctionName: functionSetNftOffGame,
-      InvocationType: 'RequestResponse',
-      Payload: JSON.stringify({
-        "userId": _body.tba
-      })
-    })
+    // const command2 = new InvokeCommand({
+    //   FunctionName: functionSetNftOffGame,
+    //   InvocationType: 'RequestResponse',
+    //   Payload: JSON.stringify({
+    //     "userId": _body.tba
+    //   })
+    // })
     
-    const resSetNftOffGame = await client.send(command2);
-    console.log(resSetNftOffGame);
+    // const resSetNftOffGame = await client.send(command2);
+    // console.log(resSetNftOffGame);
 
     /* 
     Update DyanamoDb
@@ -108,16 +147,16 @@ export const handler = async (
 
     console.log('seizure_tx result: ',strSeizureResult, ' type: ', typeof(strSeizureResult));
 
-    const command3 = new InvokeCommand({
-      FunctionName: functionSetNftOffGame,
-      InvocationType: 'RequestResponse',
-      Payload: JSON.stringify({
-        "userId": _body.tba
-      })
-    })
+    // const command3 = new InvokeCommand({
+    //   FunctionName: functionSetNftOffGame,
+    //   InvocationType: 'RequestResponse',
+    //   Payload: JSON.stringify({
+    //     "userId": _body.tba
+    //   })
+    // })
     
-    const resSetNftOffGame = await client.send(command3);
-    console.log(resSetNftOffGame);
+    // const resSetNftOffGame = await client.send(command3);
+    // console.log(resSetNftOffGame);
 
 
     const res = {
